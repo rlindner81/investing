@@ -1,24 +1,25 @@
 #!/usr/bin/env python3
 """
-fetch_transcript.py — Download earnings call transcripts and save them alongside results files.
+fetch_transcript.py — Download earnings call transcripts from the URLs in each
+ticker's sources.json file.
 
-Sources tried in order:
-  1. The Motley Fool  — free, full transcripts including Q&A; works for most S&P/Russell companies
-  2. Insider Monkey   — free, full transcripts; used as fallback when Fool doesn't have it
+sources.json format (e.g. BARK/sources.json):
+  {
+    "2025-q4": "https://www.insidermonkey.com/blog/...",
+    "2026-q1": "https://www.insidermonkey.com/blog/..."
+  }
 
-Automatic URL discovery works for Motley Fool. For Insider Monkey, search cannot be automated
-reliably (anti-bot measures). When a transcript isn't found automatically, find the URL manually
-(search insidermonkey.com or similar) and pass it with --url.
+Keys follow the pattern {year}-q{n}. These map to the results filenames in quarters/.
 
 Usage:
   # Download all missing transcripts across the whole repo
   python3 scripts/fetch_transcript.py
 
-  # Download a specific quarter (auto-discover URL)
+  # Download a specific quarter (looks up URL in sources.json)
   python3 scripts/fetch_transcript.py BARK 2025-06-04
 
-  # Supply the URL directly (use when auto-discovery fails)
-  python3 scripts/fetch_transcript.py BARK 2026-02-05 --url https://www.insidermonkey.com/blog/bark-inc-nysebark-q3-2026-earnings-call-transcript-1690270/
+  # Supply a URL directly (bypasses sources.json lookup)
+  python3 scripts/fetch_transcript.py BARK 2025-06-04 --url https://...
 
 Output files: <TICKER>/quarters/<date>_<quarter>-transcript.md
 """
@@ -26,9 +27,9 @@ Output files: <TICKER>/quarters/<date>_<quarter>-transcript.md
 import re
 import sys
 import gzip
+import json
 import time
 import urllib.request
-import urllib.parse
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).parent.parent
@@ -40,12 +41,11 @@ HEADERS = {
     "Accept-Language": "en-US,en;q=0.9",
 }
 
-# Seconds to wait between requests to be polite
 REQUEST_DELAY = 1.5
 
 
 # ---------------------------------------------------------------------------
-# HTTP helpers
+# HTTP
 # ---------------------------------------------------------------------------
 
 def fetch(url: str) -> str | None:
@@ -85,96 +85,50 @@ def clean_html(html: str) -> str:
 
 
 # ---------------------------------------------------------------------------
-# Source: The Motley Fool
+# Extractors (keyed by URL domain)
 # ---------------------------------------------------------------------------
 
-def _motleyfool_url(ticker: str, date: str, quarter: str) -> list[str]:
-    """Generate candidate Motley Fool URLs for a given quarter."""
-    t = ticker.lower()
-    date_path = date.replace("-", "/")
-    variants = [quarter]
-    # q4-fy2025 → q4-2025
-    if "fy" in quarter:
-        variants.append(quarter.replace("fy", "").replace("--", "-"))
-    # q3-2026 → q3-fy2026 (less common but try it)
-    else:
-        year = re.search(r"(\d{4})", quarter)
-        if year:
-            variants.append(quarter.replace(year.group(1), f"fy{year.group(1)}"))
-    seen = []
-    for v in variants:
-        url = f"https://www.fool.com/earnings/call-transcripts/{date_path}/{t}-{t}-{v}-earnings-call-transcript/"
-        if url not in seen:
-            seen.append(url)
-    return seen
-
-
-def fetch_motleyfool(ticker: str, date: str, quarter: str) -> str | None:
-    for url in _motleyfool_url(ticker, date, quarter):
-        content = fetch(url)
-        time.sleep(REQUEST_DELAY)
-        if not content or "article-body-transcript" not in content:
-            continue
-        idx = content.find("article-body-transcript")
-        chunk = content[idx:]
-        for end_pat in ["<div class=\"mx-auto", "<footer", '<div id="related']:
-            i = chunk.find(end_pat, 1000)
-            if 0 < i < len(chunk):
-                chunk = chunk[:i]
-                break
-        text = clean_html(chunk)
-        if len(text) > 2000:
-            return text, url
-    return None
-
-
-# ---------------------------------------------------------------------------
-# Source: Insider Monkey
-# ---------------------------------------------------------------------------
-
-def _insidermonkey_search_url(ticker: str, quarter: str) -> str | None:
-    """Search for the Insider Monkey transcript URL.
-
-    Search engines block automated scraping, so discovery is best-effort.
-    When this returns None, pass --url manually on the command line.
-    """
-    # Insider Monkey's own search
-    q = urllib.parse.quote(f"{ticker} {quarter} earnings call transcript")
-    for search_url in [
-        f"https://www.insidermonkey.com/?s={q}",
-    ]:
-        content = fetch(search_url)
-        time.sleep(REQUEST_DELAY)
-        if not content:
-            continue
-        urls = re.findall(
-            r"https://www\.insidermonkey\.com/blog/[a-z0-9-]+-transcript-\d+/",
-            content,
-        )
-        if urls:
-            return urls[0]
-    return None
-
-
-def fetch_insidermonkey(ticker: str, date: str, quarter: str) -> str | None:
-    url = _insidermonkey_search_url(ticker, quarter)
-    if not url:
-        return None
-    time.sleep(REQUEST_DELAY)
-    content = fetch(url)
-    if not content:
-        return None
+def extract_insidermonkey(content: str) -> str | None:
     art = re.search(r"<article[^>]*>(.*?)</article>", content, re.DOTALL)
     if not art:
         return None
     text = clean_html(art.group(1))
-    # Trim trailing noise (hedge fund ads, related posts sidebar)
     for noise in ["Page 1 of", "John Paulson", "David Tepper", "Paul Tudor"]:
-        idx = text.find(noise)
-        if idx > 0:
-            text = text[:idx]
+        cut = text.find(noise)
+        if cut > 0:
+            text = text[:cut]
     text = text.strip()
-    return (text, url) if len(text) > 2000 else None
+    return text if len(text) > 2000 else None
+
+
+def extract(url: str, content: str) -> str | None:
+    if "insidermonkey.com" in url:
+        return extract_insidermonkey(content)
+    return None
+
+
+# ---------------------------------------------------------------------------
+# sources.json + quarter key mapping
+# ---------------------------------------------------------------------------
+
+def load_sources(ticker: str) -> dict:
+    path = REPO_ROOT / ticker / "sources.json"
+    if path.exists():
+        with path.open() as f:
+            return json.load(f)
+    return {}
+
+
+def quarter_to_key(quarter: str) -> str:
+    """Convert results filename quarter slug to sources.json key.
+
+    q4-fy2025  →  2025-q4
+    q3-2025    →  2025-q3
+    """
+    m = re.match(r"(q\d+)-(?:fy)?(\d{4})$", quarter)
+    if not m:
+        return quarter
+    return f"{m.group(2)}-{m.group(1)}"
 
 
 # ---------------------------------------------------------------------------
@@ -185,8 +139,7 @@ def find_quarters() -> list[tuple]:
     """Return [(ticker, date, quarter_slug, results_path, transcript_path)]."""
     entries = []
     for results_path in sorted(REPO_ROOT.glob("*/quarters/*-results.md")):
-        stem = results_path.stem  # e.g. 2025-06-04_q4-fy2025-results
-        parts = stem.split("_", 1)
+        parts = results_path.stem.split("_", 1)
         if len(parts) != 2:
             continue
         date = parts[0]
@@ -198,34 +151,27 @@ def find_quarters() -> list[tuple]:
 
 
 # ---------------------------------------------------------------------------
-# Transcript cleanup and save
+# Save
 # ---------------------------------------------------------------------------
 
 def trim_transcript(text: str) -> str:
-    """Remove navigation/site chrome, keep only the transcript body."""
     lines = text.split("\n")
-
-    # Find where actual transcript starts (first speaker line)
     start = 0
     for i, line in enumerate(lines):
-        stripped = line.strip()
-        if re.match(r"^(Operator|[A-Z][a-z]+ [A-Z][a-z]+):", stripped):
+        if re.match(r"^(Operator|[A-Z][a-z]+ [A-Z][a-z]+):", line.strip()):
             start = max(0, i - 1)
             break
-
     lines = lines[start:]
-
-    # Trim trailing noise
     noise_patterns = [
-        r"^Read Next", r"^Related Articles", r"^\d{4}-\d{2}-\d{2} .By Motley Fool",
-        r"Follow .* \(NASDAQ:", r"^\s*\$[\d,]+\s*$",
+        r"^Related Insider Monkey Articles", r"Subscribe with Google",
+        r"Insider Monkey Quarterly Strategy", r"Hedge Fund Resource Center",
+        r"or\s+Subscribe with", r"We may use your email",
     ]
     end = len(lines)
     for i, line in enumerate(lines):
         if any(re.search(p, line) for p in noise_patterns):
             end = i
             break
-
     return "\n".join(lines[:end]).strip()
 
 
@@ -241,61 +187,46 @@ def save_transcript(path: Path, ticker: str, date: str, quarter: str, body: str,
 
 
 # ---------------------------------------------------------------------------
-# Main
+# Download
 # ---------------------------------------------------------------------------
 
-SOURCES = [
-    ("Motley Fool", fetch_motleyfool),
-    ("Insider Monkey", fetch_insidermonkey),
-]
+def fetch_transcript(url: str) -> str | None:
+    content = fetch(url)
+    time.sleep(REQUEST_DELAY)
+    if not content:
+        return None
+    return extract(url, content)
 
 
-def download(ticker: str, date: str, quarter: str, transcript_path: Path) -> bool:
+def download(ticker: str, date: str, quarter: str, transcript_path: Path, explicit_url: str | None = None) -> bool:
     print(f"\n{'='*60}")
     print(f"{ticker}  {quarter}  ({date})")
     print(f"{'='*60}")
-    for name, fn in SOURCES:
-        print(f"  Trying {name}...")
-        result = fn(ticker, date, quarter)
-        if result:
-            body, url = result
-            body = trim_transcript(body)
-            save_transcript(transcript_path, ticker, date, quarter, body, url)
-            return True
-    print("  FAILED: no transcript found")
-    return False
+
+    if explicit_url:
+        url = explicit_url
+    else:
+        key = quarter_to_key(quarter)
+        sources = load_sources(ticker)
+        url = sources.get(key)
+        if not url:
+            print(f"  SKIP: no entry for '{key}' in {ticker}/sources.json")
+            return False
+
+    print(f"  Fetching {url}")
+    text = fetch_transcript(url)
+    if not text:
+        print("  FAILED: could not extract transcript")
+        return False
+
+    text = trim_transcript(text)
+    save_transcript(transcript_path, ticker, date, quarter, text, url)
+    return True
 
 
-def fetch_from_url(url: str) -> tuple[str, str] | None:
-    """Fetch a transcript from an explicit URL, trying each extractor in turn."""
-    content = fetch(url)
-    if not content:
-        return None
-    # Motley Fool
-    idx = content.find("article-body-transcript")
-    if idx >= 0:
-        chunk = content[idx:]
-        for end_pat in ['<div class="mx-auto', "<footer", '<div id="related']:
-            i = chunk.find(end_pat, 1000)
-            if 0 < i < len(chunk):
-                chunk = chunk[:i]
-                break
-        text = clean_html(chunk)
-        if len(text) > 2000:
-            return text, url
-    # Insider Monkey / generic article
-    art = re.search(r"<article[^>]*>(.*?)</article>", content, re.DOTALL)
-    if art:
-        text = clean_html(art.group(1))
-        for noise in ["Page 1 of", "John Paulson", "David Tepper", "Paul Tudor"]:
-            cut = text.find(noise)
-            if cut > 0:
-                text = text[:cut]
-        text = text.strip()
-        if len(text) > 2000:
-            return text, url
-    return None
-
+# ---------------------------------------------------------------------------
+# Main
+# ---------------------------------------------------------------------------
 
 def main():
     args = sys.argv[1:]
@@ -310,47 +241,26 @@ def main():
 
     if len(args) == 2:
         ticker, date = args[0].upper(), args[1]
-        quarters = find_quarters()
-        entry = next((q for q in quarters if q[0] == ticker and q[1] == date), None)
+        entry = next((q for q in find_quarters() if q[0] == ticker and q[1] == date), None)
         if not entry:
             sys.exit(f"No results file found for {ticker} {date}")
-        jobs = [(entry[0], entry[1], entry[2], entry[4])]
+        ok = download(entry[0], entry[1], entry[2], entry[4], explicit_url)
 
     elif len(args) == 0:
-        jobs = [
-            (t, d, q, tp)
-            for t, d, q, _, tp in find_quarters()
-            if not tp.exists()
-        ]
+        jobs = [(t, d, q, tp) for t, d, q, _, tp in find_quarters() if not tp.exists()]
         if not jobs:
             print("All transcripts already downloaded.")
             return
         print(f"Found {len(jobs)} missing transcript(s)")
+        ok = sum(download(t, d, q, tp) for t, d, q, tp in jobs)
+        print(f"\nDone: {ok}/{len(jobs)} transcript(s) downloaded.")
+        return
 
     else:
         print(__doc__)
         sys.exit(1)
 
-    if explicit_url:
-        if len(jobs) != 1:
-            sys.exit("--url requires a specific TICKER DATE to be given")
-        ticker, date, quarter, transcript_path = jobs[0]
-        print(f"\n{'='*60}")
-        print(f"{ticker}  {quarter}  ({date})")
-        print(f"{'='*60}")
-        print(f"  Fetching from provided URL...")
-        result = fetch_from_url(explicit_url)
-        if result:
-            body, url = result
-            body = trim_transcript(body)
-            save_transcript(transcript_path, ticker, date, quarter, body, url)
-            print("\nDone: 1/1 transcript(s) downloaded.")
-        else:
-            sys.exit(f"  FAILED: could not extract transcript from {explicit_url}")
-        return
-
-    ok = sum(download(*j) for j in jobs)
-    print(f"\nDone: {ok}/{len(jobs)} transcript(s) downloaded.")
+    print(f"\nDone: {'1/1' if ok else '0/1'} transcript(s) downloaded.")
 
 
 if __name__ == "__main__":
