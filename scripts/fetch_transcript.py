@@ -39,7 +39,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).parent.parent
 
 HEADERS = {
-    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
     "Accept-Encoding": "gzip, deflate",
     "Accept-Language": "en-US,en;q=0.9",
@@ -53,8 +53,11 @@ REQUEST_DELAY = 1.5
 # ---------------------------------------------------------------------------
 
 def fetch(url: str) -> str | None:
+    headers = dict(HEADERS)
+    if "stockanalysis.com" in url:
+        headers["Referer"] = "https://stockanalysis.com/"
     try:
-        req = urllib.request.Request(url, headers=HEADERS)
+        req = urllib.request.Request(url, headers=headers)
         with urllib.request.urlopen(req, timeout=30) as resp:
             raw = resp.read()
             enc = resp.info().get("Content-Encoding", "")
@@ -145,9 +148,32 @@ def extract_insidermonkey(content: str) -> str | None:
     return result if len(result) > 2000 else None
 
 
+def extract_stockanalysis(content: str) -> str | None:
+    m = re.search(r'aria-label="Full transcript">(.*)', content, re.DOTALL)
+    if not m:
+        return None
+    article = m.group(1)
+
+    blocks = re.split(r'<div class="border-t border-sharp pt-5[^"]*">', article)
+    paragraphs = []
+    for block in blocks:
+        name_m = re.search(r'<div[^>]*text-lg font-bold[^>]*>([^<]+)</div>', block)
+        if not name_m:
+            continue
+        speaker = name_m.group(1).strip()
+        sents = re.findall(r'<span[^>]*transcript-sentence[^>]*>([^<]+)</span>', block)
+        if not sents:
+            continue
+        text = ' '.join(sents).replace('$', r'\$')
+        paragraphs.append(f'**{speaker}:** {text}')
+
+    result = '\n\n'.join(paragraphs)
+    return result if len(result) > 2000 else None
+
+
 def extract(url: str, content: str) -> str | None:
-    if "insidermonkey.com" in url:
-        return extract_insidermonkey(content)
+    if "stockanalysis.com" in url:
+        return extract_stockanalysis(content)
     return None
 
 
