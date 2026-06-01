@@ -93,16 +93,56 @@ def clean_html(html: str) -> str:
 # ---------------------------------------------------------------------------
 
 def extract_insidermonkey(content: str) -> str | None:
-    art = re.search(r"<article[^>]*>(.*?)</article>", content, re.DOTALL)
-    if not art:
+    # Locate the main content div
+    m = re.search(r'<div[^>]*class="content-without-wrap[^"]*"[^>]*>(.*)', content, re.DOTALL)
+    if not m:
         return None
-    text = clean_html(art.group(1))
-    for noise in ["Page 1 of", "John Paulson", "David Tepper", "Paul Tudor"]:
-        cut = text.find(noise)
-        if cut > 0:
-            text = text[:cut]
-    text = text.strip()
-    return text if len(text) > 2000 else None
+    body = m.group(1)
+
+    # Cut before related-posts / bottom-ad sections
+    for marker in ['class="related-posts', 'class="ic-ad post-bottom']:
+        idx = body.find(marker)
+        if 0 < idx:
+            body = body[:idx]
+            break
+
+    paragraphs = []
+    for match in re.finditer(r'<(p|h3)(\s[^>]*)?>(.+?)</\1>', body, re.DOTALL):
+        tag = match.group(1)
+        attrs = match.group(2) or ''
+        inner = match.group(3)
+
+        if tag == 'h3':
+            # Keep only the Q&A section header; skip share/follow widget h3s
+            if 'id="q-and-a-session"' in attrs:
+                paragraphs.append('\n**Q&A Session**\n')
+            continue
+
+        # Skip metadata/tags paragraph and follow-widget paragraphs
+        if 'class="metadata' in attrs or 'follow-info' in attrs:
+            continue
+
+        # Skip image-only paragraphs
+        if re.match(r'\s*<(?:picture|img)\b', inner):
+            continue
+
+        text = clean_html(inner).strip()
+        if not text:
+            continue
+
+        text = text.replace('$', r'\$')
+
+        # Merge continuation paragraphs split by inline ad divs (inner starts with space)
+        if paragraphs and inner[0] == ' ':
+            paragraphs[-1] = paragraphs[-1].rstrip() + ' ' + text
+        else:
+            paragraphs.append(text)
+
+    # Drop preamble (title, EPS summary) before first Operator line
+    start = next((i for i, p in enumerate(paragraphs) if p.startswith('Operator:')), 0)
+
+    result = '\n\n'.join(paragraphs[start:])
+    return result if len(result) > 2000 else None
 
 
 def extract(url: str, content: str) -> str | None:
@@ -151,27 +191,6 @@ def find_jobs(ticker_filter: str | None = None, date_filter: str | None = None) 
 # Save
 # ---------------------------------------------------------------------------
 
-def trim_transcript(text: str) -> str:
-    lines = text.split("\n")
-    start = 0
-    for i, line in enumerate(lines):
-        if re.match(r"^(Operator|[A-Z][a-z]+ [A-Z][a-z]+):", line.strip()):
-            start = max(0, i - 1)
-            break
-    lines = lines[start:]
-    noise_patterns = [
-        r"^Related Insider Monkey Articles", r"Subscribe with Google",
-        r"Insider Monkey Quarterly Strategy", r"Hedge Fund Resource Center",
-        r"or\s+Subscribe with", r"We may use your email",
-    ]
-    end = len(lines)
-    for i, line in enumerate(lines):
-        if any(re.search(p, line) for p in noise_patterns):
-            end = i
-            break
-    return "\n".join(lines[:end]).strip()
-
-
 def save_transcript(path: Path, ticker: str, date: str, quarter: str, body: str, source_url: str):
     path.parent.mkdir(exist_ok=True)
     header = (
@@ -215,7 +234,6 @@ def download(ticker: str, date: str, quarter: str, transcript_path: Path, explic
         print("  FAILED: could not extract transcript")
         return False
 
-    text = trim_transcript(text)
     save_transcript(transcript_path, ticker, date, quarter, text, url)
     return True
 
