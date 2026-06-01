@@ -31,6 +31,25 @@ This is an investment research repository. Each ticker gets its own top-level di
 - For companies with non-calendar fiscal years: include `fy` to avoid ambiguity — e.g., `q4-fy2025-results`, `q3-fy2026-results`
 - Always note the fiscal year convention and the calendar period covered at the top of the file
 
+## Earnings Call Transcripts
+
+Transcripts are saved as `YYYY-MM-DD_<quarter>-transcript.md` alongside each results file.
+
+Use `scripts/fetch_transcript.py` to download them:
+
+```bash
+# Download all missing transcripts in the repo
+python3 scripts/fetch_transcript.py
+
+# Download a specific quarter (auto-discovers URL)
+python3 scripts/fetch_transcript.py BARK 2025-06-04
+
+# Supply a URL when auto-discovery fails
+python3 scripts/fetch_transcript.py ODD 2026-02-25 --url https://www.insidermonkey.com/blog/...
+```
+
+Sources tried in order: The Motley Fool (URL guessed from ticker/date), then Insider Monkey. Motley Fool auto-discovery works for most quarters. When it fails, find the transcript URL manually on insidermonkey.com or seekingalpha.com and pass it with `--url`.
+
 ## Adding a New Ticker
 
 1. Create `<TICKER>/business-plan.md`, `<TICKER>/management-team.md`, and `<TICKER>/quarters/` to match the structure above
