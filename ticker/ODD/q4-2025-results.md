@@ -1,0 +1,170 @@
+# Oddity Tech (NASDAQ: ODD) — Q4 2025 & Full Year 2025 Earnings Results
+
+**Reported:** February 25, 2026
+**Period:** Three months and full year ended December 31, 2025
+
+---
+
+## Reported Financial Metrics
+
+### Income Statement — Q4 2025 (Standalone Quarter)
+
+| Metric | Q4 2025 | Q4 2024 | YoY Change |
+|---|---|---|---|
+| Net Revenue | $152.7M | $123.6M | +24% |
+| Gross Margin | 70.5% | 72.7% | -220 bps |
+| Adjusted EBITDA | $12.5M | $15.2M | -18% |
+| Adjusted EBITDA Margin | ~8.2% | ~12.3% | -410 bps |
+| Adjusted Diluted EPS | $0.20 | $0.20 | Flat |
+| GAAP Diluted EPS | ~$0.10 | — | — |
+
+### Income Statement — Full Year 2025
+
+| Metric | FY2025 | FY2024 | YoY Change |
+|---|---|---|---|
+| Net Revenue | $809.8M | $647.0M | +25% |
+| Gross Profit | $588.7M | $468.3M | +26% |
+| Gross Margin | 72.7% | 72.5% | +30 bps |
+| Operating Income | $118.8M | $115.6M | +3% |
+| Net Income | $110.7M | $101.5M | +9% |
+| GAAP Diluted EPS | $1.80 | $1.64 | +10% |
+| Adjusted Diluted EPS | $2.21 | $1.96 | +13% |
+| Adjusted EBITDA | $163.3M | $150.4M | +9% |
+| Adjusted EBITDA Margin | 20.2% | 23.2% | -300 bps |
+| Free Cash Flow | $83.6M | $134.5M | -38% |
+| Operating Cash Flow | $87.6M | $137.8M | -36% |
+
+### Balance Sheet (December 31, 2025)
+
+| Item | Value |
+|---|---|
+| Cash & cash equivalents | $402.2M |
+| Marketable securities | $373.7M |
+| Total cash & investments | $776.0M |
+| Total assets | $1,137.8M |
+| Shareholders' equity | $396.5M |
+| Exchangeable note liability | $584.4M |
+| Undrawn credit facility | $350.0M |
+
+*Note: Total assets nearly tripled vs. $438.9M in FY2024, driven by new Exchangeable Note financing ($600M convertible note issued in 2025).*
+
+### vs. Consensus Estimates (Q4 2025)
+
+| Metric | Actual | Consensus | Beat |
+|---|---|---|---|
+| Adjusted Diluted EPS | $0.20 | $0.14 | +$0.06 (+43%) |
+| Revenue | $152.7M | $151.1M | +$1.6M |
+
+---
+
+## Key Operating KPIs (Full Year 2025)
+
+| Metric | FY2025 | Note |
+|---|---|---|
+| Total platform users | ~68 million | Cumulative |
+| Repeat revenue | ~70% of total | Up from ~65% in prior periods |
+| 2024 cohort 12-month repeat rate | >100% | Customers buy more over 12 months |
+| Online DTC revenue | $782.1M | 97% of total |
+| Other revenue | $27.8M | 3% of total |
+| International revenue | 17.5% of total | +42% YoY |
+| Advertising spend | Increased ~50% YoY | Significant headwind to FCF |
+| Share repurchase authorization remaining | $103M | Of $150M program (through June 30, 2027) |
+
+### Brand Revenue Context
+- **IL MAKIAGE:** ~$560M FY2025 (low double-digit growth); SKIN sub-line ~40% of brand revenue
+- **SpoiledChild:** ~$250M FY2025 (double-digit growth)
+- **METHODIQ:** Launched November 2025; growing faster than IL MAKIAGE at a comparable launch stage (no standalone revenue disclosed)
+
+---
+
+## Guidance — Q1 2026 & Full Year 2026
+
+### Q1 2026
+- Revenue expected to decline approximately **30% year-over-year** (no specific dollar figure given)
+- First-order economics are **not profitable** at current elevated CPAs
+
+### Full Year 2026 — Guidance Suspended
+- Management withdrew full-year guidance entirely, citing insufficient visibility on advertising CPA normalization
+- Expected timeline: "meaningful progress in Q2, normalization anticipated in Q3 or Q4 2026"
+- H1 2026 expected to show the most severe revenue impact; H2 repeat revenue will also be suppressed because fewer new customers were acquired in H1
+
+*This broke an 11-quarter streak of providing and beating guidance since the IPO.*
+
+---
+
+## Stock Reaction
+
+Shares fell **43.5%** in pre-market trading to ~$16.40 (from prior close ~$29), and continued declining intraday to ~$11.77 — representing an **85% decline** from the 52-week high of $79.18. Prior to the announcement, 75% of the 12 covering analysts had Buy ratings with no Sells.
+
+---
+
+## The Advertising Platform Issue — Full Context
+
+Management disclosed an "unprecedented dislocation" with its largest advertising platform (widely interpreted as Meta/Instagram). Algorithm changes caused Oddity's ads to be routed into lower-quality auctions at 50–100%+ higher customer acquisition costs, making new customer acquisition unprofitable at first order.
+
+**Root cause:** Management believes the algorithm updates change how the platform interprets signals associated with the Try-Before-You-Buy model, diverting traffic to lower-quality auctions.
+
+**Scale:** The affected platform's "pure platform orders" represent "just under a quarter of revenue" — but given the 70%+ repeat revenue structure, the downstream ripple effect on future revenue is significantly larger.
+
+**Fix:** Management stated they identified the root cause in late January 2026 and had begun implementing remediation across "dozens of variants simultaneously" using in-house infrastructure.
+
+---
+
+## Conference Call Transcript Highlights
+
+**Participants:** Oran Holtzman (Co-Founder & CEO), Lindsay Drucker Mann (Global CFO), Niv Price (CTO, available for Q&A), Maria Lycouris (IR)
+
+---
+
+### CEO Oran Holtzman — Key Statements
+
+- Called 2025 a "record-breaking year, once again exceeding our guidance across revenue, profit, and earnings per share — like we did in the past 11 consecutive quarters since going public."
+
+- On the advertising issue: "We experienced an unprecedented dislocation in our account with our largest advertising partner. These changes resulted in significant abnormal increases in our new user acquisition cost."
+
+- On the root cause: "We believe the algorithm updates impact how this platform interprets and weighs the signals associated with our Try-Before-You-Buy model," diverting traffic to "lower quality auctions at abnormally high costs."
+
+- On the fix: "We recently identified the root cause of the problem and have already implemented significant actions." Expected "meaningful progress in Q2 and return our acquisition costs to normal levels in Q3 or Q4."
+
+- On the long-term: "There is no change to our long-term vision, strategy, or our commitment to growth." The issue is technical, not structural.
+
+- On METHODIQ: "Off to a great start" — growing faster than IL MAKIAGE did at a comparable launch stage.
+
+- Confirmed Brand 4 development remains on track.
+
+---
+
+### CFO Lindsay Drucker Mann — Key Statements
+
+- On first-order economics: "At current CPAs, we are not profitable at first order." However, "we are still profitable on a 12-month direct contribution margin basis" due to strong repeat rates.
+
+- On platform concentration: The affected platform's orders represent "just under a quarter of revenue" based on Oddity's internal attribution, but the repeat revenue ripple effect multiplies the downstream impact significantly.
+
+- On capital position: $776M in cash and securities plus $350M undrawn credit facility; $103M remaining on buyback authorization — management views current stock prices as attractive for repurchases.
+
+- On free cash flow compression: Lower FCF due to the ~50% increase in advertising spend during 2025, which weighed on working capital throughout the year.
+
+---
+
+### Analyst Q&A — Key Themes
+
+**1. Advertising platform concentration / diversification**
+Analysts pressed on revenue at risk from the single partner. CFO disclosed "just under 25% of revenue" is directly attributable, but noted the repeat revenue tail significantly amplifies the impact. Management said they are working to diversify ad channel mix but did not give a specific timeline for meaningful diversification.
+
+**2. Recovery timeline confidence**
+JPMorgan analysts noted limited visibility; management acknowledged uncertainty but emphasized they identified the root cause in late January 2026 and began remediation. They noted all infrastructure is in-house, allowing them to "run dozens of variants simultaneously" to find the fix.
+
+**3. Try-Before-You-Buy model as a structural liability**
+Analysts questioned whether TBYB itself was structurally broken. Management pushed back firmly — the TBYB model is foundational to customer acquisition and conversion; this is a temporary algorithmic edge case, not a model flaw.
+
+**4. Cash deployment during the downturn**
+Analysts asked about capital allocation. Management stated they are actively repurchasing shares (view current price as "attractive") and will continue investing in Oddity Labs and Brand 4 through the disruption. No M&A accelerations signaled.
+
+**5. METHODIQ early KPIs**
+Questions on initial performance. Management said early metrics are "stronger than IL MAKIAGE's comparable launch stage" but declined to give specific revenue figures for the brand.
+
+**6. H2 2026 recovery shape**
+Analysts asked whether H2 recovery would be linear or backloaded. Management declined to give specifics but emphasized the repeat revenue flywheel means H2 recovery would be driven both by returning new-customer acquisition rates AND the existing cohort repeat base, which remained intact throughout the disruption.
+
+**7. Advertising platform identity**
+Multiple analysts asked directly which platform was affected. Management declined to identify the partner by name but did not push back on analyst characterizations referencing Meta's Advantage+ system.

@@ -1,0 +1,155 @@
+# Oddity Tech (NASDAQ: ODD) — Q3 2025 Earnings Results
+
+**Reported:** November 19–20, 2025
+**Period:** Three months ended September 30, 2025
+
+---
+
+## Reported Financial Metrics
+
+### Income Statement (Q3 2025 vs. Q3 2024)
+
+| Metric | Q3 2025 | Q3 2024 | YoY Change |
+|---|---|---|---|
+| Net Revenue | $148.0M | $119.3M | +24% |
+| Gross Profit | $106.0M | $83.4M | +27% |
+| Gross Margin | 71.6% | 69.9% | +170 bps |
+| Net Income | $18.0M | $18.0M | Flat |
+| GAAP Diluted EPS | $0.28 | $0.29 | -3% |
+| Adjusted EBITDA | $29.0M | $25.0M | +16% |
+| Adjusted EBITDA Margin | 19.5% | 20.9% | -140 bps |
+| Adjusted Diluted EPS | $0.40 | $0.32 | +25% |
+
+### Nine-Month 2025 (January–September)
+
+| Metric | 9M 2025 | 9M 2024 | YoY Change |
+|---|---|---|---|
+| Net Revenue | $657.1M | $523.4M | +26% |
+| Adjusted EBITDA | $150.8M | $135.2M | +12% |
+| Adjusted Diluted EPS | $2.00 | $1.76 | +14% |
+| Operating Cash Flow | $92.7M | $122.0M | -24% |
+| Free Cash Flow | $89.6M | $119.3M | -24% |
+
+### Balance Sheet (September 30, 2025)
+
+| Item | Value |
+|---|---|
+| Cash, equivalents & investments | $793M |
+| Undrawn credit facilities | $200M |
+| Total liquidity | ~$993M |
+
+### vs. Consensus Estimates
+
+| Metric | Actual | Consensus | Beat |
+|---|---|---|---|
+| Adjusted Diluted EPS | $0.40 | $0.35 | +$0.05 (+14%) |
+| Revenue | $148.0M | $145.4M | +$2.6M |
+
+---
+
+## Key Operating KPIs
+
+| Metric | Q3 2025 | Note |
+|---|---|---|
+| Online DTC revenue | 95% of Q3 sales | vs. 93% in Q3 2024 |
+| Repeat revenue | ~66% of Q3 revenue | Trending toward 70% full-year |
+| 12-month cohort repeat rate | >100% | Customers spend more over 12 months |
+| International revenue (9M) | +40% YoY | 17% of total revenue |
+| IL MAKIAGE Skin sub-line | ~40% of IL MAKIAGE revenue | Grew from ~30% in prior year |
+| Average Order Value | Declined ~1% | Due to faster lower-AOV international growth |
+
+### Brand Revenue Context
+- **IL MAKIAGE:** Double-digit online growth; SKIN sub-line reached ~40% of brand revenue; on track for $1B by 2028
+- **SpoiledChild:** Expected to exceed $225M for full year 2025
+- **METHODIQ:** Officially launched November 2025 (post-quarter); 28 Rx and non-Rx products; 100+ treatment combinations; built on 1M+ facial images
+
+---
+
+## Guidance — Q4 2025 & Raised Full Year 2025
+
+### Q4 2025 Guidance (vs. Actual)
+
+| Metric | Guided | Actual Q4 2025 |
+|---|---|---|
+| Revenue | $149–152M (+21–23% YoY) | $152.7M (+24%) — beat |
+| Gross Margin | ~69% | 70.5% — beat |
+| Adjusted EBITDA | $10–12M | $12.5M — beat |
+| Adjusted Diluted EPS | $0.11–0.13 | $0.20 — beat |
+
+### Raised Full Year 2025 Guidance
+
+| Metric | Prior Guidance | Raised Guidance | Actual FY2025 |
+|---|---|---|---|
+| Revenue | ~$799–802M | $806–809M | $809.8M — beat |
+| Gross Margin | ~72% | ~72.5% | 72.7% — beat |
+| Adjusted EBITDA | $157–160M | $161–163M | $163.3M — beat |
+| Adjusted Diluted EPS | $2.05–2.08 | $2.10–2.12 | $2.21 — beat |
+
+*This was the 10th consecutive quarter of beating guidance since the IPO.*
+
+---
+
+## Stock Reaction
+
+Shares surged **+13.5%** in after-hours trading to ~$42.83, with a peak intraday move of +17.3%, adding ~$130M in market cap (to ~$2.13B).
+
+---
+
+## Conference Call Transcript Highlights
+
+**Participants:** Oran Holtzman (Co-Founder & CEO), Lindsay Drucker Mann (Global CFO), Niv Price (CTO, available for Q&A)
+
+---
+
+### CEO Oran Holtzman — Key Statements
+
+- "We delivered an outstanding third quarter with strong financial performance while achieving major milestones across new brands, new markets, and technology innovation."
+
+- On 10 consecutive quarters of beating guidance: "We have exceeded our guidance in every single quarter since our IPO."
+
+- On METHODIQ: "Our most ambitious endeavor to transform a broken medical care system." Described it as the company's next frontier after IL MAKIAGE and SpoiledChild.
+
+- On the brand's scope: 28 Rx and non-Rx products across dermatology (acne, hyperpigmentation, eczema), with plans to "expand beyond dermatology into additional medical domains."
+
+- On international: 40% YoY growth YTD but "still represents a small portion of total revenue compared to the US," emphasizing disciplined expansion.
+
+- On long-term targets: Still committed to 20% annual revenue growth and 20% adjusted EBITDA margin.
+
+---
+
+### CFO Lindsay Drucker Mann — Key Statements
+
+- "Our 12-month net revenue repeat cohort trends remained strong at north of 100%."
+
+- On higher acquisition costs: Acknowledged "elevated acquisition costs" but said they are "offset by improved repeat rates and strong customer lifetime value."
+
+- On METHODIQ gross margin: Initially lower than corporate average due to "third-party physician network costs," but expected to drive "strong repeat business" and improve over time.
+
+- On tariff headwinds: Manufacturing supply chain partially impacted by tariffs, but "mitigated by cost efficiencies" — gross margin still expanded 170 bps.
+
+- "Probably the biggest wave of innovation to dermatology in decades" — on the Oddity Labs proprietary molecule pipeline slated for 2026 launch.
+
+---
+
+### Analyst Q&A — Key Themes
+
+**1. METHODIQ addressable market (TAM)**
+Georgia Anderson (Evercore ISI) asked whether the TAM was "all chronic skin sufferers or a narrow cohort." Management said the platform is designed for a broad population with chronic skin conditions (acne, hyperpigmentation, eczema), with the goal of being the highest-standard-of-care destination. Key milestones to watch include prescription mix, repeat rates, and unit economics — management declined to give a specific year-one revenue target.
+
+**2. METHODIQ's early customer base**
+Management noted METHODIQ will initially draw significant customers from existing IL MAKIAGE and SpoiledChild users (cross-sell), while also pursuing new user acquisition separately.
+
+**3. International scalability**
+Analysts asked how replicable the 40% growth rate was across new geographies. CEO: "responsibly scaling" in proven markets (UK, Australia, Canada) while conducting "larger-scale tests" in France, Italy, and Spain with plans to "further scale those across the board in 2026." Emphasized unit economics must support each market entry.
+
+**4. Oddity Labs molecule commercialization**
+Analysts asked for pipeline specifics. Management confirmed 8 products planned for 2026 market launch — 4 for METHODIQ (prescription-grade molecules), 4 for IL MAKIAGE/SpoiledChild.
+
+**5. IL MAKIAGE and SpoiledChild growth moderation**
+Analysts noted growth rates had moderated from 2023 peaks. Management attributed this to a larger base and higher acquisition costs, but emphasized repeat rates remain very strong ("north of 100% on 12-month cohorts") as the key health indicator.
+
+**6. Capital allocation with $793M cash**
+Analysts pressed on deployment of the cash balance. Management indicated continued organic investment in Brand 4 development, Oddity Labs, and international expansion, with share repurchases ongoing but not being accelerated.
+
+**7. Gross margin sustainability**
+Management attributed the 170 bps Q3 expansion to product mix shift (more higher-margin skin products at IL MAKIAGE) and manufacturing efficiencies. Warned Q4 gross margin would be lower (~69%) due to seasonality and higher promotional activity.
