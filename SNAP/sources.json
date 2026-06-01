@@ -1,18 +1,29 @@
 {
   "2025-08-05": {
     "quarter": "q2-2025",
+    "period_end": "2025-06-30",
+    "report": "https://www.sec.gov/Archives/edgar/data/1564408/000156440825000052/",
     "transcript": "https://www.insidermonkey.com/blog/snap-inc-nysesnap-q2-2025-earnings-call-transcript-1612000/"
   },
   "2025-11-05": {
     "quarter": "q3-2025",
+    "period_end": "2025-09-30",
+    "report": "https://www.sec.gov/Archives/edgar/data/1564408/000156440825000065/",
     "transcript": "https://www.insidermonkey.com/blog/snap-inc-nysesnap-q3-2025-earnings-call-transcript-1643000/"
   },
   "2026-02-04": {
     "quarter": "q4-2025",
+    "period_end": "2025-12-31",
+    "report": "https://www.sec.gov/Archives/edgar/data/1564408/000156440826000013/",
     "transcript": "https://www.insidermonkey.com/blog/snap-inc-nysesnap-q4-2025-earnings-call-transcript-1689479/"
   },
   "2026-05-06": {
     "quarter": "q1-2026",
+    "period_end": "2026-03-31",
+    "report": "https://www.sec.gov/Archives/edgar/data/1564408/000156440826000027/",
     "transcript": "https://www.insidermonkey.com/blog/snap-inc-nysesnap-q1-2026-earnings-call-transcript-1750000/"
+  },
+  "_meta": {
+    "cik": "0001564408"
   }
 }

@@ -1,18 +1,34 @@
 {
+  "2025-02-05": {
+    "quarter": "q3-2025",
+    "period_end": "2024-12-31",
+    "report": "https://www.sec.gov/Archives/edgar/data/1819574/000181957425000011/"
+  },
   "2025-06-04": {
     "quarter": "q4-2025",
+    "period_end": "2025-03-31",
+    "report": "https://www.sec.gov/Archives/edgar/data/1819574/000181957425000024/",
     "transcript": "https://www.insidermonkey.com/blog/bark-inc-nysebark-q4-2025-earnings-call-transcript-1580000/"
   },
   "2025-08-07": {
     "quarter": "q1-2026",
+    "period_end": "2025-06-30",
+    "report": "https://www.sec.gov/Archives/edgar/data/1819574/000181957425000039/",
     "transcript": "https://www.insidermonkey.com/blog/bark-inc-nysebark-q1-2026-earnings-call-transcript-1615000/"
   },
   "2025-11-06": {
     "quarter": "q2-2026",
+    "period_end": "2025-09-30",
+    "report": "https://www.sec.gov/Archives/edgar/data/1819574/000181957425000047/",
     "transcript": "https://www.insidermonkey.com/blog/bark-inc-nysebark-q2-2026-earnings-call-transcript-1646000/"
   },
   "2026-02-05": {
     "quarter": "q3-2026",
+    "period_end": "2025-12-31",
+    "report": "https://www.sec.gov/Archives/edgar/data/1819574/000162828026005799/",
     "transcript": "https://www.insidermonkey.com/blog/bark-inc-nysebark-q3-2026-earnings-call-transcript-1690270/"
+  },
+  "_meta": {
+    "cik": "0001819574"
   }
 }
