@@ -5,17 +5,21 @@ ticker's sources.json file.
 
 sources.json format (e.g. BARK/sources.json):
   {
-    "2025-q4": "https://www.insidermonkey.com/blog/...",
-    "2026-q1": "https://www.insidermonkey.com/blog/..."
+    "2025-06-04": {
+      "quarter": "q4-fy2025",
+      "transcript": "https://www.insidermonkey.com/blog/..."
+    },
+    ...
   }
 
-Keys follow the pattern {year}-q{n}. These map to the results filenames in quarters/.
+The date is the announcement date and is the root key. The script downloads any
+transcript URL that does not yet have a corresponding file in quarters/.
 
 Usage:
   # Download all missing transcripts across the whole repo
   python3 scripts/fetch_transcript.py
 
-  # Download a specific quarter (looks up URL in sources.json)
+  # Download a specific quarter by ticker and announcement date
   python3 scripts/fetch_transcript.py BARK 2025-06-04
 
   # Supply a URL directly (bypasses sources.json lookup)
@@ -108,7 +112,7 @@ def extract(url: str, content: str) -> str | None:
 
 
 # ---------------------------------------------------------------------------
-# sources.json + quarter key mapping
+# sources.json
 # ---------------------------------------------------------------------------
 
 def load_sources(ticker: str) -> dict:
@@ -119,35 +123,28 @@ def load_sources(ticker: str) -> dict:
     return {}
 
 
-def quarter_to_key(quarter: str) -> str:
-    """Convert results filename quarter slug to sources.json key.
-
-    q4-fy2025  →  2025-q4
-    q3-2025    →  2025-q3
-    """
-    m = re.match(r"(q\d+)-(?:fy)?(\d{4})$", quarter)
-    if not m:
-        return quarter
-    return f"{m.group(2)}-{m.group(1)}"
-
-
 # ---------------------------------------------------------------------------
-# Repo discovery
+# Repo discovery — driven by sources.json
 # ---------------------------------------------------------------------------
 
-def find_quarters() -> list[tuple]:
-    """Return [(ticker, date, quarter_slug, results_path, transcript_path)]."""
-    entries = []
-    for results_path in sorted(REPO_ROOT.glob("*/quarters/*-results.md")):
-        parts = results_path.stem.split("_", 1)
-        if len(parts) != 2:
-            continue
-        date = parts[0]
-        quarter = parts[1].replace("-results", "")
-        ticker = results_path.parent.parent.name
-        transcript_path = results_path.parent / f"{date}_{quarter}-transcript.md"
-        entries.append((ticker, date, quarter, results_path, transcript_path))
-    return entries
+def find_jobs(ticker_filter: str | None = None, date_filter: str | None = None) -> list[tuple]:
+    """Return [(ticker, date, quarter, transcript_path)] for all missing transcripts."""
+    jobs = []
+    pattern = f"{ticker_filter}/sources.json" if ticker_filter else "*/sources.json"
+    for sources_path in sorted(REPO_ROOT.glob(pattern)):
+        ticker = sources_path.parent.name
+        quarters_dir = sources_path.parent / "quarters"
+        with sources_path.open() as f:
+            sources = json.load(f)
+        for date, entry in sources.items():
+            if date_filter and date != date_filter:
+                continue
+            quarter = entry.get("quarter", "")
+            if not entry.get("transcript"):
+                continue
+            transcript_path = quarters_dir / f"{date}_{quarter}-transcript.md"
+            jobs.append((ticker, date, quarter, transcript_path))
+    return jobs
 
 
 # ---------------------------------------------------------------------------
@@ -176,6 +173,7 @@ def trim_transcript(text: str) -> str:
 
 
 def save_transcript(path: Path, ticker: str, date: str, quarter: str, body: str, source_url: str):
+    path.parent.mkdir(exist_ok=True)
     header = (
         f"# {ticker} {quarter.upper().replace('-', ' ')} Earnings Call Transcript\n\n"
         f"**Announcement date:** {date}  \n"
@@ -190,14 +188,6 @@ def save_transcript(path: Path, ticker: str, date: str, quarter: str, body: str,
 # Download
 # ---------------------------------------------------------------------------
 
-def fetch_transcript(url: str) -> str | None:
-    content = fetch(url)
-    time.sleep(REQUEST_DELAY)
-    if not content:
-        return None
-    return extract(url, content)
-
-
 def download(ticker: str, date: str, quarter: str, transcript_path: Path, explicit_url: str | None = None) -> bool:
     print(f"\n{'='*60}")
     print(f"{ticker}  {quarter}  ({date})")
@@ -206,15 +196,21 @@ def download(ticker: str, date: str, quarter: str, transcript_path: Path, explic
     if explicit_url:
         url = explicit_url
     else:
-        key = quarter_to_key(quarter)
         sources = load_sources(ticker)
-        url = sources.get(key)
+        entry = sources.get(date, {})
+        url = entry.get("transcript")
         if not url:
-            print(f"  SKIP: no entry for '{key}' in {ticker}/sources.json")
+            print(f"  SKIP: no transcript URL for {date} in {ticker}/sources.json")
             return False
 
     print(f"  Fetching {url}")
-    text = fetch_transcript(url)
+    content = fetch(url)
+    time.sleep(REQUEST_DELAY)
+    if not content:
+        print("  FAILED: could not fetch page")
+        return False
+
+    text = extract(url, content)
     if not text:
         print("  FAILED: could not extract transcript")
         return False
@@ -241,26 +237,23 @@ def main():
 
     if len(args) == 2:
         ticker, date = args[0].upper(), args[1]
-        entry = next((q for q in find_quarters() if q[0] == ticker and q[1] == date), None)
-        if not entry:
-            sys.exit(f"No results file found for {ticker} {date}")
-        ok = download(entry[0], entry[1], entry[2], entry[4], explicit_url)
+        jobs = find_jobs(ticker, date)
+        if not jobs:
+            sys.exit(f"No entry found for {ticker} {date} in sources.json")
 
     elif len(args) == 0:
-        jobs = [(t, d, q, tp) for t, d, q, _, tp in find_quarters() if not tp.exists()]
+        jobs = [j for j in find_jobs() if not j[3].exists()]
         if not jobs:
             print("All transcripts already downloaded.")
             return
         print(f"Found {len(jobs)} missing transcript(s)")
-        ok = sum(download(t, d, q, tp) for t, d, q, tp in jobs)
-        print(f"\nDone: {ok}/{len(jobs)} transcript(s) downloaded.")
-        return
 
     else:
         print(__doc__)
         sys.exit(1)
 
-    print(f"\nDone: {'1/1' if ok else '0/1'} transcript(s) downloaded.")
+    ok = sum(download(t, d, q, tp, explicit_url if len(jobs) == 1 else None) for t, d, q, tp in jobs)
+    print(f"\nDone: {ok}/{len(jobs)} transcript(s) downloaded.")
 
 
 if __name__ == "__main__":

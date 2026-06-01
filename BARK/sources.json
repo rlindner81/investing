@@ -1,6 +1,18 @@
 {
-  "2025-q4": "https://www.insidermonkey.com/blog/bark-inc-nysebark-q4-2025-earnings-call-transcript-1580000/",
-  "2026-q1": "https://www.insidermonkey.com/blog/bark-inc-nysebark-q1-2026-earnings-call-transcript-1615000/",
-  "2026-q2": "https://www.insidermonkey.com/blog/bark-inc-nysebark-q2-2026-earnings-call-transcript-1646000/",
-  "2026-q3": "https://www.insidermonkey.com/blog/bark-inc-nysebark-q3-2026-earnings-call-transcript-1690270/"
+  "2025-06-04": {
+    "quarter": "q4-fy2025",
+    "transcript": "https://www.insidermonkey.com/blog/bark-inc-nysebark-q4-2025-earnings-call-transcript-1580000/"
+  },
+  "2025-08-07": {
+    "quarter": "q1-fy2026",
+    "transcript": "https://www.insidermonkey.com/blog/bark-inc-nysebark-q1-2026-earnings-call-transcript-1615000/"
+  },
+  "2025-11-06": {
+    "quarter": "q2-fy2026",
+    "transcript": "https://www.insidermonkey.com/blog/bark-inc-nysebark-q2-2026-earnings-call-transcript-1646000/"
+  },
+  "2026-02-05": {
+    "quarter": "q3-fy2026",
+    "transcript": "https://www.insidermonkey.com/blog/bark-inc-nysebark-q3-2026-earnings-call-transcript-1690270/"
+  }
 }

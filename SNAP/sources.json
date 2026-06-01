@@ -1,6 +1,18 @@
 {
-  "2025-q2": "https://www.insidermonkey.com/blog/snap-inc-nysesnap-q2-2025-earnings-call-transcript-1612000/",
-  "2025-q3": "https://www.insidermonkey.com/blog/snap-inc-nysesnap-q3-2025-earnings-call-transcript-1643000/",
-  "2025-q4": "https://www.insidermonkey.com/blog/snap-inc-nysesnap-q4-2025-earnings-call-transcript-1689479/",
-  "2026-q1": "https://www.insidermonkey.com/blog/snap-inc-nysesnap-q1-2026-earnings-call-transcript-1750000/"
+  "2025-08-05": {
+    "quarter": "q2-2025",
+    "transcript": "https://www.insidermonkey.com/blog/snap-inc-nysesnap-q2-2025-earnings-call-transcript-1612000/"
+  },
+  "2025-11-05": {
+    "quarter": "q3-2025",
+    "transcript": "https://www.insidermonkey.com/blog/snap-inc-nysesnap-q3-2025-earnings-call-transcript-1643000/"
+  },
+  "2026-02-04": {
+    "quarter": "q4-2025",
+    "transcript": "https://www.insidermonkey.com/blog/snap-inc-nysesnap-q4-2025-earnings-call-transcript-1689479/"
+  },
+  "2026-05-06": {
+    "quarter": "q1-2026",
+    "transcript": "https://www.insidermonkey.com/blog/snap-inc-nysesnap-q1-2026-earnings-call-transcript-1750000/"
+  }
 }
