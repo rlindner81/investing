@@ -11,39 +11,39 @@
 
 | Metric | Q3 2025 | Q3 2024 | YoY Change |
 |---|---|---|---|
-| Net Revenue | $148.0M | $119.3M | +24% |
-| Gross Profit | $106.0M | $83.4M | +27% |
+| Net Revenue | \$148.0M | \$119.3M | +24% |
+| Gross Profit | \$106.0M | \$83.4M | +27% |
 | Gross Margin | 71.6% | 69.9% | +170 bps |
-| Net Income | $18.0M | $18.0M | Flat |
-| GAAP Diluted EPS | $0.28 | $0.29 | -3% |
-| Adjusted EBITDA | $29.0M | $25.0M | +16% |
+| Net Income | \$18.0M | \$18.0M | Flat |
+| GAAP Diluted EPS | \$0.28 | \$0.29 | -3% |
+| Adjusted EBITDA | \$29.0M | \$25.0M | +16% |
 | Adjusted EBITDA Margin | 19.5% | 20.9% | -140 bps |
-| Adjusted Diluted EPS | $0.40 | $0.32 | +25% |
+| Adjusted Diluted EPS | \$0.40 | \$0.32 | +25% |
 
 ### Nine-Month 2025 (January–September)
 
 | Metric | 9M 2025 | 9M 2024 | YoY Change |
 |---|---|---|---|
-| Net Revenue | $657.1M | $523.4M | +26% |
-| Adjusted EBITDA | $150.8M | $135.2M | +12% |
-| Adjusted Diluted EPS | $2.00 | $1.76 | +14% |
-| Operating Cash Flow | $92.7M | $122.0M | -24% |
-| Free Cash Flow | $89.6M | $119.3M | -24% |
+| Net Revenue | \$657.1M | \$523.4M | +26% |
+| Adjusted EBITDA | \$150.8M | \$135.2M | +12% |
+| Adjusted Diluted EPS | \$2.00 | \$1.76 | +14% |
+| Operating Cash Flow | \$92.7M | \$122.0M | -24% |
+| Free Cash Flow | \$89.6M | \$119.3M | -24% |
 
 ### Balance Sheet (September 30, 2025)
 
 | Item | Value |
 |---|---|
-| Cash, equivalents & investments | $793M |
-| Undrawn credit facilities | $200M |
-| Total liquidity | ~$993M |
+| Cash, equivalents & investments | \$793M |
+| Undrawn credit facilities | \$200M |
+| Total liquidity | ~\$993M |
 
 ### vs. Consensus Estimates
 
 | Metric | Actual | Consensus | Beat |
 |---|---|---|---|
-| Adjusted Diluted EPS | $0.40 | $0.35 | +$0.05 (+14%) |
-| Revenue | $148.0M | $145.4M | +$2.6M |
+| Adjusted Diluted EPS | \$0.40 | \$0.35 | +\$0.05 (+14%) |
+| Revenue | \$148.0M | \$145.4M | +\$2.6M |
 
 ---
 
@@ -59,8 +59,8 @@
 | Average Order Value | Declined ~1% | Due to faster lower-AOV international growth |
 
 ### Brand Revenue Context
-- **IL MAKIAGE:** Double-digit online growth; SKIN sub-line reached ~40% of brand revenue; on track for $1B by 2028
-- **SpoiledChild:** Expected to exceed $225M for full year 2025
+- **IL MAKIAGE:** Double-digit online growth; SKIN sub-line reached ~40% of brand revenue; on track for \$1B by 2028
+- **SpoiledChild:** Expected to exceed \$225M for full year 2025
 - **METHODIQ:** Officially launched November 2025 (post-quarter); 28 Rx and non-Rx products; 100+ treatment combinations; built on 1M+ facial images
 
 ---
@@ -71,19 +71,19 @@
 
 | Metric | Guided | Actual Q4 2025 |
 |---|---|---|
-| Revenue | $149–152M (+21–23% YoY) | $152.7M (+24%) — beat |
+| Revenue | \$149–152M (+21–23% YoY) | \$152.7M (+24%) — beat |
 | Gross Margin | ~69% | 70.5% — beat |
-| Adjusted EBITDA | $10–12M | $12.5M — beat |
-| Adjusted Diluted EPS | $0.11–0.13 | $0.20 — beat |
+| Adjusted EBITDA | \$10–12M | \$12.5M — beat |
+| Adjusted Diluted EPS | \$0.11–0.13 | \$0.20 — beat |
 
 ### Raised Full Year 2025 Guidance
 
 | Metric | Prior Guidance | Raised Guidance | Actual FY2025 |
 |---|---|---|---|
-| Revenue | ~$799–802M | $806–809M | $809.8M — beat |
+| Revenue | ~\$799–802M | \$806–809M | \$809.8M — beat |
 | Gross Margin | ~72% | ~72.5% | 72.7% — beat |
-| Adjusted EBITDA | $157–160M | $161–163M | $163.3M — beat |
-| Adjusted Diluted EPS | $2.05–2.08 | $2.10–2.12 | $2.21 — beat |
+| Adjusted EBITDA | \$157–160M | \$161–163M | \$163.3M — beat |
+| Adjusted Diluted EPS | \$2.05–2.08 | \$2.10–2.12 | \$2.21 — beat |
 
 *This was the 10th consecutive quarter of beating guidance since the IPO.*
 
@@ -91,7 +91,7 @@
 
 ## Stock Reaction
 
-Shares surged **+13.5%** in after-hours trading to ~$42.83, with a peak intraday move of +17.3%, adding ~$130M in market cap (to ~$2.13B).
+Shares surged **+13.5%** in after-hours trading to ~\$42.83, with a peak intraday move of +17.3%, adding ~\$130M in market cap (to ~\$2.13B).
 
 ---
 
@@ -148,7 +148,7 @@ Analysts asked for pipeline specifics. Management confirmed 8 products planned f
 **5. IL MAKIAGE and SpoiledChild growth moderation**
 Analysts noted growth rates had moderated from 2023 peaks. Management attributed this to a larger base and higher acquisition costs, but emphasized repeat rates remain very strong ("north of 100% on 12-month cohorts") as the key health indicator.
 
-**6. Capital allocation with $793M cash**
+**6. Capital allocation with \$793M cash**
 Analysts pressed on deployment of the cash balance. Management indicated continued organic investment in Brand 4 development, Oddity Labs, and international expansion, with share repurchases ongoing but not being accelerated.
 
 **7. Gross margin sustainability**
