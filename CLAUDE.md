@@ -41,14 +41,14 @@ Use `scripts/fetch_transcript.py` to download them:
 # Download all missing transcripts in the repo
 python3 scripts/fetch_transcript.py
 
-# Download a specific quarter (auto-discovers URL)
+# Download a specific quarter
 python3 scripts/fetch_transcript.py BARK 2025-06-04
 
-# Supply a URL when auto-discovery fails
-python3 scripts/fetch_transcript.py ODD 2026-02-25 --url https://www.insidermonkey.com/blog/...
+# Supply a URL directly
+python3 scripts/fetch_transcript.py ODD 2026-02-25 --url https://stockanalysis.com/stocks/odd/transcripts/402471-q4-2025/
 ```
 
-Sources tried in order: The Motley Fool (URL guessed from ticker/date), then Insider Monkey. Motley Fool auto-discovery works for most quarters. When it fails, find the transcript URL manually on insidermonkey.com or seekingalpha.com and pass it with `--url`.
+Source: stockanalysis.com. Find the transcript URL by navigating to `stockanalysis.com/stocks/<ticker>/transcripts/` and copying the link for the relevant quarter. Add it as the `transcript` key in `sources.json` before running the script.
 
 ## Adding a New Ticker
 

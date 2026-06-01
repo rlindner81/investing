@@ -6,8 +6,8 @@ ticker's sources.json file.
 sources.json format (e.g. BARK/sources.json):
   {
     "2025-06-04": {
-      "quarter": "q4-fy2025",
-      "transcript": "https://www.insidermonkey.com/blog/..."
+      "quarter": "q4-2025",
+      "transcript": "https://stockanalysis.com/stocks/bark/transcripts/305774-q4-2025/"
     },
     ...
   }
@@ -70,83 +70,9 @@ def fetch(url: str) -> str | None:
 # HTML cleaning
 # ---------------------------------------------------------------------------
 
-ENTITY_MAP = [
-    ("&#x2019;", "'"), ("&#x2018;", "'"), ("&#8217;", "'"), ("&#x27;", "'"),
-    ("&#x201C;", '"'), ("&#x201D;", '"'), ("&#8220;", '"'), ("&#8221;", '"'),
-    ("&#x2014;", "—"), ("&#x2013;", "–"), ("&#x2026;", "…"),
-    ("&amp;", "&"), ("&nbsp;", " "), ("&quot;", '"'), ("&lt;", "<"), ("&gt;", ">"),
-]
-
-
-def clean_html(html: str) -> str:
-    html = re.sub(r"<script[^>]*>.*?</script>", "", html, flags=re.DOTALL)
-    html = re.sub(r"<style[^>]*>.*?</style>", "", html, flags=re.DOTALL)
-    html = re.sub(r"</p>", "\n\n", html)
-    html = re.sub(r"<br\s*/?>", "\n", html)
-    html = re.sub(r"<strong[^>]*>(.*?)</strong>", r"\1", html)
-    html = re.sub(r"<[^>]+>", "", html)
-    for old, new in ENTITY_MAP:
-        html = html.replace(old, new)
-    html = re.sub(r"\n{3,}", "\n\n", html)
-    return html.strip()
-
-
 # ---------------------------------------------------------------------------
 # Extractors (keyed by URL domain)
 # ---------------------------------------------------------------------------
-
-def extract_insidermonkey(content: str) -> str | None:
-    # Locate the main content div
-    m = re.search(r'<div[^>]*class="content-without-wrap[^"]*"[^>]*>(.*)', content, re.DOTALL)
-    if not m:
-        return None
-    body = m.group(1)
-
-    # Cut before related-posts / bottom-ad sections
-    for marker in ['class="related-posts', 'class="ic-ad post-bottom']:
-        idx = body.find(marker)
-        if 0 < idx:
-            body = body[:idx]
-            break
-
-    paragraphs = []
-    for match in re.finditer(r'<(p|h3)(\s[^>]*)?>(.+?)</\1>', body, re.DOTALL):
-        tag = match.group(1)
-        attrs = match.group(2) or ''
-        inner = match.group(3)
-
-        if tag == 'h3':
-            # Keep only the Q&A section header; skip share/follow widget h3s
-            if 'id="q-and-a-session"' in attrs:
-                paragraphs.append('\n**Q&A Session**\n')
-            continue
-
-        # Skip metadata/tags paragraph and follow-widget paragraphs
-        if 'class="metadata' in attrs or 'follow-info' in attrs:
-            continue
-
-        # Skip image-only paragraphs
-        if re.match(r'\s*<(?:picture|img)\b', inner):
-            continue
-
-        text = clean_html(inner).strip()
-        if not text:
-            continue
-
-        text = text.replace('$', r'\$')
-
-        # Merge continuation paragraphs split by inline ad divs (inner starts with space)
-        if paragraphs and inner[0] == ' ':
-            paragraphs[-1] = paragraphs[-1].rstrip() + ' ' + text
-        else:
-            paragraphs.append(text)
-
-    # Drop preamble (title, EPS summary) before first Operator line
-    start = next((i for i, p in enumerate(paragraphs) if p.startswith('Operator:')), 0)
-
-    result = '\n\n'.join(paragraphs[start:])
-    return result if len(result) > 2000 else None
-
 
 def extract_stockanalysis(content: str) -> str | None:
     m = re.search(r'aria-label="Full transcript">(.*)', content, re.DOTALL)
