@@ -13,7 +13,7 @@ This is an investment research repository. Each ticker gets its own top-level di
   business-plan.md       — company overview, revenue model, product portfolio, strategy, risks, financial snapshot
   management-team.md     — executive bios, backgrounds, governance notes
   quarters/
-    YYYY-MM-DD_<label>-results.md   — one file per reported earnings, date = announcement date
+    YYYY-MM-DD_<label>-summary.md   — one file per reported earnings, date = announcement date
 ```
 
 ## File Conventions
@@ -22,18 +22,18 @@ This is an investment research repository. Each ticker gets its own top-level di
 
 **management-team.md** covers: one section per named executive with background, career prior to the company, role, and notable facts. Ends with corporate governance notes.
 
-**Quarterly results files** are named `YYYY-MM-DD_q#-<period>-results.md` where the date is the announcement date. Each file covers: reported financial metrics (income statement, balance sheet, consensus vs. actual), key operating KPIs, forward guidance, stock reaction, and conference call highlights (CEO statements, CFO statements, key analyst Q&A themes).
+**Quarterly summary files** are named `YYYY-MM-DD_q#-<period>-summary.md` where the date is the announcement date. Each file covers: reported financial metrics (income statement, balance sheet, consensus vs. actual), key operating KPIs, forward guidance, stock reaction, and conference call highlights (CEO statements, CFO statements, key analyst Q&A themes).
 
 ## Quarterly File Naming
 
 - Use the announcement date as the filename prefix (ISO 8601: `YYYY-MM-DD`)
-- For companies whose fiscal year aligns with the calendar year: `q3-2025-results`, `q4-2025-results`
-- For companies with non-calendar fiscal years: include `fy` to avoid ambiguity — e.g., `q4-fy2025-results`, `q3-fy2026-results`
+- For companies whose fiscal year aligns with the calendar year: `q3-2025-summary`, `q4-2025-summary`
+- For companies with non-calendar fiscal years: include `fy` to avoid ambiguity — e.g., `q4-fy2025-summary`, `q3-fy2026-summary`
 - Always note the fiscal year convention and the calendar period covered at the top of the file
 
 ## Earnings Call Transcripts
 
-Transcripts are saved as `YYYY-MM-DD_<quarter>-transcript.md` alongside each results file.
+Transcripts are saved as `YYYY-MM-DD_<quarter>-transcript.md` alongside each summary file.
 
 Use `scripts/fetch_transcript.py` to download them:
 
