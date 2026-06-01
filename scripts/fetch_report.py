@@ -26,7 +26,7 @@ Usage:
   # Supply a URL directly (EDGAR filing index, bypasses auto-discovery)
   python3 scripts/fetch_report.py BARK 2025-08-07 --url https://www.sec.gov/Archives/edgar/data/.../
 
-Output: <TICKER>/quarters/<date>_<quarter>-financials.md
+Output: <TICKER>/quarters/<date>_<quarter>-report.md
 """
 
 import re
@@ -352,7 +352,7 @@ def find_jobs(ticker_filter: str | None = None, date_filter: str | None = None) 
             quarter = entry.get("quarter", "")
             if not quarter:
                 continue
-            report_path = quarters_dir / f"{date}_{quarter}-financials.md"
+            report_path = quarters_dir / f"{date}_{quarter}-report.md"
             jobs.append((ticker, date, quarter, report_path))
     return jobs
 
@@ -482,7 +482,7 @@ def main():
             quarter = entry.get("quarter", "")
             if not quarter:
                 sys.exit(f"No entry found for {ticker} {date} in sources.json")
-            report_path = REPO_ROOT / ticker / "quarters" / f"{date}_{quarter}-financials.md"
+            report_path = REPO_ROOT / ticker / "quarters" / f"{date}_{quarter}-report.md"
             jobs = [(ticker, date, quarter, report_path)]
 
     elif len(args) == 0:
