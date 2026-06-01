@@ -1,4 +1,14 @@
 {
+  "2025-04-29": {
+    "quarter": "q1-2025",
+    "period_end": "2025-03-31",
+    "report": "https://www.sec.gov/Archives/edgar/data/1907085/000110465925041238/"
+  },
+  "2025-08-04": {
+    "quarter": "q2-2025",
+    "period_end": "2025-06-30",
+    "report": "https://www.sec.gov/Archives/edgar/data/1907085/000110465925073637/"
+  },
   "2025-11-19": {
     "quarter": "q3-2025",
     "period_end": "2025-09-30",
