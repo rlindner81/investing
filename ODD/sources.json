@@ -23,6 +23,12 @@
     "report": "https://www.sec.gov/Archives/edgar/data/1907085/000110465926019403/",
     "transcript": "https://stockanalysis.com/stocks/odd/transcripts/402471-q4-2025/"
   },
+  "2026-06-02": {
+    "quarter": "q1-2026",
+    "period_end": "2026-03-31",
+    "report": "https://www.sec.gov/Archives/edgar/data/1907085/000110465926069208/",
+    "transcript": "https://stockanalysis.com/stocks/odd/transcripts/568524-q1-2026/"
+  },
   "_meta": {
     "cik": "0001907085"
   }

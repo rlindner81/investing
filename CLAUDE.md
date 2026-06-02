@@ -31,7 +31,27 @@ This is an investment research repository. Each ticker gets its own top-level di
 - For companies with non-calendar fiscal years: include `fy` to avoid ambiguity — e.g., `q4-fy2025-summary`, `q3-fy2026-summary`
 - Always note the fiscal year convention and the calendar period covered at the top of the file
 
-## Earnings Call Transcripts
+## Downloading Reports and Transcripts
+
+There are two separate scripts for fetching quarterly data. Both read from `sources.json` and skip files that already exist.
+
+### SEC Financial Reports
+
+Reports are saved as `YYYY-MM-DD_<quarter>-report.md` and contain the income statement, balance sheet, and cash flow from the SEC filing.
+
+Use `scripts/fetch_report.py` to download them:
+
+```bash
+# Download all missing reports in the repo
+python3 scripts/fetch_report.py
+
+# Download a specific quarter
+python3 scripts/fetch_report.py ODD 2026-06-02
+```
+
+Source: SEC EDGAR. Add the filing index URL as the `report` key in `sources.json` before running the script.
+
+### Earnings Call Transcripts
 
 Transcripts are saved as `YYYY-MM-DD_<quarter>-transcript.md` alongside each summary file.
 
