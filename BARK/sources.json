@@ -29,6 +29,12 @@
     "report": "https://www.sec.gov/Archives/edgar/data/1819574/000162828026005799/",
     "transcript": "https://stockanalysis.com/stocks/bark/transcripts/415976-q3-2026/"
   },
+  "2026-06-09": {
+    "quarter": "q4-2026",
+    "period_end": "2026-03-31",
+    "report": "https://www.sec.gov/Archives/edgar/data/1819574/000162828026041892/",
+    "transcript": "https://stockanalysis.com/stocks/bark/transcripts/552686-q4-2026/"
+  },
   "_meta": {
     "cik": "0001819574"
   }

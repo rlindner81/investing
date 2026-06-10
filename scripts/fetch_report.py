@@ -273,9 +273,9 @@ def fetch_r_statement(cik: str, accession: str, r_filename: str) -> str | None:
 # ---------------------------------------------------------------------------
 
 PRESS_KEYWORDS = {
-    "income":   ["statements of income", "statements of operations", "statements of earnings"],
+    "income":   ["statements of income", "statement of income", "statements of operations", "statement of operations", "statements of earnings", "statement of earnings"],
     "balance":  ["balance sheet", "financial position"],
-    "cashflow": ["statements of cash flow", "cash flows from"],
+    "cashflow": ["statements of cash flow", "statement of cash flow", "cash flows from"],
 }
 
 

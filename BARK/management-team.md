@@ -23,7 +23,20 @@
 
 ---
 
-### Zahir Ibrahim — Chief Financial Officer
+### Brian Dostie — Interim Chief Financial Officer
+
+**Background:**
+- Served as BARK's VP of Accounting and Controller and principal accounting officer since May 2023
+- Prior to BARK: Interim CFO and VP Accounting and Controllership at 80 Acres Urban Agriculture (Oct 2021–Apr 2023)
+- Over 20 years at National Instruments Corporation, most recently as Corporate Controller (May 2018–Sep 2021)
+
+**Role:**
+- Assumed role of Interim CFO effective April 17, 2026 following Zahir Ibrahim's departure
+- BARK is conducting an external search for a permanent CFO
+
+---
+
+### Zahir Ibrahim — Former Chief Financial Officer *(departed April 17, 2026)*
 
 **Background:**
 - B.A. in Financial Management, Economics, and Accounting, University of Sheffield
@@ -31,15 +44,15 @@
 - Nearly three decades of financial leadership experience in high-growth DTC consumer brands
 
 **Career:**
-- **Annie's Inc. (NYSE: BNNY)** — CFO; led financial operations at the natural and organic food company
-- **KIND LLC** — CFO; scaled the company's strategy and infrastructure, enabling significant growth and international expansion; led KIND through multiple M&A transactions including the 2020 sale to Mars, Inc.
+- **Annie's Inc. (NYSE: BNNY)** — CFO
+- **KIND LLC** — CFO; led KIND through multiple M&A transactions including the 2020 sale to Mars, Inc.
 - **Do Good Foods LLC** — CFO and Chief Administrative Officer
 - Joined BARK as CFO in **January 2023**
 
-**Role:**
-- Manages all financial strategy, capital markets activity, and investor relations
-- Co-presenter alongside Matt Meeker on earnings calls
-- Oversaw the full repayment of the 2025 Convertible Notes in Q3 FY2026, making BARK debt-free
+**Departure:**
+- Announced March 24, 2026 (8-K filed March 27, 2026); effective April 17, 2026
+- Described as mutual agreement; not related to any accounting or auditing disagreement
+- Received severance per his Severance and Change in Control Agreement
 
 ---
 
