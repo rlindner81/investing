@@ -14,6 +14,7 @@ Usage:
 """
 
 import sys
+import argparse
 from datetime import date
 
 import pandas as pd
@@ -144,8 +145,8 @@ def fmt_pct(pct: float | None) -> str:
     return f"[green]+{pct:.1f}%[/green]" if pct >= 0 else f"[red]{pct:.1f}%[/red]"
 
 
-def analyze_stock(symbol: str, benchmarks: list[str]) -> None:
-    today = date.today()
+def analyze_stock(symbol: str, benchmarks: list[str], as_of: date | None = None) -> None:
+    today = as_of or date.today()
     cur = date(today.year, today.month, 1)
     months = [cur - relativedelta(months=i) for i in range(4)]
 
@@ -197,8 +198,9 @@ def analyze_stock(symbol: str, benchmarks: list[str]) -> None:
 
         cells[ticker] = dict(price=price_cells, return_=return_cells, sma=sma_cells, vol=vol_cells)
 
+    as_of_note = f" [dim](as of {today})[/dim]" if as_of else ""
     table = Table(
-        title=f"[bold cyan]{symbol}[/bold cyan] vs benchmarks",
+        title=f"[bold cyan]{symbol}[/bold cyan] vs benchmarks{as_of_note}",
         show_header=True,
         header_style="bold",
         show_lines=False,
@@ -237,14 +239,20 @@ def analyze_stock(symbol: str, benchmarks: list[str]) -> None:
 
 
 def main() -> None:
-    config = load_config()
-    requested = {s.upper() for s in sys.argv[1:]}
+    parser = argparse.ArgumentParser(description="Analyse prices vs benchmarks.")
+    parser.add_argument("tickers", nargs="*", help="Stocks to analyse (default: all)")
+    parser.add_argument("--as-of", metavar="DATE", help="Simulate analysis as of this date (YYYY-MM-DD)")
+    args = parser.parse_args()
 
+    as_of = date.fromisoformat(args.as_of) if args.as_of else None
+    requested = {t.upper() for t in args.tickers}
+
+    config = load_config()
     for stock in config.get("stocks", []):
         symbol = stock["symbol"]
         if requested and symbol not in requested:
             continue
-        analyze_stock(symbol, stock.get("benchmarks", []))
+        analyze_stock(symbol, stock.get("benchmarks", []), as_of=as_of)
 
 
 if __name__ == "__main__":
