@@ -45,21 +45,26 @@ benchmarks:
 
 stocks:
   - symbol: GOOGL
+    tags: [mega_cap, tech, advertising, ai]
     benchmarks: [SPY, QQQ, XLC]
   - symbol: ABNB
+    tags: [large_cap, travel, marketplace]
     benchmarks: [SPY, BKNG, EXPE]
   - symbol: JD
+    tags: [large_cap, china, ecommerce]
     benchmarks: [MCHI, KWEB]
   - symbol: WDAY
+    tags: [mid_cap, saas, enterprise]
     benchmarks: [SPY, QQQ, IGV]
   - symbol: SNAP
+    tags: [mid_cap, social_media, advertising, event_driven]
     benchmarks: [SPY, QQQ, SOCL]
   - symbol: GTBIF
-    tags: [small_cap]
+    tags: [small_cap, cannabis, otc]
     benchmarks: [SPY, MSOS]
   - symbol: ODD
-    tags: [small_cap]
+    tags: [small_cap, consumer, beauty, dtc]
     benchmarks: [SPY, XLY, ONLN, GLUX.DE]
   - symbol: BARK
-    tags: [small_cap]
+    tags: [small_cap, consumer, pets, subscription]
     benchmarks: [SPY, XLY, ONLN, PAWZ]

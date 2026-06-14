@@ -247,8 +247,9 @@ def analyze_stock(symbol: str, benchmarks: list[str], as_of: date | None = None,
         cells[ticker] = dict(price=price_cells, return_=return_cells, sma=sma_cells, vol=vol_cells)
 
     as_of_note = f" [dim](as of {today})[/dim]" if as_of else ""
+    tags_note = f"\n[dim]{' · '.join(tags)}[/dim]" if tags else ""
     table = Table(
-        title=f"[bold cyan]{symbol}[/bold cyan] vs benchmarks{as_of_note}",
+        title=f"[bold cyan]{symbol}[/bold cyan] vs benchmarks{as_of_note}{tags_note}",
         show_header=True,
         header_style="bold",
         show_lines=False,
