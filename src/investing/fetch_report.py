@@ -18,13 +18,13 @@ sources.json format:
 
 Usage:
   # Download all missing financial reports across the whole repo
-  python3 scripts/fetch_report.py
+  uv run src/fetch_report.py
 
   # Download a specific quarter by ticker and announcement date
-  python3 scripts/fetch_report.py BARK 2025-08-07
+  uv run src/fetch_report.py BARK 2025-08-07
 
   # Supply a URL directly (EDGAR filing index, bypasses auto-discovery)
-  python3 scripts/fetch_report.py BARK 2025-08-07 --url https://www.sec.gov/Archives/edgar/data/.../
+  uv run src/fetch_report.py BARK 2025-08-07 --url https://www.sec.gov/Archives/edgar/data/.../
 
 Output: <TICKER>/quarters/<date>_<quarter>-report.md
 """
@@ -39,7 +39,7 @@ import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta
 from pathlib import Path
 
-REPO_ROOT = Path(__file__).parent.parent
+from investing.lib import REPO_ROOT, load_sources
 
 HEADERS = {
     "User-Agent": "investment-research-bot research@example.com",
@@ -380,14 +380,6 @@ def _rows_to_markdown(rows: list[list[str]]) -> str:
 # ---------------------------------------------------------------------------
 # sources.json helpers
 # ---------------------------------------------------------------------------
-
-def load_sources(ticker: str) -> dict:
-    path = REPO_ROOT / ticker / "sources.json"
-    if path.exists():
-        with path.open() as f:
-            return json.load(f)
-    return {}
-
 
 def save_sources(ticker: str, sources: dict):
     path = REPO_ROOT / ticker / "sources.json"

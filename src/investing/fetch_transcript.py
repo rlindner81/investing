@@ -17,13 +17,13 @@ transcript URL that does not yet have a corresponding file in quarters/.
 
 Usage:
   # Download all missing transcripts across the whole repo
-  python3 scripts/fetch_transcript.py
+  uv run src/fetch_transcript.py
 
   # Download a specific quarter by ticker and announcement date
-  python3 scripts/fetch_transcript.py BARK 2025-06-04
+  uv run src/fetch_transcript.py BARK 2025-06-04
 
   # Supply a URL directly (bypasses sources.json lookup)
-  python3 scripts/fetch_transcript.py BARK 2025-06-04 --url https://...
+  uv run src/fetch_transcript.py BARK 2025-06-04 --url https://...
 
 Output files: <TICKER>/quarters/<date>_<quarter>-transcript.md
 """
@@ -36,7 +36,7 @@ import time
 import urllib.request
 from pathlib import Path
 
-REPO_ROOT = Path(__file__).parent.parent
+from investing.lib import REPO_ROOT, load_sources
 
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
@@ -65,10 +65,6 @@ def fetch(url: str) -> str | None:
     except Exception:
         return None
 
-
-# ---------------------------------------------------------------------------
-# HTML cleaning
-# ---------------------------------------------------------------------------
 
 # ---------------------------------------------------------------------------
 # Extractors (keyed by URL domain)
@@ -101,18 +97,6 @@ def extract(url: str, content: str) -> str | None:
     if "stockanalysis.com" in url:
         return extract_stockanalysis(content)
     return None
-
-
-# ---------------------------------------------------------------------------
-# sources.json
-# ---------------------------------------------------------------------------
-
-def load_sources(ticker: str) -> dict:
-    path = REPO_ROOT / ticker / "sources.json"
-    if path.exists():
-        with path.open() as f:
-            return json.load(f)
-    return {}
 
 
 # ---------------------------------------------------------------------------

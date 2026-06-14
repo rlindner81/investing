@@ -39,14 +39,14 @@ There are two separate scripts for fetching quarterly data. Both read from `sour
 
 Reports are saved as `YYYY-MM-DD_<quarter>-report.md` and contain the income statement, balance sheet, and cash flow from the SEC filing.
 
-Use `scripts/fetch_report.py` to download them:
+Use `fetch-report` to download them:
 
 ```bash
 # Download all missing reports in the repo
-python3 scripts/fetch_report.py
+uv run fetch-report
 
 # Download a specific quarter
-python3 scripts/fetch_report.py ODD 2026-06-02
+uv run fetch-report ODD 2026-06-02
 ```
 
 Source: SEC EDGAR. Add the filing index URL as the `report` key in `sources.json` before running the script.
@@ -55,17 +55,17 @@ Source: SEC EDGAR. Add the filing index URL as the `report` key in `sources.json
 
 Transcripts are saved as `YYYY-MM-DD_<quarter>-transcript.md` alongside each summary file.
 
-Use `scripts/fetch_transcript.py` to download them:
+Use `fetch-transcript` to download them:
 
 ```bash
 # Download all missing transcripts in the repo
-python3 scripts/fetch_transcript.py
+uv run fetch-transcript
 
 # Download a specific quarter
-python3 scripts/fetch_transcript.py BARK 2025-06-04
+uv run fetch-transcript BARK 2025-06-04
 
 # Supply a URL directly
-python3 scripts/fetch_transcript.py ODD 2026-02-25 --url https://stockanalysis.com/stocks/odd/transcripts/402471-q4-2025/
+uv run fetch-transcript ODD 2026-02-25 --url https://stockanalysis.com/stocks/odd/transcripts/402471-q4-2025/
 ```
 
 Source: stockanalysis.com. Find the transcript URL by navigating to `stockanalysis.com/stocks/<ticker>/transcripts/` and copying the link for the relevant quarter. Add it as the `transcript` key in `sources.json` before running the script.
