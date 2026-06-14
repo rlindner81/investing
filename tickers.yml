@@ -22,12 +22,17 @@ etfs:
     description: Tracks the S&P Global Luxury Index — holds LVMH, L'Oréal, Hermès, Richemont and other global luxury leaders. EUR-denominated, Frankfurt-listed.
 
 stocks:
-  - symbol: ODD
-    tracked: true
-    benchmarks: [SPY, XLY, ONLN, GLUX.DE]
+  - symbol: GOOGL
+  - symbol: ABNB
+  - symbol: JD
+  - symbol: WDAY
   - symbol: SNAP
     tracked: true
     benchmarks: [SPY, QQQ, SOCL]
+  - symbol: GTBIF
+  - symbol: ODD
+    tracked: true
+    benchmarks: [SPY, XLY, ONLN, GLUX.DE]
   - symbol: BARK
     tracked: true
     benchmarks: [SPY, XLY, ONLN, PAWZ]
