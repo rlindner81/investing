@@ -98,8 +98,12 @@ def sma_alignment(df: pd.DataFrame, as_of: pd.Timestamp) -> str:
     sma50 = close[loc - 49 : loc + 1].mean()
 
     t = trend_label(sma10, sma20, sma50)
-    color = "green" if t == "↑" else ("red" if t == "↓" else "yellow")
-    return f"[{color}]{t} {fmt_tuple(sma10, sma20, sma50)}[/{color}]"
+    vals = fmt_tuple(sma10, sma20, sma50)
+    if t == "↑":
+        return f"[green]↑ {vals}[/green]"
+    if t == "↓":
+        return f"[red]↓ {vals}[/red]"
+    return vals
 
 
 def rvol(df: pd.DataFrame, start_ts: pd.Timestamp, end_ts: pd.Timestamp) -> str:
@@ -118,8 +122,11 @@ def rvol(df: pd.DataFrame, start_ts: pd.Timestamp, end_ts: pd.Timestamp) -> str:
     ratios = f"{r10*100:.0f}%{s1}{r20*100:.0f}%{s2}{r50*100:.0f}%"
 
     t = trend_label(v10, v20, v50)
-    color = "green" if t == "↑" else ("red" if t == "↓" else "yellow")
-    return f"[{color}]{t} {ratios}[/{color}]"
+    if t == "↑":
+        return f"[green]↑ {ratios}[/green]"
+    if t == "↓":
+        return f"[red]↓ {ratios}[/red]"
+    return ratios
 
 
 def period_snapshot(df: pd.DataFrame, start_ts: pd.Timestamp, end_ts: pd.Timestamp) -> tuple:
