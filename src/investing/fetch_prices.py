@@ -7,7 +7,7 @@ Hourly data is stored under prices/hourly/<TICKER>.csv with a UTC Datetime index
 Hourly includes pre- and post-market bars (volume is 0 outside regular session —
 a Yahoo Finance limitation). History depth is ~2-3 years for hourly.
 
-On first run the full history from START_DATE is fetched. On subsequent runs
+On first run the full history from START_DATE_DAILY / START_DATE_HOURLY is fetched. On subsequent runs
 the missing tail is appended — unless a split occurred since the last stored
 date, in which case the full file is re-downloaded so prices stay consistent.
 
@@ -30,7 +30,8 @@ import yfinance as yf
 
 from investing.lib import REPO_ROOT
 
-START_DATE = date(2025, 1, 1)
+START_DATE_DAILY  = date(2020, 1, 1)
+START_DATE_HOURLY = date(2025, 1, 1)
 TICKERS_FILE = REPO_ROOT / "TICKERS.yml"
 
 
@@ -86,6 +87,7 @@ def download(ticker: str, start: date, *, interval: str, prepost: bool) -> pd.Da
 def fetch_ticker(ticker: str, *, prices_dir: Path, interval: str, prepost: bool) -> None:
     path = prices_dir / f"{ticker}.csv"
     index_col = "Datetime" if prepost else "Date"
+    start_date = START_DATE_HOURLY if prepost else START_DATE_DAILY
     last = load_last_date(path, index_col)
 
     if last is not None:
@@ -97,7 +99,7 @@ def fetch_ticker(ticker: str, *, prices_dir: Path, interval: str, prepost: bool)
         split_dates = splits_since(ticker, last)
         if split_dates:
             print(f"  {ticker}: split(s) detected on {split_dates} — full re-download")
-            df = download(ticker, START_DATE, interval=interval, prepost=prepost)
+            df = download(ticker, start_date, interval=interval, prepost=prepost)
             if df.empty:
                 print(f"  {ticker}: no data returned")
                 return
@@ -105,7 +107,7 @@ def fetch_ticker(ticker: str, *, prices_dir: Path, interval: str, prepost: bool)
             print(f"  {ticker}: rewrote {len(df)} rows → {path.relative_to(REPO_ROOT)}")
             return
     else:
-        fetch_start = START_DATE
+        fetch_start = start_date
 
     print(f"  {ticker}: appending {fetch_start} → today")
     df = download(ticker, fetch_start, interval=interval, prepost=prepost)
