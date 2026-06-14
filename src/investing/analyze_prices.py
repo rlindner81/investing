@@ -66,22 +66,30 @@ def fmt_price(v: float) -> str:
 
 
 def trend_label(a: float, b: float, c: float, tol: float = 0.005) -> str:
-    """↑/↓/~ for the sequence a→b→c.
-    Values within tol (0.5%) of each other are treated as equal.
-    Mixed only when one gap clearly goes up and the other clearly goes down."""
+    """↑/↓/~ for the sequence a→b→c (used by heuristics)."""
     def cmp(x: float, y: float) -> int:
         diff = abs(x - y) / max(abs(x), abs(y))
-        if diff < tol:
-            return 0
+        if diff < tol: return 0
         return 1 if x > y else -1
-
-    d1 = cmp(a, b)
-    d2 = cmp(b, c)
-    if (d1 == 1 and d2 == -1) or (d1 == -1 and d2 == 1):
-        return "~"
-    if d1 >= 0 and d2 >= 0:
-        return "↑"
+    d1, d2 = cmp(a, b), cmp(b, c)
+    if (d1 == 1 and d2 == -1) or (d1 == -1 and d2 == 1): return "~"
+    if d1 >= 0 and d2 >= 0: return "↑"
     return "↓"
+
+
+def pair_arrows(a: float, b: float, c: float, tol: float = 0.005) -> tuple[str, str]:
+    """Two-arrow prefix and color for the a/b and b/c pairs.
+    ↑↑ green, ↓↓ red, anything mixed or flat → yellow."""
+    def cmp(x: float, y: float) -> int:
+        diff = abs(x - y) / max(abs(x), abs(y))
+        if diff < tol: return 0
+        return 1 if x > y else -1
+    sym = {1: "↑", -1: "↓", 0: "→"}
+    d1, d2 = cmp(a, b), cmp(b, c)
+    prefix = sym[d1] + sym[d2]
+    if d1 == 1 and d2 == 1:   return prefix, "green"
+    if d1 == -1 and d2 == -1: return prefix, "red"
+    return prefix, "yellow"
 
 
 def fmt_tuple(a: float, b: float, c: float) -> str:
@@ -99,13 +107,9 @@ def sma_alignment(df: pd.DataFrame, as_of: pd.Timestamp) -> str:
     sma20 = close[loc - 19 : loc + 1].mean()
     sma50 = close[loc - 49 : loc + 1].mean()
 
-    t = trend_label(sma10, sma20, sma50)
+    prefix, color = pair_arrows(sma10, sma20, sma50)
     vals = fmt_tuple(sma10, sma20, sma50)
-    if t == "↑":
-        return f"[green]↑ {vals}[/green]"
-    if t == "↓":
-        return f"[red]↓ {vals}[/red]"
-    return vals
+    return f"[{color}]{prefix} {vals}[/{color}]"
 
 
 def rvol(df: pd.DataFrame, start_ts: pd.Timestamp, end_ts: pd.Timestamp) -> str:
@@ -123,12 +127,8 @@ def rvol(df: pd.DataFrame, start_ts: pd.Timestamp, end_ts: pd.Timestamp) -> str:
     s2 = ">" if r20 >= r50 else "<"
     ratios = f"{r10*100:.0f}%{s1}{r20*100:.0f}%{s2}{r50*100:.0f}%"
 
-    t = trend_label(v10, v20, v50)
-    if t == "↑":
-        return f"[green]↑ {ratios}[/green]"
-    if t == "↓":
-        return f"[red]↓ {ratios}[/red]"
-    return ratios
+    prefix, color = pair_arrows(v10, v20, v50)
+    return f"[{color}]{prefix} {ratios}[/{color}]"
 
 
 def period_snapshot(df: pd.DataFrame, start_ts: pd.Timestamp, end_ts: pd.Timestamp) -> tuple:
@@ -151,8 +151,8 @@ def _pct(s: str) -> float | None:
     return float(m.group(1)) if m else None
 
 def _trend(s: str) -> str:
-    if "↑" in s: return "↑"
-    if "↓" in s: return "↓"
+    if "↑↑" in s: return "↑"
+    if "↓↓" in s: return "↓"
     return "·"
 
 def print_heuristics(symbol: str, tags: list, cells: dict, tickers: list) -> None:
