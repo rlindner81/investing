@@ -57,6 +57,8 @@ def nearest_on_or_before(df: pd.DataFrame, target: date) -> pd.Timestamp | None:
 
 def fmt_price(v: float) -> str:
     if v >= 100:
+        return f"{v:.0f}"
+    if v >= 10:
         return f"{v:.1f}"
     return f"{v:.2f}"
 
@@ -80,7 +82,7 @@ def trend_label(a: float, b: float, c: float, tol: float = 0.005) -> str:
     return "↓"
 
 
-def sma_alignment(df: pd.DataFrame, as_of: pd.Timestamp, integers: bool = False) -> str:
+def sma_alignment(df: pd.DataFrame, as_of: pd.Timestamp) -> str:
     loc = df.index.get_loc(as_of)
     if loc < 49:
         return "n/a"
@@ -90,8 +92,7 @@ def sma_alignment(df: pd.DataFrame, as_of: pd.Timestamp, integers: bool = False)
     sma50 = close[loc - 49 : loc + 1].mean()
 
     t = trend_label(sma10, sma20, sma50)
-    fmt = (lambda v: f"{v:.0f}") if integers else fmt_price
-    values = f"{fmt(sma10)}/{fmt(sma20)}/{fmt(sma50)}"
+    values = f"{fmt_price(sma10)}/{fmt_price(sma20)}/{fmt_price(sma50)}"
     color = "green" if t == "↑" else ("red" if t == "↓" else "yellow")
     return f"[{color}]{t} {values}[/{color}]"
 
@@ -113,13 +114,13 @@ def rvol(df: pd.DataFrame, start_ts: pd.Timestamp, end_ts: pd.Timestamp) -> str:
     return f"[{color}]{t} {ratios}[/{color}]"
 
 
-def period_snapshot(df: pd.DataFrame, start_ts: pd.Timestamp, end_ts: pd.Timestamp, integers: bool = False) -> tuple:
+def period_snapshot(df: pd.DataFrame, start_ts: pd.Timestamp, end_ts: pd.Timestamp) -> tuple:
     if start_ts is None or end_ts is None or start_ts >= end_ts:
         return None, None, None, None
     start_price = float(df["Close"].iloc[df.index.get_loc(start_ts)])
     end_price   = float(df["Close"].iloc[df.index.get_loc(end_ts)])
     pct = (end_price / start_price - 1) * 100
-    return end_price, pct, sma_alignment(df, end_ts, integers=integers), rvol(df, start_ts, end_ts)
+    return end_price, pct, sma_alignment(df, end_ts), rvol(df, start_ts, end_ts)
 
 
 def fmt_pct(pct: float | None) -> str:
@@ -173,7 +174,7 @@ def analyze_stock(symbol: str, benchmarks: list[str]) -> None:
             t_start, t_end = month_bounds(df, year, month)
             if is_current:
                 t_end = nearest_on_or_before(df, today)
-            price, pct, sma, vol = period_snapshot(df, t_start, t_end, integers=not is_stock)
+            price, pct, sma, vol = period_snapshot(df, t_start, t_end)
             price_cells.append(f"{price:.2f}" if price is not None else "—")
             return_cells.append(fmt_pct(pct))
             sma_cells.append(sma or "—")
