@@ -12,10 +12,11 @@ the missing tail is appended — unless a split occurred since the last stored
 date, in which case the full file is re-downloaded so prices stay consistent.
 
 Usage:
-  uv run fetch-prices                   # daily, all tickers from tickers.yml
-  uv run fetch-prices --hourly          # hourly, all tickers
-  uv run fetch-prices SPY QQQ           # daily, specific tickers
-  uv run fetch-prices --hourly SPY QQQ  # hourly, specific tickers
+  uv run fetch-prices                   # both daily and hourly, all tickers from TICKERS.yml
+  uv run fetch-prices --daily           # daily only
+  uv run fetch-prices --hourly          # hourly only
+  uv run fetch-prices SPY QQQ           # both, specific tickers
+  uv run fetch-prices --hourly SPY QQQ  # hourly only, specific tickers
 """
 
 import argparse
@@ -30,12 +31,15 @@ import yfinance as yf
 from investing.lib import REPO_ROOT
 
 START_DATE = date(2025, 1, 1)
-TICKERS_FILE = REPO_ROOT / "tickers.yml"
+TICKERS_FILE = REPO_ROOT / "TICKERS.yml"
 
 
 def load_tickers() -> list[str]:
     with TICKERS_FILE.open() as f:
-        return yaml.safe_load(f)["tickers"]
+        data = yaml.safe_load(f)
+    etfs = [e["symbol"] for e in data.get("etfs", [])]
+    stocks = [s["symbol"] for s in data.get("stocks", [])]
+    return etfs + stocks
 
 
 def load_last_date(path: Path, index_col: str) -> date | None:
@@ -113,23 +117,26 @@ def fetch_ticker(ticker: str, *, prices_dir: Path, interval: str, prepost: bool)
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Fetch OHLCV price data.")
-    parser.add_argument("tickers", nargs="*", help="Tickers to fetch (default: tickers.yml)")
-    parser.add_argument("--hourly", action="store_true", help="Fetch hourly candles with pre/post market")
+    parser.add_argument("tickers", nargs="*", help="Tickers to fetch (default: TICKERS.yml)")
+    parser.add_argument("--daily", action="store_true", help="Fetch daily candles only")
+    parser.add_argument("--hourly", action="store_true", help="Fetch hourly candles only")
     args = parser.parse_args()
 
     tickers = [t.upper() for t in args.tickers] if args.tickers else load_tickers()
 
-    if args.hourly:
-        prices_dir = REPO_ROOT / "prices" / "hourly"
-        interval, prepost = "1h", True
+    modes = []
+    if not args.daily and not args.hourly:
+        modes = [("daily", "1d", False), ("hourly", "1h", True)]
+    elif args.daily:
+        modes = [("daily", "1d", False)]
     else:
-        prices_dir = REPO_ROOT / "prices" / "daily"
-        interval, prepost = "1d", False
+        modes = [("hourly", "1h", True)]
 
-    prices_dir.mkdir(parents=True, exist_ok=True)
-
-    for ticker in tickers:
-        fetch_ticker(ticker, prices_dir=prices_dir, interval=interval, prepost=prepost)
+    for name, interval, prepost in modes:
+        prices_dir = REPO_ROOT / "prices" / name
+        prices_dir.mkdir(parents=True, exist_ok=True)
+        for ticker in tickers:
+            fetch_ticker(ticker, prices_dir=prices_dir, interval=interval, prepost=prepost)
 
 
 if __name__ == "__main__":

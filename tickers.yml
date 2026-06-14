@@ -1,4 +1,33 @@
-tickers:
-  - SPY
-  - QQQ
-  - ODD
+etfs:
+  - symbol: SPY
+    issuer: State Street Global Advisors
+    description: Tracks the S&P 500 — the broad US large-cap benchmark
+  - symbol: QQQ
+    issuer: Invesco
+    description: Tracks the Nasdaq-100 — US large-cap technology and growth
+  - symbol: XLY
+    issuer: State Street Global Advisors
+    description: Tracks consumer discretionary stocks within the S&P 500
+  - symbol: SOCL
+    issuer: Global X (Mirae Asset)
+    description: Tracks global social media and social networking companies
+  - symbol: PAWZ
+    issuer: ProShares
+    description: Tracks companies across the pet care industry including food, health, and accessories
+  - symbol: ONLN
+    issuer: ProShares
+    description: Tracks global companies at the forefront of online and e-commerce retail
+  - symbol: GLUX.DE
+    issuer: Amundi
+    description: Tracks the S&P Global Luxury Index — holds LVMH, L'Oréal, Hermès, Richemont and other global luxury leaders. EUR-denominated, Frankfurt-listed.
+
+stocks:
+  - symbol: ODD
+    tracked: true
+    benchmarks: [SPY, XLY, ONLN, GLUX.DE]
+  - symbol: SNAP
+    tracked: true
+    benchmarks: [SPY, QQQ, SOCL]
+  - symbol: BARK
+    tracked: true
+    benchmarks: [SPY, XLY, ONLN, PAWZ]
