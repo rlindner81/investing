@@ -1,38 +1,62 @@
-etfs:
-  - symbol: SPY
-    issuer: State Street Global Advisors
-    description: Tracks the S&P 500 — the broad US large-cap benchmark
-  - symbol: QQQ
-    issuer: Invesco
-    description: Tracks the Nasdaq-100 — US large-cap technology and growth
-  - symbol: XLY
-    issuer: State Street Global Advisors
-    description: Tracks consumer discretionary stocks within the S&P 500
-  - symbol: SOCL
-    issuer: Global X (Mirae Asset)
-    description: Tracks global social media and social networking companies
-  - symbol: PAWZ
-    issuer: ProShares
-    description: Tracks companies across the pet care industry including food, health, and accessories
-  - symbol: ONLN
-    issuer: ProShares
-    description: Tracks global companies at the forefront of online and e-commerce retail
-  - symbol: GLUX.DE
-    issuer: Amundi
-    description: Tracks the S&P Global Luxury Index — holds LVMH, L'Oréal, Hermès, Richemont and other global luxury leaders. EUR-denominated, Frankfurt-listed.
+benchmarks:
+  etfs:
+    - symbol: SPY
+      issuer: State Street Global Advisors
+      description: Tracks the S&P 500 — the broad US large-cap benchmark
+    - symbol: QQQ
+      issuer: Invesco
+      description: Tracks the Nasdaq-100 — US large-cap technology and growth
+    - symbol: XLC
+      issuer: State Street Global Advisors
+      description: Tracks communication services stocks within the S&P 500 — holds Alphabet, Meta, Netflix, T-Mobile
+    - symbol: XLY
+      issuer: State Street Global Advisors
+      description: Tracks consumer discretionary stocks within the S&P 500
+    - symbol: SOCL
+      issuer: Global X (Mirae Asset)
+      description: Tracks global social media and social networking companies
+    - symbol: PAWZ
+      issuer: ProShares
+      description: Tracks companies across the pet care industry including food, health, and accessories
+    - symbol: ONLN
+      issuer: ProShares
+      description: Tracks global companies at the forefront of online and e-commerce retail
+    - symbol: IGV
+      issuer: iShares (BlackRock)
+      description: Tracks expanded US tech-software sector — holds Salesforce, Adobe, Workday, ServiceNow
+    - symbol: KWEB
+      issuer: KraneShares
+      description: Tracks Chinese internet companies — holds JD, Alibaba, Tencent, Meituan, Baidu
+    - symbol: MCHI
+      issuer: iShares (BlackRock)
+      description: Tracks the MSCI China Index — broad China market across sectors and cap sizes
+    - symbol: MSOS
+      issuer: AdvisorShares
+      description: Tracks US multi-state cannabis operators — focused on plant-touching US businesses
+    - symbol: GLUX.DE
+      issuer: Amundi
+      description: Tracks the S&P Global Luxury Index — holds LVMH, L'Oréal, Hermès, Richemont and other global luxury leaders. EUR-denominated, Frankfurt-listed.
+
+  peers:
+    - symbol: BKNG
+      description: Booking Holdings — largest online travel agency, owns Booking.com, Priceline, Kayak
+    - symbol: EXPE
+      description: Expedia Group — online travel platform, owns Hotels.com, Vrbo, Trivago
 
 stocks:
   - symbol: GOOGL
+    benchmarks: [SPY, QQQ, XLC]
   - symbol: ABNB
+    benchmarks: [SPY, BKNG, EXPE]
   - symbol: JD
+    benchmarks: [MCHI, KWEB]
   - symbol: WDAY
+    benchmarks: [SPY, QQQ, IGV]
   - symbol: SNAP
-    tracked: true
     benchmarks: [SPY, QQQ, SOCL]
   - symbol: GTBIF
+    benchmarks: [SPY, MSOS]
   - symbol: ODD
-    tracked: true
     benchmarks: [SPY, XLY, ONLN, GLUX.DE]
   - symbol: BARK
-    tracked: true
     benchmarks: [SPY, XLY, ONLN, PAWZ]

@@ -225,11 +225,10 @@ def main() -> None:
     requested = {s.upper() for s in sys.argv[1:]}
 
     for stock in config.get("stocks", []):
-        if not stock.get("tracked"):
+        symbol = stock["symbol"]
+        if requested and symbol not in requested:
             continue
-        if requested and stock["symbol"] not in requested:
-            continue
-        analyze_stock(stock["symbol"], stock.get("benchmarks", []))
+        analyze_stock(symbol, stock.get("benchmarks", []))
 
 
 if __name__ == "__main__":

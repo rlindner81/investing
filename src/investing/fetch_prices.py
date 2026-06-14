@@ -37,9 +37,11 @@ TICKERS_FILE = REPO_ROOT / "TICKERS.yml"
 def load_tickers() -> list[str]:
     with TICKERS_FILE.open() as f:
         data = yaml.safe_load(f)
-    etfs = [e["symbol"] for e in data.get("etfs", [])]
+    b = data.get("benchmarks", {})
+    etfs  = [e["symbol"] for e in b.get("etfs",  [])]
+    peers = [p["symbol"] for p in b.get("peers", [])]
     stocks = [s["symbol"] for s in data.get("stocks", [])]
-    return etfs + stocks
+    return etfs + peers + stocks
 
 
 def load_last_date(path: Path, index_col: str) -> date | None:
