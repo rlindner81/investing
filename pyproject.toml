@@ -11,6 +11,7 @@ dependencies = [
 fetch-report = "investing.fetch_report:main"
 fetch-transcript = "investing.fetch_transcript:main"
 fetch-prices = "investing.fetch_prices:main"
+analyze-prices = "investing.analyze_prices:main"
 
 [build-system]
 requires = ["hatchling"]

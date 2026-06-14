@@ -111,6 +111,7 @@ def fetch_ticker(ticker: str, *, prices_dir: Path, interval: str, prepost: bool)
         print(f"  {ticker}: no data returned")
         return
 
+    df = df[~df.index.duplicated(keep="last")]
     df.to_csv(path, mode="a" if path.exists() else "w", header=not path.exists(), float_format="%.6g")
     print(f"  {ticker}: wrote {len(df)} rows → {path.relative_to(REPO_ROOT)}")
 
