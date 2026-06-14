@@ -82,6 +82,12 @@ def trend_label(a: float, b: float, c: float, tol: float = 0.005) -> str:
     return "↓"
 
 
+def fmt_tuple(a: float, b: float, c: float) -> str:
+    s1 = ">" if a >= b else "<"
+    s2 = ">" if b >= c else "<"
+    return f"{fmt_price(a)}{s1}{fmt_price(b)}{s2}{fmt_price(c)}"
+
+
 def sma_alignment(df: pd.DataFrame, as_of: pd.Timestamp) -> str:
     loc = df.index.get_loc(as_of)
     if loc < 49:
@@ -92,9 +98,8 @@ def sma_alignment(df: pd.DataFrame, as_of: pd.Timestamp) -> str:
     sma50 = close[loc - 49 : loc + 1].mean()
 
     t = trend_label(sma10, sma20, sma50)
-    values = f"{fmt_price(sma10)}/{fmt_price(sma20)}/{fmt_price(sma50)}"
     color = "green" if t == "↑" else ("red" if t == "↓" else "yellow")
-    return f"[{color}]{t} {values}[/{color}]"
+    return f"[{color}]{t} {fmt_tuple(sma10, sma20, sma50)}[/{color}]"
 
 
 def rvol(df: pd.DataFrame, start_ts: pd.Timestamp, end_ts: pd.Timestamp) -> str:
@@ -107,7 +112,10 @@ def rvol(df: pd.DataFrame, start_ts: pd.Timestamp, end_ts: pd.Timestamp) -> str:
     v20 = vol[loc - 19 : loc + 1].mean()
     v50 = vol[loc - 49 : loc + 1].mean()
 
-    ratios = f"{period_avg/v10:.1f}x/{period_avg/v20:.1f}x/{period_avg/v50:.1f}x"
+    r10, r20, r50 = period_avg/v10, period_avg/v20, period_avg/v50
+    s1 = ">" if r10 >= r20 else "<"
+    s2 = ">" if r20 >= r50 else "<"
+    ratios = f"{r10:.1f}x{s1}{r20:.1f}x{s2}{r50:.1f}x"
 
     t = trend_label(v10, v20, v50)
     color = "green" if t == "↑" else ("red" if t == "↓" else "yellow")
@@ -188,7 +196,7 @@ def analyze_stock(symbol: str, benchmarks: list[str]) -> None:
         header_style="bold",
         show_lines=False,
     )
-    table.add_column("", min_width=7)     # metric label
+    table.add_column("", min_width=8)     # metric label
     table.add_column("", min_width=9)     # ticker
     for *_, label in columns:
         table.add_column(label, justify="right", min_width=20)
@@ -207,14 +215,14 @@ def analyze_stock(symbol: str, benchmarks: list[str]) -> None:
     for i, ticker in enumerate(tickers):
         is_last = i == len(tickers) - 1
         style = "bold" if ticker == symbol else ""
-        label = "SMA" if i == 0 else ""
+        label = "SMA" if i == 0 else ("10/20/50" if i == 1 else "")
         table.add_row(label, ticker, *cells[ticker]["sma"], style=style, end_section=is_last)
 
     # vol — all tickers
     for i, ticker in enumerate(tickers):
         is_last = i == len(tickers) - 1
         style = "bold" if ticker == symbol else ""
-        label = "vol" if i == 0 else ""
+        label = "rvol" if i == 0 else ("10/20/50" if i == 1 else "")
         table.add_row(label, ticker, *cells[ticker]["vol"], style=style, end_section=is_last)
 
     console.print(table)
