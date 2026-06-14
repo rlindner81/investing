@@ -30,7 +30,7 @@ import yfinance as yf
 
 from investing.lib import REPO_ROOT
 
-START_DATE_DAILY  = date(2020, 1, 1)
+START_DATE_DAILY  = date(2000, 1, 1)
 START_DATE_HOURLY = date(2025, 1, 1)
 TICKERS_FILE = REPO_ROOT / "TICKERS.yml"
 

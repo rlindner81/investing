@@ -13,6 +13,7 @@ Usage:
   uv run analyze-prices ODD SNAP   # specific stocks
 """
 
+import re
 import sys
 import argparse
 from datetime import date
@@ -145,7 +146,54 @@ def fmt_pct(pct: float | None) -> str:
     return f"[green]+{pct:.1f}%[/green]" if pct >= 0 else f"[red]{pct:.1f}%[/red]"
 
 
-def analyze_stock(symbol: str, benchmarks: list[str], as_of: date | None = None) -> None:
+def _pct(s: str) -> float | None:
+    m = re.search(r'([+-]?\d+\.?\d*)%', s)
+    return float(m.group(1)) if m else None
+
+def _trend(s: str) -> str:
+    if "↑" in s: return "↑"
+    if "↓" in s: return "↓"
+    return "·"
+
+def print_heuristics(symbol: str, tags: list, cells: dict, tickers: list) -> None:
+    hints = []
+
+    stock_mtd  = _pct(cells[symbol]["return_"][0])
+    stock_sma  = _trend(cells[symbol]["sma"][0])
+    stock_rvol = _trend(cells[symbol]["vol"][0])
+
+    # Overextension vs SPY
+    if "SPY" in tickers and "SPY" in cells:
+        spy_mtd = _pct(cells["SPY"]["return_"][0])
+        if stock_mtd is not None and spy_mtd is not None:
+            diff = stock_mtd - spy_mtd
+            if diff > 10:
+                hints.append(
+                    f"MTD return is [bold]{diff:.1f}pp[/bold] ahead of SPY — "
+                    f"historically predicts near-term mean reversion."
+                )
+
+    # Small-cap: rvol ↑ into a decline → exhaustion signal
+    if "small_cap" in tags and stock_mtd is not None and stock_mtd < 0 and stock_rvol == "↑":
+        hints.append(
+            "Small-cap with falling price and [bold]↑ rvol[/bold] — "
+            "elevated volume into the selloff may signal selling exhaustion."
+        )
+
+    # SMA ↓ + quiet rvol → trend continuation, no bounce
+    if stock_sma == "↓" and stock_rvol == "·":
+        hints.append(
+            "[bold]↓ SMA[/bold] with neutral volume — no panic selling detected, "
+            "suggests downtrend continuation rather than reversal."
+        )
+
+    if hints:
+        console.print()
+        for h in hints:
+            console.print(f"  [dim]▸[/dim] {h}")
+
+
+def analyze_stock(symbol: str, benchmarks: list[str], as_of: date | None = None, tags: list | None = None) -> None:
     today = as_of or date.today()
     cur = date(today.year, today.month, 1)
     months = [cur - relativedelta(months=i) for i in range(4)]
@@ -235,6 +283,7 @@ def analyze_stock(symbol: str, benchmarks: list[str], as_of: date | None = None)
         table.add_row(label, ticker, *cells[ticker]["vol"], style=style, end_section=is_last)
 
     console.print(table)
+    print_heuristics(symbol, tags or [], cells, tickers)
     console.print()
 
 
@@ -252,7 +301,7 @@ def main() -> None:
         symbol = stock["symbol"]
         if requested and symbol not in requested:
             continue
-        analyze_stock(symbol, stock.get("benchmarks", []), as_of=as_of)
+        analyze_stock(symbol, stock.get("benchmarks", []), as_of=as_of, tags=stock.get("tags", []))
 
 
 if __name__ == "__main__":
