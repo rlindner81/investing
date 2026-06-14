@@ -59,10 +59,10 @@ def nearest_on_or_before(df: pd.DataFrame, target: date) -> pd.Timestamp | None:
 
 def fmt_price(v: float) -> str:
     if v >= 100:
-        return f"{v:.0f}"
+        return f"{v:4.0f}"
     if v >= 10:
-        return f"{v:.1f}"
-    return f"{v:.2f}"
+        return f"{v:4.1f}"
+    return f"{v:4.2f}"
 
 
 def trend_label(a: float, b: float, c: float, tol: float = 0.005) -> str:
@@ -125,7 +125,7 @@ def rvol(df: pd.DataFrame, start_ts: pd.Timestamp, end_ts: pd.Timestamp) -> str:
     r10, r20, r50 = period_avg/v10, period_avg/v20, period_avg/v50
     s1 = ">" if r10 >= r20 else "<"
     s2 = ">" if r20 >= r50 else "<"
-    ratios = f"{r10*100:.0f}%{s1}{r20*100:.0f}%{s2}{r50*100:.0f}%"
+    ratios = f"{r10*100:3.0f}%{s1}{r20*100:3.0f}%{s2}{r50*100:3.0f}%"
 
     prefix, color = pair_arrows(v10, v20, v50)
     return f"[{color}]{prefix} {ratios}[/{color}]"
