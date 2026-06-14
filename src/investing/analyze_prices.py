@@ -115,7 +115,7 @@ def rvol(df: pd.DataFrame, start_ts: pd.Timestamp, end_ts: pd.Timestamp) -> str:
     r10, r20, r50 = period_avg/v10, period_avg/v20, period_avg/v50
     s1 = ">" if r10 >= r20 else "<"
     s2 = ">" if r20 >= r50 else "<"
-    ratios = f"{r10:.1f}x{s1}{r20:.1f}x{s2}{r50:.1f}x"
+    ratios = f"{r10*100:.0f}%{s1}{r20*100:.0f}%{s2}{r50*100:.0f}%"
 
     t = trend_label(v10, v20, v50)
     color = "green" if t == "↑" else ("red" if t == "↓" else "yellow")
