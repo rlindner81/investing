@@ -2,10 +2,15 @@
 name = "investing"
 version = "0.1.0"
 requires-python = ">=3.12"
+dependencies = [
+    "pyyaml>=6",
+    "yfinance>=0.2",
+]
 
 [project.scripts]
 fetch-report = "investing.fetch_report:main"
 fetch-transcript = "investing.fetch_transcript:main"
+fetch-prices = "investing.fetch_prices:main"
 
 [build-system]
 requires = ["hatchling"]
