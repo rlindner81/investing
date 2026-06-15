@@ -43,6 +43,27 @@ carrying a bearish SMA (↓). Both heuristics fired simultaneously. Fell -17.4%.
 uv run analyze-prices --as-of 2021-04-12 SNAP
 ```
 
+February 2021. GTBIF was up +20.9% MTD, outperforming SPY by +16.5pp. Reversed
+-3.4% the following month.
+
+```
+uv run analyze-prices --as-of 2021-02-15 GTBIF
+```
+
+July 2023. SNAP was up +12.1% MTD, outperforming SPY by +10.5pp. Fell -32.9% the
+following month (Q2 earnings disaster).
+
+```
+uv run analyze-prices --as-of 2023-07-17 SNAP
+```
+
+January 2023. BARK was up +24.0% MTD, outperforming SPY by +19.6pp. Reversed
+-18.8% the following month.
+
+```
+uv run analyze-prices --as-of 2023-01-17 BARK
+```
+
 **Counterexamples:**
 
 August 2016. JD was up +15.9% MTD, outperforming SPY by +14.9pp. Continued +3.2%
@@ -58,6 +79,20 @@ Continued +13.2%.
 
 ```
 uv run analyze-prices --as-of 2020-09-14 SNAP
+```
+
+June 2019. SNAP was up +15.9% MTD, outperforming SPY by +10.5pp, with SMA ↑ and
+rvol ↑. Continued +10.2% the following month — strong momentum carried through.
+
+```
+uv run analyze-prices --as-of 2019-06-17 SNAP
+```
+
+February 2024. BARK was up +19.6% MTD, outperforming SPY by +17.2pp. Continued
++12.9% the following month — underlying business momentum was too strong.
+
+```
+uv run analyze-prices --as-of 2024-02-12 BARK
 ```
 
 ---
@@ -89,16 +124,39 @@ uv run analyze-prices --as-of 2021-07-26 JD
 uv run analyze-prices --as-of 2023-02-13 JD
 ```
 
+**Counterexamples:**
+
+December 2022. GTBIF was down -29.1% MTD with rvol ↑ — exhaustion heuristic fired.
+Continued falling -19.9% the following month. Cannabis sector headwinds overrode the
+volume signal.
+
+```
+uv run analyze-prices --as-of 2022-12-12 GTBIF
+```
+
+February 2024. GTBIF was down -6.9% MTD with rvol ↑. Continued falling -13.5%.
+Two consecutive counterexamples on the same stock suggest cannabis OTC names may
+behave differently from the small-cap pattern — liquidity is too thin for volume to
+be a reliable exhaustion signal.
+
+```
+uv run analyze-prices --as-of 2024-02-12 GTBIF
+```
+
 ---
 
 ## Quiet Downtrend Continuation
+
+> ⚠️ **Under review.** Anchor and counterexample counts are now equal (5:5).
+> This heuristic may need to be narrowed or retired.
 
 **Condition:** Stock SMA is descending (↓) and rvol is neutral (no arrow).
 
 A bearish SMA stack alongside unremarkable volume means the stock is declining
 without panic — no capitulation, no elevated selling pressure, just steady
-deterioration. This combination predicts trend continuation rather than reversal,
-because there is no volume-driven exhaustion event to reverse off of.
+deterioration. This combination was expected to predict trend continuation rather
+than reversal. However accumulating counterexamples suggest the signal is weaker
+than initially believed, particularly for macro-driven stocks and broad recoveries.
 
 **Anchor examples:**
 
@@ -110,21 +168,46 @@ uv run analyze-prices --as-of 2023-02-13 JD
 ```
 
 April 2021. Both JD (-6.7% MTD, SMA ↓, rvol neutral → -9.4%) and SNAP (+14.6% MTD
-but SMA ↓, rvol neutral → -17.4%) confirmed the pattern on the same date. SNAP is
-particularly notable: despite outperforming SPY by 11.8pp that month, the bearish SMA
-with quiet volume correctly predicted the reversal.
+but SMA ↓, rvol neutral → -17.4%) confirmed the pattern on the same date.
 
 ```
 uv run analyze-prices --as-of 2021-04-12 JD SNAP
 ```
 
+October 2021. SNAP (MTD -2.3%, SMA ↓, rvol neutral → -27.5%) and GTBIF (MTD -8.1%,
+SMA ↓, rvol neutral → -0.2%) both confirmed.
+
+```
+uv run analyze-prices --as-of 2021-10-11 SNAP GTBIF
+```
+
 **Counterexamples:**
 
-May 2022. JD showed SMA ↓ with neutral rvol after an -18.7% MTD decline — the
-heuristic fired, predicting continuation. Instead, JD bounced +23.4% the following
-month as China began easing Shanghai lockdown restrictions. A macro catalyst overrode
-the technical setup entirely.
+May 2022. JD showed SMA ↓ with neutral rvol — heuristic fired. Bounced +23.4% as
+China eased Shanghai lockdowns. Macro catalyst overrode entirely.
 
 ```
 uv run analyze-prices --as-of 2022-05-16 JD
+```
+
+June 2019. GOOGL had SMA ↓ with neutral rvol, MTD -0.2%. Bounced +4.8% the
+following month as the Fed pivoted dovish.
+
+```
+uv run analyze-prices --as-of 2019-06-17 GOOGL
+```
+
+July 2022. GTBIF had SMA ↓ with neutral rvol, MTD +12.3%. Rose +20.9% the
+following month — bear market bounce overrode the bearish stack.
+
+```
+uv run analyze-prices --as-of 2022-07-11 GTBIF
+```
+
+January 2023. Both GOOGL (SMA ↓, rvol neutral → +3.4%) and GTBIF (SMA ↓, rvol
+neutral → +6.5%) bounced despite the bearish signal — broad market recovery in
+January 2023 lifted everything.
+
+```
+uv run analyze-prices --as-of 2023-01-17 GOOGL GTBIF
 ```

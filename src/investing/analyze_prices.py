@@ -2,21 +2,20 @@
 """
 analyze_prices.py — Compare tracked stocks against their benchmarks.
 
-Columns: current month (MTD) plus three prior full calendar months.
-Each ticker gets its own row group:
-  - price  (stock only)
-  - return over the period
-  - SMA alignment: sign prefix + period order high→low (e.g. ↑ 10/20/50)
+By default, shows both weekly (WTD + 3 prior weeks, SMAs 5/10/20) and monthly
+(MTD + 3 prior months, SMAs 20/50/200) views, weekly first.
 
 Usage:
-  uv run analyze-prices            # all tracked stocks
+  uv run analyze-prices            # all tracked stocks, both views
+  uv run analyze-prices --weeks    # weekly view only
+  uv run analyze-prices --months   # monthly view only
   uv run analyze-prices ODD SNAP   # specific stocks
 """
 
 import re
 import sys
 import argparse
-from datetime import date
+from datetime import date, timedelta
 
 import pandas as pd
 import yaml
@@ -28,6 +27,9 @@ from investing.lib import REPO_ROOT
 
 PRICES_DAILY = REPO_ROOT / "prices" / "daily"
 TICKERS_FILE = REPO_ROOT / "TICKERS.yml"
+
+SMA_WEEKS  = (5, 10, 20)
+SMA_MONTHS = (20, 50, 200)
 
 console = Console()
 
@@ -48,6 +50,13 @@ def load_prices(ticker: str) -> pd.DataFrame | None:
 
 def month_bounds(df: pd.DataFrame, year: int, month: int) -> tuple:
     days = df.index[(df.index.year == year) & (df.index.month == month)]
+    return (days[0], days[-1]) if len(days) else (None, None)
+
+
+def week_bounds(df: pd.DataFrame, monday: date) -> tuple:
+    friday = monday + timedelta(days=4)
+    m_ts, f_ts = pd.Timestamp(monday), pd.Timestamp(friday)
+    days = df.index[(df.index >= m_ts) & (df.index <= f_ts)]
     return (days[0], days[-1]) if len(days) else (None, None)
 
 
@@ -98,46 +107,48 @@ def fmt_tuple(a: float, b: float, c: float) -> str:
     return f"{fmt_price(a)}{s1}{fmt_price(b)}{s2}{fmt_price(c)}"
 
 
-def sma_alignment(df: pd.DataFrame, as_of: pd.Timestamp) -> str:
+def sma_alignment(df: pd.DataFrame, as_of: pd.Timestamp, periods: tuple = SMA_MONTHS) -> str:
+    p1, p2, p3 = periods
     loc = df.index.get_loc(as_of)
-    if loc < 49:
+    if loc < p3 - 1:
         return "n/a"
     close = df["Close"].iloc
-    sma10 = close[loc - 9  : loc + 1].mean()
-    sma20 = close[loc - 19 : loc + 1].mean()
-    sma50 = close[loc - 49 : loc + 1].mean()
+    sma1 = close[loc - p1 + 1 : loc + 1].mean()
+    sma2 = close[loc - p2 + 1 : loc + 1].mean()
+    sma3 = close[loc - p3 + 1 : loc + 1].mean()
 
-    prefix, color = pair_arrows(sma10, sma20, sma50)
-    vals = fmt_tuple(sma10, sma20, sma50)
+    prefix, color = pair_arrows(sma1, sma2, sma3)
+    vals = fmt_tuple(sma1, sma2, sma3)
     return f"[{color}]{prefix} {vals}[/{color}]"
 
 
-def rvol(df: pd.DataFrame, start_ts: pd.Timestamp, end_ts: pd.Timestamp) -> str:
+def rvol(df: pd.DataFrame, start_ts: pd.Timestamp, end_ts: pd.Timestamp, periods: tuple = SMA_MONTHS) -> str:
+    p1, p2, p3 = periods
     loc = df.index.get_loc(end_ts)
-    if loc < 49:
+    if loc < p3 - 1:
         return "n/a"
     vol = df["Volume"].iloc
     period_avg = vol[df.index.get_loc(start_ts) : loc + 1].mean()
-    v10 = vol[loc - 9  : loc + 1].mean()
-    v20 = vol[loc - 19 : loc + 1].mean()
-    v50 = vol[loc - 49 : loc + 1].mean()
+    v1 = vol[loc - p1 + 1 : loc + 1].mean()
+    v2 = vol[loc - p2 + 1 : loc + 1].mean()
+    v3 = vol[loc - p3 + 1 : loc + 1].mean()
 
-    r10, r20, r50 = period_avg/v10, period_avg/v20, period_avg/v50
-    s1 = ">" if r10 >= r20 else "<"
-    s2 = ">" if r20 >= r50 else "<"
-    ratios = f"{r10*100:3.0f}%{s1}{r20*100:3.0f}%{s2}{r50*100:3.0f}%"
+    r1, r2, r3 = period_avg/v1, period_avg/v2, period_avg/v3
+    s1 = ">" if r1 >= r2 else "<"
+    s2 = ">" if r2 >= r3 else "<"
+    ratios = f"{r1*100:3.0f}%{s1}{r2*100:3.0f}%{s2}{r3*100:3.0f}%"
 
-    prefix, color = pair_arrows(v10, v20, v50)
+    prefix, color = pair_arrows(v1, v2, v3)
     return f"[{color}]{prefix} {ratios}[/{color}]"
 
 
-def period_snapshot(df: pd.DataFrame, start_ts: pd.Timestamp, end_ts: pd.Timestamp) -> tuple:
+def period_snapshot(df: pd.DataFrame, start_ts: pd.Timestamp, end_ts: pd.Timestamp, periods: tuple = SMA_MONTHS) -> tuple:
     if start_ts is None or end_ts is None or start_ts >= end_ts:
         return None, None, None, None
     start_price = float(df["Close"].iloc[df.index.get_loc(start_ts)])
     end_price   = float(df["Close"].iloc[df.index.get_loc(end_ts)])
     pct = (end_price / start_price - 1) * 100
-    return end_price, pct, sma_alignment(df, end_ts), rvol(df, start_ts, end_ts)
+    return end_price, pct, sma_alignment(df, end_ts, periods), rvol(df, start_ts, end_ts, periods)
 
 
 def fmt_pct(pct: float | None) -> str:
@@ -193,10 +204,10 @@ def print_heuristics(symbol: str, tags: list, cells: dict, tickers: list) -> Non
             console.print(f"  [dim]▸[/dim] {h}")
 
 
-def analyze_stock(symbol: str, benchmarks: list[str], as_of: date | None = None, tags: list | None = None) -> None:
+def analyze_stock(symbol: str, benchmarks: list[str], as_of: date | None = None, tags: list | None = None, mode: str = "weeks") -> None:
     today = as_of or date.today()
-    cur = date(today.year, today.month, 1)
-    months = [cur - relativedelta(months=i) for i in range(4)]
+    periods = SMA_WEEKS if mode == "weeks" else SMA_MONTHS
+    sma_label = "/".join(str(p) for p in periods)
 
     tickers = [symbol] + benchmarks
     data = {t: load_prices(t) for t in tickers}
@@ -207,38 +218,64 @@ def analyze_stock(symbol: str, benchmarks: list[str], as_of: date | None = None,
 
     # Build column definitions using the stock's own calendar as reference
     columns = []
-    for i, m in enumerate(months):
-        year, month = m.year, m.month
-        ref_start, ref_end = month_bounds(ref_df, year, month)
-        if i == 0:
-            ref_end = nearest_on_or_before(ref_df, today)
-            label = (f"{m.strftime('%b')} MTD\n"
-                     f"{ref_start.strftime('%b %-d') if ref_start else '?'}"
-                     f" → {ref_end.strftime('%b %-d') if ref_end else '?'}")
-        else:
-            label = (f"{m.strftime('%b %Y')}\n"
-                     f"{ref_start.strftime('%b %-d') if ref_start else '?'}"
-                     f" → {ref_end.strftime('%b %-d') if ref_end else '?'}")
-        columns.append((year, month, i == 0, label))
+    if mode == "weeks":
+        this_monday = today - timedelta(days=today.weekday())
+        week_mondays = [this_monday - timedelta(weeks=i) for i in range(4)]
+        for i, monday in enumerate(week_mondays):
+            is_current = i == 0
+            ref_start, ref_end = week_bounds(ref_df, monday)
+            if is_current:
+                ref_end = nearest_on_or_before(ref_df, today)
+            friday = monday + timedelta(days=4)
+            period_str = "WTD" if is_current else f"{monday.strftime('%b %-d')}–{friday.strftime('%-d')}"
+            trading_str = (
+                f"{ref_start.strftime('%b %-d') if ref_start else '?'}"
+                f" → {ref_end.strftime('%b %-d') if ref_end else '?'}"
+            )
+            label = f"{period_str}\n{trading_str}"
+            columns.append({"type": "week", "monday": monday, "is_current": is_current, "label": label})
+    else:
+        cur = date(today.year, today.month, 1)
+        months_list = [cur - relativedelta(months=i) for i in range(4)]
+        for i, m in enumerate(months_list):
+            year, month = m.year, m.month
+            ref_start, ref_end = month_bounds(ref_df, year, month)
+            is_current = i == 0
+            if is_current:
+                ref_end = nearest_on_or_before(ref_df, today)
+                period_str = f"{m.strftime('%b')} MTD"
+            else:
+                period_str = f"{m.strftime('%b %Y')}"
+            trading_str = (
+                f"{ref_start.strftime('%b %-d') if ref_start else '?'}"
+                f" → {ref_end.strftime('%b %-d') if ref_end else '?'}"
+            )
+            label = f"{period_str}\n{trading_str}"
+            columns.append({"type": "month", "year": year, "month": month, "is_current": is_current, "label": label})
 
     # Pre-compute all cells per ticker
     cells = {}
     for ticker in tickers:
-        is_stock = ticker == symbol
         df = data[ticker]
         price_cells, return_cells, sma_cells, vol_cells = [], [], [], []
 
-        for year, month, is_current, _ in columns:
+        for col in columns:
             if df is None:
                 price_cells.append("—")
                 return_cells.append("—")
                 sma_cells.append("—")
                 vol_cells.append("—")
                 continue
-            t_start, t_end = month_bounds(df, year, month)
-            if is_current:
+
+            if col["type"] == "week":
+                t_start, t_end = week_bounds(df, col["monday"])
+            else:
+                t_start, t_end = month_bounds(df, col["year"], col["month"])
+
+            if col["is_current"]:
                 t_end = nearest_on_or_before(df, today)
-            price, pct, sma, vol = period_snapshot(df, t_start, t_end)
+
+            price, pct, sma, vol = period_snapshot(df, t_start, t_end, periods)
             price_cells.append(f"{price:.2f}" if price is not None else "—")
             return_cells.append(fmt_pct(pct))
             sma_cells.append(sma or "—")
@@ -256,8 +293,8 @@ def analyze_stock(symbol: str, benchmarks: list[str], as_of: date | None = None,
     )
     table.add_column("", min_width=8)     # metric label
     table.add_column("", min_width=9)     # ticker
-    for *_, label in columns:
-        table.add_column(label, justify="right", min_width=20)
+    for col in columns:
+        table.add_column(col["label"], justify="right", min_width=20)
 
     # price — stock only
     table.add_row("price", symbol, *cells[symbol]["price"], style="bold", end_section=True)
@@ -273,14 +310,14 @@ def analyze_stock(symbol: str, benchmarks: list[str], as_of: date | None = None,
     for i, ticker in enumerate(tickers):
         is_last = i == len(tickers) - 1
         style = "bold" if ticker == symbol else ""
-        label = "SMA" if i == 0 else ("10/20/50" if i == 1 else "")
+        label = "SMA" if i == 0 else (sma_label if i == 1 else "")
         table.add_row(label, ticker, *cells[ticker]["sma"], style=style, end_section=is_last)
 
     # vol — all tickers
     for i, ticker in enumerate(tickers):
         is_last = i == len(tickers) - 1
         style = "bold" if ticker == symbol else ""
-        label = "rvol" if i == 0 else ("10/20/50" if i == 1 else "")
+        label = "rvol" if i == 0 else (sma_label if i == 1 else "")
         table.add_row(label, ticker, *cells[ticker]["vol"], style=style, end_section=is_last)
 
     console.print(table)
@@ -292,9 +329,18 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Analyse prices vs benchmarks.")
     parser.add_argument("tickers", nargs="*", help="Stocks to analyse (default: all)")
     parser.add_argument("--as-of", metavar="DATE", help="Simulate analysis as of this date (YYYY-MM-DD)")
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument("--weeks", action="store_true", help="Weekly view only")
+    group.add_argument("--months", action="store_true", help="Monthly view only")
     args = parser.parse_args()
 
     as_of = date.fromisoformat(args.as_of) if args.as_of else None
+    if args.weeks:
+        modes = ["weeks"]
+    elif args.months:
+        modes = ["months"]
+    else:
+        modes = ["weeks", "months"]
     requested = {t.upper() for t in args.tickers}
 
     config = load_config()
@@ -302,7 +348,8 @@ def main() -> None:
         symbol = stock["symbol"]
         if requested and symbol not in requested:
             continue
-        analyze_stock(symbol, stock.get("benchmarks", []), as_of=as_of, tags=stock.get("tags", []))
+        for mode in modes:
+            analyze_stock(symbol, stock.get("benchmarks", []), as_of=as_of, tags=stock.get("tags", []), mode=mode)
 
 
 if __name__ == "__main__":
