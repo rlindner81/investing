@@ -84,6 +84,31 @@ def download(ticker: str, start: date, *, interval: str, prepost: bool) -> pd.Da
     return df
 
 
+def fetch_iv(ticker: str, price: float) -> float | None:
+    """Return the ATM annualized IV for ticker from the nearest options expiry."""
+    try:
+        t = yf.Ticker(ticker)
+        exps = t.options
+        if not exps:
+            return None
+        today_d = date.today()
+        exp_dates = [date.fromisoformat(e) for e in exps]
+        future = [e for e in exp_dates if (e - today_d).days >= 3]
+        if not future:
+            return None
+        exp = min(future, key=lambda e: abs((e - today_d).days - 7))
+        chain = t.option_chain(exp.isoformat())
+        calls, puts = chain.calls, chain.puts
+        atm = calls.loc[(calls["strike"] - price).abs().idxmin(), "strike"]
+        c_iv = calls.loc[calls["strike"] == atm, "impliedVolatility"].values
+        p_iv = puts.loc[puts["strike"] == atm, "impliedVolatility"].values
+        if len(c_iv) and len(p_iv):
+            return (c_iv[0] + p_iv[0]) / 2
+    except Exception:
+        pass
+    return None
+
+
 def fetch_ticker(ticker: str, *, prices_dir: Path, interval: str, prepost: bool) -> None:
     path = prices_dir / f"{ticker}.csv"
     index_col = "Datetime" if prepost else "Date"

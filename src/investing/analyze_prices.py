@@ -20,13 +20,12 @@ from datetime import date, timedelta
 
 import pandas as pd
 import yaml
-import yfinance as yf
 from dateutil.relativedelta import relativedelta
 from rich.console import Console
 from rich.table import Table
 
 from investing.lib import REPO_ROOT
-from investing.fetch_prices import fetch_ticker
+from investing.fetch_prices import fetch_ticker, fetch_iv
 
 PRICES_DAILY = REPO_ROOT / "prices" / "daily"
 TICKERS_FILE = REPO_ROOT / "TICKERS.yml"
@@ -213,35 +212,16 @@ def print_heuristics(symbol: str, tags: list, cells: dict, tickers: list) -> Non
 
 
 def implied_move(ticker: str, price: float, mode: str) -> str:
-    try:
-        t = yf.Ticker(ticker)
-        exps = t.options
-        if not exps:
-            return "n/a"
-        today_d = date.today()
-        target_days = 7 if mode == "weeks" else 30
-        exp_dates = [date.fromisoformat(e) for e in exps]
-        future = [e for e in exp_dates if (e - today_d).days >= 3]
-        if not future:
-            return "n/a"
-        exp = min(future, key=lambda e: abs((e - today_d).days - target_days))
-        chain = t.option_chain(exp.isoformat())
-        calls, puts = chain.calls, chain.puts
-        atm = calls.loc[(calls["strike"] - price).abs().idxmin(), "strike"]
-        c_iv = calls.loc[calls["strike"] == atm, "impliedVolatility"].values
-        p_iv = puts.loc[puts["strike"] == atm, "impliedVolatility"].values
-        if not len(c_iv) or not len(p_iv):
-            return "n/a"
-        iv = (c_iv[0] + p_iv[0]) / 2
-        periods_per_year = 52 if mode == "weeks" else 12
-        move = iv * math.sqrt(1 / periods_per_year) * 100
-        suffix = "wk" if mode == "weeks" else "mo"
-        return f"±{move:.1f}%/{suffix}"
-    except Exception:
+    iv = fetch_iv(ticker, price)
+    if iv is None:
         return "n/a"
+    periods_per_year = 52 if mode == "weeks" else 12
+    move = iv * math.sqrt(1 / periods_per_year) * 100
+    suffix = "wk" if mode == "weeks" else "mo"
+    return f"±{move:.1f}%/{suffix}"
 
 
-def analyze_stock(symbol: str, benchmarks: list[str], as_of: date | None = None, tags: list | None = None, mode: str = "weeks", auto_fetch: bool = False) -> None:
+def analyze_stock(symbol: str, benchmarks: list[str], as_of: date | None = None, tags: list | None = None, mode: str = "weeks", auto_fetch: bool = False, show_iv: bool = False) -> None:
     today = as_of or date.today()
     periods = SMA_WEEKS if mode == "weeks" else SMA_MONTHS
     sma_label = "/".join(str(p) for p in periods)
@@ -320,14 +300,11 @@ def analyze_stock(symbol: str, benchmarks: list[str], as_of: date | None = None,
 
         cells[ticker] = dict(price=price_cells, return_=return_cells, sma=sma_cells, vol=vol_cells)
 
-    # IV — current period only; skip for historical simulations
-    for ticker in tickers:
-        df = data[ticker]
-        if df is not None and not as_of:
-            iv_str = implied_move(ticker, float(df["Close"].iloc[-1]), mode)
-        else:
-            iv_str = "—"
-        cells[ticker]["iv"] = [iv_str] + ["—"] * (len(columns) - 1)
+    if show_iv and not as_of:
+        for ticker in tickers:
+            df = data[ticker]
+            iv_str = implied_move(ticker, float(df["Close"].iloc[-1]), mode) if df is not None else "n/a"
+            cells[ticker]["iv"] = [iv_str] + ["—"] * (len(columns) - 1)
 
     as_of_note = f" [dim](as of {today})[/dim]" if as_of else ""
     tags_note = f"\n[dim]{' · '.join(tags)}[/dim]" if tags else ""
@@ -367,12 +344,12 @@ def analyze_stock(symbol: str, benchmarks: list[str], as_of: date | None = None,
         label = "rvol" if i == 0 else (sma_label if i == 1 else "")
         table.add_row(label, ticker, *cells[ticker]["vol"], style=style, end_section=is_last)
 
-    # IV / expected move — all tickers
-    for i, ticker in enumerate(tickers):
-        is_last = i == len(tickers) - 1
-        style = "bold" if ticker == symbol else ""
-        label = "IV" if i == 0 else ""
-        table.add_row(label, ticker, *cells[ticker]["iv"], style=style, end_section=is_last)
+    if show_iv and not as_of:
+        for i, ticker in enumerate(tickers):
+            is_last = i == len(tickers) - 1
+            style = "bold" if ticker == symbol else ""
+            label = "IV" if i == 0 else ""
+            table.add_row(label, ticker, *cells[ticker]["iv"], style=style, end_section=is_last)
 
     console.print(table)
     print_heuristics(symbol, tags or [], cells, tickers)
@@ -386,6 +363,7 @@ def main() -> None:
     group = parser.add_mutually_exclusive_group()
     group.add_argument("--weeks", action="store_true", help="Weekly view only")
     group.add_argument("--months", action="store_true", help="Monthly view only")
+    parser.add_argument("--iv", action="store_true", help="Fetch and show implied volatility / expected move")
     args = parser.parse_args()
 
     as_of = date.fromisoformat(args.as_of) if args.as_of else None
@@ -405,11 +383,11 @@ def main() -> None:
         if requested and symbol not in requested:
             continue
         for mode in modes:
-            analyze_stock(symbol, stock.get("benchmarks", []), as_of=as_of, tags=stock.get("tags", []), mode=mode, auto_fetch=bool(requested))
+            analyze_stock(symbol, stock.get("benchmarks", []), as_of=as_of, tags=stock.get("tags", []), mode=mode, auto_fetch=bool(requested), show_iv=args.iv)
 
     for symbol in requested - known:
         for mode in modes:
-            analyze_stock(symbol, [], as_of=as_of, mode=mode, auto_fetch=True)
+            analyze_stock(symbol, [], as_of=as_of, mode=mode, auto_fetch=True, show_iv=args.iv)
 
 
 if __name__ == "__main__":
