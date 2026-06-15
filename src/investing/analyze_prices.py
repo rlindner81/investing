@@ -14,16 +14,19 @@ Usage:
 
 import re
 import sys
+import math
 import argparse
 from datetime import date, timedelta
 
 import pandas as pd
 import yaml
+import yfinance as yf
 from dateutil.relativedelta import relativedelta
 from rich.console import Console
 from rich.table import Table
 
 from investing.lib import REPO_ROOT
+from investing.fetch_prices import fetch_ticker
 
 PRICES_DAILY = REPO_ROOT / "prices" / "daily"
 TICKERS_FILE = REPO_ROOT / "TICKERS.yml"
@@ -39,11 +42,16 @@ def load_config() -> dict:
         return yaml.safe_load(f)
 
 
-def load_prices(ticker: str) -> pd.DataFrame | None:
+def load_prices(ticker: str, auto_fetch: bool = False) -> pd.DataFrame | None:
     path = PRICES_DAILY / f"{ticker}.csv"
     if not path.exists():
-        console.print(f"  [yellow]warning:[/yellow] no price file for {ticker}")
-        return None
+        if auto_fetch:
+            console.print(f"  [dim]fetching {ticker}...[/dim]")
+            PRICES_DAILY.mkdir(parents=True, exist_ok=True)
+            fetch_ticker(ticker, prices_dir=PRICES_DAILY, interval="1d", prepost=False)
+        if not path.exists():
+            console.print(f"  [yellow]warning:[/yellow] no price file for {ticker}")
+            return None
     df = pd.read_csv(path, index_col="Date", parse_dates=True)
     return df[~df.index.duplicated(keep="last")]
 
@@ -204,13 +212,42 @@ def print_heuristics(symbol: str, tags: list, cells: dict, tickers: list) -> Non
             console.print(f"  [dim]▸[/dim] {h}")
 
 
-def analyze_stock(symbol: str, benchmarks: list[str], as_of: date | None = None, tags: list | None = None, mode: str = "weeks") -> None:
+def implied_move(ticker: str, price: float, mode: str) -> str:
+    try:
+        t = yf.Ticker(ticker)
+        exps = t.options
+        if not exps:
+            return "n/a"
+        today_d = date.today()
+        target_days = 7 if mode == "weeks" else 30
+        exp_dates = [date.fromisoformat(e) for e in exps]
+        future = [e for e in exp_dates if (e - today_d).days >= 3]
+        if not future:
+            return "n/a"
+        exp = min(future, key=lambda e: abs((e - today_d).days - target_days))
+        chain = t.option_chain(exp.isoformat())
+        calls, puts = chain.calls, chain.puts
+        atm = calls.loc[(calls["strike"] - price).abs().idxmin(), "strike"]
+        c_iv = calls.loc[calls["strike"] == atm, "impliedVolatility"].values
+        p_iv = puts.loc[puts["strike"] == atm, "impliedVolatility"].values
+        if not len(c_iv) or not len(p_iv):
+            return "n/a"
+        iv = (c_iv[0] + p_iv[0]) / 2
+        periods_per_year = 52 if mode == "weeks" else 12
+        move = iv * math.sqrt(1 / periods_per_year) * 100
+        suffix = "wk" if mode == "weeks" else "mo"
+        return f"±{move:.1f}%/{suffix}"
+    except Exception:
+        return "n/a"
+
+
+def analyze_stock(symbol: str, benchmarks: list[str], as_of: date | None = None, tags: list | None = None, mode: str = "weeks", auto_fetch: bool = False) -> None:
     today = as_of or date.today()
     periods = SMA_WEEKS if mode == "weeks" else SMA_MONTHS
     sma_label = "/".join(str(p) for p in periods)
 
     tickers = [symbol] + benchmarks
-    data = {t: load_prices(t) for t in tickers}
+    data = {t: load_prices(t, auto_fetch=auto_fetch) for t in tickers}
 
     ref_df = data[symbol]
     if ref_df is None:
@@ -283,10 +320,20 @@ def analyze_stock(symbol: str, benchmarks: list[str], as_of: date | None = None,
 
         cells[ticker] = dict(price=price_cells, return_=return_cells, sma=sma_cells, vol=vol_cells)
 
+    # IV — current period only; skip for historical simulations
+    for ticker in tickers:
+        df = data[ticker]
+        if df is not None and not as_of:
+            iv_str = implied_move(ticker, float(df["Close"].iloc[-1]), mode)
+        else:
+            iv_str = "—"
+        cells[ticker]["iv"] = [iv_str] + ["—"] * (len(columns) - 1)
+
     as_of_note = f" [dim](as of {today})[/dim]" if as_of else ""
     tags_note = f"\n[dim]{' · '.join(tags)}[/dim]" if tags else ""
+    mode_label = "[dim]weekly[/dim]" if mode == "weeks" else "[dim]monthly[/dim]"
     table = Table(
-        title=f"[bold cyan]{symbol}[/bold cyan] vs benchmarks{as_of_note}{tags_note}",
+        title=f"[bold cyan]{symbol}[/bold cyan] vs benchmarks  {mode_label}{as_of_note}{tags_note}",
         show_header=True,
         header_style="bold",
         show_lines=False,
@@ -320,6 +367,13 @@ def analyze_stock(symbol: str, benchmarks: list[str], as_of: date | None = None,
         label = "rvol" if i == 0 else (sma_label if i == 1 else "")
         table.add_row(label, ticker, *cells[ticker]["vol"], style=style, end_section=is_last)
 
+    # IV / expected move — all tickers
+    for i, ticker in enumerate(tickers):
+        is_last = i == len(tickers) - 1
+        style = "bold" if ticker == symbol else ""
+        label = "IV" if i == 0 else ""
+        table.add_row(label, ticker, *cells[ticker]["iv"], style=style, end_section=is_last)
+
     console.print(table)
     print_heuristics(symbol, tags or [], cells, tickers)
     console.print()
@@ -344,12 +398,18 @@ def main() -> None:
     requested = {t.upper() for t in args.tickers}
 
     config = load_config()
+    known = set()
     for stock in config.get("stocks", []):
         symbol = stock["symbol"]
+        known.add(symbol)
         if requested and symbol not in requested:
             continue
         for mode in modes:
-            analyze_stock(symbol, stock.get("benchmarks", []), as_of=as_of, tags=stock.get("tags", []), mode=mode)
+            analyze_stock(symbol, stock.get("benchmarks", []), as_of=as_of, tags=stock.get("tags", []), mode=mode, auto_fetch=bool(requested))
+
+    for symbol in requested - known:
+        for mode in modes:
+            analyze_stock(symbol, [], as_of=as_of, mode=mode, auto_fetch=True)
 
 
 if __name__ == "__main__":
