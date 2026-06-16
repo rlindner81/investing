@@ -310,7 +310,7 @@ def analyze_stock(symbol: str, benchmarks: list[str], as_of: date | None = None,
     tags_note = f"\n[dim]{' · '.join(tags)}[/dim]" if tags else ""
     mode_label = "[dim]weekly[/dim]" if mode == "weeks" else "[dim]monthly[/dim]"
     table = Table(
-        title=f"[bold cyan]{symbol}[/bold cyan] vs benchmarks  {mode_label}{as_of_note}{tags_note}",
+        title=f"[bold cyan]{symbol}[/bold cyan]{' vs benchmarks' if benchmarks else ''}  {mode_label}{as_of_note}{tags_note}",
         show_header=True,
         header_style="bold",
         show_lines=False,
