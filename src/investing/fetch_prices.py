@@ -84,6 +84,15 @@ def download(ticker: str, start: date, *, interval: str, prepost: bool) -> pd.Da
     return df
 
 
+def fetch_live_price(ticker: str) -> float | None:
+    """Return the current market price via yfinance fast_info (not saved to disk)."""
+    try:
+        price = yf.Ticker(ticker).fast_info.last_price
+        return float(price) if price else None
+    except Exception:
+        return None
+
+
 def fetch_iv(ticker: str, price: float) -> float | None:
     """Return the ATM annualized IV for ticker from the nearest options expiry."""
     try:

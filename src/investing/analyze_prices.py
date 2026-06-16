@@ -25,7 +25,7 @@ from rich.console import Console
 from rich.table import Table
 
 from investing.lib import REPO_ROOT
-from investing.fetch_prices import fetch_ticker, fetch_iv
+from investing.fetch_prices import fetch_ticker, fetch_iv, fetch_live_price
 
 PRICES_DAILY = REPO_ROOT / "prices" / "daily"
 TICKERS_FILE = REPO_ROOT / "TICKERS.yml"
@@ -228,6 +228,9 @@ def analyze_stock(symbol: str, benchmarks: list[str], as_of: date | None = None,
 
     tickers = [symbol] + benchmarks
     data = {t: load_prices(t, auto_fetch=auto_fetch) for t in tickers}
+    live_prices: dict[str, float | None] = (
+        {} if as_of else {t: fetch_live_price(t) for t in tickers}
+    )
 
     ref_df = data[symbol]
     if ref_df is None:
@@ -242,7 +245,9 @@ def analyze_stock(symbol: str, benchmarks: list[str], as_of: date | None = None,
             is_current = i == 0
             ref_start, ref_end = week_bounds(ref_df, monday)
             if is_current:
-                ref_end = nearest_on_or_before(ref_df, today)
+                ref_end = nearest_on_or_before(ref_df, today) if as_of else pd.Timestamp(today)
+                if ref_start is None and not as_of:
+                    ref_start = pd.Timestamp(monday)
             friday = monday + timedelta(days=4)
             period_str = "WTD" if is_current else f"{monday.strftime('%b %-d')}–{friday.strftime('%-d')}"
             trading_str = (
@@ -259,7 +264,7 @@ def analyze_stock(symbol: str, benchmarks: list[str], as_of: date | None = None,
             ref_start, ref_end = month_bounds(ref_df, year, month)
             is_current = i == 0
             if is_current:
-                ref_end = nearest_on_or_before(ref_df, today)
+                ref_end = nearest_on_or_before(ref_df, today) if as_of else pd.Timestamp(today)
                 period_str = f"{m.strftime('%b')} MTD"
             else:
                 period_str = f"{m.strftime('%b %Y')}"
@@ -293,6 +298,15 @@ def analyze_stock(symbol: str, benchmarks: list[str], as_of: date | None = None,
                 t_end = nearest_on_or_before(df, today)
 
             price, pct, sma, vol = period_snapshot(df, t_start, t_end, periods)
+
+            if col["is_current"]:
+                live = live_prices.get(ticker)
+                if live is not None:
+                    price = live
+                    if t_start is not None:
+                        start_price = float(df["Close"].iloc[df.index.get_loc(t_start)])
+                        pct = (live / start_price - 1) * 100
+
             price_cells.append(f"{price:.2f}" if price is not None else "—")
             return_cells.append(fmt_pct(pct))
             sma_cells.append(sma or "—")
