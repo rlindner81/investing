@@ -322,6 +322,13 @@ def analyze_stock(symbol: str, benchmarks: list[str], as_of: date | None = None,
             cells[ticker]["iv"] = [iv_str] + ["—"] * (len(columns) - 1)
 
     if show_vp and not as_of:
+        if auto_fetch:
+            hourly_dir = REPO_ROOT / "prices" / "hourly"
+            hourly_dir.mkdir(parents=True, exist_ok=True)
+            for ticker in tickers:
+                if not (hourly_dir / f"{ticker}.csv").exists():
+                    console.print(f"  [dim]fetching {ticker} hourly...[/dim]")
+                    fetch_ticker(ticker, prices_dir=hourly_dir, interval="1h", prepost=True)
         for ticker in tickers:
             poc = compute_poc(ticker)
             if poc is not None:
