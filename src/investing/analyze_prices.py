@@ -26,6 +26,7 @@ from rich.table import Table
 
 from investing.lib import REPO_ROOT
 from investing.fetch_prices import fetch_ticker, fetch_iv, fetch_live_price
+from investing.volume_profile import compute_poc
 
 PRICES_DAILY = REPO_ROOT / "prices" / "daily"
 TICKERS_FILE = REPO_ROOT / "TICKERS.yml"
@@ -221,7 +222,7 @@ def implied_move(ticker: str, price: float, mode: str) -> str:
     return f"±{move:.1f}%/{suffix}"
 
 
-def analyze_stock(symbol: str, benchmarks: list[str], as_of: date | None = None, tags: list | None = None, mode: str = "weeks", auto_fetch: bool = False, show_iv: bool = False) -> None:
+def analyze_stock(symbol: str, benchmarks: list[str], as_of: date | None = None, tags: list | None = None, mode: str = "weeks", auto_fetch: bool = False, show_iv: bool = False, show_vp: bool = False) -> None:
     today = as_of or date.today()
     periods = SMA_WEEKS if mode == "weeks" else SMA_MONTHS
     sma_label = "/".join(str(p) for p in periods)
@@ -320,6 +321,16 @@ def analyze_stock(symbol: str, benchmarks: list[str], as_of: date | None = None,
             iv_str = implied_move(ticker, float(df["Close"].iloc[-1]), mode) if df is not None else "n/a"
             cells[ticker]["iv"] = [iv_str] + ["—"] * (len(columns) - 1)
 
+    if show_vp and not as_of:
+        for ticker in tickers:
+            poc = compute_poc(ticker)
+            if poc is not None:
+                lo, hi = poc
+                poc_str = f"{fmt_price(lo)}–{fmt_price(hi)}"
+            else:
+                poc_str = "n/a"
+            cells[ticker]["poc"] = [poc_str] + ["—"] * (len(columns) - 1)
+
     as_of_note = f" [dim](as of {today})[/dim]" if as_of else ""
     tags_note = f"\n[dim]{' · '.join(tags)}[/dim]" if tags else ""
     mode_label = "[dim]weekly[/dim]" if mode == "weeks" else "[dim]monthly[/dim]"
@@ -365,6 +376,13 @@ def analyze_stock(symbol: str, benchmarks: list[str], as_of: date | None = None,
             label = "IV" if i == 0 else ""
             table.add_row(label, ticker, *cells[ticker]["iv"], style=style, end_section=is_last)
 
+    if show_vp and not as_of:
+        for i, ticker in enumerate(tickers):
+            is_last = i == len(tickers) - 1
+            style = "bold" if ticker == symbol else ""
+            label = "POC" if i == 0 else ("2yr 1h" if i == 1 else "")
+            table.add_row(label, ticker, *cells[ticker]["poc"], style=style, end_section=is_last)
+
     console.print(table)
     print_heuristics(symbol, tags or [], cells, tickers)
     console.print()
@@ -378,6 +396,7 @@ def main() -> None:
     group.add_argument("--weeks", action="store_true", help="Weekly view only")
     group.add_argument("--months", action="store_true", help="Monthly view only")
     parser.add_argument("--iv", action="store_true", help="Fetch and show implied volatility / expected move")
+    parser.add_argument("--vp", action="store_true", help="Show 2yr hourly volume profile point of control")
     args = parser.parse_args()
 
     as_of = date.fromisoformat(args.as_of) if args.as_of else None
@@ -397,11 +416,11 @@ def main() -> None:
         if requested and symbol not in requested:
             continue
         for mode in modes:
-            analyze_stock(symbol, stock.get("benchmarks", []), as_of=as_of, tags=stock.get("tags", []), mode=mode, auto_fetch=bool(requested), show_iv=args.iv)
+            analyze_stock(symbol, stock.get("benchmarks", []), as_of=as_of, tags=stock.get("tags", []), mode=mode, auto_fetch=bool(requested), show_iv=args.iv, show_vp=args.vp)
 
     for symbol in requested - known:
         for mode in modes:
-            analyze_stock(symbol, [], as_of=as_of, mode=mode, auto_fetch=True, show_iv=args.iv)
+            analyze_stock(symbol, [], as_of=as_of, mode=mode, auto_fetch=True, show_iv=args.iv, show_vp=args.vp)
 
 
 if __name__ == "__main__":

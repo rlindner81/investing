@@ -31,7 +31,7 @@ import yfinance as yf
 from investing.lib import REPO_ROOT
 
 START_DATE_DAILY  = date(2000, 1, 1)
-START_DATE_HOURLY = date(2025, 1, 1)
+START_DATE_HOURLY = date(2024, 1, 1)
 TICKERS_FILE = REPO_ROOT / "TICKERS.yml"
 
 
@@ -142,6 +142,10 @@ def fetch_ticker(ticker: str, *, prices_dir: Path, interval: str, prepost: bool)
             return
     else:
         fetch_start = start_date
+        if prepost:
+            # Yahoo Finance caps hourly history at 730 days
+            earliest = date.today() - timedelta(days=729)
+            fetch_start = max(fetch_start, earliest)
 
     print(f"  {ticker}: appending {fetch_start} → today")
     df = download(ticker, fetch_start, interval=interval, prepost=prepost)
