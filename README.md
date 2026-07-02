@@ -16,13 +16,14 @@ options:
   --weeks       Weekly view only
   --months      Monthly view only
   --iv          Fetch and show implied volatility / expected move
+  --vp          Show 2yr hourly volume profile point of control
 ```
 
 ## examples
 
 To ad-hoc analyze a stock
 ```
-uv run analyze-prices NIO --iv
+uv run analyze-prices NIO --iv --vp
 ```
 
 For a comparative benchmark analysis check [TICKERS.yml](./TICKERS.yml) and run, e.g.
