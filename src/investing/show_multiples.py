@@ -117,6 +117,13 @@ def next_period(qid: str) -> tuple[str, str]:
     return f"FY-{fy}", f"Q{qn + 1}-{fy}"
 
 
+def prior_year_id(qid: str) -> str:
+    """q1-2024 → q1-2023, FY-2025 → FY-2024."""
+    fy = fy_token(qid)
+    idx = qid.rfind(fy)
+    return qid[:idx] + str(int(fy) - 1) + qid[idx + 4:]
+
+
 def standalone(quarters: list[dict], idx: int, key: str) -> float | None:
     """Turn a year-to-date cash-flow line into a standalone-quarter value by
     differencing against the previous quarter of the same fiscal year."""
@@ -289,6 +296,21 @@ def compute_official(ticker: str, data: dict, price: float) -> dict:
         cols += qcols(fy)
     result["cols"] = cols
 
+    # ---- Y/Y growth: look up same quarter / same FY one year earlier ----
+    all_qcols = {quarters[i]["id"]: quarter_col(quarters, i, keys) for i in range(len(quarters))}
+    all_fycols = {f"FY-{fy}": fy_col(quarters, fy, keys)
+                  for fy, qs in by_fy.items()
+                  if len({q_num(q["id"]) for q in qs}) == 4}
+
+    def _yoy(cur, prv):
+        return (cur / prv - 1) if cur is not None and prv else None
+
+    for c in cols:
+        pid = prior_year_id(c["id"])
+        prior = all_fycols.get(pid) if c.get("is_fy") else all_qcols.get(pid)
+        c["rev_yoy"] = _yoy(c.get("revenue"), prior.get("revenue") if prior else None)
+        c["fcf_yoy"] = _yoy(c.get("fcf_co"), prior.get("fcf_co") if prior else None)
+
     # ---- per-column valuation: close on the report date × then-current data ----
     closes = load_closes(ticker)
     for c in cols:
@@ -411,6 +433,13 @@ def fmt_date(d: date | None) -> str:
     return d.strftime("%y-%m-%d") if d else "[dim]—[/dim]"
 
 
+def fmt_yoy(v: float | None) -> str:
+    if v is None:
+        return "[dim]—[/dim]"
+    s = f"{v * 100:+.1f}%"
+    return f"[green]{s}[/green]" if v >= 0 else f"[red]{s}[/red]"
+
+
 def fmt_mult_rng(r: tuple | None) -> str:
     """A (low, high) P/S range → '5.3x' when it rounds to one value, else '1.4–1.5x'."""
     if not r or r[0] is None or r[1] is None:
@@ -477,6 +506,7 @@ def render_ticker(r: dict) -> None:
 
     # --- fundamentals (one CapEx row per ytd_capex_* line found in the data) ---
     fund_row("Revenue ($M)", num(ttm.get("revenue"), 1), "revenue")
+    table.add_row("  Rev Y/Y", "", *[fmt_yoy(c.get("rev_yoy")) for c in cols])
     fund_row("Operating CF ($M)", num(ttm.get("ocf"), 1), "ocf")
     ttm_capex = ttm.get("capex") or {}
     for k in r.get("capex_keys", []):
@@ -484,9 +514,11 @@ def render_ticker(r: dict) -> None:
         table.add_row(f"CapEx {capex_label(k)} ($M)", num(ttm_capex.get(k), 1), *cells)
     if two_fcf:
         fund_row("FCF company ($M)", num(ttm.get("fcf_co"), 1), "fcf_co")
+        table.add_row("  FCF Y/Y", "", *[fmt_yoy(c.get("fcf_yoy")) for c in cols])
         fund_row("FCF strict ($M)", num(ttm.get("fcf_strict"), 1), "fcf_strict")
     else:
         fund_row("FCF ($M)", num(ttm.get("fcf_co"), 1), "fcf_co")
+        table.add_row("  FCF Y/Y", "", *[fmt_yoy(c.get("fcf_yoy")) for c in cols])
     fund_row("Shares out (M)", num(ttm.get("shares"), mult), "shares", end_section=True)
 
     # --- guidance / estimate as it stood at each report (quarter columns only) ---
