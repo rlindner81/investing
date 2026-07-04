@@ -1,0 +1,92 @@
+# BARK (Bark Inc.) — figures for multiple calculations.
+# FISCAL YEAR ENDS MARCH 31 (non-calendar): FY2026 = Apr 2025–Mar 2026, so
+#   q1-2026 ended 2025-06-30 … q4-2026 ended 2026-03-31.
+# All monetary values in USD thousands. Source: SEC reports under BARK/quarters/.
+#
+# Notes specific to BARK:
+#   - 1-for-20 REVERSE SPLIT (calendar 2026). The daily price CSV is split-adjusted,
+#     so shares_outstanding are on the POST-split basis: pre-split reports ÷ 20
+#     (e.g. 169,732,895 → 8,486,645). Keeps price × shares consistent.
+#   - Only capex line is "Capital expenditures" → company & strict FCF coincide.
+#   - Cash-flow is negative (BARK burns cash), so P/FCF is n/m throughout.
+
+unit: thousands
+
+quarters:
+  # --- FY2025 (ends Mar 2025). q1/q2 reconstructed from prior-year comparatives
+  #     in the FY2026 reports (history-only: no shares/report_date). ---
+  - id: q1-2025
+    end_date: 2024-06-30
+    revenue: 116212
+    ytd_operating_cf: 1792
+    ytd_capex_ppe: 2043
+
+  - id: q2-2025
+    end_date: 2024-09-30
+    revenue: 126111
+    ytd_operating_cf: 4566
+    ytd_capex_ppe: 3851
+
+  - id: q3-2025
+    end_date: 2024-12-31
+    report_date: 2025-02-05
+    revenue: 126449
+    shares_outstanding: 9198     # 183,965,936 ÷ 20
+    ytd_operating_cf: 3179
+    ytd_capex_ppe: 4428
+    guidance_nq_revenue_low: 121200     # Q4 FY2025 implied
+    guidance_nq_revenue_high: 131200
+    guidance_fy_revenue_low: 490000     # FY2025 (reaffirmed)
+    guidance_fy_revenue_high: 500000
+
+  - id: q4-2025
+    end_date: 2025-03-31
+    report_date: 2025-06-04
+    revenue: 115410              # FY2025 484,182 − 9mo 368,772
+    shares_outstanding: 8487     # 169,732,895 ÷ 20
+    ytd_operating_cf: -7079      # full-year FY2025
+    ytd_capex_ppe: 6157
+    guidance_nq_revenue_low: 99000      # Q1 FY2026
+    guidance_nq_revenue_high: 101000
+    guidance_fy_hint: withheld          # FY2026 withheld — tariff/macro uncertainty
+
+  # --- FY2026 (ends Mar 2026), complete ---
+  - id: q1-2026
+    end_date: 2025-06-30
+    report_date: 2025-08-07
+    revenue: 102861
+    shares_outstanding: 8492     # 169,830,115 ÷ 20
+    ytd_operating_cf: -5440
+    ytd_capex_ppe: 708
+    guidance_nq_revenue_low: 102000     # Q2 FY2026
+    guidance_nq_revenue_high: 105000
+    guidance_fy_hint: withheld
+
+  - id: q2-2026
+    end_date: 2025-09-30
+    report_date: 2025-11-06
+    revenue: 106970
+    shares_outstanding: 8577     # 171,546,997 ÷ 20
+    ytd_operating_cf: -23514
+    ytd_capex_ppe: 2560
+    guidance_nq_revenue_low: 101000     # Q3 FY2026
+    guidance_nq_revenue_high: 104000
+    guidance_fy_hint: withheld
+
+  - id: q3-2026
+    end_date: 2025-12-31
+    report_date: 2026-02-05
+    revenue: 98447
+    shares_outstanding: 8640     # 172,807,204 ÷ 20
+    ytd_operating_cf: -21807
+    ytd_capex_ppe: 2703
+    guidance_nq_hint: limited           # Q4 FY2026 — limited specific guidance
+    guidance_fy_hint: withheld
+
+  - id: q4-2026
+    end_date: 2026-03-31
+    report_date: 2026-06-09
+    revenue: 86565              # FY2026 394,843 − 9mo 308,277
+    shares_outstanding: 8683
+    ytd_operating_cf: -23158    # full-year FY2026
+    ytd_capex_ppe: 3416

@@ -278,11 +278,11 @@ def compute_official(ticker: str, data: dict, price: float) -> dict:
         return [quarter_col(quarters, quarters.index(q), keys)
                 for q in sorted(by_fy[fy], key=lambda q: q_num(q["id"]), reverse=True)]
 
+    # newest fiscal year first; a complete year gets its aggregate column, then its quarters
     cols = []
-    for fy in sorted((fy for fy in by_fy if fy not in complete), reverse=True):
-        cols += qcols(fy)
-    for fy in sorted(complete, reverse=True):
-        cols.append(fy_col(quarters, fy, keys))
+    for fy in sorted(by_fy, reverse=True):
+        if fy in complete:
+            cols.append(fy_col(quarters, fy, keys))
         cols += qcols(fy)
     result["cols"] = cols
 
