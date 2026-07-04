@@ -44,6 +44,9 @@ benchmarks:
       description: Expedia Group — online travel platform, owns Hotels.com, Vrbo, Trivago
 
 stocks:
+  - symbol: NOW
+    tags: [big_cap, tech, software, ai]
+    benchmarks: [SPY, QQQ]
   - symbol: GOOGL
     tags: [mega_cap, tech, advertising, ai]
     benchmarks: [SPY, QQQ, XLC]

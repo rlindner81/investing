@@ -1,0 +1,109 @@
+# ODD (Oddity Tech) — figures for multiple calculations.
+# Fiscal year = calendar year. All monetary values in USD thousands.
+# Source: SEC reports under ODD/quarters/. See CLAUDE.md → "FINANCIALS.yml" for the schema.
+#
+#   revenue            standalone quarter, from the income statement
+#   shares_outstanding point-in-time total (all classes) at quarter end, from the
+#                      balance sheet / 10-Q cover page — NOT the weighted average
+#   ytd_operating_cf   net cash from operating activities, AS REPORTED (year-to-date)
+#   ytd_capex_ppe      purchase of property, plant & equipment, year-to-date
+#   ytd_capex_software capitalization of software development costs, year-to-date
+#   guidance_fy_revenue_low/high  FULL-YEAR revenue guidance issued AT THIS quarter's report;
+#                                 updates each quarter, so the row shows the raise trajectory.
+#                                 Set guidance_fy_revenue_withdrawn: true when guidance is pulled.
+#   est_fy_revenue_low/high       my own full-year estimate (independent of guidance)
+#   guidance_nq_/est_nq_          next-quarter ranges (optional)
+
+unit: thousands
+
+quarters:
+  # --- 2024 quarters: reconstructed from the prior-year comparatives in the
+  #     2025 reports. Trailing-history only (not displayed) — they give the
+  #     2025 quarter columns a valid TTM base, so no shares/report_date needed. ---
+  - id: q1-2024
+    end_date: 2024-03-31
+    revenue: 211628
+    ytd_operating_cf: 79647
+    ytd_capex_ppe: 655
+    ytd_capex_software: 1106
+
+  - id: q2-2024
+    end_date: 2024-06-30
+    revenue: 192774
+    ytd_operating_cf: 105440
+    ytd_capex_ppe: 1502
+    ytd_capex_software: 2284
+
+  - id: q3-2024
+    end_date: 2024-09-30
+    revenue: 118998
+    ytd_operating_cf: 121599
+    ytd_capex_ppe: 2398
+    ytd_capex_software: 3417
+
+  - id: q4-2024
+    end_date: 2024-12-31
+    revenue: 123640
+    ytd_operating_cf: 137764
+    ytd_capex_ppe: 3270
+    ytd_capex_software: 4733
+
+  - id: q1-2025
+    end_date: 2025-03-31
+    report_date: 2025-04-29
+    revenue: 268076
+    shares_outstanding: 55828
+    ytd_operating_cf: 88336
+    ytd_capex_ppe: 1002
+    ytd_capex_software: 1460
+    guidance_fy_revenue_low: 790000   # FY2025 guidance issued at this report
+    guidance_fy_revenue_high: 798000
+
+  - id: q2-2025
+    end_date: 2025-06-30
+    report_date: 2025-08-04
+    revenue: 241140
+    shares_outstanding: 57439
+    ytd_operating_cf: 101384
+    ytd_capex_ppe: 1951
+    ytd_capex_software: 2861
+    guidance_fy_revenue_low: 799000   # FY2025 guidance raised
+    guidance_fy_revenue_high: 804000
+
+  - id: q3-2025
+    end_date: 2025-09-30
+    report_date: 2025-11-19
+    revenue: 147902
+    shares_outstanding: 57439
+    ytd_operating_cf: 92534
+    ytd_capex_ppe: 2957
+    ytd_capex_software: 7258
+    guidance_fy_revenue_low: 806000   # FY2025 guidance raised again (actual came in $809.8M)
+    guidance_fy_revenue_high: 809000
+
+  - id: q4-2025
+    end_date: 2025-12-31
+    report_date: 2026-02-25
+    revenue: 152726
+    shares_outstanding: 57575
+    ytd_operating_cf: 87581        # full-year FY2025 (Q4 report shows annual only)
+    ytd_capex_ppe: 3936
+    ytd_capex_software: 11459
+    guidance_fy_revenue_withdrawn: true   # FY2026 guidance withdrawn at this report
+
+  - id: q1-2026
+    end_date: 2026-03-31
+    report_date: 2026-06-02
+    revenue: 197940
+    shares_outstanding: 56657
+    ytd_operating_cf: -20234
+    ytd_capex_ppe: 858
+    ytd_capex_software: 4197
+    # --- Company guidance issued 2026-06-02 ---
+    # Q2 2026: revenue -25% to -30% YoY vs Q2-2025 ($241.14M) → 180.9M / 168.8M
+    guidance_nq_revenue_low: 168798
+    guidance_nq_revenue_high: 180855
+    guidance_fy_revenue_withdrawn: true   # FY2026 revenue guidance still withheld (EBITDA-positive only)
+    # --- My own estimate (ILLUSTRATIVE placeholder — replace with your research) ---
+    est_fy_revenue_low: 660000
+    est_fy_revenue_high: 710000

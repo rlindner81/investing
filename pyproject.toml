@@ -5,6 +5,7 @@ requires-python = ">=3.12"
 dependencies = [
     "pyyaml>=6",
     "yfinance>=0.2",
+    "rich>=13",
 ]
 
 [project.scripts]
@@ -12,6 +13,7 @@ fetch-report = "investing.fetch_report:main"
 fetch-transcript = "investing.fetch_transcript:main"
 fetch-prices = "investing.fetch_prices:main"
 analyze-prices = "investing.analyze_prices:main"
+show-multiples = "investing.show_multiples:main"
 
 [build-system]
 requires = ["hatchling"]
