@@ -1,0 +1,83 @@
+{
+  "2023-05-03": {
+    "quarter": "q1-2023",
+    "period_end": "2023-03-31",
+    "report": "https://www.sec.gov/Archives/edgar/data/1795139/000095017023017437/",
+    "letter": "https://www.sec.gov/Archives/edgar/data/1795139/000119312523134391/d241369dex991.htm"
+  },
+  "2023-08-08": {
+    "quarter": "q2-2023",
+    "period_end": "2023-06-30",
+    "report": "https://www.sec.gov/Archives/edgar/data/1795139/000095017023040096/",
+    "letter": "https://www.sec.gov/Archives/edgar/data/1795139/000119312523206192/d520030dex991.htm"
+  },
+  "2023-11-08": {
+    "quarter": "q3-2023",
+    "period_end": "2023-09-30",
+    "report": "https://www.sec.gov/Archives/edgar/data/1795139/000095017023061475/",
+    "letter": "https://www.sec.gov/Archives/edgar/data/1795139/000119312523273509/d582778dex991.htm"
+  },
+  "2024-02-28": {
+    "quarter": "q4-2023",
+    "period_end": "2023-12-31",
+    "report": "https://www.sec.gov/Archives/edgar/data/1795139/000095017024022653/",
+    "letter": "https://www.sec.gov/Archives/edgar/data/1795139/000119312524050658/d768619dex991.htm"
+  },
+  "2024-05-08": {
+    "quarter": "q1-2024",
+    "period_end": "2024-03-31",
+    "report": "https://www.sec.gov/Archives/edgar/data/1795139/000095017024056173/",
+    "letter": "https://www.sec.gov/Archives/edgar/data/1795139/000119312524134199/d811648dex991.htm"
+  },
+  "2024-08-05": {
+    "quarter": "q2-2024",
+    "period_end": "2024-06-30",
+    "report": "https://www.sec.gov/Archives/edgar/data/1795139/000095017024091168/",
+    "letter": "https://www.sec.gov/Archives/edgar/data/1795139/000095017024090707/gtbif-ex99_1.htm"
+  },
+  "2024-11-07": {
+    "quarter": "q3-2024",
+    "period_end": "2024-09-30",
+    "report": "https://www.sec.gov/Archives/edgar/data/1795139/000095017024123669/",
+    "letter": "https://www.sec.gov/Archives/edgar/data/1795139/000095017024123234/gtbif-ex99_1.htm"
+  },
+  "2025-02-26": {
+    "quarter": "q4-2024",
+    "period_end": "2024-12-31",
+    "report": "https://www.sec.gov/Archives/edgar/data/1795139/000095017025028273/",
+    "letter": "https://www.sec.gov/Archives/edgar/data/1795139/000095017025027708/gtbif-ex99_1.htm"
+  },
+  "2025-05-07": {
+    "quarter": "q1-2025",
+    "period_end": "2025-03-31",
+    "report": "https://www.sec.gov/Archives/edgar/data/1795139/000095017025066295/",
+    "letter": "https://www.sec.gov/Archives/edgar/data/1795139/000095017025065622/gtbif-ex99_1.htm"
+  },
+  "2025-08-06": {
+    "quarter": "q2-2025",
+    "period_end": "2025-06-30",
+    "report": "https://www.sec.gov/Archives/edgar/data/1795139/000095017025104519/",
+    "letter": "https://www.sec.gov/Archives/edgar/data/1795139/000095017025103985/gtbif-ex99_1.htm"
+  },
+  "2025-11-05": {
+    "quarter": "q3-2025",
+    "period_end": "2025-09-30",
+    "report": "https://www.sec.gov/Archives/edgar/data/1795139/000119312525266987/",
+    "letter": "https://www.sec.gov/Archives/edgar/data/1795139/000119312525266877/gtbif-ex99_1.htm"
+  },
+  "2026-02-25": {
+    "quarter": "q4-2025",
+    "period_end": "2025-12-31",
+    "report": "https://www.sec.gov/Archives/edgar/data/1795139/000119312526071672/",
+    "letter": "https://www.sec.gov/Archives/edgar/data/1795139/000119312526071507/gtbif-ex99_1.htm"
+  },
+  "2026-05-06": {
+    "quarter": "q1-2026",
+    "period_end": "2026-03-31",
+    "report": "https://www.sec.gov/Archives/edgar/data/1795139/000119312526209127/",
+    "letter": "https://www.sec.gov/Archives/edgar/data/1795139/000119312526208919/gtbif-ex99_1.htm"
+  },
+  "_meta": {
+    "cik": "0001795139"
+  }
+}
