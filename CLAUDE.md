@@ -75,8 +75,10 @@ Source: stockanalysis.com. Find the transcript URL by navigating to `stockanalys
 
 Price-to-Sales and Price-to-FCF multiples are computed from the official SEC
 figures — **not** from Yahoo's derived numbers — via a per-ticker `FINANCIALS.yml`.
-Only the live share price comes from yfinance; every fundamental is transcribed
-from the reports under `<TICKER>/quarters/`.
+Every fundamental is transcribed from the reports under `<TICKER>/quarters/`; only
+prices come from market data — the live price from yfinance for the current
+snapshot, and historical closes from `prices/daily/<TICKER>.csv` (see
+`fetch-prices`) for each report-date column.
 
 ```bash
 uv run show-multiples              # all stocks in TICKERS.yml
@@ -87,31 +89,44 @@ uv run show-multiples NVDA         # ad-hoc ticker → yfinance fallback (flagge
 A ticker without a `FINANCIALS.yml` falls back to yfinance's own P/S and P/FCF,
 clearly marked as `yahoo` in the output.
 
+### Output layout
+
+One vertical table per ticker. Metrics are rows; columns run newest→oldest:
+the current (partial) fiscal year's quarters, then each **complete fiscal year**
+as an aggregate column (highlighted) followed by its four quarters. A **TTM**
+column on the left holds the current live snapshot. Example column order:
+
+```
+TTM | q1-2026 | FY-2025 | q4-2025 | q3-2025 | q2-2025 | q1-2025 | FY-2024 | q4-2024 | ...
+```
+
+Rows are grouped: fundamentals (revenue, operating CF, capex, FCF, shares),
+then the guidance/estimate revenue rows, then per-column valuation
+(ref date, ref price, market cap, P/S, P/FCF), then the forward P/S rows.
+
 ### `FINANCIALS.yml` schema
 
-One entry per reported quarter. All monetary values share a single `unit`
-(`thousands` / `millions` / `units`). Keep the flat key names exactly — the tool
-reads them directly.
+One entry per reported quarter, oldest first. All monetary values share a single
+`unit` (`thousands` / `millions` / `units`). Keep the flat key names exactly.
 
 ```yaml
 unit: thousands
 quarters:
-  - id: q1-2026                 # q<n>-<fiscal-year-label>; the n and year drive fiscal logic
+  - id: q1-2026                 # q<n>-<fiscal-year-label>; n and year drive the fiscal logic
     end_date: 2026-03-31
+    report_date: 2026-06-02     # announcement date — the close that day is the price reference
     revenue: 197940             # standalone quarter, from the income statement
-    shares_outstanding: 56657   # point-in-time total (all classes) at quarter end, from
-                                # the balance sheet / cover page — NOT the weighted average
+    shares_outstanding: 56657   # point-in-time total (all classes) at quarter end, from the
+                                # balance sheet / cover page — NOT the weighted average
     ytd_operating_cf: -20234    # net cash from operations, AS REPORTED (year-to-date)
     ytd_capex_ppe: 858          # purchase of PP&E, year-to-date
-    ytd_capex_software: 4197    # capitalization of software dev costs, year-to-date (0/omit if none)
-    # --- all of the following are OPTIONAL, entered as low/high ranges ---
-    guidance_nq_revenue_low: 168798    # company guidance for the NEXT quarter
-    guidance_nq_revenue_high: 180855
-    guidance_fy_revenue_low:           # company guidance for the FULL fiscal year
-    guidance_fy_revenue_high:
-    est_nq_revenue_low:                # my own estimate for the next quarter
-    est_nq_revenue_high:
-    est_fy_revenue_low: 660000         # my own estimate for the full fiscal year
+    ytd_capex_software: 4197    # capitalized software dev costs, year-to-date (0/omit if none)
+    # --- full-year guidance ISSUED AT THIS report (optional, low/high range) ---
+    guidance_fy_revenue_low: 806000
+    guidance_fy_revenue_high: 809000
+    guidance_fy_revenue_withdrawn: true   # ...OR this flag, when guidance was pulled
+    # --- my own full-year estimate (optional, low/high range) ---
+    est_fy_revenue_low: 660000
     est_fy_revenue_high: 710000
 ```
 
@@ -121,15 +136,23 @@ Conventions and derivations the tool relies on:
   always has a quarterly column). Cash-flow lines are entered exactly as the
   filing reports them — year-to-date — and the tool differences consecutive
   quarters within a fiscal year to recover standalone values, resetting at Q1.
-  So every fiscal quarter (Q1–Q4) must be present to build a clean TTM.
-- **TTM** = the last four standalone quarters.
-- **Two FCF flavours** are shown: `company` = OCF − PP&E capex (matches the FCF
-  companies usually print), and `strict` = OCF − PP&E − capitalized software.
-- **Negative TTM FCF** prints `n/m` rather than a misleading negative multiple.
-- **Forward** multiples use only the most recent quarter's revenue ranges:
-  `Fwd P/S (FY)` from the full-year range, and `Fwd-TTM P/S` from the last three
-  actual quarters plus the next-quarter range. `guidance_*` (company) and `est_*`
-  (your own research) are shown as separate rows — fill in whichever exist.
+- **Per-column valuation.** Each dated quarter column is a point-in-time
+  snapshot: market cap = the close on `report_date` × that quarter's
+  `shares_outstanding`; P/S and P/FCF use the trailing-twelve-months ending that
+  quarter. The **TTM** column uses the live price instead. FY-aggregate columns
+  blank the valuation rows (they'd just duplicate Q4).
+- **Two FCF flavours**: `company` = OCF − PP&E capex (matches the FCF companies
+  usually print), `strict` = OCF − PP&E − capitalized software. Negative trailing
+  FCF prints `n/m`.
+- **FY guidance is per-quarter.** `guidance_fy_revenue_*` is the full-year
+  guidance as it stood at *that* report, so the row shows the raise trajectory;
+  the FY-aggregate column takes the last interim guide. `FW P/S guidance` /
+  `FW P/S estimate` divide each column's market cap by its own guidance/estimate
+  revenue (and the TTM column by the latest, at today's price).
+- **History-only quarters.** Quarters kept purely to give later quarters a valid
+  TTM base (e.g. prior-year quarters reconstructed from comparatives) can omit
+  `report_date` and `shares_outstanding`; they still show fundamentals but their
+  valuation rows stay blank.
 
 After entering a new quarter, sanity-check that `ytd_operating_cf − ytd_capex_ppe`
 for the full year reproduces the company's own reported FCF figure.
