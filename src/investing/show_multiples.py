@@ -204,15 +204,20 @@ def quarter_col(quarters: list[dict], i: int, keys: list[str]) -> dict:
     ppe = capex.get("ytd_capex_ppe")
     fcf_co = ocf - ppe if ocf is not None and ppe is not None else None
     fcf_strict = ocf - total if ocf is not None and total is not None else None
+    r3 = [quarters[k].get("revenue") for k in range(i - 2, i + 1)] if i >= 2 else [None]
+    rev3 = None if any(v is None for v in r3) else sum(r3)
     return {
         "id": q["id"], "is_fy": False, "revenue": q.get("revenue"),
         "ocf": ocf, "capex": capex, "fcf_co": fcf_co, "fcf_strict": fcf_strict,
         "shares": q.get("shares_outstanding"),
         "report_date": as_date(q.get("report_date")),
         "ttm": ttm_metrics(quarters, i, keys),  # trailing basis for this column's multiples
-        # full-year guidance / estimate as issued at THIS quarter's report
+        "rev3": rev3,  # last three quarters' revenue, for the next-quarter forward TTM
+        # guidance / estimate as issued at THIS quarter's report; *_hint = why none was given
+        "guid_nq": midpoint(q, "guidance_nq_revenue"),   # next-quarter revenue
+        "guid_nq_hint": q.get("guidance_nq_hint"),
         "guid_fy": midpoint(q, "guidance_fy_revenue"),
-        "guid_fy_withdrawn": bool(q.get("guidance_fy_revenue_withdrawn")),
+        "guid_fy_hint": q.get("guidance_fy_hint"),
         "est_fy": midpoint(q, "est_fy_revenue"),
     }
 
@@ -230,16 +235,14 @@ def fy_col(quarters: list[dict], fy: str, keys: list[str]) -> dict:
     total = sum(v for v in capex.values() if v is not None) if capex else None
     fcf_co = ocf - ppe if ocf is not None and ppe is not None else None
     fcf_strict = ocf - total if ocf is not None and total is not None else None
-    # final full-year guidance/estimate for this FY = last of Q1–Q3 that guided it
+    # final full-year guidance/estimate for this FY = last of Q1–Q3 that gave one
     guid = est = None
     for n in (3, 2, 1):
         q = by_n.get(n)
         if q is None:
             continue
-        if guid is None and not q.get("guidance_fy_revenue_withdrawn"):
-            guid = midpoint(q, "guidance_fy_revenue")
-        if est is None:
-            est = midpoint(q, "est_fy_revenue")
+        guid = guid or midpoint(q, "guidance_fy_revenue")
+        est = est or midpoint(q, "est_fy_revenue")
     return {
         "id": f"FY-{fy}", "is_fy": True, "revenue": revenue,
         "ocf": ocf, "capex": capex, "fcf_co": fcf_co, "fcf_strict": fcf_strict,
@@ -303,6 +306,12 @@ def compute_official(ticker: str, data: dict, price: float) -> dict:
             return (cap / (hi * mult), cap / (lo * mult))
         c["guid_ps"] = ps_rng(c.get("guid_fy"))
         c["est_ps"] = ps_rng(c.get("est_fy"))
+        # forward-TTM P/S: last 3 actual quarters + the guided next quarter
+        nq, base = c.get("guid_nq"), c.get("rev3")
+        c["nq_ps"] = None
+        if c["mktcap"] and nq and base is not None:
+            b = base * mult
+            c["nq_ps"] = (c["mktcap"] / (b + nq[1] * mult), c["mktcap"] / (b + nq[0] * mult))
 
         c["pfcf_co"] = c["pfcf_strict"] = None
         if c["mktcap"] and t and t.get("ocf") is not None and t.get("ppe") is not None:
@@ -345,6 +354,15 @@ def compute_official(ticker: str, data: dict, price: float) -> dict:
 
     result["fwd_ps_guid"] = cur_ps(midpoint(latest, "guidance_fy_revenue"))
     result["fwd_ps_est"] = cur_ps(midpoint(latest, "est_fy_revenue"))
+
+    # forward-TTM P/S at today's price: last 3 actual quarters + latest next-quarter guide
+    latest_rev3 = [q.get("revenue") for q in quarters[-3:]]
+    nq, base = midpoint(latest, "guidance_nq_revenue"), (
+        None if any(v is None for v in latest_rev3) else sum(latest_rev3))
+    result["fwd_ps_nq"] = None
+    if mktcap and nq and base is not None:
+        b = base * mult
+        result["fwd_ps_nq"] = (mktcap / (b + nq[1] * mult), mktcap / (b + nq[0] * mult))
     return result
 
 
@@ -419,10 +437,13 @@ def rng_cell(r: tuple | None, mult: int) -> str:
     return f"{lo:,.0f}–{hi:,.0f}"
 
 
-def fy_guid_cell(c: dict, mult: int) -> str:
-    if c.get("guid_fy_withdrawn"):
-        return "[yellow]withdrawn[/yellow]"
-    return rng_cell(c.get("guid_fy"), mult)
+def guid_cell(rng: tuple | None, hint: str | None, mult: int) -> str:
+    """Guidance range if given; else the hint (why it wasn't); else a dash."""
+    if rng:
+        return rng_cell(rng, mult)
+    if hint:
+        return f"[yellow]{hint}[/yellow]"
+    return "[dim]—[/dim]"
 
 
 def render_ticker(r: dict) -> None:
@@ -442,6 +463,8 @@ def render_ticker(r: dict) -> None:
                          header_style=agg if c.get("is_fy") else None)
 
     blank = ["" for _ in cols]
+    # `company` and `strict` FCF differ only when there's capex beyond PP&E
+    two_fcf = any(k != "ytd_capex_ppe" for k in r.get("capex_keys", []))
 
     def fund_row(label, ttm_cell, key, end_section=False):
         cells = [num(c.get(key), mult) for c in cols]
@@ -454,13 +477,20 @@ def render_ticker(r: dict) -> None:
     for k in r.get("capex_keys", []):
         cells = [num((c.get("capex") or {}).get(k), mult) for c in cols]
         table.add_row(f"CapEx {capex_label(k)} ($M)", num(ttm_capex.get(k), 1), *cells)
-    fund_row("FCF company ($M)", num(ttm.get("fcf_co"), 1), "fcf_co")
-    fund_row("FCF strict ($M)", num(ttm.get("fcf_strict"), 1), "fcf_strict")
+    if two_fcf:
+        fund_row("FCF company ($M)", num(ttm.get("fcf_co"), 1), "fcf_co")
+        fund_row("FCF strict ($M)", num(ttm.get("fcf_strict"), 1), "fcf_strict")
+    else:
+        fund_row("FCF ($M)", num(ttm.get("fcf_co"), 1), "fcf_co")
     fund_row("Shares out (M)", num(ttm.get("shares"), mult), "shares", end_section=True)
 
     # --- guidance / estimate as it stood at each report (quarter columns only) ---
+    table.add_row("NQ Rev guidance ($M)", "",
+                  *["" if c.get("is_fy") else guid_cell(c.get("guid_nq"), c.get("guid_nq_hint"), mult)
+                    for c in cols])
     table.add_row("FY Rev guidance ($M)", "",
-                  *["" if c.get("is_fy") else fy_guid_cell(c, mult) for c in cols])
+                  *["" if c.get("is_fy") else guid_cell(c.get("guid_fy"), c.get("guid_fy_hint"), mult)
+                    for c in cols])
     table.add_row("FY Rev estimate ($M)", "",
                   *["" if c.get("is_fy") else rng_cell(c.get("est_fy"), mult) for c in cols],
                   end_section=True)
@@ -475,13 +505,19 @@ def render_ticker(r: dict) -> None:
     val_row("Ref price ($)", fmt_price(r.get("price")), lambda c: fmt_price(c.get("ref_price")))
     val_row("Market cap", fmt_money(r.get("mktcap")), lambda c: fmt_money(c.get("mktcap")))
     val_row("P / S", fmt_mult(r.get("ps")), lambda c: fmt_mult(c.get("ps")))
-    val_row("P / FCF company", fmt_mult(r.get("pfcf_co")), lambda c: fmt_mult(c.get("pfcf_co")))
-    val_row("P / FCF strict", fmt_mult(r.get("pfcf_strict")),
-            lambda c: fmt_mult(c.get("pfcf_strict")), end_section=True)
+    if two_fcf:
+        val_row("P / FCF company", fmt_mult(r.get("pfcf_co")), lambda c: fmt_mult(c.get("pfcf_co")))
+        val_row("P / FCF strict", fmt_mult(r.get("pfcf_strict")),
+                lambda c: fmt_mult(c.get("pfcf_strict")), end_section=True)
+    else:
+        val_row("P / FCF", fmt_mult(r.get("pfcf_co")),
+                lambda c: fmt_mult(c.get("pfcf_co")), end_section=True)
 
-    val_row("FW P/S guidance", fmt_mult_rng(r.get("fwd_ps_guid")),
+    val_row("FW P/S NQ guidance", fmt_mult_rng(r.get("fwd_ps_nq")),
+            lambda c: fmt_mult_rng(c.get("nq_ps")))
+    val_row("FW P/S FY guidance", fmt_mult_rng(r.get("fwd_ps_guid")),
             lambda c: fmt_mult_rng(c.get("guid_ps")))
-    val_row("FW P/S estimate", fmt_mult_rng(r.get("fwd_ps_est")),
+    val_row("FW P/S FY estimate", fmt_mult_rng(r.get("fwd_ps_est")),
             lambda c: fmt_mult_rng(c.get("est_ps")))
 
     console.print(table)

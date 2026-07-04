@@ -1,0 +1,87 @@
+# SNAP (Snap Inc.) — figures for multiple calculations.
+# Fiscal year = calendar year. All monetary values in USD thousands.
+# Source: SEC reports under SNAP/quarters/. See CLAUDE.md → "Valuation Multiples".
+#
+# Notes specific to SNAP:
+#   - Only capitalized line is PP&E, so `company` and `strict` FCF are identical.
+#   - SNAP guides the NEXT QUARTER only (revenue + adj. EBITDA), not full-year
+#     revenue, so the FY guidance rows stay empty.
+#   - shares_outstanding is the point-in-time total across Class A/B/C.
+
+unit: thousands
+
+quarters:
+  # --- 2024 quarters: reconstructed from prior-year comparatives in the 2025
+  #     reports. Trailing-history only (not displayed as valued columns). ---
+  - id: q1-2024
+    end_date: 2024-03-31
+    revenue: 1194773
+    ytd_operating_cf: 88352
+    ytd_capex_ppe: 50448
+
+  - id: q2-2024
+    end_date: 2024-06-30
+    revenue: 1236768
+    ytd_operating_cf: 66975
+    ytd_capex_ppe: 102510
+
+  - id: q3-2024
+    end_date: 2024-09-30
+    revenue: 1372574
+    ytd_operating_cf: 182847
+    ytd_capex_ppe: 146551
+
+  - id: q4-2024
+    end_date: 2024-12-31
+    revenue: 1557283          # FY2024 5,361,398 − 9mo 3,804,115
+    ytd_operating_cf: 413480
+    ytd_capex_ppe: 194826
+
+  - id: q1-2025
+    end_date: 2025-03-31
+    report_date: 2025-04-29
+    revenue: 1363217
+    shares_outstanding: 1686678
+    ytd_operating_cf: 151610
+    ytd_capex_ppe: 37214
+    guidance_nq_hint: withheld   # Q2-2025 revenue guidance withheld (macro uncertainty)
+
+  - id: q2-2025
+    end_date: 2025-06-30
+    report_date: 2025-08-05
+    revenue: 1344930
+    shares_outstanding: 1682350
+    ytd_operating_cf: 240104
+    ytd_capex_ppe: 101915
+    guidance_nq_revenue_low: 1475000    # Q3-2025 guidance
+    guidance_nq_revenue_high: 1505000
+
+  - id: q3-2025
+    end_date: 2025-09-30
+    report_date: 2025-11-05
+    revenue: 1506839
+    shares_outstanding: 1710909
+    ytd_operating_cf: 386592
+    ytd_capex_ppe: 154959
+    guidance_nq_revenue_low: 1680000    # Q4-2025 guidance
+    guidance_nq_revenue_high: 1710000
+
+  - id: q4-2025
+    end_date: 2025-12-31
+    report_date: 2026-02-04
+    revenue: 1716461          # FY2025 5,931,447 − 9mo 4,214,986
+    shares_outstanding: 1711554
+    ytd_operating_cf: 656170  # full-year FY2025 (10-K shows annual only)
+    ytd_capex_ppe: 218981
+    guidance_nq_revenue_low: 1500000    # Q1-2026 guidance
+    guidance_nq_revenue_high: 1530000
+
+  - id: q1-2026
+    end_date: 2026-03-31
+    report_date: 2026-05-06
+    revenue: 1528791
+    shares_outstanding: 1697270
+    ytd_operating_cf: 326779
+    ytd_capex_ppe: 40772
+    guidance_nq_revenue_low: 1520000    # Q2-2026 guidance
+    guidance_nq_revenue_high: 1550000

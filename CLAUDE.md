@@ -121,10 +121,13 @@ quarters:
     ytd_operating_cf: -20234    # net cash from operations, AS REPORTED (year-to-date)
     ytd_capex_ppe: 858          # PP&E purchases, YTD — the ONLY capex line in `company` FCF
     ytd_capex_software: 4197    # any other capitalized spend, YTD; add more ytd_capex_* as needed
-    # --- full-year guidance ISSUED AT THIS report (optional, low/high range) ---
-    guidance_fy_revenue_low: 806000
+    # --- guidance ISSUED AT THIS report (all optional, low/high ranges) ---
+    guidance_nq_revenue_low: 168798       # next-quarter revenue
+    guidance_nq_revenue_high: 180855
+    guidance_fy_revenue_low: 806000       # full-year revenue
     guidance_fy_revenue_high: 809000
-    guidance_fy_revenue_withdrawn: true   # ...OR this flag, when guidance was pulled
+    guidance_fy_hint: withdrawn           # ...OR a short hint (why none: "withdrawn"/"withheld")
+    guidance_nq_hint: withheld            #    same idea for the next-quarter row
     # --- my own full-year estimate (optional, low/high range) ---
     est_fy_revenue_low: 660000
     est_fy_revenue_high: 710000
@@ -146,7 +149,19 @@ Conventions and derivations the tool relies on:
   *every* `ytd_capex_*` line (PP&E + software + content + capitalized R&D + …).
   So each company just breaks out whatever capitalized-investment lines it
   discloses as `ytd_capex_<name>`; each becomes its own CapEx row and is folded
-  into `strict`. Negative trailing FCF prints `n/m`.
+  into `strict`. Negative trailing FCF prints `n/m`. When PP&E is the *only*
+  capex line (e.g. SNAP), the two are identical and collapse to one `FCF` /
+  `P / FCF` row.
+- **Guidance rows** show what was issued at each report: `NQ Rev guidance` (next
+  quarter) and `FY Rev guidance` (full year, with the raise trajectory), plus
+  `FY Rev estimate` (your own). When guidance wasn't given, a `*_hint` prints in
+  its place (e.g. `withdrawn`, `withheld`). Read guidance-vs-actual across
+  adjacent columns — a quarter's `NQ Rev guidance` sits one column left of the
+  actual it predicted.
+- **Forward P/S rows** divide each column's market cap by a forward sales base:
+  `FW P/S NQ guidance` (last 3 actual quarters + the guided next quarter →
+  forward TTM), `FW P/S FY guidance` and `FW P/S FY estimate` (full-year
+  revenue). The TTM column uses today's price against the latest of each.
 - **FY guidance is per-quarter.** `guidance_fy_revenue_*` is the full-year
   guidance as it stood at *that* report, so the row shows the raise trajectory;
   the FY-aggregate column takes the last interim guide. `FW P/S guidance` /
