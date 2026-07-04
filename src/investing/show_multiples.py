@@ -146,8 +146,39 @@ def midpoint(q: dict, prefix: str) -> tuple[float, float] | None:
     return (min(vals), max(vals)) if vals else None
 
 
-def ttm_at(quarters: list[dict], j: int) -> dict | None:
-    """Trailing-twelve-month revenue and cash-flow lines ending at quarter index j."""
+def capex_keys(quarters: list[dict]) -> list[str]:
+    """Every `ytd_capex_*` key present in the data, PP&E first (it drives company FCF).
+    `strict` FCF subtracts them all; `company` FCF subtracts only PP&E."""
+    keys = {k for q in quarters for k in q if k.startswith("ytd_capex")}
+    ordered = sorted(keys)
+    if "ytd_capex_ppe" in ordered:
+        ordered.remove("ytd_capex_ppe")
+        ordered.insert(0, "ytd_capex_ppe")
+    return ordered
+
+
+def capex_label(key: str) -> str:
+    suffix = key[len("ytd_capex_"):]
+    return "PP&E" if suffix == "ppe" else suffix
+
+
+def col_capex(quarters: list[dict], i: int, keys: list[str]) -> tuple[dict, float | None]:
+    """Standalone capex per key for quarter i, plus their sum (the `strict` deduction).
+    The sum is None if any key present in that quarter can't be differenced."""
+    q, out, total, ok = quarters[i], {}, 0.0, True
+    for k in keys:
+        if k in q:
+            v = standalone(quarters, i, k)
+            out[k] = v
+            if v is None:
+                ok = False
+            else:
+                total += v
+    return out, (total if ok else None)
+
+
+def ttm_metrics(quarters: list[dict], j: int, keys: list[str]) -> dict | None:
+    """Trailing-twelve-month revenue / OCF / PP&E / total-capex ending at index j."""
     if j < 3:
         return None
     idxs = range(j - 3, j + 1)
@@ -156,29 +187,29 @@ def ttm_at(quarters: list[dict], j: int) -> dict | None:
         return None
     ocf = [standalone(quarters, k, "ytd_operating_cf") for k in idxs]
     ppe = [standalone(quarters, k, "ytd_capex_ppe") for k in idxs]
-    sw = [standalone(quarters, k, "ytd_capex_software") for k in idxs]
+    totals = [col_capex(quarters, k, keys)[1] for k in idxs]
     return {
         "rev": sum(rev),
         "ocf": None if None in ocf else sum(ocf),
         "ppe": None if None in ppe else sum(ppe),
-        "sw": None if None in sw else sum(sw),
+        "capex_total": None if None in totals else sum(totals),
     }
 
 
-def quarter_col(quarters: list[dict], i: int) -> dict:
+def quarter_col(quarters: list[dict], i: int, keys: list[str]) -> dict:
     """A single standalone-quarter display column."""
     q = quarters[i]
     ocf = standalone(quarters, i, "ytd_operating_cf")
-    ppe = standalone(quarters, i, "ytd_capex_ppe")
-    sw = standalone(quarters, i, "ytd_capex_software")
+    capex, total = col_capex(quarters, i, keys)
+    ppe = capex.get("ytd_capex_ppe")
     fcf_co = ocf - ppe if ocf is not None and ppe is not None else None
-    fcf_strict = fcf_co - sw if fcf_co is not None and sw is not None else None
+    fcf_strict = ocf - total if ocf is not None and total is not None else None
     return {
         "id": q["id"], "is_fy": False, "revenue": q.get("revenue"),
-        "ocf": ocf, "ppe": ppe, "sw": sw, "fcf_co": fcf_co, "fcf_strict": fcf_strict,
+        "ocf": ocf, "capex": capex, "fcf_co": fcf_co, "fcf_strict": fcf_strict,
         "shares": q.get("shares_outstanding"),
         "report_date": as_date(q.get("report_date")),
-        "ttm": ttm_at(quarters, i),  # trailing basis for this column's multiples
+        "ttm": ttm_metrics(quarters, i, keys),  # trailing basis for this column's multiples
         # full-year guidance / estimate as issued at THIS quarter's report
         "guid_fy": midpoint(q, "guidance_fy_revenue"),
         "guid_fy_withdrawn": bool(q.get("guidance_fy_revenue_withdrawn")),
@@ -186,7 +217,7 @@ def quarter_col(quarters: list[dict], i: int) -> dict:
     }
 
 
-def fy_col(quarters: list[dict], fy: str) -> dict:
+def fy_col(quarters: list[dict], fy: str, keys: list[str]) -> dict:
     """An aggregated full-fiscal-year display column (needs all four quarters)."""
     qs = [q for q in quarters if fy_token(q["id"]) == fy]
     by_n = {q_num(q["id"]): q for q in qs}
@@ -194,10 +225,11 @@ def fy_col(quarters: list[dict], fy: str) -> dict:
     revenue = sum(q["revenue"] for q in qs if q.get("revenue") is not None) or None
     # for a complete year the Q4 year-to-date lines ARE the full-year totals
     ocf = q4.get("ytd_operating_cf") if q4 else None
-    ppe = q4.get("ytd_capex_ppe") if q4 else None
-    sw = q4.get("ytd_capex_software") if q4 else None
+    capex = {k: q4.get(k) for k in keys if q4 and k in q4}
+    ppe = capex.get("ytd_capex_ppe")
+    total = sum(v for v in capex.values() if v is not None) if capex else None
     fcf_co = ocf - ppe if ocf is not None and ppe is not None else None
-    fcf_strict = fcf_co - sw if fcf_co is not None and sw is not None else None
+    fcf_strict = ocf - total if ocf is not None and total is not None else None
     # final full-year guidance/estimate for this FY = last of Q1–Q3 that guided it
     guid = est = None
     for n in (3, 2, 1):
@@ -210,11 +242,11 @@ def fy_col(quarters: list[dict], fy: str) -> dict:
             est = midpoint(q, "est_fy_revenue")
     return {
         "id": f"FY-{fy}", "is_fy": True, "revenue": revenue,
-        "ocf": ocf, "ppe": ppe, "sw": sw, "fcf_co": fcf_co, "fcf_strict": fcf_strict,
+        "ocf": ocf, "capex": capex, "fcf_co": fcf_co, "fcf_strict": fcf_strict,
         "shares": q4.get("shares_outstanding") if q4 else None,
         "report_date": as_date(q4.get("report_date")) if q4 else None,
         # at year-end the trailing window IS the full year
-        "ttm": {"rev": revenue, "ocf": ocf, "ppe": ppe, "sw": sw},
+        "ttm": {"rev": revenue, "ocf": ocf, "ppe": ppe, "capex_total": total},
         "guid_fy": guid, "guid_fy_withdrawn": False, "est_fy": est,
     }
 
@@ -227,8 +259,10 @@ def compute_official(ticker: str, data: dict, price: float) -> dict:
     shares = latest.get("shares_outstanding")
     mktcap = price * shares * mult if shares else None
 
+    keys = capex_keys(quarters)
     result: dict = {"ticker": ticker, "source": "report", "price": price,
-                    "mult": mult, "mktcap": mktcap, "as_of": latest["id"]}
+                    "mult": mult, "mktcap": mktcap, "as_of": latest["id"],
+                    "capex_keys": keys}
 
     # ---- display columns: current partial-year quarters, then every complete
     #      fiscal year (aggregate) followed by its four quarters, newest first ----
@@ -238,14 +272,14 @@ def compute_official(ticker: str, data: dict, price: float) -> dict:
     complete = {fy for fy, qs in by_fy.items() if len({q_num(q["id"]) for q in qs}) == 4}
 
     def qcols(fy):
-        return [quarter_col(quarters, quarters.index(q))
+        return [quarter_col(quarters, quarters.index(q), keys)
                 for q in sorted(by_fy[fy], key=lambda q: q_num(q["id"]), reverse=True)]
 
     cols = []
     for fy in sorted((fy for fy in by_fy if fy not in complete), reverse=True):
         cols += qcols(fy)
     for fy in sorted(complete, reverse=True):
-        cols.append(fy_col(quarters, fy))
+        cols.append(fy_col(quarters, fy, keys))
         cols += qcols(fy)
     result["cols"] = cols
 
@@ -274,34 +308,33 @@ def compute_official(ticker: str, data: dict, price: float) -> dict:
         if c["mktcap"] and t and t.get("ocf") is not None and t.get("ppe") is not None:
             fcf_co = (t["ocf"] - t["ppe"]) * mult
             c["pfcf_co"] = c["mktcap"] / fcf_co if fcf_co > 0 else None
-            if t.get("sw") is not None:
-                fcf_strict = fcf_co - t["sw"] * mult
+            if t.get("capex_total") is not None:
+                fcf_strict = (t["ocf"] - t["capex_total"]) * mult
                 c["pfcf_strict"] = c["mktcap"] / fcf_strict if fcf_strict > 0 else None
 
     # ---- trailing TTM (last four reported quarters, regardless of display) ----
     if len(quarters) >= 4:
-        window = [quarter_col(quarters, i) for i in range(len(quarters) - 1, len(quarters) - 5, -1)]
-        rev = [c["revenue"] for c in window]
-        ocf = [c["ocf"] for c in window]
-        ppe = [c["ppe"] for c in window]
-        sw = [c["sw"] for c in window]
+        window = [quarter_col(quarters, i, keys) for i in range(len(quarters) - 1, len(quarters) - 5, -1)]
 
-        rev_ttm = sum(rev) * mult if None not in rev else None
-        ttm = {"revenue": rev_ttm, "shares": shares}
-        result["ps"] = mktcap / rev_ttm if mktcap and rev_ttm else None
-        if None not in ocf and None not in ppe:
-            ttm["ocf"] = sum(ocf) * mult
-            ttm["ppe"] = sum(ppe) * mult
-            fcf_co = (sum(ocf) - sum(ppe)) * mult
-            ttm["fcf_co"] = fcf_co
-            result["pfcf_co"] = mktcap / fcf_co if mktcap and fcf_co > 0 else None
-            if None not in sw:
-                ttm["sw"] = sum(sw) * mult
-                fcf_strict = fcf_co - sum(sw) * mult
-                ttm["fcf_strict"] = fcf_strict
-                result["pfcf_strict"] = mktcap / fcf_strict if mktcap and fcf_strict > 0 else None
+        def agg(fn):
+            vals = [fn(c) for c in window]
+            return None if any(v is None for v in vals) else sum(vals) * mult
+
+        ttm = {
+            "revenue": agg(lambda c: c["revenue"]),
+            "ocf": agg(lambda c: c["ocf"]),
+            "capex": {k: agg(lambda c, k=k: c["capex"].get(k)) for k in keys},
+            "fcf_co": agg(lambda c: c["fcf_co"]),
+            "fcf_strict": agg(lambda c: c["fcf_strict"]),
+            "shares": shares,
+        }
         result["ttm"] = ttm
-        result["rev_ttm"] = rev_ttm
+        result["rev_ttm"] = ttm["revenue"]
+        result["ps"] = mktcap / ttm["revenue"] if mktcap and ttm["revenue"] else None
+        if mktcap and ttm["fcf_co"] and ttm["fcf_co"] > 0:
+            result["pfcf_co"] = mktcap / ttm["fcf_co"]
+        if mktcap and ttm["fcf_strict"] and ttm["fcf_strict"] > 0:
+            result["pfcf_strict"] = mktcap / ttm["fcf_strict"]
 
     # ---- forward P/S at TODAY's price from the latest full-year guidance / estimate ----
     def cur_ps(rev):
@@ -414,11 +447,13 @@ def render_ticker(r: dict) -> None:
         cells = [num(c.get(key), mult) for c in cols]
         table.add_row(label, ttm_cell, *cells, end_section=end_section)
 
-    # --- fundamentals ---
+    # --- fundamentals (one CapEx row per ytd_capex_* line found in the data) ---
     fund_row("Revenue ($M)", num(ttm.get("revenue"), 1), "revenue")
     fund_row("Operating CF ($M)", num(ttm.get("ocf"), 1), "ocf")
-    fund_row("CapEx PP&E ($M)", num(ttm.get("ppe"), 1), "ppe")
-    fund_row("CapEx software ($M)", num(ttm.get("sw"), 1), "sw")
+    ttm_capex = ttm.get("capex") or {}
+    for k in r.get("capex_keys", []):
+        cells = [num((c.get("capex") or {}).get(k), mult) for c in cols]
+        table.add_row(f"CapEx {capex_label(k)} ($M)", num(ttm_capex.get(k), 1), *cells)
     fund_row("FCF company ($M)", num(ttm.get("fcf_co"), 1), "fcf_co")
     fund_row("FCF strict ($M)", num(ttm.get("fcf_strict"), 1), "fcf_strict")
     fund_row("Shares out (M)", num(ttm.get("shares"), mult), "shares", end_section=True)

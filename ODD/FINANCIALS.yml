@@ -6,13 +6,15 @@
 #   shares_outstanding point-in-time total (all classes) at quarter end, from the
 #                      balance sheet / 10-Q cover page — NOT the weighted average
 #   ytd_operating_cf   net cash from operating activities, AS REPORTED (year-to-date)
-#   ytd_capex_ppe      purchase of property, plant & equipment, year-to-date
-#   ytd_capex_software capitalization of software development costs, year-to-date
+#   ytd_capex_*        capitalized investment lines, year-to-date. Naming convention:
+#                        ytd_capex_ppe   → purchase of PP&E; the ONLY line in `company` FCF
+#                        ytd_capex_<x>   → any other capitalized spend (software, content,
+#                                          R&D, …). `strict` FCF subtracts ALL ytd_capex_*.
+#                      Each key becomes its own "CapEx <x>" row automatically.
 #   guidance_fy_revenue_low/high  FULL-YEAR revenue guidance issued AT THIS quarter's report;
 #                                 updates each quarter, so the row shows the raise trajectory.
 #                                 Set guidance_fy_revenue_withdrawn: true when guidance is pulled.
 #   est_fy_revenue_low/high       my own full-year estimate (independent of guidance)
-#   guidance_nq_/est_nq_          next-quarter ranges (optional)
 
 unit: thousands
 

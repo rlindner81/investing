@@ -119,8 +119,8 @@ quarters:
     shares_outstanding: 56657   # point-in-time total (all classes) at quarter end, from the
                                 # balance sheet / cover page — NOT the weighted average
     ytd_operating_cf: -20234    # net cash from operations, AS REPORTED (year-to-date)
-    ytd_capex_ppe: 858          # purchase of PP&E, year-to-date
-    ytd_capex_software: 4197    # capitalized software dev costs, year-to-date (0/omit if none)
+    ytd_capex_ppe: 858          # PP&E purchases, YTD — the ONLY capex line in `company` FCF
+    ytd_capex_software: 4197    # any other capitalized spend, YTD; add more ytd_capex_* as needed
     # --- full-year guidance ISSUED AT THIS report (optional, low/high range) ---
     guidance_fy_revenue_low: 806000
     guidance_fy_revenue_high: 809000
@@ -141,9 +141,12 @@ Conventions and derivations the tool relies on:
   `shares_outstanding`; P/S and P/FCF use the trailing-twelve-months ending that
   quarter. The **TTM** column uses the live price instead. FY-aggregate columns
   blank the valuation rows (they'd just duplicate Q4).
-- **Two FCF flavours**: `company` = OCF − PP&E capex (matches the FCF companies
-  usually print), `strict` = OCF − PP&E − capitalized software. Negative trailing
-  FCF prints `n/m`.
+- **Two FCF flavours**, driven by a naming convention: `company` = OCF −
+  `ytd_capex_ppe` (matches the FCF companies usually print); `strict` = OCF −
+  *every* `ytd_capex_*` line (PP&E + software + content + capitalized R&D + …).
+  So each company just breaks out whatever capitalized-investment lines it
+  discloses as `ytd_capex_<name>`; each becomes its own CapEx row and is folded
+  into `strict`. Negative trailing FCF prints `n/m`.
 - **FY guidance is per-quarter.** `guidance_fy_revenue_*` is the full-year
   guidance as it stood at *that* report, so the row shows the raise trajectory;
   the FY-aggregate column takes the last interim guide. `FW P/S guidance` /
