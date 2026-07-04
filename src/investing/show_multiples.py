@@ -465,6 +465,8 @@ def render_ticker(r: dict) -> None:
     blank = ["" for _ in cols]
     # `company` and `strict` FCF differ only when there's capex beyond PP&E
     two_fcf = any(k != "ytd_capex_ppe" for k in r.get("capex_keys", []))
+    # the estimate rows are shown only when FY estimates are actually maintained
+    has_est = any(c.get("est_fy") for c in cols)
 
     def fund_row(label, ttm_cell, key, end_section=False):
         cells = [num(c.get(key), mult) for c in cols]
@@ -490,10 +492,11 @@ def render_ticker(r: dict) -> None:
                     for c in cols])
     table.add_row("FY Rev guidance ($M)", "",
                   *["" if c.get("is_fy") else guid_cell(c.get("guid_fy"), c.get("guid_fy_hint"), mult)
-                    for c in cols])
-    table.add_row("FY Rev estimate ($M)", "",
-                  *["" if c.get("is_fy") else rng_cell(c.get("est_fy"), mult) for c in cols],
-                  end_section=True)
+                    for c in cols], end_section=not has_est)
+    if has_est:
+        table.add_row("FY Rev estimate ($M)", "",
+                      *["" if c.get("is_fy") else rng_cell(c.get("est_fy"), mult) for c in cols],
+                      end_section=True)
 
     # --- valuation, per column (report-date close × then-current data);
     #     blank in the FY column, where it would just duplicate Q4 ---
@@ -517,8 +520,9 @@ def render_ticker(r: dict) -> None:
             lambda c: fmt_mult_rng(c.get("nq_ps")))
     val_row("FW P/S FY guidance", fmt_mult_rng(r.get("fwd_ps_guid")),
             lambda c: fmt_mult_rng(c.get("guid_ps")))
-    val_row("FW P/S FY estimate", fmt_mult_rng(r.get("fwd_ps_est")),
-            lambda c: fmt_mult_rng(c.get("est_ps")))
+    if has_est:
+        val_row("FW P/S FY estimate", fmt_mult_rng(r.get("fwd_ps_est")),
+                lambda c: fmt_mult_rng(c.get("est_ps")))
 
     console.print(table)
     console.print()
