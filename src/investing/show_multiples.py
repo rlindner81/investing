@@ -311,6 +311,22 @@ def compute_official(ticker: str, data: dict, price: float) -> dict:
         c["rev_yoy"] = _yoy(c.get("revenue"), prior.get("revenue") if prior else None)
         c["fcf_yoy"] = _yoy(c.get("fcf_co"), prior.get("fcf_co") if prior else None)
 
+    # ---- NQ guidance vs next quarter's actual (retrospective accuracy) ----
+    col_by_id = {c["id"]: c for c in cols}
+    for c in cols:
+        if c.get("is_fy"):
+            c["vs_nq_guid"] = None
+            continue
+        nq = c.get("guid_nq")
+        if not nq:
+            c["vs_nq_guid"] = None
+            continue
+        n, fy = q_num(c["id"]), int(fy_token(c["id"]))
+        next_id = f"q1-{fy + 1}" if n == 4 else f"q{n + 1}-{fy}"
+        nxt = col_by_id.get(next_id)
+        rev = nxt.get("revenue") if nxt else None
+        c["vs_nq_guid"] = (rev / ((nq[0] + nq[1]) / 2) - 1) if rev is not None else None
+
     # ---- per-column valuation: close on the report date × then-current data ----
     closes = load_closes(ticker)
     for c in cols:
@@ -525,6 +541,8 @@ def render_ticker(r: dict) -> None:
     table.add_row("NQ Rev guidance ($M)", "",
                   *["" if c.get("is_fy") else guid_cell(c.get("guid_nq"), c.get("guid_nq_hint"), mult)
                     for c in cols])
+    table.add_row("  NQ actual/guide", "",
+                  *["" if c.get("is_fy") else fmt_yoy(c.get("vs_nq_guid")) for c in cols])
     table.add_row("FY Rev guidance ($M)", "",
                   *["" if c.get("is_fy") else guid_cell(c.get("guid_fy"), c.get("guid_fy_hint"), mult)
                     for c in cols], end_section=not has_est)
