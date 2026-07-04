@@ -32,25 +32,32 @@ This is an investment research repository. Each ticker gets its own top-level di
 - For companies with non-calendar fiscal years: include `fy` to avoid ambiguity — e.g., `q4-fy2025-summary`, `q3-fy2026-summary`
 - Always note the fiscal year convention and the calendar period covered at the top of the file
 
-## Downloading Reports and Transcripts
+## Downloading Source Files
 
-There are two separate scripts for fetching quarterly data. Both read from `sources.json` and skip files that already exist.
+`fetch-sources` reads each ticker's `sources.json` and downloads whatever files are missing. It handles two keys per quarter entry:
 
-### SEC Financial Reports
-
-Reports are saved as `YYYY-MM-DD_<quarter>-report.md` and contain the income statement, balance sheet, and cash flow from the SEC filing.
-
-Use `fetch-report` to download them:
+- `report` → `YYYY-MM-DD_<quarter>-report.md` — income statement, balance sheet, cash flow from the SEC 10-Q/10-K/6-K filing
+- `letter` → `YYYY-MM-DD_<quarter>-letter.md` — shareholder/earnings letter (8-K exhibit HTML, converted to markdown)
 
 ```bash
-# Download all missing reports in the repo
-uv run fetch-report
+# Download all missing reports + letters across the whole repo
+uv run fetch-sources
 
-# Download a specific quarter
-uv run fetch-report ODD 2026-06-02
+# One ticker only
+uv run fetch-sources ODD
+
+# One quarter
+uv run fetch-sources ODD 2026-06-02
+
+# Supply a report URL directly (bypasses auto-discovery)
+uv run fetch-sources ODD 2026-06-02 --url https://www.sec.gov/Archives/edgar/data/.../
+
+# Only one file type
+uv run fetch-sources --report-only
+uv run fetch-sources --letter-only
 ```
 
-Source: SEC EDGAR. Add the filing index URL as the `report` key in `sources.json` before running the script.
+Source: SEC EDGAR. Add the filing index URL as the `report` key and the 8-K exhibit URL as the `letter` key in `sources.json` before running.
 
 ### Earnings Call Transcripts
 

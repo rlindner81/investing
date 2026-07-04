@@ -26,7 +26,7 @@ import time
 from datetime import datetime
 
 from investing.lib import REPO_ROOT, load_sources
-from investing.fetch_report import (
+from investing.fetch_sources import (
     EDGAR_ARCHIVE,
     EDGAR_DATA,
     REQUEST_DELAY,

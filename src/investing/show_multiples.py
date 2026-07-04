@@ -272,11 +272,14 @@ def compute_official(ticker: str, data: dict, price: float) -> dict:
     by_fy: dict[str, list[dict]] = {}
     for q in quarters:
         by_fy.setdefault(fy_token(q["id"]), []).append(q)
-    complete = {fy for fy, qs in by_fy.items() if len({q_num(q["id"]) for q in qs}) == 4}
+    complete = {fy for fy, qs in by_fy.items()
+                if len({q_num(q["id"]) for q in qs}) == 4
+                and any(q.get("report_date") for q in qs)}
 
     def qcols(fy):
         return [quarter_col(quarters, quarters.index(q), keys)
-                for q in sorted(by_fy[fy], key=lambda q: q_num(q["id"]), reverse=True)]
+                for q in sorted(by_fy[fy], key=lambda q: q_num(q["id"]), reverse=True)
+                if q.get("report_date")]
 
     # newest fiscal year first; a complete year gets its aggregate column, then its quarters
     cols = []
@@ -459,7 +462,7 @@ def render_ticker(r: dict) -> None:
     table.add_column("", min_width=19, no_wrap=True)
     table.add_column("TTM", justify="right", style="bold", header_style=agg, min_width=9)
     for c in cols:
-        table.add_column(c["id"], justify="right", min_width=9,
+        table.add_column(c["id"], justify="right", min_width=12,
                          header_style=agg if c.get("is_fy") else None)
 
     blank = ["" for _ in cols]

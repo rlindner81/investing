@@ -5,47 +5,56 @@
   "2026-05-07": {
     "quarter": "q1-2026",
     "period_end": "2026-03-31",
-    "report": "https://www.sec.gov/Archives/edgar/data/1559720/000155972026000014/"
+    "report": "https://www.sec.gov/Archives/edgar/data/1559720/000155972026000014/",
+    "letter": "https://www.sec.gov/Archives/edgar/data/1559720/000119312526211816/d23351dex991.htm"
   },
   "2026-02-12": {
     "quarter": "q4-2025",
     "period_end": "2025-12-31",
-    "report": "https://www.sec.gov/Archives/edgar/data/1559720/000155972026000004/"
+    "report": "https://www.sec.gov/Archives/edgar/data/1559720/000155972026000004/",
+    "letter": "https://www.sec.gov/Archives/edgar/data/1559720/000119312526048670/d58192dex991.htm"
   },
   "2025-11-06": {
     "quarter": "q3-2025",
     "period_end": "2025-09-30",
-    "report": "https://www.sec.gov/Archives/edgar/data/1559720/000155972025000030/"
+    "report": "https://www.sec.gov/Archives/edgar/data/1559720/000155972025000030/",
+    "letter": "https://www.sec.gov/Archives/edgar/data/1559720/000119312525269432/d40503dex991.htm"
   },
   "2025-08-06": {
     "quarter": "q2-2025",
     "period_end": "2025-06-30",
-    "report": "https://www.sec.gov/Archives/edgar/data/1559720/000155972025000025/"
+    "report": "https://www.sec.gov/Archives/edgar/data/1559720/000155972025000025/",
+    "letter": "https://www.sec.gov/Archives/edgar/data/1559720/000119312525174438/d17531dex991.htm"
   },
   "2025-05-01": {
     "quarter": "q1-2025",
     "period_end": "2025-03-31",
-    "report": "https://www.sec.gov/Archives/edgar/data/1559720/000155972025000017/"
+    "report": "https://www.sec.gov/Archives/edgar/data/1559720/000155972025000017/",
+    "letter": "https://www.sec.gov/Archives/edgar/data/1559720/000119312525109934/d40594dex991.htm"
   },
   "2025-02-13": {
     "quarter": "q4-2024",
     "period_end": "2024-12-31",
-    "report": "https://www.sec.gov/Archives/edgar/data/1559720/000155972025000010/"
+    "report": "https://www.sec.gov/Archives/edgar/data/1559720/000155972025000010/",
+    "letter": "https://www.sec.gov/Archives/edgar/data/1559720/000119312525026054/d915198dex991.htm"
   },
   "2024-11-07": {
     "quarter": "q3-2024",
     "period_end": "2024-09-30",
-    "report": "https://www.sec.gov/Archives/edgar/data/1559720/000155972024000032/"
+    "report": "https://www.sec.gov/Archives/edgar/data/1559720/000155972024000032/",
+    "letter": "https://www.sec.gov/Archives/edgar/data/1559720/000119312524253103/d886752dex991.htm"
   },
   "2024-08-06": {
     "quarter": "q2-2024",
     "period_end": "2024-06-30",
-    "report": "https://www.sec.gov/Archives/edgar/data/1559720/000155972024000024/"
+    "report": "https://www.sec.gov/Archives/edgar/data/1559720/000155972024000024/",
+    "letter": "https://www.sec.gov/Archives/edgar/data/1559720/000119312524194849/d831385dex991.htm"
   },
   "2024-05-08": {
     "quarter": "q1-2024",
     "period_end": "2024-03-31",
-    "report": "https://www.sec.gov/Archives/edgar/data/1559720/000155972024000017/"
+    "report": "https://www.sec.gov/Archives/edgar/data/1559720/000155972024000017/",
+    "letter": "https://www.sec.gov/Archives/edgar/data/1559720/000119312524134183/d813800dex991.htm"
   },
   "2024-02-16": {
     "quarter": "q4-2023",

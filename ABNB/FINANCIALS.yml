@@ -7,30 +7,29 @@
 #     flow, and share counts — to the million in its filings, so millions is the
 #     native, loss-free granularity.
 #   - Values were pulled from EDGAR XBRL companyfacts and cross-checked against
-#     the downloaded reports:
-#       revenue            → us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax
-#       ytd_operating_cf   → us-gaap:NetCashProvidedByUsedInOperatingActivities
-#     (see ABNB/xbrl-to-financials.yml for the full validated mapping).
-#   - CAPEX: ABNB is asset-light and does NOT break out a "purchases of property
-#     and equipment" line in its condensed cash-flow statement — any PP&E spend is
-#     immaterial and netted inside "Other investing activities, net". So
-#     ytd_capex_ppe = 0 and company FCF = operating cash flow, matching how ABNB
-#     itself reports Free Cash Flow. (PP&E capex was tagged only in FY2023 at
-#     ~$15–30M YTD, <1% of OCF.)
-#   - shares_outstanding: point-in-time total across Class A + B + C + H, summed
-#     from the balance-sheet parenthetical (Class C and H are 0). The steady
-#     decline reflects ABNB's ongoing buyback.
-#   - Q4 revenue has no standalone fact (the 10-K tags the 12-month total only);
-#     it is derived as FY total − 9-month YTD. ytd_operating_cf at Q4 is the
-#     full-year figure as reported.
-#   - GUIDANCE ROWS ARE NOT YET FILLED — ABNB guides next-quarter revenue in its
-#     shareholder letter (not in XBRL); add from the press release / transcript.
+#     the downloaded reports (see ABNB/xbrl-to-financials.yml for the tag mapping).
+#   - CAPEX: ABNB is asset-light — no separate PP&E line in recent cash-flow
+#     statements (netted into "Other investing activities, net"). ytd_capex_ppe = 0
+#     → company FCF = OCF, matching how ABNB itself reports Free Cash Flow.
+#   - shares_outstanding: Class A + B outstanding summed from the balance-sheet
+#     parenthetical. Class C and H are 0. Steady decline reflects ongoing buyback.
+#   - Q4 revenue = FY total − 9-month YTD (no standalone 10-K fact).
+#   - GUIDANCE: ABNB guides next quarter only (dollar range). No full-year revenue
+#     guidance is given in dollar terms; the Q4 letters give qualitative FY hints.
+#     Source for all guidance: quarterly shareholder letters (see sources.json → letter).
 
 unit: millions
 
 quarters:
-  # --- 2023 quarters: trailing history only (give q1-2024 a valid TTM base).
-  #     No report_date / shares → valuation rows stay blank. ---
+  # --- q1-2023: diff base so q2-2023 standalone OCF can be computed.
+  #     No report_date / shares → stays hidden as a history-only entry. ---
+
+  - id: q1-2023
+    end_date: 2023-03-31
+    revenue: 1818
+    ytd_operating_cf: 1587
+    ytd_capex_ppe: 0
+
   - id: q2-2023
     end_date: 2023-06-30
     revenue: 2484
@@ -56,6 +55,8 @@ quarters:
     shares_outstanding: 636
     ytd_operating_cf: 1923
     ytd_capex_ppe: 0
+    guidance_nq_revenue_low: 2680    # Q2-2024 guidance
+    guidance_nq_revenue_high: 2740
 
   - id: q2-2024
     end_date: 2024-06-30
@@ -64,6 +65,8 @@ quarters:
     shares_outstanding: 634
     ytd_operating_cf: 2974
     ytd_capex_ppe: 0
+    guidance_nq_revenue_low: 3670    # Q3-2024 guidance
+    guidance_nq_revenue_high: 3730
 
   - id: q3-2024
     end_date: 2024-09-30
@@ -72,6 +75,8 @@ quarters:
     shares_outstanding: 627
     ytd_operating_cf: 4052
     ytd_capex_ppe: 0
+    guidance_nq_revenue_low: 2390    # Q4-2024 guidance
+    guidance_nq_revenue_high: 2440
 
   - id: q4-2024
     end_date: 2024-12-31
@@ -80,6 +85,9 @@ quarters:
     shares_outstanding: 623
     ytd_operating_cf: 4518
     ytd_capex_ppe: 0
+    guidance_nq_revenue_low: 2230    # Q1-2025 guidance
+    guidance_nq_revenue_high: 2270
+    guidance_fy_hint: qualitative    # "aim to build on momentum"; no dollar FY2025 range given
 
   - id: q1-2025
     end_date: 2025-03-31
@@ -88,6 +96,8 @@ quarters:
     shares_outstanding: 619
     ytd_operating_cf: 1789
     ytd_capex_ppe: 0
+    guidance_nq_revenue_low: 2990    # Q2-2025 guidance
+    guidance_nq_revenue_high: 3050
 
   - id: q2-2025
     end_date: 2025-06-30
@@ -96,6 +106,8 @@ quarters:
     shares_outstanding: 613
     ytd_operating_cf: 2764
     ytd_capex_ppe: 0
+    guidance_nq_revenue_low: 4020    # Q3-2025 guidance
+    guidance_nq_revenue_high: 4100
 
   - id: q3-2025
     end_date: 2025-09-30
@@ -104,6 +116,8 @@ quarters:
     shares_outstanding: 608
     ytd_operating_cf: 4120
     ytd_capex_ppe: 0
+    guidance_nq_revenue_low: 2660    # Q4-2025 guidance
+    guidance_nq_revenue_high: 2720
 
   - id: q4-2025
     end_date: 2025-12-31
@@ -112,6 +126,9 @@ quarters:
     shares_outstanding: 602
     ytd_operating_cf: 4646
     ytd_capex_ppe: 0
+    guidance_nq_revenue_low: 2590    # Q1-2026 guidance
+    guidance_nq_revenue_high: 2630
+    guidance_fy_hint: qualitative    # "at least low double digits" YoY growth; no dollar FY2026 range
 
   - id: q1-2026
     end_date: 2026-03-31
@@ -120,3 +137,5 @@ quarters:
     shares_outstanding: 595
     ytd_operating_cf: 1708
     ytd_capex_ppe: 0
+    guidance_nq_revenue_low: 3540    # Q2-2026 guidance
+    guidance_nq_revenue_high: 3600

@@ -1,9 +1,14 @@
 #!/usr/bin/env python3
 """
-fetch_report.py — Download quarterly financial statements from SEC EDGAR.
+fetch_sources.py — Download per-quarter source files from SEC EDGAR.
 
-Supports domestic filers (10-Q / 10-K with XBRL R-files) and foreign private
-issuers (6-K press release exhibit / 20-F with XBRL R-files).
+Reads each ticker's sources.json and downloads whatever files are missing:
+
+  report  → YYYY-MM-DD_<quarter>-report.md   (income / balance / cash-flow)
+  letter  → YYYY-MM-DD_<quarter>-letter.md   (shareholder / earnings letter)
+
+Both keys are optional; only the ones present in sources.json are fetched.
+Files that already exist on disk are always skipped.
 
 sources.json format:
   {
@@ -11,22 +16,28 @@ sources.json format:
     "2025-08-07": {
       "quarter": "q1-2026",
       "period_end": "2025-06-30",
-      "report": "https://...",
-      "transcript": "https://..."
+      "report": "https://www.sec.gov/Archives/edgar/data/.../",
+      "letter": "https://www.sec.gov/Archives/edgar/data/.../dXXXXex991.htm",
+      "transcript": "https://stockanalysis.com/..."
     }
   }
 
 Usage:
-  # Download all missing financial reports across the whole repo
-  uv run src/fetch_report.py
+  # Download all missing reports + letters across the whole repo
+  uv run fetch-sources
 
-  # Download a specific quarter by ticker and announcement date
-  uv run src/fetch_report.py BARK 2025-08-07
+  # One ticker only
+  uv run fetch-sources BARK
 
-  # Supply a URL directly (EDGAR filing index, bypasses auto-discovery)
-  uv run src/fetch_report.py BARK 2025-08-07 --url https://www.sec.gov/Archives/edgar/data/.../
+  # One quarter
+  uv run fetch-sources BARK 2025-08-07
 
-Output: <TICKER>/quarters/<date>_<quarter>-report.md
+  # Supply a report URL directly (bypasses auto-discovery)
+  uv run fetch-sources BARK 2025-08-07 --url https://www.sec.gov/Archives/edgar/data/.../
+
+  # Only one file type
+  uv run fetch-sources --report-only
+  uv run fetch-sources --letter-only
 """
 
 import re
@@ -89,7 +100,6 @@ def fetch_text(url: str) -> str | None:
 # ---------------------------------------------------------------------------
 
 def resolve_cik(ticker: str) -> str | None:
-    """Return 10-digit zero-padded CIK for a ticker symbol."""
     print(f"  Looking up CIK for {ticker}...")
     time.sleep(REQUEST_DELAY)
     data = fetch_json("https://www.sec.gov/files/company_tickers.json")
@@ -109,16 +119,10 @@ def resolve_cik(ticker: str) -> str | None:
 # EDGAR: Filing discovery
 # ---------------------------------------------------------------------------
 
-# Preference order when multiple form types are found at the same date distance.
 FORM_PRIORITY = {"10-Q": 0, "10-K": 1, "20-F": 2, "6-K": 3}
 
 
 def find_filing(cik: str, announcement_date: str) -> tuple[str, str, str] | None:
-    """Find the most relevant filing closest to announcement_date.
-
-    Returns (accession_number, period_end_date, form_type) or None.
-    Prefers 10-Q/10-K over 20-F/6-K when date distance is equal.
-    """
     url = f"{EDGAR_DATA}/submissions/CIK{cik}.json"
     time.sleep(REQUEST_DELAY)
     data = fetch_json(url)
@@ -169,10 +173,6 @@ def find_filing(cik: str, announcement_date: str) -> tuple[str, str, str] | None
 # XBRL path: FilingSummary.xml → R-files
 # ---------------------------------------------------------------------------
 
-# Keywords in LongName that identify each statement type.
-# "statements of income" matches foreign filer 20-F/6-K labels like
-# "CONSOLIDATED STATEMENTS OF INCOME" without matching the separate
-# "CONSOLIDATED STATEMENTS OF COMPREHENSIVE INCOME" sheet.
 STATEMENT_KEYWORDS = {
     "income":   ["statements of operations", "statements of income", "earnings"],
     "balance":  ["balance sheet", "financial position"],
@@ -183,7 +183,6 @@ SKIP_KEYWORDS = ["parenthetical"]
 
 
 def get_statement_files(cik: str, accession: str) -> list[tuple[str, str, str]]:
-    """Parse FilingSummary.xml and return [(stmt_type, short_name, r_filename)]."""
     accn_nodash = accession.replace("-", "")
     cik_int = int(cik)
     url = f"{EDGAR_ARCHIVE}/{cik_int}/{accn_nodash}/FilingSummary.xml"
@@ -222,7 +221,6 @@ def get_statement_files(cik: str, accession: str) -> list[tuple[str, str, str]]:
 
 
 def _cell_text(cell_html: str) -> str:
-    """Extract clean text from an HTML table cell."""
     cell_html = re.sub(r"<span[^>]*></span>", "", cell_html)
     text = re.sub(r"<[^>]+>", "", cell_html)
     text = (text
@@ -235,8 +233,6 @@ def _cell_text(cell_html: str) -> str:
 
 
 def r_file_to_markdown(html: str) -> str:
-    """Convert an EDGAR R-file HTML table to markdown."""
-    # Scope to the main report table — avoids XBRL metadata divs below it.
     table_m = re.search(r'<table[^>]*class="report"[^>]*>(.*?)</table>', html, re.DOTALL | re.IGNORECASE)
     if table_m:
         html = table_m.group(1)
@@ -256,7 +252,6 @@ def r_file_to_markdown(html: str) -> str:
 
 
 def fetch_r_statement(cik: str, accession: str, r_filename: str) -> str | None:
-    """Fetch one R-file and return as a markdown table string."""
     accn_nodash = accession.replace("-", "")
     url = f"{EDGAR_ARCHIVE}/{int(cik)}/{accn_nodash}/{r_filename}"
     time.sleep(REQUEST_DELAY)
@@ -280,7 +275,6 @@ PRESS_KEYWORDS = {
 
 
 def find_6k_exhibit(cik: str, accession: str) -> str | None:
-    """Return the URL of the ex99-1 exhibit in a 6-K filing."""
     accn_nodash = accession.replace("-", "")
     cik_int = int(cik)
     index_url = f"{EDGAR_ARCHIVE}/{cik_int}/{accn_nodash}/"
@@ -288,7 +282,6 @@ def find_6k_exhibit(cik: str, accession: str) -> str | None:
     html = fetch_text(index_url)
     if not html:
         return None
-    # Match exhibit filenames containing "ex99" or "exhibit99"
     m = re.search(
         r'href="(/Archives/edgar/data/\d+/\d+/[^"]*(?:ex[-_]?99|exhibit[-_]?99)[^"]*\.htm[^"]*)"',
         html, re.IGNORECASE,
@@ -299,7 +292,6 @@ def find_6k_exhibit(cik: str, accession: str) -> str | None:
 
 
 def table_html_to_markdown(table_html: str) -> str:
-    """Convert a raw <table>…</table> HTML string to markdown."""
     rows_md: list[list[str]] = []
     for tr_m in re.finditer(r"<tr[^>]*>(.*?)</tr>", table_html, re.DOTALL | re.IGNORECASE):
         cells: list[str] = []
@@ -314,11 +306,6 @@ def table_html_to_markdown(table_html: str) -> str:
 
 
 def press_release_to_statements(html: str) -> dict[str, str]:
-    """Extract income, balance, and cashflow tables from a press release HTML.
-
-    Handles the common pattern where the balance sheet is split across two
-    consecutive tables (assets then liabilities).
-    """
     html = re.sub(r"<(script|style)[^>]*>.*?</\1>", "", html, flags=re.DOTALL | re.IGNORECASE)
 
     table_spans = list(re.finditer(r"<table[^>]*>.*?</table>", html, re.DOTALL | re.IGNORECASE))
@@ -328,7 +315,6 @@ def press_release_to_statements(html: str) -> dict[str, str]:
     last_type: str | None = None
 
     for tm in table_spans:
-        # Plain text between end of previous table and start of this one
         between = html[prev_end:tm.start()]
         between_text = re.sub(r"<[^>]+>", " ", between)
         between_text = re.sub(r"\s+", " ", between_text).lower()[-500:]
@@ -350,7 +336,6 @@ def press_release_to_statements(html: str) -> dict[str, str]:
             continue
 
         if matched == last_type and matched in results:
-            # Consecutive tables of the same type — merge (e.g. split balance sheet)
             results[matched] += "\n\n" + md
         else:
             results[matched] = md
@@ -358,6 +343,80 @@ def press_release_to_statements(html: str) -> dict[str, str]:
         last_type = matched
 
     return results
+
+
+# ---------------------------------------------------------------------------
+# Letter path: 8-K exhibit HTML → markdown
+# ---------------------------------------------------------------------------
+
+def _html_entities(text: str) -> str:
+    return (text
+            .replace("&amp;", "&").replace("&lt;", "<").replace("&gt;", ">")
+            .replace("&nbsp;", " ").replace("&#160;", " ")
+            .replace("&#8212;", "—").replace("&#8211;", "–")
+            .replace("&#8217;", "'").replace("&#8216;", "'")
+            .replace("&#8220;", '"').replace("&#8221;", '"')
+            .replace("&#8203;", "").replace("&#38;", "&"))
+
+
+def exhibit_to_markdown(html: str) -> str:
+    """Convert an SEC 8-K exhibit (shareholder letter HTML) to clean markdown.
+
+    Preserves headings, paragraphs, bullet lists, and financial tables.
+    Strips page-layout cruft (font/color/style attributes, empty spans, etc.).
+    """
+    # Drop scripts, styles, and inline CSS blocks
+    html = re.sub(r"<(script|style)[^>]*>.*?</\1>", "", html, flags=re.DOTALL | re.IGNORECASE)
+
+    blocks: list[str] = []
+
+    # Walk the document by splitting on block-level tags.
+    # We process tables specially; everything else is text.
+    cursor = 0
+    for table_m in re.finditer(r"<table[^>]*>.*?</table>", html, re.DOTALL | re.IGNORECASE):
+        # Process text between last position and this table
+        segment = html[cursor:table_m.start()]
+        blocks.extend(_segment_to_blocks(segment))
+        # Convert table
+        md_table = table_html_to_markdown(table_m.group(0))
+        if md_table:
+            blocks.append(md_table)
+        cursor = table_m.end()
+
+    # Remaining text after last table
+    blocks.extend(_segment_to_blocks(html[cursor:]))
+
+    # Collapse and return
+    result = "\n\n".join(b for b in blocks if b.strip())
+    return result
+
+
+def _segment_to_blocks(html: str) -> list[str]:
+    """Convert a non-table HTML segment into a list of markdown block strings."""
+    # Replace block-level tags with newline sentinels
+    html = re.sub(r"<br\s*/?>", "\n", html, flags=re.IGNORECASE)
+    html = re.sub(r"</(p|div|li|tr|h[1-6])>", "\n", html, flags=re.IGNORECASE)
+
+    # Map heading tags to markdown prefixes
+    def heading(m: re.Match) -> str:
+        level = int(m.group(1))
+        prefix = "#" * min(level + 1, 4)  # h1→##, h2→###, h3→####
+        inner = re.sub(r"<[^>]+>", "", m.group(2))
+        return f"\n{prefix} {inner.strip()}\n"
+
+    html = re.sub(r"<h([1-6])[^>]*>(.*?)</h\1>", heading, html, flags=re.DOTALL | re.IGNORECASE)
+
+    # Strip all remaining tags
+    text = re.sub(r"<[^>]+>", "", html)
+    text = _html_entities(text)
+
+    blocks: list[str] = []
+    for line in text.split("\n"):
+        line = " ".join(line.split())  # normalise whitespace
+        if line:
+            blocks.append(line)
+
+    return blocks
 
 
 # ---------------------------------------------------------------------------
@@ -389,7 +448,6 @@ def save_sources(ticker: str, sources: dict):
 
 
 def get_or_resolve_cik(ticker: str, sources: dict) -> str | None:
-    """Return CIK from sources._meta, auto-discovering and saving if missing."""
     cik = sources.get("_meta", {}).get("cik")
     if cik:
         return cik
@@ -404,8 +462,16 @@ def get_or_resolve_cik(ticker: str, sources: dict) -> str | None:
 # Repo discovery
 # ---------------------------------------------------------------------------
 
-def find_jobs(ticker_filter: str | None = None, date_filter: str | None = None) -> list[tuple]:
-    """Return [(ticker, date, quarter, report_path)] for all quarters in sources.json."""
+def find_jobs(
+    ticker_filter: str | None = None,
+    date_filter: str | None = None,
+    want_reports: bool = True,
+    want_letters: bool = True,
+) -> list[tuple]:
+    """Return [(ticker, date, quarter, path, kind)] for all quarters in sources.json.
+
+    kind is 'report' or 'letter'.
+    """
     jobs = []
     pattern = f"{ticker_filter}/sources.json" if ticker_filter else "*/sources.json"
     for sources_path in sorted(REPO_ROOT.glob(pattern)):
@@ -421,13 +487,17 @@ def find_jobs(ticker_filter: str | None = None, date_filter: str | None = None) 
             quarter = entry.get("quarter", "")
             if not quarter:
                 continue
-            report_path = quarters_dir / f"{date}_{quarter}-report.md"
-            jobs.append((ticker, date, quarter, report_path))
+            if want_reports and entry.get("report"):
+                jobs.append((ticker, date, quarter,
+                             quarters_dir / f"{date}_{quarter}-report.md", "report"))
+            if want_letters and entry.get("letter"):
+                jobs.append((ticker, date, quarter,
+                             quarters_dir / f"{date}_{quarter}-letter.md", "letter"))
     return jobs
 
 
 # ---------------------------------------------------------------------------
-# Save
+# Save helpers
 # ---------------------------------------------------------------------------
 
 def save_report(path: Path, ticker: str, date: str, quarter: str,
@@ -453,19 +523,27 @@ def save_report(path: Path, ticker: str, date: str, quarter: str,
     print(f"  Saved → {path.relative_to(REPO_ROOT)}")
 
 
+def save_letter(path: Path, ticker: str, date: str, quarter: str,
+                body: str, source_url: str):
+    path.parent.mkdir(exist_ok=True)
+    header = (
+        f"# {ticker} — {quarter.upper().replace('-', ' ')} Shareholder Letter\n\n"
+        f"**Announcement date:** {date}  \n"
+        f"**Source:** {source_url}\n\n"
+        "---\n\n"
+    )
+    path.write_text(header + body + "\n")
+    print(f"  Saved → {path.relative_to(REPO_ROOT)}")
+
+
 # ---------------------------------------------------------------------------
-# Main download logic
+# Download: report
 # ---------------------------------------------------------------------------
 
-def download(ticker: str, date: str, quarter: str, report_path: Path,
-             explicit_url: str | None = None) -> bool:
-    print(f"\n{'='*60}")
-    print(f"{ticker}  {quarter}  ({date})")
-    print(f"{'='*60}")
-
+def download_report(ticker: str, date: str, quarter: str, report_path: Path,
+                    explicit_url: str | None = None) -> bool:
     sources = load_sources(ticker)
 
-    # --- Resolve CIK and filing ---
     if explicit_url:
         m = re.search(r"/edgar/data/(\d+)/(\d+)/", explicit_url)
         if not m:
@@ -475,7 +553,7 @@ def download(ticker: str, date: str, quarter: str, report_path: Path,
         accn_nodash = m.group(2)
         accession = f"{accn_nodash[:10]}-{accn_nodash[10:12]}-{accn_nodash[12:]}"
         period_end = sources.get(date, {}).get("period_end", "")
-        form_type = None  # unknown; will try XBRL first
+        form_type = None
         source_url = explicit_url
     else:
         cik = get_or_resolve_cik(ticker, sources)
@@ -491,8 +569,6 @@ def download(ticker: str, date: str, quarter: str, report_path: Path,
         source_url = f"{EDGAR_ARCHIVE}/{int(cik)}/{accn_nodash}/"
 
         old = sources.get(date, {})
-        # For 6-K filings the EDGAR reportDate equals the filing date, not the
-        # financial period end.  Keep any period_end already set in sources.json.
         if form_type == "6-K" and old.get("period_end"):
             period_end = old["period_end"]
         sources[date] = {
@@ -503,11 +579,9 @@ def download(ticker: str, date: str, quarter: str, report_path: Path,
         }
         save_sources(ticker, sources)
 
-    # --- Extract financial statements ---
     statements: dict[str, str] = {}
 
     if form_type == "6-K":
-        # Foreign private issuer quarterly: financials live in the ex99-1 exhibit
         print(f"  Locating press release exhibit...")
         exhibit_url = find_6k_exhibit(cik, accession)
         if not exhibit_url:
@@ -525,7 +599,6 @@ def download(ticker: str, date: str, quarter: str, report_path: Path,
             return False
         print(f"  Extracted: {list(statements)}")
     else:
-        # Domestic filer (10-Q/10-K) or annual foreign filer (20-F): use XBRL R-files
         stmt_files = get_statement_files(cik, accession)
         if not stmt_files:
             print("  FAILED: no financial statement files found")
@@ -548,48 +621,119 @@ def download(ticker: str, date: str, quarter: str, report_path: Path,
 
 
 # ---------------------------------------------------------------------------
+# Download: letter
+# ---------------------------------------------------------------------------
+
+def download_letter(ticker: str, date: str, quarter: str, letter_path: Path) -> bool:
+    sources = load_sources(ticker)
+    url = sources.get(date, {}).get("letter")
+    if not url:
+        print(f"  SKIP: no letter URL for {date} in {ticker}/sources.json")
+        return False
+
+    print(f"  Fetching letter: {url}")
+    time.sleep(REQUEST_DELAY)
+    html = fetch_text(url)
+    if not html:
+        print("  FAILED: could not fetch letter")
+        return False
+
+    # Keep original HTML alongside the markdown for comparison
+    htm_path = letter_path.with_suffix(".htm")
+    htm_path.parent.mkdir(exist_ok=True)
+    htm_path.write_text(html)
+    print(f"  Saved → {htm_path.relative_to(REPO_ROOT)}")
+
+    body = exhibit_to_markdown(html)
+    if not body or len(body) < 500:
+        print("  FAILED: extracted letter is too short to be valid")
+        return False
+
+    # Drop SEC filing header boilerplate (index rows, EX-99.1 labels, page
+    # numbers, logo placeholders) that precede the actual letter content.
+    # The first substantive paragraph matches a quarter/year pattern.
+    body = re.sub(r"^.*?(?=Q\d\s+20\d\d\b)", "", body, flags=re.DOTALL, count=1) or body
+    # Fallback: strip leading lines that are short metadata / logo artifacts
+    lines = body.splitlines()
+    while lines and (len(lines[0].replace(" ", "")) < 20 or "&#167;" in lines[0]):
+        lines.pop(0)
+    body = "\n\n".join(lines).strip()
+
+    save_letter(letter_path, ticker, date, quarter, body, url)
+    return True
+
+
+# ---------------------------------------------------------------------------
+# Unified download dispatcher
+# ---------------------------------------------------------------------------
+
+def download(ticker: str, date: str, quarter: str, path: Path, kind: str,
+             explicit_url: str | None = None) -> bool:
+    print(f"\n{'='*60}")
+    print(f"{ticker}  {quarter}  ({date})  [{kind}]")
+    print(f"{'='*60}")
+    if kind == "report":
+        return download_report(ticker, date, quarter, path, explicit_url)
+    elif kind == "letter":
+        return download_letter(ticker, date, quarter, path)
+    return False
+
+
+# ---------------------------------------------------------------------------
 # Entry point
 # ---------------------------------------------------------------------------
 
 def main():
     args = sys.argv[1:]
     explicit_url = None
+    want_reports, want_letters = True, True
 
-    if "--url" in args:
-        idx = args.index("--url")
-        if idx + 1 >= len(args):
-            sys.exit("--url requires a value")
-        explicit_url = args[idx + 1]
-        args = args[:idx] + args[idx + 2:]
+    flags = {"--report-only", "--letter-only", "--url"}
+    i = 0
+    rest = []
+    while i < len(args):
+        a = args[i]
+        if a == "--url":
+            explicit_url = args[i + 1]; i += 2
+        elif a == "--report-only":
+            want_letters = False; i += 1
+        elif a == "--letter-only":
+            want_reports = False; i += 1
+        else:
+            rest.append(a); i += 1
 
-    if len(args) == 2:
-        ticker, date = args[0].upper(), args[1]
-        jobs = find_jobs(ticker, date)
-        if not jobs:
-            sources = load_sources(ticker)
-            entry = sources.get(date, {})
-            quarter = entry.get("quarter", "")
-            if not quarter:
-                sys.exit(f"No entry found for {ticker} {date} in sources.json")
-            report_path = REPO_ROOT / ticker / "quarters" / f"{date}_{quarter}-report.md"
-            jobs = [(ticker, date, quarter, report_path)]
+    ticker_filter = rest[0].upper() if len(rest) >= 1 else None
+    date_filter   = rest[1]         if len(rest) >= 2 else None
 
-    elif len(args) == 0:
-        jobs = [j for j in find_jobs() if not j[3].exists()]
-        if not jobs:
-            print("All financial reports already downloaded.")
-            return
-        print(f"Found {len(jobs)} missing report(s)")
-
-    else:
+    if len(rest) > 2:
         print(__doc__)
         sys.exit(1)
 
+    if date_filter:
+        # Single quarter: build jobs directly (entry may not have report URL yet)
+        jobs = find_jobs(ticker_filter, date_filter, want_reports, want_letters)
+        if not jobs and want_reports:
+            sources = load_sources(ticker_filter)
+            entry = sources.get(date_filter, {})
+            quarter = entry.get("quarter", "")
+            if not quarter:
+                sys.exit(f"No entry found for {ticker_filter} {date_filter} in sources.json")
+            report_path = REPO_ROOT / ticker_filter / "quarters" / f"{date_filter}_{quarter}-report.md"
+            jobs = [(ticker_filter, date_filter, quarter, report_path, "report")]
+    else:
+        jobs = [j for j in find_jobs(ticker_filter, None, want_reports, want_letters)
+                if not j[3].exists()]
+        if not jobs:
+            print("All source files already downloaded.")
+            return
+        label = "report" if not want_letters else ("letter" if not want_reports else "source file")
+        print(f"Found {len(jobs)} missing {label}(s)")
+
     ok = sum(
-        download(t, d, q, rp, explicit_url if len(jobs) == 1 else None)
-        for t, d, q, rp in jobs
+        download(t, d, q, p, k, explicit_url if len(jobs) == 1 and k == "report" else None)
+        for t, d, q, p, k in jobs
     )
-    print(f"\nDone: {ok}/{len(jobs)} report(s) downloaded.")
+    print(f"\nDone: {ok}/{len(jobs)} file(s) downloaded.")
 
 
 if __name__ == "__main__":
