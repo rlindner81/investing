@@ -353,6 +353,10 @@ def fmt_price(v: float | None) -> str:
     return f"{v:.2f}" if v is not None else "[dim]—[/dim]"
 
 
+def fmt_date(d: date | None) -> str:
+    return d.strftime("%y-%m-%d") if d else "[dim]—[/dim]"
+
+
 def fmt_mult_rng(r: tuple | None) -> str:
     """A (low, high) P/S range → '5.3x' when it rounds to one value, else '1.4–1.5x'."""
     if not r or r[0] is None or r[1] is None:
@@ -432,6 +436,7 @@ def render_ticker(r: dict) -> None:
         table.add_row(label, ttm_cell,
                       *[fn(c) if c.get("show_val") else "" for c in cols], **kw)
 
+    val_row("Ref date", fmt_date(date.today()), lambda c: fmt_date(c.get("report_date")))
     val_row("Ref price ($)", fmt_price(r.get("price")), lambda c: fmt_price(c.get("ref_price")))
     val_row("Market cap", fmt_money(r.get("mktcap")), lambda c: fmt_money(c.get("mktcap")))
     val_row("P / S", fmt_mult(r.get("ps")), lambda c: fmt_mult(c.get("ps")))
