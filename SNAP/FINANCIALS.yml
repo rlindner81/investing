@@ -47,6 +47,8 @@ quarters:
     shares_outstanding: 1691913
     ytd_operating_cf: 88352
     ytd_capex_ppe: 50448
+    guidance_nq_revenue_low: 1225000    # Q2-2024 guidance (8-K press release)
+    guidance_nq_revenue_high: 1255000
 
   - id: q2-2024
     end_date: 2024-06-30
@@ -55,6 +57,8 @@ quarters:
     shares_outstanding: 1702107
     ytd_operating_cf: 66975
     ytd_capex_ppe: 102510
+    guidance_nq_revenue_low: 1335000    # Q3-2024 guidance (8-K press release)
+    guidance_nq_revenue_high: 1375000
 
   - id: q3-2024
     end_date: 2024-09-30
@@ -63,6 +67,8 @@ quarters:
     shares_outstanding: 1719935
     ytd_operating_cf: 182847
     ytd_capex_ppe: 146551
+    guidance_nq_revenue_low: 1510000    # Q4-2024 guidance (investor letter EX-99.2)
+    guidance_nq_revenue_high: 1560000
 
   - id: q4-2024
     end_date: 2024-12-31
@@ -71,6 +77,8 @@ quarters:
     shares_outstanding: 1737867
     ytd_operating_cf: 413480
     ytd_capex_ppe: 194826
+    guidance_nq_revenue_low: 1325000    # Q1-2025 guidance (investor letter EX-99.2)
+    guidance_nq_revenue_high: 1360000
 
   - id: q1-2025
     end_date: 2025-03-31
