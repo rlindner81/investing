@@ -2,22 +2,26 @@
   "2024-04-25": {
     "quarter": "q1-2024",
     "period_end": "2024-03-31",
-    "report": "https://www.sec.gov/Archives/edgar/data/1564408/000156440824000034/"
+    "report": "https://www.sec.gov/Archives/edgar/data/1564408/000156440824000034/",
+    "letter": "https://www.sec.gov/Archives/edgar/data/1564408/000156440824000030/a2024_q1xinvestorletter.htm"
   },
   "2024-08-01": {
     "quarter": "q2-2024",
     "period_end": "2024-06-30",
-    "report": "https://www.sec.gov/Archives/edgar/data/1564408/000156440824000050/"
+    "report": "https://www.sec.gov/Archives/edgar/data/1564408/000156440824000050/",
+    "letter": "https://www.sec.gov/Archives/edgar/data/1564408/000156440824000047/a2024_q2xinvestorletter.htm"
   },
   "2024-10-29": {
     "quarter": "q3-2024",
     "period_end": "2024-09-30",
-    "report": "https://www.sec.gov/Archives/edgar/data/1564408/000156440824000062/"
+    "report": "https://www.sec.gov/Archives/edgar/data/1564408/000156440824000062/",
+    "letter": "https://www.sec.gov/Archives/edgar/data/1564408/000156440824000058/investorletter_q3-24.htm"
   },
   "2025-02-04": {
     "quarter": "q4-2024",
     "period_end": "2024-12-31",
-    "report": "https://www.sec.gov/Archives/edgar/data/1564408/000156440825000019/"
+    "report": "https://www.sec.gov/Archives/edgar/data/1564408/000156440825000019/",
+    "letter": "https://www.sec.gov/Archives/edgar/data/1564408/000156440825000016/q42024investorletterfina.htm"
   },
   "2025-04-29": {
     "quarter": "q1-2025",
