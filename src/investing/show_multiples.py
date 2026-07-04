@@ -230,23 +230,23 @@ def compute_official(ticker: str, data: dict, price: float) -> dict:
     result: dict = {"ticker": ticker, "source": "report", "price": price,
                     "mult": mult, "mktcap": mktcap, "as_of": latest["id"]}
 
-    # ---- display columns: current partial-year quarters, then the last
-    #      complete fiscal year (aggregate) followed by its four quarters ----
+    # ---- display columns: current partial-year quarters, then every complete
+    #      fiscal year (aggregate) followed by its four quarters, newest first ----
     by_fy: dict[str, list[dict]] = {}
     for q in quarters:
         by_fy.setdefault(fy_token(q["id"]), []).append(q)
-    complete = [fy for fy, qs in by_fy.items() if len({q_num(q["id"]) for q in qs}) == 4]
-    last_full = max(complete) if complete else None
+    complete = {fy for fy, qs in by_fy.items() if len({q_num(q["id"]) for q in qs}) == 4}
 
-    def qcol(q):
-        return quarter_col(quarters, quarters.index(q))
+    def qcols(fy):
+        return [quarter_col(quarters, quarters.index(q))
+                for q in sorted(by_fy[fy], key=lambda q: q_num(q["id"]), reverse=True)]
 
     cols = []
-    for fy in sorted((fy for fy in by_fy if last_full is None or fy > last_full), reverse=True):
-        cols += [qcol(q) for q in sorted(by_fy[fy], key=lambda q: q_num(q["id"]), reverse=True)]
-    if last_full is not None:
-        cols.append(fy_col(quarters, last_full))
-        cols += [qcol(q) for q in sorted(by_fy[last_full], key=lambda q: q_num(q["id"]), reverse=True)]
+    for fy in sorted((fy for fy in by_fy if fy not in complete), reverse=True):
+        cols += qcols(fy)
+    for fy in sorted(complete, reverse=True):
+        cols.append(fy_col(quarters, fy))
+        cols += qcols(fy)
     result["cols"] = cols
 
     # ---- per-column valuation: close on the report date × then-current data ----
@@ -255,6 +255,9 @@ def compute_official(ticker: str, data: dict, price: float) -> dict:
         price = close_on(closes, c.get("report_date"))
         c["ref_price"] = price
         c["mktcap"] = price * c["shares"] * mult if price and c.get("shares") else None
+        # valuation rows are shown only for dated quarter columns (not FY aggregates
+        # or history-only quarters that carry no report date)
+        c["show_val"] = price is not None and not c.get("is_fy")
         t = c.get("ttm")
         c["ps"] = c["mktcap"] / (t["rev"] * mult) if c["mktcap"] and t and t.get("rev") else None
 
@@ -427,10 +430,9 @@ def render_ticker(r: dict) -> None:
     #     blank in the FY column, where it would just duplicate Q4 ---
     def val_row(label, ttm_cell, fn, **kw):
         table.add_row(label, ttm_cell,
-                      *["" if c.get("is_fy") else fn(c) for c in cols], **kw)
+                      *[fn(c) if c.get("show_val") else "" for c in cols], **kw)
 
-    live = f"{r['price']:.2f}" if r.get("price") else "[dim]—[/dim]"
-    val_row("Ref price ($)", f"[dim]{live}[/dim]", lambda c: fmt_price(c.get("ref_price")))
+    val_row("Ref price ($)", fmt_price(r.get("price")), lambda c: fmt_price(c.get("ref_price")))
     val_row("Market cap", fmt_money(r.get("mktcap")), lambda c: fmt_money(c.get("mktcap")))
     val_row("P / S", fmt_mult(r.get("ps")), lambda c: fmt_mult(c.get("ps")))
     val_row("P / FCF company", fmt_mult(r.get("pfcf_co")), lambda c: fmt_mult(c.get("pfcf_co")))
