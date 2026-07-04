@@ -389,13 +389,11 @@ def render_ticker(r: dict) -> None:
     mult = r["mult"]
     cols = r.get("cols", [])
     ttm = r.get("ttm", {})
-    price = f"${r['price']:.2f}" if r.get("price") else "—"
 
     src_note = "  [yellow](yfinance fallback)[/yellow]" if r["source"] == "yahoo" else ""
-    title = (f"[bold cyan]{r['ticker']}[/bold cyan]  {price}  ·  "
-             f"Mkt Cap {fmt_money(r.get('mktcap'))}  ·  as of {r['as_of']}{src_note}")
+    title = f"[bold cyan]{r['ticker']}[/bold cyan]{src_note}"
 
-    table = Table(title=title, header_style="bold", show_lines=False, title_justify="left")
+    table = Table(title=title, header_style="bold", show_lines=False)
     agg = "bold magenta"  # header colour for the aggregate columns (TTM, full year)
     table.add_column("", min_width=19, no_wrap=True)
     table.add_column("TTM", justify="right", style="bold", header_style=agg, min_width=9)
