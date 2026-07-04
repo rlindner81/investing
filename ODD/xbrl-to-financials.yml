@@ -1,0 +1,65 @@
+# ODD (Oddity Tech) — XBRL tag mapping for auto-drafting FINANCIALS.yml.
+#
+# Validated by reverse-lookup against the hand-entered ODD/FINANCIALS.yml.
+# Facts API returns absolute USD; divide by 1000 to get FINANCIALS `thousands`.
+#
+# Source: https://data.sec.gov/api/xbrl/companyfacts/CIK0001907085.json
+# Filer type: FOREIGN PRIVATE ISSUER — 6-K (quarterly) + 20-F (annual), us-gaap.
+#
+# ****************************  KEY FINDING  ****************************
+# ODD's quarterly 6-K press releases are NOT XBRL-tagged. The facts API has
+# ZERO quarterly data points — every quarterly probe (revenue, OCF, capex,
+# shares at 2026-03-31) returned nothing. Only the annual 20-F is tagged.
+#
+# Consequence: the XBRL route can auto-fill/validate the ANNUAL figures only.
+# All standalone QUARTERLY values still come from the downloaded 6-K reports
+# (fetch-report's press-release path) and are transcribed by hand, exactly as
+# today. The tags below were validated against 20-F FY2024 annual facts.
+# *********************************************************************
+
+cik: "0001907085"
+taxonomy: us-gaap
+availability: annual-only        # quarterly (6-K) has no XBRL
+
+fields:
+  revenue:
+    tag: RevenueFromContractWithCustomerExcludingAssessedTax
+    period: annual               # 20-F 12-month duration fact
+    scale: 1000
+    validated: [FY2024]
+    # Also tagged as ...IncludingAssessedTax (identical value; ODD has no
+    # assessed tax). Prefer Excluding for consistency with SNAP.
+
+  ytd_operating_cf:
+    tag: NetCashProvidedByUsedInOperatingActivities
+    period: annual
+    scale: 1000
+    validated: [FY2024]
+
+  ytd_capex_ppe:
+    tag: PaymentsToAcquirePropertyPlantAndEquipment
+    period: annual
+    scale: 1000
+    validated: [FY2024]
+
+  ytd_capex_software:
+    tag: PaymentsToDevelopSoftware        # SNAP has no equivalent line
+    period: annual
+    scale: 1000
+    validated: [FY2024]
+
+  shares_outstanding:
+    tag: null
+    period: instant
+    validated: false
+    # NOT AVAILABLE in the facts API. ODD's Class A / Class B ordinary-share
+    # counts (~57M) are not present under any standard tag — the only share
+    # tags carried are transactional (StockIssuedDuringPeriodShares*). The
+    # point-in-time outstanding is on the 20-F cover / balance sheet only.
+    # Read it from the downloaded report.
+
+# --- Not XBRL-derivable (forward-looking; keep manual) ---
+#   guidance_*, est_fy_revenue_*
+#
+# --- Quarterly standalone values (all of them) ---
+#   Not in XBRL. Source = ODD/quarters/*-report.md (6-K press release), manual.

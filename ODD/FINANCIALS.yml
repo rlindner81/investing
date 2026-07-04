@@ -109,5 +109,5 @@ quarters:
     guidance_nq_revenue_high: 180855
     guidance_fy_hint: withdrawn       # FY2026 revenue guidance still withheld (EBITDA-positive only)
     # --- My own estimate (ILLUSTRATIVE placeholder — replace with your research) ---
-    est_fy_revenue_low: 660000
-    est_fy_revenue_high: 710000
+#    est_fy_revenue_low: 660000
+#    est_fy_revenue_high: 710000

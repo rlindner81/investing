@@ -1,0 +1,48 @@
+# ABNB (Airbnb, Inc.) — XBRL tag mapping for auto-drafting FINANCIALS.yml.
+#
+# Values pulled from EDGAR companyfacts and cross-checked against the downloaded
+# 10-Q/10-K reports. Facts API returns absolute USD; ABNB rounds to the million,
+# so scale = 1_000_000 (FINANCIALS unit = millions).
+#
+# Source: https://data.sec.gov/api/xbrl/companyfacts/CIK0001559720.json
+# Filer type: domestic (10-Q / 10-K), us-gaap taxonomy.
+
+cik: "0001559720"
+taxonomy: us-gaap
+
+fields:
+  revenue:
+    tag: RevenueFromContractWithCustomerExcludingAssessedTax
+    period: quarterly          # standalone 3-month fact; Q4 = FY − 9mo YTD
+    scale: 1000000
+    validated: [q1-2026, q3-2025]
+
+  ytd_operating_cf:
+    tag: NetCashProvidedByUsedInOperatingActivities
+    period: ytd
+    scale: 1000000
+    validated: [q1-2026, FY2025, FY2024]
+
+  ytd_capex_ppe:
+    tag: PaymentsToAcquirePropertyPlantAndEquipment
+    period: ytd
+    scale: 1000000
+    validated: false
+    # ABNB is asset-light: no separate PP&E line in the condensed cash-flow
+    # statement for recent quarters (only tagged in FY2023 at ~$15–30M YTD).
+    # Treated as 0 in FINANCIALS → company FCF = OCF. Netted inside "Other
+    # investing activities, net" when present.
+
+  shares_outstanding:
+    tag: CommonStockSharesOutstanding
+    period: instant
+    scale: 1000000
+    validated: false
+    # NOT in the flat facts API — ABNB tags shares on the class axis
+    # (Class A/B/C/H, dimensional). Summed from the balance-sheet PARENTHETICAL
+    # R-file (Class A + B outstanding; C and H are 0). fetch-report skips
+    # parentheticals, so this needs a dedicated parenthetical fetch.
+
+# --- Not XBRL-derivable (keep manual) ---
+#   guidance_* (ABNB guides next-quarter revenue in the shareholder letter),
+#   est_fy_revenue_*

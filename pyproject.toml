@@ -10,6 +10,7 @@ dependencies = [
 
 [project.scripts]
 fetch-report = "investing.fetch_report:main"
+discover-filings = "investing.discover_filings:main"
 fetch-transcript = "investing.fetch_transcript:main"
 fetch-prices = "investing.fetch_prices:main"
 analyze-prices = "investing.analyze_prices:main"

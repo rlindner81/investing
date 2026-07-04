@@ -1,0 +1,122 @@
+# ABNB (Airbnb, Inc.) — figures for multiple calculations.
+# Fiscal year = calendar year. All monetary values in USD MILLIONS.
+# Source: SEC reports under ABNB/quarters/ (10-Q / 10-K). See CLAUDE.md → "FINANCIALS.yml".
+#
+# Notes specific to ABNB:
+#   - unit is MILLIONS (not thousands): ABNB rounds every figure — revenue, cash
+#     flow, and share counts — to the million in its filings, so millions is the
+#     native, loss-free granularity.
+#   - Values were pulled from EDGAR XBRL companyfacts and cross-checked against
+#     the downloaded reports:
+#       revenue            → us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax
+#       ytd_operating_cf   → us-gaap:NetCashProvidedByUsedInOperatingActivities
+#     (see ABNB/xbrl-to-financials.yml for the full validated mapping).
+#   - CAPEX: ABNB is asset-light and does NOT break out a "purchases of property
+#     and equipment" line in its condensed cash-flow statement — any PP&E spend is
+#     immaterial and netted inside "Other investing activities, net". So
+#     ytd_capex_ppe = 0 and company FCF = operating cash flow, matching how ABNB
+#     itself reports Free Cash Flow. (PP&E capex was tagged only in FY2023 at
+#     ~$15–30M YTD, <1% of OCF.)
+#   - shares_outstanding: point-in-time total across Class A + B + C + H, summed
+#     from the balance-sheet parenthetical (Class C and H are 0). The steady
+#     decline reflects ABNB's ongoing buyback.
+#   - Q4 revenue has no standalone fact (the 10-K tags the 12-month total only);
+#     it is derived as FY total − 9-month YTD. ytd_operating_cf at Q4 is the
+#     full-year figure as reported.
+#   - GUIDANCE ROWS ARE NOT YET FILLED — ABNB guides next-quarter revenue in its
+#     shareholder letter (not in XBRL); add from the press release / transcript.
+
+unit: millions
+
+quarters:
+  # --- 2023 quarters: trailing history only (give q1-2024 a valid TTM base).
+  #     No report_date / shares → valuation rows stay blank. ---
+  - id: q2-2023
+    end_date: 2023-06-30
+    revenue: 2484
+    ytd_operating_cf: 2496
+    ytd_capex_ppe: 0
+
+  - id: q3-2023
+    end_date: 2023-09-30
+    revenue: 3397
+    ytd_operating_cf: 3821
+    ytd_capex_ppe: 0
+
+  - id: q4-2023
+    end_date: 2023-12-31
+    revenue: 2218              # FY2023 9,917 − 9mo 7,699
+    ytd_operating_cf: 3884
+    ytd_capex_ppe: 0
+
+  - id: q1-2024
+    end_date: 2024-03-31
+    report_date: 2024-05-08
+    revenue: 2142
+    shares_outstanding: 636
+    ytd_operating_cf: 1923
+    ytd_capex_ppe: 0
+
+  - id: q2-2024
+    end_date: 2024-06-30
+    report_date: 2024-08-06
+    revenue: 2748
+    shares_outstanding: 634
+    ytd_operating_cf: 2974
+    ytd_capex_ppe: 0
+
+  - id: q3-2024
+    end_date: 2024-09-30
+    report_date: 2024-11-07
+    revenue: 3732
+    shares_outstanding: 627
+    ytd_operating_cf: 4052
+    ytd_capex_ppe: 0
+
+  - id: q4-2024
+    end_date: 2024-12-31
+    report_date: 2025-02-13
+    revenue: 2480              # FY2024 11,102 − 9mo 8,622
+    shares_outstanding: 623
+    ytd_operating_cf: 4518
+    ytd_capex_ppe: 0
+
+  - id: q1-2025
+    end_date: 2025-03-31
+    report_date: 2025-05-01
+    revenue: 2272
+    shares_outstanding: 619
+    ytd_operating_cf: 1789
+    ytd_capex_ppe: 0
+
+  - id: q2-2025
+    end_date: 2025-06-30
+    report_date: 2025-08-06
+    revenue: 3096
+    shares_outstanding: 613
+    ytd_operating_cf: 2764
+    ytd_capex_ppe: 0
+
+  - id: q3-2025
+    end_date: 2025-09-30
+    report_date: 2025-11-06
+    revenue: 4095
+    shares_outstanding: 608
+    ytd_operating_cf: 4120
+    ytd_capex_ppe: 0
+
+  - id: q4-2025
+    end_date: 2025-12-31
+    report_date: 2026-02-12
+    revenue: 2778              # FY2025 12,241 − 9mo 9,463
+    shares_outstanding: 602
+    ytd_operating_cf: 4646
+    ytd_capex_ppe: 0
+
+  - id: q1-2026
+    end_date: 2026-03-31
+    report_date: 2026-05-07
+    revenue: 2678
+    shares_outstanding: 595
+    ytd_operating_cf: 1708
+    ytd_capex_ppe: 0

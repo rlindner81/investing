@@ -1,0 +1,52 @@
+# SNAP — XBRL tag mapping for auto-drafting FINANCIALS.yml from EDGAR companyfacts.
+#
+# Validated by reverse-lookup against the hand-entered SNAP/FINANCIALS.yml:
+# for each field a known value was matched back to the tag that carries it.
+# Facts API returns absolute USD; divide by 1000 to get FINANCIALS `thousands`.
+#
+# Source: https://data.sec.gov/api/xbrl/companyfacts/CIK0001564408.json
+# Filer type: domestic (10-Q / 10-K), us-gaap taxonomy.
+
+cik: "0001564408"
+taxonomy: us-gaap
+
+fields:
+  revenue:
+    tag: RevenueFromContractWithCustomerExcludingAssessedTax
+    period: quarterly          # standalone 3-month duration fact (start = quarter start)
+    scale: 1000                # abs USD → thousands
+    validated: [q1-2026, q3-2025]
+
+  ytd_operating_cf:
+    tag: NetCashProvidedByUsedInOperatingActivities
+    period: ytd                # year-to-date duration fact (start = fiscal-year start)
+    scale: 1000
+    validated: [q1-2026, q3-2025]
+
+  ytd_capex_ppe:
+    tag: PaymentsToAcquirePropertyPlantAndEquipment
+    period: ytd
+    scale: 1000
+    validated: [q1-2026]
+
+  shares_outstanding:
+    tag: CommonStockSharesOutstanding
+    period: instant            # point-in-time at quarter end
+    scale: 1000
+    validated: false
+    # CAVEAT: this tag gives GROSS issued shares (q1-2026 → 1,741,534K).
+    # FINANCIALS stores shares NET of Class A treasury (1,697,270K = 1,741,534
+    # − 44,264 treasury). The treasury count is tagged on the Class A axis
+    # (dimensional) and is NOT in the flat facts API — only a stale 2022 default
+    # row exists for TreasuryStockCommonShares. So net-outstanding cannot be
+    # derived from the JSON facts alone; read it from the downloaded balance
+    # sheet, or accept the ~2.6% overstatement from the gross figure.
+    derive: "CommonStockSharesOutstanding - TreasuryStockCommonShares(ClassA)"
+
+# --- Not XBRL-derivable (forward-looking; keep manual) ---
+#   guidance_nq_revenue_*, guidance_fy_revenue_*, guidance_*_hint, est_fy_revenue_*
+#
+# --- Requires differencing, same as show-multiples already does ---
+#   Q4 has no standalone 3-month fact (10-K tags the 12-month total only).
+#   Q4 revenue = FY total − 9-month YTD; Q4 ytd_operating_cf/capex = the
+#   12-month YTD fact directly (already what FINANCIALS stores).
