@@ -8,22 +8,56 @@
 #     so shares_outstanding are on the POST-split basis: pre-split reports ÷ 20
 #     (e.g. 169,732,895 → 8,486,645). Keeps price × shares consistent.
 #   - Only capex line is "Capital expenditures" → company & strict FCF coincide.
-#   - Cash-flow is negative (BARK burns cash), so P/FCF is n/m throughout.
+#   - FCF is negative in most periods; P/FCF is n/m except for q1-q2 FY2025
+#     where the positive FY2024 OCF kept the trailing TTM in the black.
 
 unit: thousands
 
 quarters:
-  # --- FY2025 (ends Mar 2025). q1/q2 reconstructed from prior-year comparatives
-  #     in the FY2026 reports (history-only: no shares/report_date). ---
+  # --- FY2024 (ends Mar 2024). History-only diff base — no report_date/shares.
+  #     Revenue from EDGAR XBRL; OCF/capex YTD from XBRL (NetCashProvidedByUsedInOperatingActivities
+  #     / PaymentsToAcquireProductiveAssets). q4 revenue = FY2024 490,184 − 9mo 368,702. ---
+  - id: q1-2024
+    end_date: 2023-06-30
+    revenue: 120591
+    ytd_operating_cf: -10741
+    ytd_capex_ppe: 2972
+
+  - id: q2-2024
+    end_date: 2023-09-30
+    revenue: 123036
+    ytd_operating_cf: -7916
+    ytd_capex_ppe: 4933
+
+  - id: q3-2024
+    end_date: 2023-12-31
+    revenue: 125075
+    ytd_operating_cf: 7106
+    ytd_capex_ppe: 6699
+
+  - id: q4-2024
+    end_date: 2024-03-31
+    revenue: 121482        # FY2024 490,184 − 9mo 368,702
+    ytd_operating_cf: 6060  # full-year FY2024
+    ytd_capex_ppe: 8831
+
+  # --- FY2025 (ends Mar 2025). All four quarters displayed.
+  #     q1/q2 shares from balance sheet parenthetical (issued − treasury) ÷ 20:
+  #       q1: 181,116,471 − 7,646,021 = 173,470,450 ÷ 20 = 8,674
+  #       q2: 182,674,940 − 8,186,449 = 174,488,491 ÷ 20 = 8,724 ---
   - id: q1-2025
     end_date: 2024-06-30
+    report_date: 2024-08-07
     revenue: 116212
+    shares_outstanding: 8674
     ytd_operating_cf: 1792
     ytd_capex_ppe: 2043
 
   - id: q2-2025
     end_date: 2024-09-30
+    report_date: 2024-11-07
     revenue: 126111
+    shares_outstanding: 8724
     ytd_operating_cf: 4566
     ytd_capex_ppe: 3851
 
