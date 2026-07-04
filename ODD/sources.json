@@ -1,4 +1,24 @@
 {
+  "2024-05-07": {
+    "quarter": "q1-2024",
+    "period_end": "2024-03-31",
+    "report": "https://www.sec.gov/Archives/edgar/data/1907085/000110465924058006/"
+  },
+  "2024-08-07": {
+    "quarter": "q2-2024",
+    "period_end": "2024-06-30",
+    "report": "https://www.sec.gov/Archives/edgar/data/1907085/000110465924086757/"
+  },
+  "2024-11-06": {
+    "quarter": "q3-2024",
+    "period_end": "2024-09-30",
+    "report": "https://www.sec.gov/Archives/edgar/data/1907085/000110465924114791/"
+  },
+  "2025-02-25": {
+    "quarter": "q4-2024",
+    "period_end": "2024-12-31",
+    "report": "https://www.sec.gov/Archives/edgar/data/1907085/000110465925016927/"
+  },
   "2025-04-29": {
     "quarter": "q1-2025",
     "period_end": "2025-03-31",

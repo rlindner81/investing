@@ -21,36 +21,96 @@
 unit: thousands
 
 quarters:
+  # --- 2023 quarters: history-only diff base (no report_date / shares).
+  #     Revenue standalone; OCF and capex YTD as reported.
+  #     Source: prior-year comparative columns in 2024 quarterly 6-K exhibits.
+  #     Q1-Q2 are pre-IPO periods (IPO was July 26, 2023); Q3-Q4 were reported
+  #     publicly but kept history-only here for TTM base purposes. ---
+  - id: q1-2023
+    end_date: 2023-03-31
+    revenue: 165654
+    ytd_operating_cf: 53199
+    ytd_capex_ppe: 328
+    ytd_capex_software: 749
+
+  - id: q2-2023
+    end_date: 2023-06-30
+    revenue: 151311
+    ytd_operating_cf: 75967
+    ytd_capex_ppe: 761
+    ytd_capex_software: 1496
+
+  - id: q3-2023
+    end_date: 2023-09-30
+    revenue: 94474
+    ytd_operating_cf: 79550
+    ytd_capex_ppe: 1582
+    ytd_capex_software: 2440
+
+  - id: q4-2023
+    end_date: 2023-12-31
+    revenue: 97246
+    ytd_operating_cf: 87455
+    ytd_capex_ppe: 2101
+    ytd_capex_software: 3518
+
   # --- 2024 quarters: reconstructed from the prior-year comparatives in the
-  #     2025 reports. Trailing-history only (not displayed) — they give the
-  #     2025 quarter columns a valid TTM base, so no shares/report_date needed. ---
+  #     2025 reports. Report dates from EDGAR 6-K filing dates.
+  #     shares_outstanding: Q4 is exact period-end from 20-F parenthetical
+  #     (Class A 44,281,291 + Class B 11,547,000). Q1–Q3 use weighted-average
+  #     basic shares from comparative income statements as a proxy for period-end
+  #     (6-K press releases carry only par value, not full share count). ---
   - id: q1-2024
     end_date: 2024-03-31
+    report_date: 2024-05-07
     revenue: 211628
+    shares_outstanding: 57393
     ytd_operating_cf: 79647
     ytd_capex_ppe: 655
     ytd_capex_software: 1106
+    guidance_nq_revenue_low: 185000
+    guidance_nq_revenue_high: 189000
+    guidance_fy_revenue_low: 626000
+    guidance_fy_revenue_high: 635000
 
   - id: q2-2024
     end_date: 2024-06-30
+    report_date: 2024-08-07
     revenue: 192774
+    shares_outstanding: 57881
     ytd_operating_cf: 105440
     ytd_capex_ppe: 1502
     ytd_capex_software: 2284
+    guidance_nq_revenue_low: 115000
+    guidance_nq_revenue_high: 117000
+    guidance_fy_revenue_low: 633000
+    guidance_fy_revenue_high: 640000
 
   - id: q3-2024
     end_date: 2024-09-30
+    report_date: 2024-11-06
     revenue: 118998
+    shares_outstanding: 57683
     ytd_operating_cf: 121599
     ytd_capex_ppe: 2398
     ytd_capex_software: 3417
+    guidance_nq_revenue_low: 118000
+    guidance_nq_revenue_high: 120000
+    guidance_fy_revenue_low: 642000
+    guidance_fy_revenue_high: 644000
 
   - id: q4-2024
     end_date: 2024-12-31
+    report_date: 2025-02-25
     revenue: 123640
+    shares_outstanding: 55828
     ytd_operating_cf: 137764
     ytd_capex_ppe: 3270
     ytd_capex_software: 4733
+    guidance_nq_revenue_low: 258000
+    guidance_nq_revenue_high: 262000
+    guidance_fy_revenue_low: 776000
+    guidance_fy_revenue_high: 785000
 
   - id: q1-2025
     end_date: 2025-03-31
@@ -60,7 +120,9 @@ quarters:
     ytd_operating_cf: 88336
     ytd_capex_ppe: 1002
     ytd_capex_software: 1460
-    guidance_fy_revenue_low: 790000   # FY2025 guidance issued at this report
+    guidance_nq_revenue_low: 235000
+    guidance_nq_revenue_high: 239000
+    guidance_fy_revenue_low: 790000
     guidance_fy_revenue_high: 798000
 
   - id: q2-2025
@@ -71,7 +133,9 @@ quarters:
     ytd_operating_cf: 101384
     ytd_capex_ppe: 1951
     ytd_capex_software: 2861
-    guidance_fy_revenue_low: 799000   # FY2025 guidance raised
+    guidance_nq_revenue_low: 144000
+    guidance_nq_revenue_high: 146000
+    guidance_fy_revenue_low: 799000
     guidance_fy_revenue_high: 804000
 
   - id: q3-2025
@@ -82,7 +146,9 @@ quarters:
     ytd_operating_cf: 92534
     ytd_capex_ppe: 2957
     ytd_capex_software: 7258
-    guidance_fy_revenue_low: 806000   # FY2025 guidance raised again (actual came in $809.8M)
+    guidance_nq_revenue_low: 149000
+    guidance_nq_revenue_high: 152000
+    guidance_fy_revenue_low: 806000
     guidance_fy_revenue_high: 809000
 
   - id: q4-2025
@@ -93,7 +159,8 @@ quarters:
     ytd_operating_cf: 87581        # full-year FY2025 (Q4 report shows annual only)
     ytd_capex_ppe: 3936
     ytd_capex_software: 11459
-    guidance_fy_hint: withdrawn       # FY2026 guidance withdrawn at this report
+    guidance_nq_hint: "~−30% YoY"   # no dollar range given; qualitative only
+    guidance_fy_hint: withdrawn
 
   - id: q1-2026
     end_date: 2026-03-31
