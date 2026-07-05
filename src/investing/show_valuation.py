@@ -332,7 +332,7 @@ def compute_official(ticker: str, data: dict, price: float) -> dict:
                   if len({q_num(q["id"]) for q in qs}) == 4}
 
     def _yoy(cur, prv):
-        return (cur / prv - 1) if cur is not None and prv else None
+        return ((cur - prv) / abs(prv)) if cur is not None and prv else None
 
     for c in cols:
         pid = prior_year_id(c["id"])
@@ -565,6 +565,8 @@ def render_ticker(r: dict) -> None:
     two_fcf = any(k != "ytd_capex_ppe" for k in r.get("capex_keys", []))
     # the estimate rows are shown only when FY estimates are actually maintained
     has_est = any(c.get("est_fy") for c in cols)
+    # the NQ actual/guide row is useless without at least one numeric NQ guidance
+    has_nq_guid = any(c.get("guid_nq") for c in cols)
 
     def fund_row(label, ttm_cell, key, end_section=False, m=None):
         cells = [num(c.get(key), fmult if m is None else m) for c in cols]
@@ -591,8 +593,9 @@ def render_ticker(r: dict) -> None:
     table.add_row("NQ Rev guidance ($M)", "",
                   *["" if c.get("is_fy") else guid_cell(c.get("guid_nq"), c.get("guid_nq_hint"), fmult)
                     for c in cols])
-    table.add_row("  NQ actual/guide", "",
-                  *["" if c.get("is_fy") else fmt_yoy(c.get("vs_nq_guid")) for c in cols])
+    if has_nq_guid:
+        table.add_row("  NQ actual/guide", "",
+                      *["" if c.get("is_fy") else fmt_yoy(c.get("vs_nq_guid")) for c in cols])
     table.add_row("FY Rev guidance ($M)", "",
                   *["" if c.get("is_fy") else guid_cell(c.get("guid_fy"), c.get("guid_fy_hint"), fmult)
                     for c in cols], end_section=not has_est)
