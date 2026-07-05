@@ -47,7 +47,7 @@ quarters:
     end_date: 2024-03-31
     report_date: 2024-05-08
     revenue: 275806
-    shares_outstanding: 236108521  # SVS 211,671,221 + MVS 37,683×100 + Super 206,690×100
+    shares_outstanding: 236109    # (SVS 211,671,221 + MVS 37,683×100 + Super 206,690×100) ÷ 1000
     ytd_operating_cf: 84023
     ytd_capex_ppe: 14711
 
@@ -55,7 +55,7 @@ quarters:
     end_date: 2024-06-30
     report_date: 2024-08-05
     revenue: 280147
-    shares_outstanding: 235566719  # SVS 211,129,419 + MVS 37,683×100 + Super 206,690×100
+    shares_outstanding: 235567    # (SVS 211,129,419 + MVS 37,683×100 + Super 206,690×100) ÷ 1000
     ytd_operating_cf: 104174
     ytd_capex_ppe: 34963
 
@@ -63,7 +63,7 @@ quarters:
     end_date: 2024-09-30
     report_date: 2024-11-07
     revenue: 286865
-    shares_outstanding: 236156005  # SVS 211,718,705 + MVS 37,683×100 + Super 206,690×100
+    shares_outstanding: 236156    # (SVS 211,718,705 + MVS 37,683×100 + Super 206,690×100) ÷ 1000
     ytd_operating_cf: 151845
     ytd_capex_ppe: 52992
 
@@ -71,7 +71,7 @@ quarters:
     end_date: 2024-12-31
     report_date: 2025-02-26
     revenue: 294323          # FY2024 1,137,141 − 9mo 842,818
-    shares_outstanding: 235559345  # SVS 211,128,045 + MVS 37,623×100 + Super 206,690×100
+    shares_outstanding: 235559    # (SVS 211,128,045 + MVS 37,623×100 + Super 206,690×100) ÷ 1000
     ytd_operating_cf: 195183  # full-year FY2024
     ytd_capex_ppe: 80188
 
@@ -80,7 +80,7 @@ quarters:
     end_date: 2025-03-31
     report_date: 2025-05-07
     revenue: 279540
-    shares_outstanding: 236475149  # SVS 212,043,849 + MVS 37,623×100 + Super 206,690×100
+    shares_outstanding: 236475    # (SVS 212,043,849 + MVS 37,623×100 + Super 206,690×100) ÷ 1000
     ytd_operating_cf: 74219
     ytd_capex_ppe: 29839
 
@@ -88,7 +88,7 @@ quarters:
     end_date: 2025-06-30
     report_date: 2025-08-06
     revenue: 293257
-    shares_outstanding: 231576495  # SVS 207,145,195 + MVS 37,623×100 + Super 206,690×100
+    shares_outstanding: 231576    # (SVS 207,145,195 + MVS 37,623×100 + Super 206,690×100) ÷ 1000
     ytd_operating_cf: 130666
     ytd_capex_ppe: 48842
 
@@ -96,7 +96,7 @@ quarters:
     end_date: 2025-09-30
     report_date: 2025-11-05
     revenue: 291369
-    shares_outstanding: 231725393  # SVS 207,294,093 + MVS 37,623×100 + Super 206,690×100
+    shares_outstanding: 231725    # (SVS 207,294,093 + MVS 37,623×100 + Super 206,690×100) ÷ 1000
     ytd_operating_cf: 204785
     ytd_capex_ppe: 66388
     guidance_nq_hint: "flat to +low-single-digits sequentially"
@@ -105,7 +105,7 @@ quarters:
     end_date: 2025-12-31
     report_date: 2026-02-25
     revenue: 311129          # FY2025 1,175,295 − 9mo 864,166
-    shares_outstanding: 230546045  # SVS 206,629,845 + MVS 37,472×100 + Super 201,690×100
+    shares_outstanding: 230546    # (SVS 206,629,845 + MVS 37,472×100 + Super 201,690×100) ÷ 1000
     ytd_operating_cf: 294926  # full-year FY2025
     ytd_capex_ppe: 81068
     guidance_nq_hint: "down mid-single-digits sequentially"
@@ -114,6 +114,6 @@ quarters:
     end_date: 2026-03-31
     report_date: 2026-05-06
     revenue: 300190
-    shares_outstanding: 225929335  # SVS 202,013,135 + MVS 37,472×100 + Super 201,690×100
+    shares_outstanding: 225929    # (SVS 202,013,135 + MVS 37,472×100 + Super 201,690×100) ÷ 1000
     ytd_operating_cf: 75799
     ytd_capex_ppe: 18856
