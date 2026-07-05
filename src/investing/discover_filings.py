@@ -2,12 +2,12 @@
 """
 discover_filings.py — Auto-discover a ticker's past quarterly SEC filings.
 
-Where `fetch_report` needs a hand-built `sources.json` (one entry per quarter,
+Where `fetch_report` needs a hand-built `SOURCES.yml` (one entry per quarter,
 with the announcement date and quarter label filled in by hand), this script
 *generates* that file: it resolves the CIK, enumerates every 10-Q / 10-K in a
 date window from EDGAR's submissions feed, derives the fiscal quarter label from
 each filing's period-end and the company's fiscal-year-end, writes the merged
-`sources.json`, and then downloads each report via the existing pipeline.
+`SOURCES.yml`, and then downloads each report via the existing pipeline.
 
 The raw statement markdown is produced automatically; transcribing the numbers
 into `FINANCIALS.yml` is still a manual step (per CLAUDE.md).
@@ -16,9 +16,9 @@ Usage:
   uv run discover-filings ABNB                 # last 3 fiscal years
   uv run discover-filings ABNB --years 5       # last 5 fiscal years
   uv run discover-filings ABNB --since 2023-01-01
-  uv run discover-filings ABNB --no-download   # only write sources.json
+  uv run discover-filings ABNB --no-download   # only write SOURCES.yml
 
-Output: <TICKER>/sources.json  +  <TICKER>/quarters/<date>_<quarter>-report.md
+Output: <TICKER>/SOURCES.yml  +  <TICKER>/quarters/<date>_<quarter>-report.md
 """
 
 import sys
@@ -165,7 +165,7 @@ def main():
     for f in filings:
         print(f"    {f['filed']}  {f['form']:5s}  {f['quarter']:12s}  period {f['period_end']}")
 
-    # Merge into sources.json (don't clobber existing hand-entered keys).
+    # Merge into SOURCES.yml (don't clobber existing hand-entered keys).
     for f in filings:
         date = f["filed"]
         old = sources.get(date, {})
@@ -177,7 +177,7 @@ def main():
             **{k: v for k, v in old.items() if k not in ("quarter", "period_end", "report")},
         }
     save_sources(ticker, sources)
-    print(f"\n  Wrote {ticker}/sources.json")
+    print(f"\n  Wrote {ticker}/SOURCES.yml")
 
     if not do_download:
         print("  --no-download: skipping report downloads.")

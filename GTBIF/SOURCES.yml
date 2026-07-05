@@ -1,0 +1,117 @@
+_meta:
+  cik: "0001795139"
+
+"2023-05-03":
+  quarter: q1-2023
+  period_end: "2023-03-31"
+  report: https://www.sec.gov/Archives/edgar/data/1795139/000095017023017437/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1795139/000119312523134391/d241369dex991.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/quote/cse/GTII/transcripts/56866-q1-2023/
+
+"2023-08-08":
+  quarter: q2-2023
+  period_end: "2023-06-30"
+  report: https://www.sec.gov/Archives/edgar/data/1795139/000095017023040096/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1795139/000119312523206192/d520030dex991.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/quote/cse/GTII/transcripts/66825-q2-2023/
+
+"2023-11-08":
+  quarter: q3-2023
+  period_end: "2023-09-30"
+  report: https://www.sec.gov/Archives/edgar/data/1795139/000095017023061475/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1795139/000119312523273509/d582778dex991.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/quote/cse/GTII/transcripts/87813-q3-2023/
+
+"2024-02-28":
+  quarter: q4-2023
+  period_end: "2023-12-31"
+  report: https://www.sec.gov/Archives/edgar/data/1795139/000095017024022653/
+  report_type: 10-K
+  letter: https://www.sec.gov/Archives/edgar/data/1795139/000119312524050658/d768619dex991.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/quote/cse/GTII/transcripts/119686-q4-2023/
+
+"2024-05-08":
+  quarter: q1-2024
+  period_end: "2024-03-31"
+  report: https://www.sec.gov/Archives/edgar/data/1795139/000095017024056173/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1795139/000119312524134199/d811648dex991.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/quote/cse/GTII/transcripts/172065-q1-2024/
+
+"2024-08-05":
+  quarter: q2-2024
+  period_end: "2024-06-30"
+  report: https://www.sec.gov/Archives/edgar/data/1795139/000095017024091168/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1795139/000095017024090707/gtbif-ex99_1.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/quote/cse/GTII/transcripts/193089-q2-2024/
+
+"2024-11-07":
+  quarter: q3-2024
+  period_end: "2024-09-30"
+  report: https://www.sec.gov/Archives/edgar/data/1795139/000095017024123669/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1795139/000095017024123234/gtbif-ex99_1.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/quote/cse/GTII/transcripts/218738-q3-2024/
+
+"2025-02-26":
+  quarter: q4-2024
+  period_end: "2024-12-31"
+  report: https://www.sec.gov/Archives/edgar/data/1795139/000095017025028273/
+  report_type: 10-K
+  letter: https://www.sec.gov/Archives/edgar/data/1795139/000095017025027708/gtbif-ex99_1.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/quote/cse/GTII/transcripts/238624-q4-2024/
+
+"2025-05-07":
+  quarter: q1-2025
+  period_end: "2025-03-31"
+  report: https://www.sec.gov/Archives/edgar/data/1795139/000095017025066295/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1795139/000095017025065622/gtbif-ex99_1.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/quote/cse/GTII/transcripts/319902-q1-2025/
+
+"2025-08-06":
+  quarter: q2-2025
+  period_end: "2025-06-30"
+  report: https://www.sec.gov/Archives/edgar/data/1795139/000095017025104519/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1795139/000095017025103985/gtbif-ex99_1.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/quote/cse/GTII/transcripts/343725-q2-2025/
+
+"2025-11-05":
+  quarter: q3-2025
+  period_end: "2025-09-30"
+  report: https://www.sec.gov/Archives/edgar/data/1795139/000119312525266987/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1795139/000119312525266877/gtbif-ex99_1.htm
+  letter_type: 8-K
+
+"2026-02-25":
+  quarter: q4-2025
+  period_end: "2025-12-31"
+  report: https://www.sec.gov/Archives/edgar/data/1795139/000119312526071672/
+  report_type: 10-K
+  letter: https://www.sec.gov/Archives/edgar/data/1795139/000119312526071507/gtbif-ex99_1.htm
+  letter_type: 8-K
+
+"2026-05-06":
+  quarter: q1-2026
+  period_end: "2026-03-31"
+  report: https://www.sec.gov/Archives/edgar/data/1795139/000119312526209127/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1795139/000119312526208919/gtbif-ex99_1.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/quote/cse/GTII/transcripts/568780-q1-2026/

@@ -1,0 +1,69 @@
+_meta:
+  cik: "0001564408"
+
+"2024-04-25":
+  quarter: q1-2024
+  period_end: "2024-03-31"
+  report: https://www.sec.gov/Archives/edgar/data/1564408/000156440824000034/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1564408/000156440824000030/a2024_q1xinvestorletter.htm
+  letter_type: 8-K
+
+"2024-08-01":
+  quarter: q2-2024
+  period_end: "2024-06-30"
+  report: https://www.sec.gov/Archives/edgar/data/1564408/000156440824000050/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1564408/000156440824000047/a2024_q2xinvestorletter.htm
+  letter_type: 8-K
+
+"2024-10-29":
+  quarter: q3-2024
+  period_end: "2024-09-30"
+  report: https://www.sec.gov/Archives/edgar/data/1564408/000156440824000062/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1564408/000156440824000058/investorletter_q3-24.htm
+  letter_type: 8-K
+
+"2025-02-04":
+  quarter: q4-2024
+  period_end: "2024-12-31"
+  report: https://www.sec.gov/Archives/edgar/data/1564408/000156440825000019/
+  report_type: 10-K
+  letter: https://www.sec.gov/Archives/edgar/data/1564408/000156440825000016/q42024investorletterfina.htm
+  letter_type: 8-K
+
+"2025-04-29":
+  quarter: q1-2025
+  period_end: "2025-03-31"
+  report: https://www.sec.gov/Archives/edgar/data/1564408/000156440825000030/
+  report_type: 10-Q
+  transcript: https://stockanalysis.com/stocks/snap/transcripts/312660-q1-2025/
+
+"2025-08-05":
+  quarter: q2-2025
+  period_end: "2025-06-30"
+  report: https://www.sec.gov/Archives/edgar/data/1564408/000156440825000052/
+  report_type: 10-Q
+  transcript: https://stockanalysis.com/stocks/snap/transcripts/339641-q2-2025/
+
+"2025-11-05":
+  quarter: q3-2025
+  period_end: "2025-09-30"
+  report: https://www.sec.gov/Archives/edgar/data/1564408/000156440825000065/
+  report_type: 10-Q
+  transcript: https://stockanalysis.com/stocks/snap/transcripts/370772-q3-2025/
+
+"2026-02-04":
+  quarter: q4-2025
+  period_end: "2025-12-31"
+  report: https://www.sec.gov/Archives/edgar/data/1564408/000156440826000013/
+  report_type: 10-K
+  transcript: https://stockanalysis.com/stocks/snap/transcripts/394658-q4-2025/
+
+"2026-05-06":
+  quarter: q1-2026
+  period_end: "2026-03-31"
+  report: https://www.sec.gov/Archives/edgar/data/1564408/000156440826000027/
+  report_type: 10-Q
+  transcript: https://stockanalysis.com/stocks/snap/transcripts/552048-q1-2026/

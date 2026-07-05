@@ -1,0 +1,92 @@
+_meta:
+  cik: "0001559720"
+
+"2023-08-03":
+  quarter: q2-2023
+  period_end: "2023-06-30"
+  report: https://www.sec.gov/Archives/edgar/data/1559720/000155972023000015/
+  report_type: 10-Q
+
+"2023-11-01":
+  quarter: q3-2023
+  period_end: "2023-09-30"
+  report: https://www.sec.gov/Archives/edgar/data/1559720/000155972023000020/
+  report_type: 10-Q
+
+"2024-02-16":
+  quarter: q4-2023
+  period_end: "2023-12-31"
+  report: https://www.sec.gov/Archives/edgar/data/1559720/000155972024000006/
+  report_type: 10-K
+
+"2024-05-08":
+  quarter: q1-2024
+  period_end: "2024-03-31"
+  report: https://www.sec.gov/Archives/edgar/data/1559720/000155972024000017/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1559720/000119312524134183/d813800dex991.htm
+  letter_type: 8-K
+
+"2024-08-06":
+  quarter: q2-2024
+  period_end: "2024-06-30"
+  report: https://www.sec.gov/Archives/edgar/data/1559720/000155972024000024/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1559720/000119312524194849/d831385dex991.htm
+  letter_type: 8-K
+
+"2024-11-07":
+  quarter: q3-2024
+  period_end: "2024-09-30"
+  report: https://www.sec.gov/Archives/edgar/data/1559720/000155972024000032/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1559720/000119312524253103/d886752dex991.htm
+  letter_type: 8-K
+
+"2025-02-13":
+  quarter: q4-2024
+  period_end: "2024-12-31"
+  report: https://www.sec.gov/Archives/edgar/data/1559720/000155972025000010/
+  report_type: 10-K
+  letter: https://www.sec.gov/Archives/edgar/data/1559720/000119312525026054/d915198dex991.htm
+  letter_type: 8-K
+
+"2025-05-01":
+  quarter: q1-2025
+  period_end: "2025-03-31"
+  report: https://www.sec.gov/Archives/edgar/data/1559720/000155972025000017/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1559720/000119312525109934/d40594dex991.htm
+  letter_type: 8-K
+
+"2025-08-06":
+  quarter: q2-2025
+  period_end: "2025-06-30"
+  report: https://www.sec.gov/Archives/edgar/data/1559720/000155972025000025/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1559720/000119312525174438/d17531dex991.htm
+  letter_type: 8-K
+
+"2025-11-06":
+  quarter: q3-2025
+  period_end: "2025-09-30"
+  report: https://www.sec.gov/Archives/edgar/data/1559720/000155972025000030/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1559720/000119312525269432/d40503dex991.htm
+  letter_type: 8-K
+
+"2026-02-12":
+  quarter: q4-2025
+  period_end: "2025-12-31"
+  report: https://www.sec.gov/Archives/edgar/data/1559720/000155972026000004/
+  report_type: 10-K
+  letter: https://www.sec.gov/Archives/edgar/data/1559720/000119312526048670/d58192dex991.htm
+  letter_type: 8-K
+
+"2026-05-07":
+  quarter: q1-2026
+  period_end: "2026-03-31"
+  report: https://www.sec.gov/Archives/edgar/data/1559720/000155972026000014/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1559720/000119312526211816/d23351dex991.htm
+  letter_type: 8-K

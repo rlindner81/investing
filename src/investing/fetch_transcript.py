@@ -1,16 +1,12 @@
 #!/usr/bin/env python3
 """
 fetch_transcript.py — Download earnings call transcripts from the URLs in each
-ticker's sources.json file.
+ticker's SOURCES.yml file.
 
-sources.json format (e.g. BARK/sources.json):
-  {
-    "2025-06-04": {
-      "quarter": "q4-2025",
-      "transcript": "https://stockanalysis.com/stocks/bark/transcripts/305774-q4-2025/"
-    },
-    ...
-  }
+SOURCES.yml format (e.g. BARK/SOURCES.yml):
+  "2025-06-04":
+    quarter: q4-2025
+    transcript: https://stockanalysis.com/stocks/bark/transcripts/305774-q4-2025/
 
 The date is the announcement date and is the root key. The script downloads any
 transcript URL that does not yet have a corresponding file in quarters/.
@@ -22,7 +18,7 @@ Usage:
   # Download a specific quarter by ticker and announcement date
   uv run src/fetch_transcript.py BARK 2025-06-04
 
-  # Supply a URL directly (bypasses sources.json lookup)
+  # Supply a URL directly (bypasses SOURCES.yml lookup)
   uv run src/fetch_transcript.py BARK 2025-06-04 --url https://...
 
 Output files: <TICKER>/quarters/<date>_<quarter>-transcript.md
@@ -31,9 +27,9 @@ Output files: <TICKER>/quarters/<date>_<quarter>-transcript.md
 import re
 import sys
 import gzip
-import json
 import time
 import urllib.request
+import yaml
 from pathlib import Path
 
 from investing.lib import REPO_ROOT, load_sources
@@ -100,19 +96,21 @@ def extract(url: str, content: str) -> str | None:
 
 
 # ---------------------------------------------------------------------------
-# Repo discovery — driven by sources.json
+# Repo discovery — driven by SOURCES.yml
 # ---------------------------------------------------------------------------
 
 def find_jobs(ticker_filter: str | None = None, date_filter: str | None = None) -> list[tuple]:
     """Return [(ticker, date, quarter, transcript_path)] for all missing transcripts."""
     jobs = []
-    pattern = f"{ticker_filter}/sources.json" if ticker_filter else "*/sources.json"
+    pattern = f"{ticker_filter}/SOURCES.yml" if ticker_filter else "*/SOURCES.yml"
     for sources_path in sorted(REPO_ROOT.glob(pattern)):
         ticker = sources_path.parent.name
         quarters_dir = sources_path.parent / "quarters"
         with sources_path.open() as f:
-            sources = json.load(f)
+            sources = yaml.safe_load(f) or {}
         for date, entry in sources.items():
+            if not isinstance(date, str) or date.startswith("_") or not isinstance(entry, dict):
+                continue
             if date_filter and date != date_filter:
                 continue
             quarter = entry.get("quarter", "")
@@ -155,7 +153,7 @@ def download(ticker: str, date: str, quarter: str, transcript_path: Path, explic
         entry = sources.get(date, {})
         url = entry.get("transcript")
         if not url:
-            print(f"  SKIP: no transcript URL for {date} in {ticker}/sources.json")
+            print(f"  SKIP: no transcript URL for {date} in {ticker}/SOURCES.yml")
             return False
 
     print(f"  Fetching {url}")
@@ -193,7 +191,7 @@ def main():
         ticker, date = args[0].upper(), args[1]
         jobs = find_jobs(ticker, date)
         if not jobs:
-            sys.exit(f"No entry found for {ticker} {date} in sources.json")
+            sys.exit(f"No entry found for {ticker} {date} in SOURCES.yml")
 
     elif len(args) == 0:
         jobs = [j for j in find_jobs() if not j[3].exists()]

@@ -1,0 +1,72 @@
+_meta:
+  cik: "0001819574"
+
+"2024-08-07":
+  quarter: q1-2025
+  period_end: "2024-06-30"
+  report: https://www.sec.gov/Archives/edgar/data/1819574/000181957424000039/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1819574/000181957424000037/exhibit991-q1fy25pressrele.htm
+  letter_type: 8-K
+
+"2024-11-07":
+  quarter: q2-2025
+  period_end: "2024-09-30"
+  report: https://www.sec.gov/Archives/edgar/data/1819574/000181957424000048/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1819574/000181957424000047/exhibit991-q2fy25pressrele.htm
+  letter_type: 8-K
+
+"2025-02-05":
+  quarter: q3-2025
+  period_end: "2024-12-31"
+  report: https://www.sec.gov/Archives/edgar/data/1819574/000181957425000011/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1819574/000181957425000009/exhibit991-q3fy25pressrele.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/bark/transcripts/253960-q3-2025/
+
+"2025-06-04":
+  quarter: q4-2025
+  period_end: "2025-03-31"
+  report: https://www.sec.gov/Archives/edgar/data/1819574/000181957425000024/
+  report_type: 10-K
+  letter: https://www.sec.gov/Archives/edgar/data/1819574/000181957425000022/exhibit991-q4fy25pressrele.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/bark/transcripts/305774-q4-2025/
+
+"2025-08-07":
+  quarter: q1-2026
+  period_end: "2025-06-30"
+  report: https://www.sec.gov/Archives/edgar/data/1819574/000181957425000039/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1819574/000181957425000038/exhibit991-q12026pressrele.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/bark/transcripts/353537-q1-2026/
+
+"2025-11-06":
+  quarter: q2-2026
+  period_end: "2025-09-30"
+  report: https://www.sec.gov/Archives/edgar/data/1819574/000181957425000047/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1819574/000181957425000045/exhibit991-q22026pressrele.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/bark/transcripts/371937-q2-2026/
+
+"2026-02-05":
+  quarter: q3-2026
+  period_end: "2025-12-31"
+  report: https://www.sec.gov/Archives/edgar/data/1819574/000162828026005799/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1819574/000162828026005773/exhibit991-q32026pressrele.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/bark/transcripts/415976-q3-2026/
+
+"2026-06-09":
+  quarter: q4-2026
+  period_end: "2026-03-31"
+  report: https://www.sec.gov/Archives/edgar/data/1819574/000162828026042242/
+  report_type: 10-K
+  letter: https://www.sec.gov/Archives/edgar/data/1819574/000162828026041892/exhibit991-q4fy26pressrele.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/bark/transcripts/552686-q4-2026/

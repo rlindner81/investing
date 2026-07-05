@@ -2,25 +2,25 @@
 """
 fetch_sources.py — Download per-quarter source files from SEC EDGAR.
 
-Reads each ticker's sources.json and downloads whatever files are missing:
+Reads each ticker's SOURCES.yml and downloads whatever files are missing:
 
   report  → YYYY-MM-DD_<quarter>-report.md   (income / balance / cash-flow)
   letter  → YYYY-MM-DD_<quarter>-letter.md   (shareholder / earnings letter)
 
-Both keys are optional; only the ones present in sources.json are fetched.
+Both keys are optional; only the ones present in SOURCES.yml are fetched.
 Files that already exist on disk are always skipped.
 
-sources.json format:
-  {
-    "_meta": {"cik": "0001819574"},
-    "2025-08-07": {
-      "quarter": "q1-2026",
-      "period_end": "2025-06-30",
-      "report": "https://www.sec.gov/Archives/edgar/data/.../",
-      "letter": "https://www.sec.gov/Archives/edgar/data/.../dXXXXex991.htm",
-      "transcript": "https://stockanalysis.com/..."
-    }
-  }
+SOURCES.yml format:
+  _meta:
+    cik: "0001819574"
+  "2025-08-07":
+    quarter: q1-2026
+    period_end: "2025-06-30"
+    report: https://www.sec.gov/Archives/edgar/data/.../
+    report_type: 10-Q
+    letter: https://www.sec.gov/Archives/edgar/data/.../dXXXXex991.htm
+    letter_type: 8-K
+    transcript: https://stockanalysis.com/...
 
 Usage:
   # Download all missing reports + letters across the whole repo
@@ -47,6 +47,7 @@ import json
 import time
 import urllib.request
 import xml.etree.ElementTree as ET
+import yaml
 from datetime import datetime, timedelta
 from pathlib import Path
 
@@ -437,14 +438,13 @@ def _rows_to_markdown(rows: list[list[str]]) -> str:
 
 
 # ---------------------------------------------------------------------------
-# sources.json helpers
+# SOURCES.yml helpers
 # ---------------------------------------------------------------------------
 
 def save_sources(ticker: str, sources: dict):
-    path = REPO_ROOT / ticker / "sources.json"
+    path = REPO_ROOT / ticker / "SOURCES.yml"
     with path.open("w") as f:
-        json.dump(sources, f, indent=2)
-        f.write("\n")
+        yaml.dump(sources, f, default_flow_style=False, sort_keys=False, allow_unicode=True)
 
 
 def get_or_resolve_cik(ticker: str, sources: dict) -> str | None:
@@ -468,19 +468,19 @@ def find_jobs(
     want_reports: bool = True,
     want_letters: bool = True,
 ) -> list[tuple]:
-    """Return [(ticker, date, quarter, path, kind)] for all quarters in sources.json.
+    """Return [(ticker, date, quarter, path, kind)] for all quarters in SOURCES.yml.
 
     kind is 'report' or 'letter'.
     """
     jobs = []
-    pattern = f"{ticker_filter}/sources.json" if ticker_filter else "*/sources.json"
+    pattern = f"{ticker_filter}/SOURCES.yml" if ticker_filter else "*/SOURCES.yml"
     for sources_path in sorted(REPO_ROOT.glob(pattern)):
         ticker = sources_path.parent.name
         quarters_dir = sources_path.parent / "quarters"
         with sources_path.open() as f:
-            sources = json.load(f)
+            sources = yaml.safe_load(f) or {}
         for date, entry in sources.items():
-            if date.startswith("_") or not isinstance(entry, dict):
+            if not isinstance(date, str) or date.startswith("_") or not isinstance(entry, dict):
                 continue
             if date_filter and date != date_filter:
                 continue
@@ -628,7 +628,7 @@ def download_letter(ticker: str, date: str, quarter: str, letter_path: Path) -> 
     sources = load_sources(ticker)
     url = sources.get(date, {}).get("letter")
     if not url:
-        print(f"  SKIP: no letter URL for {date} in {ticker}/sources.json")
+        print(f"  SKIP: no letter URL for {date} in {ticker}/SOURCES.yml")
         return False
 
     print(f"  Fetching letter: {url}")
@@ -717,7 +717,7 @@ def main():
             entry = sources.get(date_filter, {})
             quarter = entry.get("quarter", "")
             if not quarter:
-                sys.exit(f"No entry found for {ticker_filter} {date_filter} in sources.json")
+                sys.exit(f"No entry found for {ticker_filter} {date_filter} in SOURCES.yml")
             report_path = REPO_ROOT / ticker_filter / "quarters" / f"{date_filter}_{quarter}-report.md"
             jobs = [(ticker_filter, date_filter, quarter, report_path, "report")]
     else:

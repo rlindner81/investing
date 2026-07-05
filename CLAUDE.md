@@ -13,6 +13,7 @@ This is an investment research repository. Each ticker gets its own top-level di
   business-plan.md       — company overview, revenue model, product portfolio, strategy, risks, financial snapshot
   management-team.md     — executive bios, backgrounds, governance notes
   FINANCIALS.yml         — structured figures for valuation multiples (see "Valuation Multiples")
+  SOURCES.yml            — SEC filing URLs and filing types per quarter (see "Downloading Source Files")
   quarters/
     YYYY-MM-DD_<label>-summary.md   — one file per reported earnings, date = announcement date
 ```
@@ -34,10 +35,12 @@ This is an investment research repository. Each ticker gets its own top-level di
 
 ## Downloading Source Files
 
-`fetch-sources` reads each ticker's `sources.json` and downloads whatever files are missing. It handles two keys per quarter entry:
+`fetch-sources` reads each ticker's `SOURCES.yml` and downloads whatever files are missing. It handles two keys per quarter entry:
 
-- `report` → `YYYY-MM-DD_<quarter>-report.md` — income statement, balance sheet, cash flow from the SEC 10-Q/10-K/6-K filing
+- `report` → `YYYY-MM-DD_<quarter>-report.md` — income statement, balance sheet, cash flow from the SEC filing
+- `report_type` — filing type for the report URL: `10-Q`, `10-K`, `6-K`, `20-F`
 - `letter` → `YYYY-MM-DD_<quarter>-letter.md` — shareholder/earnings letter (8-K exhibit HTML, converted to markdown)
+- `letter_type` — filing type for the letter URL: typically `8-K` for US companies, `6-K` or `20-F` for foreign filers
 
 ```bash
 # Download all missing reports + letters across the whole repo
@@ -57,7 +60,7 @@ uv run fetch-sources --report-only
 uv run fetch-sources --letter-only
 ```
 
-Source: SEC EDGAR. Add the filing index URL as the `report` key and the 8-K exhibit URL as the `letter` key in `sources.json` before running.
+Source: SEC EDGAR. Add the filing index URL as the `report` key (with its `report_type`) and the 8-K exhibit URL as the `letter` key (with its `letter_type`) in `SOURCES.yml` before running.
 
 ### Earnings Call Transcripts
 
@@ -76,7 +79,7 @@ uv run fetch-transcript BARK 2025-06-04
 uv run fetch-transcript ODD 2026-02-25 --url https://stockanalysis.com/stocks/odd/transcripts/402471-q4-2025/
 ```
 
-Source: stockanalysis.com. Find the transcript URL by navigating to `stockanalysis.com/stocks/<ticker>/transcripts/` and copying the link for the relevant quarter. Add it as the `transcript` key in `sources.json` before running the script.
+Source: stockanalysis.com. Find the transcript URL by navigating to `stockanalysis.com/stocks/<ticker>/transcripts/` and copying the link for the relevant quarter. Add it as the `transcript` key in `SOURCES.yml` before running the script.
 
 ## Valuation Multiples
 
@@ -198,7 +201,7 @@ for the full year reproduces the company's own reported FCF figure.
 
 ## Adding a New Ticker
 
-1. Create `<TICKER>/business-plan.md`, `<TICKER>/management-team.md`, `<TICKER>/FINANCIALS.yml`, and `<TICKER>/quarters/` to match the structure above
+1. Create `<TICKER>/business-plan.md`, `<TICKER>/management-team.md`, `<TICKER>/FINANCIALS.yml`, `<TICKER>/SOURCES.yml`, and `<TICKER>/quarters/` to match the structure above
 2. Research using SEC filings (8-K press releases are the primary source for earnings), investor relations pages, and earnings call transcripts
 3. For quarterly files, include the two most recent reported earnings — match the depth of the existing ODD and BARK files
 4. Note fiscal year end date prominently if it differs from December 31

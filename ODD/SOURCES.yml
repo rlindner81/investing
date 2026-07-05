@@ -1,0 +1,61 @@
+_meta:
+  cik: "0001907085"
+
+"2024-05-07":
+  quarter: q1-2024
+  period_end: "2024-03-31"
+  report: https://www.sec.gov/Archives/edgar/data/1907085/000110465924058006/
+  report_type: 10-Q
+
+"2024-08-07":
+  quarter: q2-2024
+  period_end: "2024-06-30"
+  report: https://www.sec.gov/Archives/edgar/data/1907085/000110465924086757/
+  report_type: 10-Q
+
+"2024-11-06":
+  quarter: q3-2024
+  period_end: "2024-09-30"
+  report: https://www.sec.gov/Archives/edgar/data/1907085/000110465924114791/
+  report_type: 10-Q
+
+"2025-02-25":
+  quarter: q4-2024
+  period_end: "2024-12-31"
+  report: https://www.sec.gov/Archives/edgar/data/1907085/000141057825000198/
+  report_type: 10-K
+
+"2025-04-29":
+  quarter: q1-2025
+  period_end: "2025-03-31"
+  report: https://www.sec.gov/Archives/edgar/data/1907085/000110465925041238/
+  report_type: 10-Q
+  transcript: https://stockanalysis.com/stocks/odd/transcripts/319596-q1-2025/
+
+"2025-08-04":
+  quarter: q2-2025
+  period_end: "2025-06-30"
+  report: https://www.sec.gov/Archives/edgar/data/1907085/000110465925073637/
+  report_type: 10-Q
+  transcript: https://stockanalysis.com/stocks/odd/transcripts/339870-q2-2025/
+
+"2025-11-19":
+  quarter: q3-2025
+  period_end: "2025-09-30"
+  report: https://www.sec.gov/Archives/edgar/data/1907085/000110465925114099/
+  report_type: 10-Q
+  transcript: https://stockanalysis.com/stocks/odd/transcripts/370542-q3-2025/
+
+"2026-02-25":
+  quarter: q4-2025
+  period_end: "2025-12-31"
+  report: https://www.sec.gov/Archives/edgar/data/1907085/000110465926019403/
+  report_type: 10-K
+  transcript: https://stockanalysis.com/stocks/odd/transcripts/402471-q4-2025/
+
+"2026-06-02":
+  quarter: q1-2026
+  period_end: "2026-03-31"
+  report: https://www.sec.gov/Archives/edgar/data/1907085/000110465926069208/
+  report_type: 10-Q
+  transcript: https://stockanalysis.com/stocks/odd/transcripts/568524-q1-2026/
