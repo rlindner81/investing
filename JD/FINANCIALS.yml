@@ -1,0 +1,169 @@
+# JD (JD.com, Inc.) — figures for valuation multiples.
+# Fiscal year = calendar year. All monetary values in RMB MILLIONS.
+# Source: SEC filings (6-K / 20-F) under JD/quarters/.
+#
+# Notes specific to JD:
+#   - currency: CNY  →  show-valuation fetches the live USD/CNY rate and converts
+#     all fundamentals to USD on the fly. Prices from NASDAQ (USD per ADS).
+#   - 1 ADS = 2 ordinary shares. shares_outstanding stores millions of ADS
+#     (= ordinary shares / 2), matching the NASDAQ price quoted per ADS.
+#   - CAPEX: JD breaks out two lines in their FCF reconciliation:
+#       ytd_capex_ppe   = "Capital expenditures for development properties"
+#                         (logistics infrastructure, warehouses, land use rights)
+#       ytd_capex_other = "Other capital expenditures"
+#                         (HQ construction, tech equipment, software, etc.)
+#     company FCF = OCF − capex_ppe; strict FCF = OCF − capex_ppe − capex_other.
+#     JD's own reported FCF additionally adjusts for consumer financing receivables
+#     (typically ±1–2 B RMB); our strict FCF omits that adjustment.
+#   - Q3-2024 and Q3-2025 standalone OCF/capex are from the quarterly letter
+#     (the formal 6-K exhibit auto-extraction failed); 9M YTD values are computed.
+#   - JD does NOT provide formal quarterly or annual revenue guidance.
+#   - balance sheet: cash = cash and cash equivalents only. total_debt = short-term
+#     debts + unsecured senior notes (current + non-current) + long-term borrowings.
+
+unit: millions
+currency: CNY
+
+quarters:
+  - id: q1-2023
+    end_date: 2023-03-31
+    report_date: 2023-05-11
+    revenue: 242956
+    shares_outstanding: 1567        # 3,133M ordinary / 2
+    ytd_operating_cf: -21607
+    ytd_capex_ppe: 2145
+    ytd_capex_other: 1068
+    cash: 74373
+    total_debt: 43616               # 14,280 ST + 10,091 senior notes + 19,245 LT
+
+  - id: q2-2023
+    end_date: 2023-06-30
+    report_date: 2023-08-16
+    revenue: 287931
+    shares_outstanding: 1573        # 3,146M ordinary / 2
+    ytd_operating_cf: 24904
+    ytd_capex_ppe: 4508
+    ytd_capex_other: 2312
+    cash: 91020
+    total_debt: 50015               # 17,951 ST + 10,614 senior notes + 21,450 LT
+
+  - id: q3-2023
+    end_date: 2023-09-30
+    report_date: 2023-11-15
+    revenue: 247698
+    shares_outstanding: 1574        # 3,147M ordinary / 2
+    ytd_operating_cf: 39908
+    ytd_capex_ppe: 7521
+    ytd_capex_other: 4292
+    cash: 115971
+    total_debt: 46481               # 13,740 ST + 10,550 senior notes + 22,191 LT
+
+  - id: q4-2023
+    end_date: 2023-12-31
+    report_date: 2024-03-06
+    revenue: 306077
+    shares_outstanding: 1569        # 3,138M ordinary / 2
+    ytd_operating_cf: 59521
+    ytd_capex_ppe: 12117
+    ytd_capex_other: 6261
+    cash: 71892
+    total_debt: 47000               # 5,034 ST + 10,411 senior notes + 31,555 LT
+
+  - id: q1-2024
+    end_date: 2024-03-31
+    report_date: 2024-05-16
+    revenue: 260049
+    shares_outstanding: 1527        # 3,054M ordinary / 2
+    ytd_operating_cf: -11315
+    ytd_capex_ppe: 1360
+    ytd_capex_other: 1520
+    cash: 81626
+    total_debt: 47856               # 5,267 ST + 10,432 senior notes + 32,157 LT
+
+  - id: q2-2024
+    end_date: 2024-06-30
+    report_date: 2024-08-15
+    revenue: 291397
+    shares_outstanding: 1464        # 2,928M ordinary / 2
+    ytd_operating_cf: 39423
+    ytd_capex_ppe: 2950
+    ytd_capex_other: 3251
+    cash: 84496
+    total_debt: 62382               # 5,601 ST + 24,514 senior notes + 32,267 LT
+
+  - id: q3-2024
+    end_date: 2024-09-30
+    report_date: 2024-11-14
+    revenue: 260387
+    shares_outstanding: 1450        # 2,899M ordinary / 2
+    ytd_operating_cf: 33204         # H1 39,423 + Q3 standalone (−6,219)
+    ytd_capex_ppe: 6411             # H1 2,950 + Q3 3,461
+    ytd_capex_other: 5148           # H1 3,251 + Q3 1,897
+    cash: 99092
+    total_debt: 63531               # 9,684 ST + 24,126 senior notes + 29,721 LT
+
+  - id: q4-2024
+    end_date: 2024-12-31
+    report_date: 2025-03-06
+    revenue: 346986
+    shares_outstanding: 1452        # 2,903M ordinary / 2
+    ytd_operating_cf: 58095
+    ytd_capex_ppe: 7286
+    ytd_capex_other: 6937
+    cash: 108350
+    total_debt: 64056               # 7,581 ST + 24,770 senior notes + 31,705 LT
+
+  - id: q1-2025
+    end_date: 2025-03-31
+    report_date: 2025-05-13
+    revenue: 301082
+    shares_outstanding: 1442        # 2,883M ordinary / 2
+    ytd_operating_cf: -18262
+    ytd_capex_ppe: 915
+    ytd_capex_other: 1408
+    cash: 96778
+    total_debt: 60480               # 4,230 ST + 24,758 senior notes + 31,492 LT
+
+  - id: q2-2025
+    end_date: 2025-06-30
+    report_date: 2025-08-14
+    revenue: 356660
+    shares_outstanding: 1418        # 2,836M ordinary / 2
+    ytd_operating_cf: 6147
+    ytd_capex_ppe: 1991
+    ytd_capex_other: 3364
+    cash: 116547
+    total_debt: 71827               # 11,661 ST + 3,571 current + 21,141 senior notes + 35,454 LT
+
+  - id: q3-2025
+    end_date: 2025-09-30
+    report_date: 2025-11-13
+    revenue: 299100
+    shares_outstanding: 1419        # 2,838M ordinary / 2
+    ytd_operating_cf: -1888         # H1 6,147 + Q3 standalone (−8,035)
+    ytd_capex_ppe: 2069             # H1 1,991 + Q3 78
+    ytd_capex_other: 5882           # H1 3,364 + Q3 2,518
+    cash: 113069
+    total_debt: 80571               # 17,062 ST + 3,547 current + 21,005 senior notes + 38,957 LT
+
+  - id: q4-2025
+    end_date: 2025-12-31
+    report_date: 2026-03-05
+    revenue: 352284
+    shares_outstanding: 1371        # 2,742M ordinary / 2
+    ytd_operating_cf: 18991
+    ytd_capex_ppe: 4098
+    ytd_capex_other: 8637
+    cash: 137488
+    total_debt: 73998               # 8,014 ST + 3,511 current + 20,798 senior notes + 41,675 LT
+
+  - id: q1-2026
+    end_date: 2026-03-31
+    report_date: 2026-05-12
+    revenue: 315694
+    shares_outstanding: 1351        # 2,701M ordinary / 2
+    ytd_operating_cf: 555
+    ytd_capex_ppe: 3498
+    ytd_capex_other: 1565
+    cash: 101829
+    total_debt: 74389               # 8,274 ST + 3,459 current + 20,494 senior notes + 42,162 LT

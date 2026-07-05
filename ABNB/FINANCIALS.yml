@@ -55,6 +55,8 @@ quarters:
     shares_outstanding: 636
     ytd_operating_cf: 1923
     ytd_capex_ppe: 0
+    cash: 7829
+    total_debt: 1992
     guidance_nq_revenue_low: 2680    # Q2-2024 guidance
     guidance_nq_revenue_high: 2740
 
@@ -65,6 +67,8 @@ quarters:
     shares_outstanding: 634
     ytd_operating_cf: 2974
     ytd_capex_ppe: 0
+    cash: 7882
+    total_debt: 1993
     guidance_nq_revenue_low: 3670    # Q3-2024 guidance
     guidance_nq_revenue_high: 3730
 
@@ -75,6 +79,8 @@ quarters:
     shares_outstanding: 627
     ytd_operating_cf: 4052
     ytd_capex_ppe: 0
+    cash: 7670
+    total_debt: 1994
     guidance_nq_revenue_low: 2390    # Q4-2024 guidance
     guidance_nq_revenue_high: 2440
 
@@ -85,6 +91,8 @@ quarters:
     shares_outstanding: 623
     ytd_operating_cf: 4518
     ytd_capex_ppe: 0
+    cash: 6864
+    total_debt: 1995
     guidance_nq_revenue_low: 2230    # Q1-2025 guidance
     guidance_nq_revenue_high: 2270
     guidance_fy_hint: qualitative    # "aim to build on momentum"; no dollar FY2025 range given
@@ -96,6 +104,8 @@ quarters:
     shares_outstanding: 619
     ytd_operating_cf: 1789
     ytd_capex_ppe: 0
+    cash: 7600
+    total_debt: 1996               # 2% Senior Notes due Mar 2026, reclassified to current
     guidance_nq_revenue_low: 2990    # Q2-2025 guidance
     guidance_nq_revenue_high: 3050
 
@@ -106,6 +116,8 @@ quarters:
     shares_outstanding: 613
     ytd_operating_cf: 2764
     ytd_capex_ppe: 0
+    cash: 7402
+    total_debt: 1997
     guidance_nq_revenue_low: 4020    # Q3-2025 guidance
     guidance_nq_revenue_high: 4100
 
@@ -116,6 +128,8 @@ quarters:
     shares_outstanding: 608
     ytd_operating_cf: 4120
     ytd_capex_ppe: 0
+    cash: 7528
+    total_debt: 1998
     guidance_nq_revenue_low: 2660    # Q4-2025 guidance
     guidance_nq_revenue_high: 2720
 
@@ -126,6 +140,8 @@ quarters:
     shares_outstanding: 602
     ytd_operating_cf: 4646
     ytd_capex_ppe: 0
+    cash: 6560
+    total_debt: 1999
     guidance_nq_revenue_low: 2590    # Q1-2026 guidance
     guidance_nq_revenue_high: 2630
     guidance_fy_hint: qualitative    # "at least low double digits" YoY growth; no dollar FY2026 range
@@ -137,5 +153,7 @@ quarters:
     shares_outstanding: 595
     ytd_operating_cf: 1708
     ytd_capex_ppe: 0
+    cash: 7037
+    total_debt: 2475               # new 5-yr Senior Notes issued Mar 2026; old $2B notes repaid
     guidance_nq_revenue_low: 3540    # Q2-2026 guidance
     guidance_nq_revenue_high: 3600

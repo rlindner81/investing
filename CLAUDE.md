@@ -88,9 +88,9 @@ snapshot, and historical closes from `prices/daily/<TICKER>.csv` (see
 `fetch-prices`) for each report-date column.
 
 ```bash
-uv run show-multiples              # all stocks in TICKERS.yml
-uv run show-multiples ODD BARK     # specific tickers
-uv run show-multiples NVDA         # ad-hoc ticker → yfinance fallback (flagged)
+uv run show-valuation              # all stocks in TICKERS.yml
+uv run show-valuation ODD BARK     # specific tickers
+uv run show-valuation NVDA         # ad-hoc ticker → yfinance fallback (flagged)
 ```
 
 A ticker without a `FINANCIALS.yml` falls back to yfinance's own P/S and P/FCF,
@@ -116,8 +116,16 @@ then the guidance/estimate revenue rows, then per-column valuation
 One entry per reported quarter, oldest first. All monetary values share a single
 `unit` (`thousands` / `millions` / `units`). Keep the flat key names exactly.
 
+An optional `currency` field names the ISO code of the filing currency (default:
+`USD`). When set to a non-USD code (e.g. `CNY` for Chinese Yuan, `HKD` for Hong
+Kong Dollar), `show-valuation` fetches the live `USD{currency}=X` rate from
+yfinance and converts all fundamentals to USD at that rate. Prices are always
+sourced from NASDAQ/NYSE in USD, so only the fundamental values need conversion.
+The alias `RMB` is accepted as a synonym for `CNY`.
+
 ```yaml
 unit: thousands
+currency: USD           # optional; omit for USD-denominated tickers
 quarters:
   - id: q1-2026                 # q<n>-<fiscal-year-label>; n and year drive the fiscal logic
     end_date: 2026-03-31
@@ -128,6 +136,9 @@ quarters:
     ytd_operating_cf: -20234    # net cash from operations, AS REPORTED (year-to-date)
     ytd_capex_ppe: 858          # PP&E purchases, YTD — the ONLY capex line in `company` FCF
     ytd_capex_software: 4197    # any other capitalized spend, YTD; add more ytd_capex_* as needed
+    # --- balance sheet snapshot at quarter end (optional) ---
+    cash: 312000                  # cash and cash equivalents
+    total_debt: 0                 # total financial debt (short-term + long-term)
     # --- guidance ISSUED AT THIS report (all optional, low/high ranges) ---
     guidance_nq_revenue_low: 168798       # next-quarter revenue
     guidance_nq_revenue_high: 180855
@@ -174,6 +185,9 @@ Conventions and derivations the tool relies on:
   the FY-aggregate column takes the last interim guide. `FW P/S guidance` /
   `FW P/S estimate` divide each column's market cap by its own guidance/estimate
   revenue (and the TTM column by the latest, at today's price).
+- **Net cash** = `cash − total_debt` (negative = net debt, shown in red). Both
+  fields are optional point-in-time balance sheet values. The row appears between
+  Market cap and P/S in the valuation section; it is blank for FY-aggregate columns.
 - **History-only quarters.** Quarters kept purely to give later quarters a valid
   TTM base (e.g. prior-year quarters reconstructed from comparatives) can omit
   `report_date` and `shares_outstanding`; they still show fundamentals but their

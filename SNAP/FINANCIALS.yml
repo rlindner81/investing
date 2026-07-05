@@ -47,6 +47,8 @@ quarters:
     shares_outstanding: 1691913
     ytd_operating_cf: 88352
     ytd_capex_ppe: 50448
+    cash: 1060393
+    total_debt: 3301466
     guidance_nq_revenue_low: 1225000    # Q2-2024 guidance (8-K press release)
     guidance_nq_revenue_high: 1255000
 
@@ -57,6 +59,8 @@ quarters:
     shares_outstanding: 1702107
     ytd_operating_cf: 66975
     ytd_capex_ppe: 102510
+    cash: 1060551
+    total_debt: 3638733
     guidance_nq_revenue_low: 1335000    # Q3-2024 guidance (8-K press release)
     guidance_nq_revenue_high: 1375000
 
@@ -67,6 +71,8 @@ quarters:
     shares_outstanding: 1719935
     ytd_operating_cf: 182847
     ytd_capex_ppe: 146551
+    cash: 964967
+    total_debt: 3641328
     guidance_nq_revenue_low: 1510000    # Q4-2024 guidance (investor letter EX-99.2)
     guidance_nq_revenue_high: 1560000
 
@@ -77,6 +83,8 @@ quarters:
     shares_outstanding: 1737867
     ytd_operating_cf: 413480
     ytd_capex_ppe: 194826
+    cash: 1046534
+    total_debt: 3643929
     guidance_nq_revenue_low: 1325000    # Q1-2025 guidance (investor letter EX-99.2)
     guidance_nq_revenue_high: 1360000
 
@@ -87,6 +95,8 @@ quarters:
     shares_outstanding: 1686678
     ytd_operating_cf: 151610
     ytd_capex_ppe: 37214
+    cash: 911227
+    total_debt: 3612925
     guidance_nq_hint: withheld   # Q2-2025 revenue guidance withheld (macro uncertainty)
 
   - id: q2-2025
@@ -96,6 +106,8 @@ quarters:
     shares_outstanding: 1682350
     ytd_operating_cf: 240104
     ytd_capex_ppe: 101915
+    cash: 925973
+    total_debt: 3575972
     guidance_nq_revenue_low: 1475000    # Q3-2025 guidance
     guidance_nq_revenue_high: 1505000
 
@@ -106,6 +118,8 @@ quarters:
     shares_outstanding: 1710909
     ytd_operating_cf: 386592
     ytd_capex_ppe: 154959
+    cash: 953317
+    total_debt: 3537889
     guidance_nq_revenue_low: 1680000    # Q4-2025 guidance
     guidance_nq_revenue_high: 1710000
 
@@ -116,6 +130,8 @@ quarters:
     shares_outstanding: 1711554
     ytd_operating_cf: 656170  # full-year FY2025 (10-K shows annual only)
     ytd_capex_ppe: 218981
+    cash: 1030435
+    total_debt: 3536829
     guidance_nq_revenue_low: 1500000    # Q1-2026 guidance
     guidance_nq_revenue_high: 1530000
 
@@ -126,5 +142,7 @@ quarters:
     shares_outstanding: 1697270
     ytd_operating_cf: 326779
     ytd_capex_ppe: 40772
+    cash: 1061924
+    total_debt: 3535735
     guidance_nq_revenue_low: 1520000    # Q2-2026 guidance
     guidance_nq_revenue_high: 1550000

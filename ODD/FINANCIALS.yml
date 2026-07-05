@@ -68,6 +68,8 @@ quarters:
     ytd_operating_cf: 79647
     ytd_capex_ppe: 655
     ytd_capex_software: 1106
+    cash: 77484
+    total_debt: 0
     guidance_nq_revenue_low: 185000
     guidance_nq_revenue_high: 189000
     guidance_fy_revenue_low: 626000
@@ -81,6 +83,8 @@ quarters:
     ytd_operating_cf: 105440
     ytd_capex_ppe: 1502
     ytd_capex_software: 2284
+    cash: 86853
+    total_debt: 0
     guidance_nq_revenue_low: 115000
     guidance_nq_revenue_high: 117000
     guidance_fy_revenue_low: 633000
@@ -94,6 +98,8 @@ quarters:
     ytd_operating_cf: 121599
     ytd_capex_ppe: 2398
     ytd_capex_software: 3417
+    cash: 85949
+    total_debt: 0
     guidance_nq_revenue_low: 118000
     guidance_nq_revenue_high: 120000
     guidance_fy_revenue_low: 642000
@@ -107,6 +113,8 @@ quarters:
     ytd_operating_cf: 137764
     ytd_capex_ppe: 3270
     ytd_capex_software: 4733
+    cash: 50340
+    total_debt: 0
     guidance_nq_revenue_low: 258000
     guidance_nq_revenue_high: 262000
     guidance_fy_revenue_low: 776000
@@ -120,6 +128,8 @@ quarters:
     ytd_operating_cf: 88336
     ytd_capex_ppe: 1002
     ytd_capex_software: 1460
+    cash: 136860
+    total_debt: 0
     guidance_nq_revenue_low: 235000
     guidance_nq_revenue_high: 239000
     guidance_fy_revenue_low: 790000
@@ -133,6 +143,8 @@ quarters:
     ytd_operating_cf: 101384
     ytd_capex_ppe: 1951
     ytd_capex_software: 2861
+    cash: 656822
+    total_debt: 582626             # Exchangeable Note issued Jun 2025
     guidance_nq_revenue_low: 144000
     guidance_nq_revenue_high: 146000
     guidance_fy_revenue_low: 799000
@@ -146,6 +158,8 @@ quarters:
     ytd_operating_cf: 92534
     ytd_capex_ppe: 2957
     ytd_capex_software: 7258
+    cash: 591995
+    total_debt: 583497
     guidance_nq_revenue_low: 149000
     guidance_nq_revenue_high: 152000
     guidance_fy_revenue_low: 806000
@@ -159,6 +173,8 @@ quarters:
     ytd_operating_cf: 87581        # full-year FY2025 (Q4 report shows annual only)
     ytd_capex_ppe: 3936
     ytd_capex_software: 11459
+    cash: 402209
+    total_debt: 584368
     guidance_nq_hint: "~−30% YoY"   # no dollar range given; qualitative only
     guidance_fy_hint: withdrawn
 
@@ -170,6 +186,8 @@ quarters:
     ytd_operating_cf: -20234
     ytd_capex_ppe: 858
     ytd_capex_software: 4197
+    cash: 278597
+    total_debt: 585222
     # --- Company guidance issued 2026-06-02 ---
     # Q2 2026: revenue -25% to -30% YoY vs Q2-2025 ($241.14M) → 180.9M / 168.8M
     guidance_nq_revenue_low: 168798

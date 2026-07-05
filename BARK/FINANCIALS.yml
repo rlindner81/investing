@@ -52,6 +52,8 @@ quarters:
     shares_outstanding: 8674
     ytd_operating_cf: 1792
     ytd_capex_ppe: 2043
+    cash: 117795
+    total_debt: 40027
 
   - id: q2-2025
     end_date: 2024-09-30
@@ -60,6 +62,8 @@ quarters:
     shares_outstanding: 8724
     ytd_operating_cf: 4566
     ytd_capex_ppe: 3851
+    cash: 115243
+    total_debt: 40128
 
   - id: q3-2025
     end_date: 2024-12-31
@@ -68,6 +72,8 @@ quarters:
     shares_outstanding: 9198     # 183,965,936 ÷ 20
     ytd_operating_cf: 3179
     ytd_capex_ppe: 4428
+    cash: 115259
+    total_debt: 42461              # PIK convertible note reclassified to current
     guidance_nq_revenue_low: 121200     # Q4 FY2025 implied
     guidance_nq_revenue_high: 131200
     guidance_fy_revenue_low: 490000     # FY2025 (reaffirmed)
@@ -80,6 +86,8 @@ quarters:
     shares_outstanding: 8487     # 169,732,895 ÷ 20
     ytd_operating_cf: -7079      # full-year FY2025
     ytd_capex_ppe: 6157
+    cash: 94022
+    total_debt: 42573
     guidance_nq_revenue_low: 99000      # Q1 FY2026
     guidance_nq_revenue_high: 101000
     guidance_fy_hint: withheld          # FY2026 withheld — tariff/macro uncertainty
@@ -92,6 +100,8 @@ quarters:
     shares_outstanding: 8492     # 169,830,115 ÷ 20
     ytd_operating_cf: -5440
     ytd_capex_ppe: 708
+    cash: 84665
+    total_debt: 42688
     guidance_nq_revenue_low: 102000     # Q2 FY2026
     guidance_nq_revenue_high: 105000
     guidance_fy_hint: withheld
@@ -103,6 +113,8 @@ quarters:
     shares_outstanding: 8577     # 171,546,997 ÷ 20
     ytd_operating_cf: -23514
     ytd_capex_ppe: 2560
+    cash: 63427
+    total_debt: 42804
     guidance_nq_revenue_low: 101000     # Q3 FY2026
     guidance_nq_revenue_high: 104000
     guidance_fy_hint: withheld
@@ -114,6 +126,8 @@ quarters:
     shares_outstanding: 8640     # 172,807,204 ÷ 20
     ytd_operating_cf: -21807
     ytd_capex_ppe: 2703
+    cash: 21683
+    total_debt: 0                  # convertible note paid off this quarter
     guidance_nq_hint: limited           # Q4 FY2026 — limited specific guidance
     guidance_fy_hint: withheld
 
@@ -124,3 +138,5 @@ quarters:
     shares_outstanding: 8683
     ytd_operating_cf: -23158    # full-year FY2026
     ytd_capex_ppe: 3416
+    cash: 19282
+    total_debt: 0

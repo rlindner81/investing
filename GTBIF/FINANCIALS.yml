@@ -50,6 +50,8 @@ quarters:
     shares_outstanding: 236109    # (SVS 211,671,221 + MVS 37,683×100 + Super 206,690×100) ÷ 1000
     ytd_operating_cf: 84023
     ytd_capex_ppe: 14711
+    cash: 223937
+    total_debt: 309937
 
   - id: q2-2024
     end_date: 2024-06-30
@@ -58,6 +60,8 @@ quarters:
     shares_outstanding: 235567    # (SVS 211,129,419 + MVS 37,683×100 + Super 206,690×100) ÷ 1000
     ytd_operating_cf: 104174
     ytd_capex_ppe: 34963
+    cash: 196142
+    total_debt: 309743
 
   - id: q3-2024
     end_date: 2024-09-30
@@ -66,6 +70,8 @@ quarters:
     shares_outstanding: 236156    # (SVS 211,718,705 + MVS 37,683×100 + Super 206,690×100) ÷ 1000
     ytd_operating_cf: 151845
     ytd_capex_ppe: 52992
+    cash: 173641
+    total_debt: 255579
     guidance_nq_hint: "flat sequentially"    # Q4-2024 guidance (earnings call transcript)
 
   - id: q4-2024
@@ -75,6 +81,8 @@ quarters:
     shares_outstanding: 235559    # (SVS 211,128,045 + MVS 37,623×100 + Super 206,690×100) ÷ 1000
     ytd_operating_cf: 195183  # full-year FY2024
     ytd_capex_ppe: 80188
+    cash: 171687
+    total_debt: 254958
     guidance_nq_hint: "down mid-single digits sequentially"    # Q1-2025 guidance (earnings call transcript)
 
   # --- 2025 quarters: displayed. ---
@@ -85,6 +93,8 @@ quarters:
     shares_outstanding: 236475    # (SVS 212,043,849 + MVS 37,623×100 + Super 206,690×100) ÷ 1000
     ytd_operating_cf: 74219
     ytd_capex_ppe: 29839
+    cash: 210582
+    total_debt: 252441
     guidance_nq_hint: "flat sequentially"    # Q2-2025 guidance (earnings call transcript)
 
   - id: q2-2025
@@ -94,6 +104,8 @@ quarters:
     shares_outstanding: 231576    # (SVS 207,145,195 + MVS 37,623×100 + Super 206,690×100) ÷ 1000
     ytd_operating_cf: 130666
     ytd_capex_ppe: 48842
+    cash: 176923
+    total_debt: 249952
     guidance_nq_hint: "flat to down low single digits sequentially"    # Q3-2025 guidance (earnings call transcript; ex-MN launch)
 
   - id: q3-2025
@@ -103,6 +115,8 @@ quarters:
     shares_outstanding: 231725    # (SVS 207,294,093 + MVS 37,623×100 + Super 206,690×100) ÷ 1000
     ytd_operating_cf: 204785
     ytd_capex_ppe: 66388
+    cash: 226211
+    total_debt: 247449
     guidance_nq_hint: "flat to +low-single-digits sequentially"
 
   - id: q4-2025
@@ -112,6 +126,8 @@ quarters:
     shares_outstanding: 230546    # (SVS 206,629,845 + MVS 37,472×100 + Super 201,690×100) ÷ 1000
     ytd_operating_cf: 294926  # full-year FY2025
     ytd_capex_ppe: 81068
+    cash: 274298
+    total_debt: 244896
     guidance_nq_hint: "down mid-single-digits sequentially"
 
   - id: q1-2026
@@ -121,4 +137,6 @@ quarters:
     shares_outstanding: 225929    # (SVS 202,013,135 + MVS 37,472×100 + Super 201,690×100) ÷ 1000
     ytd_operating_cf: 75799
     ytd_capex_ppe: 18856
+    cash: 344512
+    total_debt: 289923
     guidance_nq_hint: "flat to down slightly sequentially"    # Q2-2026 guidance (earnings call transcript)

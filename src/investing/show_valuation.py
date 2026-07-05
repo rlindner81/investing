@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-show_multiples.py — Price-to-Sales and Price-to-FCF multiples from official reports.
+show_valuation.py — Fundamentals and valuation multiples from official reports.
 
 Numbers come from each ticker's `<TICKER>/FINANCIALS.yml`, hand-entered from the
 SEC reports under `<TICKER>/quarters/` (see CLAUDE.md for the schema). Only the
@@ -21,9 +21,9 @@ Tickers without a FINANCIALS.yml fall back to yfinance's own figures, clearly
 flagged as such.
 
 Usage:
-  uv run show-multiples              # all stocks in TICKERS.yml
-  uv run show-multiples ODD BARK     # specific tickers
-  uv run show-multiples NVDA         # ad-hoc ticker (yfinance fallback)
+  uv run show-valuation              # all stocks in TICKERS.yml
+  uv run show-valuation ODD BARK     # specific tickers
+  uv run show-valuation NVDA         # ad-hoc ticker (yfinance fallback)
 """
 
 import argparse
@@ -44,6 +44,23 @@ TICKERS_FILE = REPO_ROOT / "TICKERS.yml"
 UNIT_MULT = {"thousands": 1_000, "millions": 1_000_000, "units": 1}
 
 console = Console()
+
+
+def fetch_fx_rate(currency: str) -> float:
+    """Return the number of `currency` units per 1 USD (e.g. ~7.2 for CNY).
+    Returns 1.0 for USD or if the lookup fails."""
+    aliases = {"RMB": "CNY"}
+    currency = aliases.get(currency.upper(), currency.upper())
+    if currency == "USD":
+        return 1.0
+    try:
+        rate = yf.Ticker(f"USD{currency}=X").fast_info.last_price
+        if rate:
+            return float(rate)
+    except Exception:
+        pass
+    console.print(f"[yellow]warning: could not fetch USD{currency}=X rate; using 1.0[/yellow]")
+    return 1.0
 
 
 # --------------------------------------------------------------------------- #
@@ -217,6 +234,7 @@ def quarter_col(quarters: list[dict], i: int, keys: list[str]) -> dict:
         "id": q["id"], "is_fy": False, "revenue": q.get("revenue"),
         "ocf": ocf, "capex": capex, "fcf_co": fcf_co, "fcf_strict": fcf_strict,
         "shares": q.get("shares_outstanding"),
+        "cash": q.get("cash"), "total_debt": q.get("total_debt"),
         "report_date": as_date(q.get("report_date")),
         "ttm": ttm_metrics(quarters, i, keys),  # trailing basis for this column's multiples
         "rev3": rev3,  # last three quarters' revenue, for the next-quarter forward TTM
@@ -254,6 +272,8 @@ def fy_col(quarters: list[dict], fy: str, keys: list[str]) -> dict:
         "id": f"FY-{fy}", "is_fy": True, "revenue": revenue,
         "ocf": ocf, "capex": capex, "fcf_co": fcf_co, "fcf_strict": fcf_strict,
         "shares": q4.get("shares_outstanding") if q4 else None,
+        "cash": q4.get("cash") if q4 else None,
+        "total_debt": q4.get("total_debt") if q4 else None,
         "report_date": as_date(q4.get("report_date")) if q4 else None,
         # at year-end the trailing window IS the full year
         "ttm": {"rev": revenue, "ocf": ocf, "ppe": ppe, "capex_total": total},
@@ -263,19 +283,24 @@ def fy_col(quarters: list[dict], fy: str, keys: list[str]) -> dict:
 
 def compute_official(ticker: str, data: dict, price: float) -> dict:
     mult = UNIT_MULT.get(data.get("unit", "thousands"), 1_000)
+    currency = data.get("currency", "USD").upper()
+    fx_rate = fetch_fx_rate(currency)   # native currency units per 1 USD (e.g. ~7.2 for CNY)
+    fmult = mult / fx_rate              # converts stored values → USD
+
     quarters = sorted(data["quarters"], key=lambda q: q["end_date"])
     latest = quarters[-1]
 
     shares = latest.get("shares_outstanding")
-    mktcap = price * shares * mult if shares else None
+    mktcap = price * shares * mult if shares else None  # shares need no FX conversion
 
     keys = capex_keys(quarters)
     result: dict = {"ticker": ticker, "source": "report", "price": price,
-                    "mult": mult, "mktcap": mktcap, "as_of": latest["id"],
-                    "capex_keys": keys}
+                    "mult": mult, "fmult": fmult, "currency": currency, "fx_rate": fx_rate,
+                    "mktcap": mktcap, "as_of": latest["id"], "capex_keys": keys}
 
-    # ---- display columns: current partial-year quarters, then every complete
-    #      fiscal year (aggregate) followed by its four quarters, newest first ----
+    # ---- display columns: current partial-year quarters + last 2 complete fiscal years ----
+    DISPLAY_FULL_YEARS = 2
+
     by_fy: dict[str, list[dict]] = {}
     for q in quarters:
         by_fy.setdefault(fy_token(q["id"]), []).append(q)
@@ -288,11 +313,15 @@ def compute_official(ticker: str, data: dict, price: float) -> dict:
                 for q in sorted(by_fy[fy], key=lambda q: q_num(q["id"]), reverse=True)
                 if q.get("report_date")]
 
-    # newest fiscal year first; a complete year gets its aggregate column, then its quarters
+    sorted_fys = sorted(by_fy, reverse=True)
+    complete_fys = [fy for fy in sorted_fys if fy in complete]
+    latest_fy = sorted_fys[0]
+
     cols = []
-    for fy in sorted(by_fy, reverse=True):
-        if fy in complete:
-            cols.append(fy_col(quarters, fy, keys))
+    if latest_fy not in complete:
+        cols += qcols(latest_fy)          # partial current year
+    for fy in complete_fys[:DISPLAY_FULL_YEARS]:
+        cols.append(fy_col(quarters, fy, keys))
         cols += qcols(fy)
     result["cols"] = cols
 
@@ -337,29 +366,32 @@ def compute_official(ticker: str, data: dict, price: float) -> dict:
         # or history-only quarters that carry no report date)
         c["show_val"] = price is not None and not c.get("is_fy")
         t = c.get("ttm")
-        c["ps"] = c["mktcap"] / (t["rev"] * mult) if c["mktcap"] and t and t.get("rev") else None
+        c["ps"] = c["mktcap"] / (t["rev"] * fmult) if c["mktcap"] and t and t.get("rev") else None
 
         # P/S on this column's own full-year guidance / estimate (revenue range → P/S range)
         def ps_rng(rev, cap=c["mktcap"]):
             if not rev or not cap:
                 return None
             lo, hi = rev
-            return (cap / (hi * mult), cap / (lo * mult))
+            return (cap / (hi * fmult), cap / (lo * fmult))
         c["guid_ps"] = ps_rng(c.get("guid_fy"))
         c["est_ps"] = ps_rng(c.get("est_fy"))
         # forward-TTM P/S: last 3 actual quarters + the guided next quarter
         nq, base = c.get("guid_nq"), c.get("rev3")
         c["nq_ps"] = None
         if c["mktcap"] and nq and base is not None:
-            b = base * mult
-            c["nq_ps"] = (c["mktcap"] / (b + nq[1] * mult), c["mktcap"] / (b + nq[0] * mult))
+            b = base * fmult
+            c["nq_ps"] = (c["mktcap"] / (b + nq[1] * fmult), c["mktcap"] / (b + nq[0] * fmult))
+
+        cash, td = c.get("cash"), c.get("total_debt")
+        c["net_cash"] = (cash - td) * fmult if cash is not None and td is not None else None
 
         c["pfcf_co"] = c["pfcf_strict"] = None
         if c["mktcap"] and t and t.get("ocf") is not None and t.get("ppe") is not None:
-            fcf_co = (t["ocf"] - t["ppe"]) * mult
+            fcf_co = (t["ocf"] - t["ppe"]) * fmult
             c["pfcf_co"] = c["mktcap"] / fcf_co if fcf_co > 0 else None
             if t.get("capex_total") is not None:
-                fcf_strict = (t["ocf"] - t["capex_total"]) * mult
+                fcf_strict = (t["ocf"] - t["capex_total"]) * fmult
                 c["pfcf_strict"] = c["mktcap"] / fcf_strict if fcf_strict > 0 else None
 
     # ---- trailing TTM (last four reported quarters, regardless of display) ----
@@ -368,7 +400,7 @@ def compute_official(ticker: str, data: dict, price: float) -> dict:
 
         def agg(fn):
             vals = [fn(c) for c in window]
-            return None if any(v is None for v in vals) else sum(vals) * mult
+            return None if any(v is None for v in vals) else sum(vals) * fmult
 
         ttm = {
             "revenue": agg(lambda c: c["revenue"]),
@@ -380,6 +412,8 @@ def compute_official(ticker: str, data: dict, price: float) -> dict:
         }
         result["ttm"] = ttm
         result["rev_ttm"] = ttm["revenue"]
+        lc, ltd = latest.get("cash"), latest.get("total_debt")
+        result["net_cash"] = (lc - ltd) * fmult if lc is not None and ltd is not None else None
         result["ps"] = mktcap / ttm["revenue"] if mktcap and ttm["revenue"] else None
         if mktcap and ttm["fcf_co"] and ttm["fcf_co"] > 0:
             result["pfcf_co"] = mktcap / ttm["fcf_co"]
@@ -391,7 +425,7 @@ def compute_official(ticker: str, data: dict, price: float) -> dict:
         if not rev or not mktcap:
             return None
         lo, hi = rev
-        return (mktcap / (hi * mult), mktcap / (lo * mult))
+        return (mktcap / (hi * fmult), mktcap / (lo * fmult))
 
     result["fwd_ps_guid"] = cur_ps(midpoint(latest, "guidance_fy_revenue"))
     result["fwd_ps_est"] = cur_ps(midpoint(latest, "est_fy_revenue"))
@@ -433,6 +467,18 @@ def fmt_money(v: float | None) -> str:
     if abs(v) >= 1e6:
         return f"${v / 1e6:.0f}M"
     return f"${v:,.0f}"
+
+
+def fmt_money_signed(v: float | None) -> str:
+    if v is None:
+        return "[dim]—[/dim]"
+    if abs(v) >= 1e9:
+        s = f"${v / 1e9:.2f}B"
+    elif abs(v) >= 1e6:
+        s = f"${v / 1e6:.0f}M"
+    else:
+        s = f"${v:,.0f}"
+    return f"[red]{s}[/red]" if v < 0 else s
 
 
 def fmt_mult(v: float | None) -> str:
@@ -496,11 +542,15 @@ def guid_cell(rng: tuple | None, hint: str | None, mult: int) -> str:
 
 def render_ticker(r: dict) -> None:
     mult = r["mult"]
+    fmult = r.get("fmult", mult)   # converts stored values to USD; equals mult for USD tickers
     cols = r.get("cols", [])
     ttm = r.get("ttm", {})
 
     src_note = "  [yellow](yfinance fallback)[/yellow]" if r["source"] == "yahoo" else ""
-    title = f"[bold cyan]{r['ticker']}[/bold cyan]{src_note}"
+    currency = r.get("currency", "USD")
+    fx_note = (f"  [dim](reports in {currency}; 1 USD = {r['fx_rate']:.2f} {currency})[/dim]"
+               if currency != "USD" else "")
+    title = f"[bold cyan]{r['ticker']}[/bold cyan]{src_note}{fx_note}"
 
     table = Table(title=title, header_style="bold", show_lines=False)
     agg = "bold magenta"  # header colour for the aggregate columns (TTM, full year)
@@ -516,8 +566,8 @@ def render_ticker(r: dict) -> None:
     # the estimate rows are shown only when FY estimates are actually maintained
     has_est = any(c.get("est_fy") for c in cols)
 
-    def fund_row(label, ttm_cell, key, end_section=False):
-        cells = [num(c.get(key), mult) for c in cols]
+    def fund_row(label, ttm_cell, key, end_section=False, m=None):
+        cells = [num(c.get(key), fmult if m is None else m) for c in cols]
         table.add_row(label, ttm_cell, *cells, end_section=end_section)
 
     # --- fundamentals (one CapEx row per ytd_capex_* line found in the data) ---
@@ -526,7 +576,7 @@ def render_ticker(r: dict) -> None:
     fund_row("Operating CF ($M)", num(ttm.get("ocf"), 1), "ocf")
     ttm_capex = ttm.get("capex") or {}
     for k in r.get("capex_keys", []):
-        cells = [num((c.get("capex") or {}).get(k), mult) for c in cols]
+        cells = [num((c.get("capex") or {}).get(k), fmult) for c in cols]
         table.add_row(f"CapEx {capex_label(k)} ($M)", num(ttm_capex.get(k), 1), *cells)
     if two_fcf:
         fund_row("FCF company ($M)", num(ttm.get("fcf_co"), 1), "fcf_co")
@@ -535,20 +585,20 @@ def render_ticker(r: dict) -> None:
     else:
         fund_row("FCF ($M)", num(ttm.get("fcf_co"), 1), "fcf_co")
         table.add_row("  FCF Y/Y", "", *[fmt_yoy(c.get("fcf_yoy")) for c in cols])
-    fund_row("Shares out (M)", num(ttm.get("shares"), mult), "shares", end_section=True)
+    fund_row("Shares out (M)", num(ttm.get("shares"), mult), "shares", end_section=True, m=mult)
 
     # --- guidance / estimate as it stood at each report (quarter columns only) ---
     table.add_row("NQ Rev guidance ($M)", "",
-                  *["" if c.get("is_fy") else guid_cell(c.get("guid_nq"), c.get("guid_nq_hint"), mult)
+                  *["" if c.get("is_fy") else guid_cell(c.get("guid_nq"), c.get("guid_nq_hint"), fmult)
                     for c in cols])
     table.add_row("  NQ actual/guide", "",
                   *["" if c.get("is_fy") else fmt_yoy(c.get("vs_nq_guid")) for c in cols])
     table.add_row("FY Rev guidance ($M)", "",
-                  *["" if c.get("is_fy") else guid_cell(c.get("guid_fy"), c.get("guid_fy_hint"), mult)
+                  *["" if c.get("is_fy") else guid_cell(c.get("guid_fy"), c.get("guid_fy_hint"), fmult)
                     for c in cols], end_section=not has_est)
     if has_est:
         table.add_row("FY Rev estimate ($M)", "",
-                      *["" if c.get("is_fy") else rng_cell(c.get("est_fy"), mult) for c in cols],
+                      *["" if c.get("is_fy") else rng_cell(c.get("est_fy"), fmult) for c in cols],
                       end_section=True)
 
     # --- valuation, per column (report-date close × then-current data);
@@ -560,6 +610,7 @@ def render_ticker(r: dict) -> None:
     val_row("Ref date", fmt_date(date.today()), lambda c: fmt_date(c.get("report_date")))
     val_row("Ref price ($)", fmt_price(r.get("price")), lambda c: fmt_price(c.get("ref_price")))
     val_row("Market cap", fmt_money(r.get("mktcap")), lambda c: fmt_money(c.get("mktcap")))
+    val_row("Net cash", fmt_money_signed(r.get("net_cash")), lambda c: fmt_money_signed(c.get("net_cash")))
     val_row("P / S", fmt_mult(r.get("ps")), lambda c: fmt_mult(c.get("ps")))
     if two_fcf:
         val_row("P / FCF company", fmt_mult(r.get("pfcf_co")), lambda c: fmt_mult(c.get("pfcf_co")))

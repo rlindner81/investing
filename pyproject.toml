@@ -14,7 +14,7 @@ discover-filings = "investing.discover_filings:main"
 fetch-transcript = "investing.fetch_transcript:main"
 fetch-prices = "investing.fetch_prices:main"
 analyze-prices = "investing.analyze_prices:main"
-show-multiples = "investing.show_multiples:main"
+show-valuation = "investing.show_valuation:main"
 
 [build-system]
 requires = ["hatchling"]
