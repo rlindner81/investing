@@ -1,4 +1,7 @@
+---
+description: 
 Review a single ticker: valuation multiples, price/volume technicals, and a fresh news/catalyst check.
+---
 
 ## Arguments
 
@@ -10,7 +13,7 @@ Call this skill as: `/ticker-review <TICKER>`
 
 ## Pipeline
 
-Work through the steps below in order. Each step writes to a temp directory; the final step assembles everything into the finished report using the template at `.claude/commands/ticker-review-template.md`.
+Work through the steps below in order. Each step writes to a temp directory; the final step assembles everything into the finished report using [template.md](template.md).
 
 ### Setup
 
@@ -85,7 +88,7 @@ End with the exact disclaimer: *This is not financial advice; this rating reflec
 
 ### Step 3 — Assemble the report
 
-Read `.claude/templates/ticker-review-template.md`. Substitute every placeholder with the corresponding content:
+Read [template.md](template.md). Substitute every placeholder with the corresponding content:
 
 | Placeholder | Source |
 |---|---|
