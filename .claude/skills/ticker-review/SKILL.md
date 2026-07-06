@@ -78,7 +78,7 @@ Search the web for material news and upcoming catalysts for **$ARGUMENTS**. ~400
 
 #### `rating.md`
 
-Single rating on its own line: **STRONG BUY / BUY / NEUTRAL / SELL / STRONG SELL**
+Single rating on its own line: **STRONG BUY / BUY / HOLD / SELL / STRONG SELL**
 
 One short paragraph (3–5 sentences): key drivers, main risk, what would change the rating.
 
