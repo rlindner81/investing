@@ -6,10 +6,9 @@ By default, shows both weekly (WTD + 3 prior weeks, SMAs 5/10/20) and monthly
 (MTD + 3 prior months, SMAs 20/50/200) views, weekly first.
 
 Usage:
-  uv run analyze-prices            # all tracked stocks, both views
-  uv run analyze-prices --weeks    # weekly view only
-  uv run analyze-prices --months   # monthly view only
-  uv run analyze-prices ODD SNAP   # specific stocks
+  uv run check-prices ODD SNAP        # both views
+  uv run check-prices ODD --weeks     # weekly view only
+  uv run check-prices ODD --months    # monthly view only
 """
 
 import re
@@ -118,7 +117,7 @@ def pair_arrows(a: float, b: float, c: float, tol: float = 0.005) -> tuple[str, 
 def fmt_tuple(a: float, b: float, c: float) -> str:
     s1 = ">" if a >= b else "<"
     s2 = ">" if b >= c else "<"
-    return f"{fmt_price(a)}{s1}{fmt_price(b)}{s2}{fmt_price(c)}"
+    return f"{fmt_price(a)} {s1} {fmt_price(b)} {s2} {fmt_price(c)}"
 
 
 def sma_alignment(df: pd.DataFrame, as_of: pd.Timestamp, periods: tuple = SMA_MONTHS) -> str:
@@ -150,7 +149,7 @@ def rvol(df: pd.DataFrame, start_ts: pd.Timestamp, end_ts: pd.Timestamp, periods
     r1, r2, r3 = period_avg/v1, period_avg/v2, period_avg/v3
     s1 = ">" if r1 >= r2 else "<"
     s2 = ">" if r2 >= r3 else "<"
-    ratios = f"{r1*100:3.0f}%{s1}{r2*100:3.0f}%{s2}{r3*100:3.0f}%"
+    ratios = f"{r1*100:3.0f}% {s1} {r2*100:3.0f}% {s2} {r3*100:3.0f}%"
 
     prefix, color = pair_arrows(v1, v2, v3)
     return f"[{color}]{prefix} {ratios}[/{color}]"
@@ -228,7 +227,7 @@ def implied_move(ticker: str, price: float, mode: str) -> str:
     return f"±{move:.1f}%/{suffix}"
 
 
-def analyze_stock(symbol: str, benchmarks: list[str], as_of: date | None = None, tags: list | None = None, mode: str = "weeks", auto_fetch: bool = False, show_iv: bool = False, show_vp: bool = False) -> None:
+def analyze_stock(symbol: str, benchmarks: list[str], as_of: date | None = None, tags: list | None = None, mode: str = "weeks", auto_fetch: bool = False) -> None:
     today = as_of or date.today()
     periods = SMA_WEEKS if mode == "weeks" else SMA_MONTHS
     sma_label = "/".join(str(p) for p in periods)
@@ -321,13 +320,13 @@ def analyze_stock(symbol: str, benchmarks: list[str], as_of: date | None = None,
 
         cells[ticker] = dict(price=price_cells, return_=return_cells, sma=sma_cells, vol=vol_cells)
 
-    if show_iv and not as_of:
+    if not as_of:
         for ticker in tickers:
             df = data[ticker]
             iv_str = implied_move(ticker, float(df["Close"].iloc[-1]), mode) if df is not None else "n/a"
             cells[ticker]["iv"] = [iv_str] + ["—"] * (len(columns) - 1)
 
-    if show_vp and not as_of:
+    if not as_of:
         if auto_fetch:
             hourly_dir = REPO_ROOT / "prices" / "hourly"
             hourly_dir.mkdir(parents=True, exist_ok=True)
@@ -382,14 +381,14 @@ def analyze_stock(symbol: str, benchmarks: list[str], as_of: date | None = None,
         label = "rvol" if i == 0 else (sma_label if i == 1 else "")
         table.add_row(label, ticker, *cells[ticker]["vol"], style=style, end_section=is_last)
 
-    if show_iv and not as_of:
+    if not as_of:
         for i, ticker in enumerate(tickers):
             is_last = i == len(tickers) - 1
             style = "bold" if ticker == symbol else ""
             label = "IV" if i == 0 else ""
             table.add_row(label, ticker, *cells[ticker]["iv"], style=style, end_section=is_last)
 
-    if show_vp and not as_of:
+    if not as_of:
         for i, ticker in enumerate(tickers):
             is_last = i == len(tickers) - 1
             style = "bold" if ticker == symbol else ""
@@ -403,13 +402,11 @@ def analyze_stock(symbol: str, benchmarks: list[str], as_of: date | None = None,
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Analyse prices vs benchmarks.")
-    parser.add_argument("tickers", nargs="*", help="Stocks to analyse (default: all)")
+    parser.add_argument("tickers", nargs="+", help="Stocks to analyse")
     parser.add_argument("--as-of", metavar="DATE", help="Simulate analysis as of this date (YYYY-MM-DD)")
     group = parser.add_mutually_exclusive_group()
     group.add_argument("--weeks", action="store_true", help="Weekly view only")
     group.add_argument("--months", action="store_true", help="Monthly view only")
-    parser.add_argument("--iv", action="store_true", help="Fetch and show implied volatility / expected move")
-    parser.add_argument("--vp", action="store_true", help="Show 2yr hourly volume profile point of control")
     args = parser.parse_args()
 
     as_of = date.fromisoformat(args.as_of) if args.as_of else None
@@ -422,18 +419,15 @@ def main() -> None:
     requested = {t.upper() for t in args.tickers}
 
     config = load_config()
-    known = set()
-    for stock in config.get("stocks", []):
-        symbol = stock["symbol"]
-        known.add(symbol)
-        if requested and symbol not in requested:
-            continue
-        for mode in modes:
-            analyze_stock(symbol, stock.get("benchmarks", []), as_of=as_of, tags=stock.get("tags", []), mode=mode, auto_fetch=bool(requested), show_iv=args.iv, show_vp=args.vp)
+    known = {stock["symbol"]: stock for stock in config.get("stocks", [])}
 
-    for symbol in requested - known:
+    for symbol in requested:
+        stock = known.get(symbol)
         for mode in modes:
-            analyze_stock(symbol, [], as_of=as_of, mode=mode, auto_fetch=True, show_iv=args.iv, show_vp=args.vp)
+            if stock:
+                analyze_stock(symbol, stock.get("benchmarks", []), as_of=as_of, tags=stock.get("tags", []), mode=mode, auto_fetch=True)
+            else:
+                analyze_stock(symbol, [], as_of=as_of, mode=mode, auto_fetch=True)
 
 
 if __name__ == "__main__":

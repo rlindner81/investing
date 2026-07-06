@@ -33,7 +33,7 @@ Run both commands, redirecting full output to files. Use `COLUMNS=300` so Rich r
 
 ```bash
 COLUMNS=300 FORCE_COLOR=1 uv run check-valuation $ARGUMENTS > /tmp/ticker-review-$ARGUMENTS/valuation-raw.txt 2>&1
-COLUMNS=300 FORCE_COLOR=1 uv run check-prices $ARGUMENTS --iv --vp > /tmp/ticker-review-$ARGUMENTS/prices-raw.txt 2>&1
+COLUMNS=300 FORCE_COLOR=1 uv run check-prices $ARGUMENTS > /tmp/ticker-review-$ARGUMENTS/prices-raw.txt 2>&1
 ```
 
 Read both files back in full before writing anything else.

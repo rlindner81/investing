@@ -21,9 +21,9 @@ Tickers without a FINANCIALS.yml fall back to yfinance's own figures, clearly
 flagged as such.
 
 Usage:
-  uv run show-valuation              # all stocks in TICKERS.yml
-  uv run show-valuation ODD BARK     # specific tickers
-  uv run show-valuation NVDA         # ad-hoc ticker (yfinance fallback)
+  uv run check-valuation              # all stocks in TICKERS.yml
+  uv run check-valuation ODD BARK     # specific tickers
+  uv run check-valuation NVDA         # ad-hoc ticker (yfinance fallback)
 """
 
 import argparse
