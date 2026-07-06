@@ -114,4 +114,4 @@ Create the output directory if needed and write the assembled report:
 $ARGUMENTS/reviews/YYYY-MM-DD-review.md
 ```
 
-Then show the user the assembled report in full.
+Then tell the user the report has been saved and give the file path. Do not echo the report contents to the chat.
