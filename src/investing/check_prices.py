@@ -25,7 +25,7 @@ from rich.console import Console
 from rich.table import Table
 
 from investing.lib import REPO_ROOT
-from investing.fetch_prices import fetch_ticker, fetch_iv, fetch_live_price
+from investing.fetch_prices import fetch_ticker, fetch_iv, fetch_live_price, load_last_date
 from investing.volume_profile import compute_poc
 
 PRICES_DAILY = REPO_ROOT / "prices" / "daily"
@@ -43,6 +43,7 @@ def load_config() -> dict:
 
 
 def load_prices(ticker: str, auto_fetch: bool = False) -> pd.DataFrame | None:
+    from datetime import date as date_
     path = PRICES_DAILY / f"{ticker}.csv"
     if not path.exists():
         if auto_fetch:
@@ -52,6 +53,11 @@ def load_prices(ticker: str, auto_fetch: bool = False) -> pd.DataFrame | None:
         if not path.exists():
             console.print(f"  [yellow]warning:[/yellow] no price file for {ticker}")
             return None
+    elif auto_fetch:
+        last = load_last_date(path, "Date")
+        if last is not None and last < date_.today() - timedelta(days=1):
+            console.print(f"  [dim]updating {ticker}...[/dim]")
+            fetch_ticker(ticker, prices_dir=PRICES_DAILY, interval="1d", prepost=False)
     df = pd.read_csv(path, index_col="Date", parse_dates=True)
     return df[~df.index.duplicated(keep="last")]
 
