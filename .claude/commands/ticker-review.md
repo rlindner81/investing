@@ -16,7 +16,7 @@ Run:
 uv run show-valuation $ARGUMENTS
 ```
 
-Read the full output carefully. Then write a **~300-word qualitative summary** covering:
+In the saved file, include the full terminal output verbatim in a fenced code block immediately before the qualitative summary. Then write a **~300-word qualitative summary** covering:
 
 - Revenue trend (Y/Y growth or decline, acceleration/deceleration)
 - FCF profile: is the company FCF-positive? How has it trended? Note any material difference between company FCF and strict ex-SBC FCF
@@ -33,7 +33,7 @@ Run:
 uv run analyze-prices $ARGUMENTS --iv --vp
 ```
 
-Read the full output carefully. Then write a **~300-word qualitative summary** covering:
+In the saved file, include the full terminal output verbatim in a fenced code block immediately before the qualitative summary. Then write a **~300-word qualitative summary** covering:
 
 - Recent price performance: WTD and MTD absolute returns and relative to the relevant benchmarks shown in the table
 - SMA signal: is the stock above or below its 20/50/200-day SMAs? Uptrend, downtrend, or mixed? Compare to the benchmark SMAs
@@ -56,6 +56,8 @@ Write a **~400-word section** covering:
 - Technical context: price and volume patterns compared to recent averages (cross-reference with the analyze-prices output above)
 
 Do not add a summary or ask questions at the end.
+
+> **Formatting rule:** In all written sections and in the saved file, escape every `$` that precedes a number or unit (e.g. `\$952M`, `\$16.81`, `\$-307M`). Bare `$` signs in markdown can trigger math rendering. The only exception is inline code spans (backtick-wrapped text), where no escaping is needed.
 
 ### Rating
 
@@ -86,3 +88,4 @@ price: <ref price from show-valuation TTM column>
 ```
 
 followed by the three sections (Valuation, Price & Technicals, News & Catalysts) in full. Do not truncate or summarise — write the complete text that was shown to the user.
+
