@@ -202,7 +202,7 @@ def col_capex(quarters: list[dict], i: int, keys: list[str]) -> tuple[dict, floa
 
 
 def ttm_metrics(quarters: list[dict], j: int, keys: list[str]) -> dict | None:
-    """Trailing-twelve-month revenue / OCF / PP&E / total-capex ending at index j."""
+    """Trailing-twelve-month revenue / OCF / PP&E / total-capex / SBC ending at index j."""
     if j < 3:
         return None
     idxs = range(j - 3, j + 1)
@@ -212,11 +212,13 @@ def ttm_metrics(quarters: list[dict], j: int, keys: list[str]) -> dict | None:
     ocf = [standalone(quarters, k, "ytd_operating_cf") for k in idxs]
     ppe = [standalone(quarters, k, "ytd_capex_ppe") for k in idxs]
     totals = [col_capex(quarters, k, keys)[1] for k in idxs]
+    sbc = [standalone(quarters, k, "ytd_sbc") for k in idxs]
     return {
         "rev": sum(rev),
         "ocf": None if None in ocf else sum(ocf),
         "ppe": None if None in ppe else sum(ppe),
         "capex_total": None if None in totals else sum(totals),
+        "sbc": None if any(v is None for v in sbc) else sum(sbc),
     }
 
 
@@ -228,11 +230,15 @@ def quarter_col(quarters: list[dict], i: int, keys: list[str]) -> dict:
     ppe = capex.get("ytd_capex_ppe")
     fcf_co = ocf - ppe if ocf is not None and ppe is not None else None
     fcf_strict = ocf - total if ocf is not None and total is not None else None
+    sbc = standalone(quarters, i, "ytd_sbc")
+    fcf_co_sbc = fcf_co - sbc if fcf_co is not None and sbc is not None else None
+    fcf_strict_sbc = fcf_strict - sbc if fcf_strict is not None and sbc is not None else None
     r3 = [quarters[k].get("revenue") for k in range(i - 2, i + 1)] if i >= 2 else [None]
     rev3 = None if any(v is None for v in r3) else sum(r3)
     return {
         "id": q["id"], "is_fy": False, "revenue": q.get("revenue"),
         "ocf": ocf, "capex": capex, "fcf_co": fcf_co, "fcf_strict": fcf_strict,
+        "sbc": sbc, "fcf_co_sbc": fcf_co_sbc, "fcf_strict_sbc": fcf_strict_sbc,
         "shares": q.get("shares_outstanding"),
         "cash": q.get("cash"), "total_debt": q.get("total_debt"),
         "report_date": as_date(q.get("report_date")),
@@ -260,6 +266,9 @@ def fy_col(quarters: list[dict], fy: str, keys: list[str]) -> dict:
     total = sum(v for v in capex.values() if v is not None) if capex else None
     fcf_co = ocf - ppe if ocf is not None and ppe is not None else None
     fcf_strict = ocf - total if ocf is not None and total is not None else None
+    sbc = q4.get("ytd_sbc") if q4 else None
+    fcf_co_sbc = fcf_co - sbc if fcf_co is not None and sbc is not None else None
+    fcf_strict_sbc = fcf_strict - sbc if fcf_strict is not None and sbc is not None else None
     # final full-year guidance/estimate for this FY = last of Q1–Q3 that gave one
     guid = est = None
     for n in (3, 2, 1):
@@ -271,12 +280,13 @@ def fy_col(quarters: list[dict], fy: str, keys: list[str]) -> dict:
     return {
         "id": f"FY-{fy}", "is_fy": True, "revenue": revenue,
         "ocf": ocf, "capex": capex, "fcf_co": fcf_co, "fcf_strict": fcf_strict,
+        "sbc": sbc, "fcf_co_sbc": fcf_co_sbc, "fcf_strict_sbc": fcf_strict_sbc,
         "shares": q4.get("shares_outstanding") if q4 else None,
         "cash": q4.get("cash") if q4 else None,
         "total_debt": q4.get("total_debt") if q4 else None,
         "report_date": as_date(q4.get("report_date")) if q4 else None,
         # at year-end the trailing window IS the full year
-        "ttm": {"rev": revenue, "ocf": ocf, "ppe": ppe, "capex_total": total},
+        "ttm": {"rev": revenue, "ocf": ocf, "ppe": ppe, "capex_total": total, "sbc": sbc},
         "guid_fy": guid, "guid_fy_withdrawn": False, "est_fy": est,
     }
 
@@ -394,6 +404,14 @@ def compute_official(ticker: str, data: dict, price: float) -> dict:
                 fcf_strict = (t["ocf"] - t["capex_total"]) * fmult
                 c["pfcf_strict"] = c["mktcap"] / fcf_strict if fcf_strict > 0 else None
 
+        c["pfcf_co_sbc"] = c["pfcf_strict_sbc"] = None
+        if c["mktcap"] and t and t.get("ocf") is not None and t.get("ppe") is not None and t.get("sbc") is not None:
+            fcf_co_sbc = (t["ocf"] - t["ppe"] - t["sbc"]) * fmult
+            c["pfcf_co_sbc"] = c["mktcap"] / fcf_co_sbc if fcf_co_sbc > 0 else None
+            if t.get("capex_total") is not None:
+                fcf_strict_sbc = (t["ocf"] - t["capex_total"] - t["sbc"]) * fmult
+                c["pfcf_strict_sbc"] = c["mktcap"] / fcf_strict_sbc if fcf_strict_sbc > 0 else None
+
     # ---- trailing TTM (last four reported quarters, regardless of display) ----
     if len(quarters) >= 4:
         window = [quarter_col(quarters, i, keys) for i in range(len(quarters) - 1, len(quarters) - 5, -1)]
@@ -408,6 +426,9 @@ def compute_official(ticker: str, data: dict, price: float) -> dict:
             "capex": {k: agg(lambda c, k=k: c["capex"].get(k)) for k in keys},
             "fcf_co": agg(lambda c: c["fcf_co"]),
             "fcf_strict": agg(lambda c: c["fcf_strict"]),
+            "sbc": agg(lambda c: c.get("sbc")),
+            "fcf_co_sbc": agg(lambda c: c.get("fcf_co_sbc")),
+            "fcf_strict_sbc": agg(lambda c: c.get("fcf_strict_sbc")),
             "shares": shares,
         }
         result["ttm"] = ttm
@@ -419,6 +440,10 @@ def compute_official(ticker: str, data: dict, price: float) -> dict:
             result["pfcf_co"] = mktcap / ttm["fcf_co"]
         if mktcap and ttm["fcf_strict"] and ttm["fcf_strict"] > 0:
             result["pfcf_strict"] = mktcap / ttm["fcf_strict"]
+        if mktcap and ttm.get("fcf_co_sbc") and ttm["fcf_co_sbc"] > 0:
+            result["pfcf_co_sbc"] = mktcap / ttm["fcf_co_sbc"]
+        if mktcap and ttm.get("fcf_strict_sbc") and ttm["fcf_strict_sbc"] > 0:
+            result["pfcf_strict_sbc"] = mktcap / ttm["fcf_strict_sbc"]
 
     # ---- forward P/S at TODAY's price from the latest full-year guidance / estimate ----
     def cur_ps(rev):
@@ -563,6 +588,7 @@ def render_ticker(r: dict) -> None:
     blank = ["" for _ in cols]
     # `company` and `strict` FCF differ only when there's capex beyond PP&E
     two_fcf = any(k != "ytd_capex_ppe" for k in r.get("capex_keys", []))
+    has_sbc = any(c.get("sbc") is not None for c in cols) or ttm.get("sbc") is not None
     # the estimate rows are shown only when FY estimates are actually maintained
     has_est = any(c.get("est_fy") for c in cols)
     # the NQ actual/guide row is useless without at least one numeric NQ guidance
@@ -572,18 +598,31 @@ def render_ticker(r: dict) -> None:
         cells = [num(c.get(key), fmult if m is None else m) for c in cols]
         table.add_row(label, ttm_cell, *cells, end_section=end_section)
 
-    # --- fundamentals (one CapEx row per ytd_capex_* line found in the data) ---
+    # two FCF rows whenever there are multiple capex lines OR SBC is present
+    show_fcf_strict = two_fcf or has_sbc
+
+    # --- fundamentals: continuous waterfall ---
+    # OCF → (−PP&E) → FCF company → (−other capex) → (−SBC) → FCF strict ex SBC
     fund_row("Revenue ($M)", num(ttm.get("revenue"), 1), "revenue")
     table.add_row("  Rev Y/Y", "", *[fmt_yoy(c.get("rev_yoy")) for c in cols])
     fund_row("Operating CF ($M)", num(ttm.get("ocf"), 1), "ocf")
     ttm_capex = ttm.get("capex") or {}
-    for k in r.get("capex_keys", []):
-        cells = [num((c.get("capex") or {}).get(k), fmult) for c in cols]
-        table.add_row(f"CapEx {capex_label(k)} ($M)", num(ttm_capex.get(k), 1), *cells)
-    if two_fcf:
+    ppe_cells = [num((c.get("capex") or {}).get("ytd_capex_ppe"), fmult) for c in cols]
+    if "ytd_capex_ppe" in r.get("capex_keys", []):
+        table.add_row("CapEx PP&E ($M)", num(ttm_capex.get("ytd_capex_ppe"), 1), *ppe_cells)
+    if show_fcf_strict:
         fund_row("FCF company ($M)", num(ttm.get("fcf_co"), 1), "fcf_co")
         table.add_row("  FCF Y/Y", "", *[fmt_yoy(c.get("fcf_yoy")) for c in cols])
-        fund_row("FCF strict ($M)", num(ttm.get("fcf_strict"), 1), "fcf_strict")
+        for k in r.get("capex_keys", []):
+            if k == "ytd_capex_ppe":
+                continue
+            cells = [num((c.get("capex") or {}).get(k), fmult) for c in cols]
+            table.add_row(f"CapEx {capex_label(k)} ($M)", num(ttm_capex.get(k), 1), *cells)
+        if has_sbc:
+            fund_row("SBC ($M)", num(ttm.get("sbc"), 1), "sbc")
+            fund_row("FCF strict ex SBC ($M)", num(ttm.get("fcf_strict_sbc"), 1), "fcf_strict_sbc")
+        else:
+            fund_row("FCF strict ($M)", num(ttm.get("fcf_strict"), 1), "fcf_strict")
     else:
         fund_row("FCF ($M)", num(ttm.get("fcf_co"), 1), "fcf_co")
         table.add_row("  FCF Y/Y", "", *[fmt_yoy(c.get("fcf_yoy")) for c in cols])
@@ -615,10 +654,14 @@ def render_ticker(r: dict) -> None:
     val_row("Market cap", fmt_money(r.get("mktcap")), lambda c: fmt_money(c.get("mktcap")))
     val_row("Net cash", fmt_money_signed(r.get("net_cash")), lambda c: fmt_money_signed(c.get("net_cash")))
     val_row("P / S", fmt_mult(r.get("ps")), lambda c: fmt_mult(c.get("ps")))
-    if two_fcf:
+    if show_fcf_strict:
         val_row("P / FCF company", fmt_mult(r.get("pfcf_co")), lambda c: fmt_mult(c.get("pfcf_co")))
-        val_row("P / FCF strict", fmt_mult(r.get("pfcf_strict")),
-                lambda c: fmt_mult(c.get("pfcf_strict")), end_section=True)
+        if has_sbc:
+            val_row("P / FCF strict ex SBC", fmt_mult(r.get("pfcf_strict_sbc")),
+                    lambda c: fmt_mult(c.get("pfcf_strict_sbc")), end_section=True)
+        else:
+            val_row("P / FCF strict", fmt_mult(r.get("pfcf_strict")),
+                    lambda c: fmt_mult(c.get("pfcf_strict")), end_section=True)
     else:
         val_row("P / FCF", fmt_mult(r.get("pfcf_co")),
                 lambda c: fmt_mult(c.get("pfcf_co")), end_section=True)

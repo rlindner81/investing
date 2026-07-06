@@ -32,6 +32,7 @@ quarters:
     ytd_operating_cf: 53199
     ytd_capex_ppe: 328
     ytd_capex_software: 749
+    ytd_sbc: 1811
 
   - id: q2-2023
     end_date: 2023-06-30
@@ -39,6 +40,7 @@ quarters:
     ytd_operating_cf: 75967
     ytd_capex_ppe: 761
     ytd_capex_software: 1496
+    ytd_sbc: 4370
 
   - id: q3-2023
     end_date: 2023-09-30
@@ -46,6 +48,7 @@ quarters:
     ytd_operating_cf: 79550
     ytd_capex_ppe: 1582
     ytd_capex_software: 2440
+    ytd_sbc: 16604
 
   - id: q4-2023
     end_date: 2023-12-31
@@ -53,6 +56,7 @@ quarters:
     ytd_operating_cf: 87455
     ytd_capex_ppe: 2101
     ytd_capex_software: 3518
+    ytd_sbc: 24111
 
   # --- 2024 quarters: reconstructed from the prior-year comparatives in the
   #     2025 reports. Report dates from EDGAR 6-K filing dates.
@@ -68,6 +72,7 @@ quarters:
     ytd_operating_cf: 79647
     ytd_capex_ppe: 655
     ytd_capex_software: 1106
+    ytd_sbc: 6862
     cash: 77484
     total_debt: 0
     guidance_nq_revenue_low: 185000
@@ -83,6 +88,7 @@ quarters:
     ytd_operating_cf: 105440
     ytd_capex_ppe: 1502
     ytd_capex_software: 2284
+    ytd_sbc: 13821
     cash: 86853
     total_debt: 0
     guidance_nq_revenue_low: 115000
@@ -98,6 +104,7 @@ quarters:
     ytd_operating_cf: 121599
     ytd_capex_ppe: 2398
     ytd_capex_software: 3417
+    ytd_sbc: 16562
     cash: 85949
     total_debt: 0
     guidance_nq_revenue_low: 118000
@@ -113,6 +120,7 @@ quarters:
     ytd_operating_cf: 137764
     ytd_capex_ppe: 3270
     ytd_capex_software: 4733
+    ytd_sbc: 25022
     cash: 50340
     total_debt: 0
     guidance_nq_revenue_low: 258000
@@ -128,6 +136,7 @@ quarters:
     ytd_operating_cf: 88336
     ytd_capex_ppe: 1002
     ytd_capex_software: 1460
+    ytd_sbc: 7084
     cash: 136860
     total_debt: 0
     guidance_nq_revenue_low: 235000
@@ -143,6 +152,7 @@ quarters:
     ytd_operating_cf: 101384
     ytd_capex_ppe: 1951
     ytd_capex_software: 2861
+    ytd_sbc: 16853
     cash: 656822
     total_debt: 582626             # Exchangeable Note issued Jun 2025
     guidance_nq_revenue_low: 144000
@@ -158,6 +168,7 @@ quarters:
     ytd_operating_cf: 92534
     ytd_capex_ppe: 2957
     ytd_capex_software: 7258
+    ytd_sbc: 25734
     cash: 591995
     total_debt: 583497
     guidance_nq_revenue_low: 149000
@@ -173,6 +184,7 @@ quarters:
     ytd_operating_cf: 87581        # full-year FY2025 (Q4 report shows annual only)
     ytd_capex_ppe: 3936
     ytd_capex_software: 11459
+    ytd_sbc: 33891
     cash: 402209
     total_debt: 584368
     guidance_nq_hint: "~−30% YoY"   # no dollar range given; qualitative only
@@ -186,6 +198,7 @@ quarters:
     ytd_operating_cf: -20234
     ytd_capex_ppe: 858
     ytd_capex_software: 4197
+    ytd_sbc: 8101
     cash: 278597
     total_debt: 585222
     # --- Company guidance issued 2026-06-02 ---

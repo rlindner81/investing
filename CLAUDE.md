@@ -139,6 +139,8 @@ quarters:
     ytd_operating_cf: -20234    # net cash from operations, AS REPORTED (year-to-date)
     ytd_capex_ppe: 858          # PP&E purchases, YTD — the ONLY capex line in `company` FCF
     ytd_capex_software: 4197    # any other capitalized spend, YTD; add more ytd_capex_* as needed
+    ytd_sbc: 8101               # stock-based comp, YTD (cash flow add-back). Optional; when present,
+                                # show-valuation adds SBC rows, FCF-after-SBC, and P/FCF-after-SBC.
     # --- balance sheet snapshot at quarter end (optional) ---
     cash: 312000                  # cash and cash equivalents
     total_debt: 0                 # total financial debt (short-term + long-term)
@@ -165,14 +167,12 @@ Conventions and derivations the tool relies on:
   `shares_outstanding`; P/S and P/FCF use the trailing-twelve-months ending that
   quarter. The **TTM** column uses the live price instead. FY-aggregate columns
   blank the valuation rows (they'd just duplicate Q4).
-- **Two FCF flavours**, driven by a naming convention: `company` = OCF −
-  `ytd_capex_ppe` (matches the FCF companies usually print); `strict` = OCF −
-  *every* `ytd_capex_*` line (PP&E + software + content + capitalized R&D + …).
-  So each company just breaks out whatever capitalized-investment lines it
-  discloses as `ytd_capex_<name>`; each becomes its own CapEx row and is folded
-  into `strict`. Negative trailing FCF prints `n/m`. When PP&E is the *only*
-  capex line (e.g. SNAP), the two are identical and collapse to one `FCF` /
-  `P / FCF` row.
+- **FCF flavours**: `company` = OCF − `ytd_capex_ppe` (matches the FCF companies
+  usually print); `strict ex SBC` = OCF − *every* `ytd_capex_*` line − SBC
+  (the most conservative view: removes all capitalized spend plus the dilutive
+  non-cash comp). `company` FCF is never touched by SBC — SBC only folds into
+  the strict variant. When neither extra capex lines nor SBC data are present,
+  the two rows collapse to a single `FCF` / `P / FCF`.
 - **Guidance rows** show what was issued at each report: `NQ Rev guidance` (next
   quarter) and `FY Rev guidance` (full year, with the raise trajectory), plus
   `FY Rev estimate` (your own). When guidance wasn't given, a `*_hint` prints in

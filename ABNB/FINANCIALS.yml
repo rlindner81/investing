@@ -29,24 +29,28 @@ quarters:
     revenue: 1818
     ytd_operating_cf: 1587
     ytd_capex_ppe: 0
+    ytd_sbc: 240
 
   - id: q2-2023
     end_date: 2023-06-30
     revenue: 2484
     ytd_operating_cf: 2496
     ytd_capex_ppe: 0
+    ytd_sbc: 544
 
   - id: q3-2023
     end_date: 2023-09-30
     revenue: 3397
     ytd_operating_cf: 3821
     ytd_capex_ppe: 0
+    ytd_sbc: 830
 
   - id: q4-2023
     end_date: 2023-12-31
     revenue: 2218              # FY2023 9,917 − 9mo 7,699
     ytd_operating_cf: 3884
     ytd_capex_ppe: 0
+    ytd_sbc: 1120
 
   - id: q1-2024
     end_date: 2024-03-31
@@ -55,6 +59,7 @@ quarters:
     shares_outstanding: 636
     ytd_operating_cf: 1923
     ytd_capex_ppe: 0
+    ytd_sbc: 295
     cash: 7829
     total_debt: 1992
     guidance_nq_revenue_low: 2680    # Q2-2024 guidance
@@ -67,6 +72,7 @@ quarters:
     shares_outstanding: 634
     ytd_operating_cf: 2974
     ytd_capex_ppe: 0
+    ytd_sbc: 677
     cash: 7882
     total_debt: 1993
     guidance_nq_revenue_low: 3670    # Q3-2024 guidance
@@ -79,6 +85,7 @@ quarters:
     shares_outstanding: 627
     ytd_operating_cf: 4052
     ytd_capex_ppe: 0
+    ytd_sbc: 1039
     cash: 7670
     total_debt: 1994
     guidance_nq_revenue_low: 2390    # Q4-2024 guidance
@@ -91,6 +98,7 @@ quarters:
     shares_outstanding: 623
     ytd_operating_cf: 4518
     ytd_capex_ppe: 0
+    ytd_sbc: 1407
     cash: 6864
     total_debt: 1995
     guidance_nq_revenue_low: 2230    # Q1-2025 guidance
@@ -104,6 +112,7 @@ quarters:
     shares_outstanding: 619
     ytd_operating_cf: 1789
     ytd_capex_ppe: 0
+    ytd_sbc: 358
     cash: 7600
     total_debt: 1996               # 2% Senior Notes due Mar 2026, reclassified to current
     guidance_nq_revenue_low: 2990    # Q2-2025 guidance
@@ -116,6 +125,7 @@ quarters:
     shares_outstanding: 613
     ytd_operating_cf: 2764
     ytd_capex_ppe: 0
+    ytd_sbc: 782
     cash: 7402
     total_debt: 1997
     guidance_nq_revenue_low: 4020    # Q3-2025 guidance
@@ -128,6 +138,7 @@ quarters:
     shares_outstanding: 608
     ytd_operating_cf: 4120
     ytd_capex_ppe: 0
+    ytd_sbc: 1181
     cash: 7528
     total_debt: 1998
     guidance_nq_revenue_low: 2660    # Q4-2025 guidance
@@ -140,6 +151,7 @@ quarters:
     shares_outstanding: 602
     ytd_operating_cf: 4646
     ytd_capex_ppe: 0
+    ytd_sbc: 1592
     cash: 6560
     total_debt: 1999
     guidance_nq_revenue_low: 2590    # Q1-2026 guidance
@@ -153,6 +165,7 @@ quarters:
     shares_outstanding: 595
     ytd_operating_cf: 1708
     ytd_capex_ppe: 0
+    ytd_sbc: 410
     cash: 7037
     total_debt: 2475               # new 5-yr Senior Notes issued Mar 2026; old $2B notes repaid
     guidance_nq_revenue_low: 3540    # Q2-2026 guidance
