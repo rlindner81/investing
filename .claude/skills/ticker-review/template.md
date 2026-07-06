@@ -6,7 +6,7 @@ price: {{PRICE}}
 
 ## 1. Valuation
 
-```
+```ansi
 {{VALUATION_RAW}}
 ```
 
@@ -16,7 +16,7 @@ price: {{PRICE}}
 
 ## 2. Technical Analysis
 
-```
+```ansi
 {{PRICES_RAW}}
 ```
 
