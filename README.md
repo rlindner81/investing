@@ -1,6 +1,12 @@
 # investing
 
-## usage
+## reviews
+
+- [ABNB](ABNB/reviews)
+- [ODD](ODD/reviews)
+- [GTBIF](GTBIF/reviews)
+
+## usage check-prices
 
 ```
 usage: check-prices [-h] [--as-of DATE] [--weeks | --months] [--iv] [tickers ...]
