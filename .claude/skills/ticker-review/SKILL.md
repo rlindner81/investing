@@ -114,4 +114,12 @@ Create the output directory if needed and write the assembled report:
 $ARGUMENTS/reviews/YYYY-MM-DD-review.md
 ```
 
+### Step 5 — Cleanup
+
+Remove the temporary working directory:
+
+```bash
+rm -rf /tmp/ticker-review-$ARGUMENTS
+```
+
 Then tell the user the report has been saved and give the file path. Do not echo the report contents to the chat.
