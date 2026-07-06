@@ -6,86 +6,109 @@ Review a single ticker: valuation multiples, price/volume technicals, and a fres
 
 Call this skill as: `/ticker-review <TICKER>`
 
-## Steps
+---
 
-### 1. Valuation snapshot
+## Pipeline
 
-Run:
+Work through the steps below in order. Each step writes to a temp directory; the final step assembles everything into the finished report using the template at `.claude/commands/ticker-review-template.md`.
 
+### Setup
+
+Create a working directory for this run:
+
+```bash
+mkdir -p /tmp/ticker-review-$ARGUMENTS
 ```
-uv run check-valuation $ARGUMENTS
+
+All intermediate files go here. Today's date is in YYYY-MM-DD format.
+
+---
+
+### Step 1 — Run data scripts
+
+Run both commands, redirecting full output to files. Use `COLUMNS=300` so Rich renders wide tables without truncation.
+
+```bash
+COLUMNS=300 uv run check-valuation $ARGUMENTS > /tmp/ticker-review-$ARGUMENTS/valuation-raw.txt 2>&1
+COLUMNS=300 uv run check-prices $ARGUMENTS --iv --vp > /tmp/ticker-review-$ARGUMENTS/prices-raw.txt 2>&1
 ```
 
-In the saved file, include the full terminal output verbatim in a fenced code block immediately before the qualitative summary. Then write a **~300-word qualitative summary** covering:
+Read both files back in full before writing anything else.
+
+---
+
+### Step 2 — Write section files
+
+Write each qualitative section as its own file in `/tmp/ticker-review-$ARGUMENTS/`. Do not echo these to the user — they are intermediate artifacts only.
+
+#### `valuation-summary.md`
+
+~300-word qualitative summary covering:
 
 - Revenue trend (Y/Y growth or decline, acceleration/deceleration)
-- FCF profile: is the company FCF-positive? How has it trended? Note any material difference between company FCF and strict ex-SBC FCF
-- Current valuation: TTM P/S, P/FCF, and forward P/S vs. guidance or estimates — are they cheap, fair, or stretched relative to the growth rate and FCF quality?
-- Guidance trajectory: what has management guided and how has the raise (or cut) track record looked across the columns?
-- Any notable balance-sheet items (net cash/debt, SBC burden relative to FCF)
-- One-sentence verdict on whether the valuation looks compelling, neutral, or stretched
+- FCF profile: FCF-positive? Trend? Material gap between company FCF and strict ex-SBC?
+- Current valuation: TTM P/S, P/FCF, forward P/S vs. guidance or estimates — cheap, fair, or stretched relative to growth and FCF quality?
+- Guidance trajectory: raise or cut track record across columns
+- Notable balance-sheet items (net cash/debt, SBC burden relative to FCF)
+- One-sentence verdict
 
-### 2. Price and technical analysis
+#### `prices-summary.md`
 
-Run:
+~300-word qualitative summary covering:
 
-```
-uv run check-prices $ARGUMENTS --iv --vp
-```
+- Recent price performance: WTD and MTD returns vs. benchmarks in the table
+- SMA signal: above/below 20/50/200-day SMAs? Uptrend, downtrend, or mixed? Compare to benchmark SMAs
+- Relative volume (rvol): elevated or subdued vs. 20/50/200-day averages? Conviction signal?
+- Implied volatility: expected weekly and monthly move; elevated or calm vs. benchmark?
+- Volume profile (POC): 2-year POC location — support or resistance?
+- One-sentence directional read
 
-In the saved file, include the full terminal output verbatim in a fenced code block immediately before the qualitative summary. Then write a **~300-word qualitative summary** covering:
+#### `news.md`
 
-- Recent price performance: WTD and MTD absolute returns and relative to the relevant benchmarks shown in the table
-- SMA signal: is the stock above or below its 20/50/200-day SMAs? Uptrend, downtrend, or mixed? Compare to the benchmark SMAs
-- Relative volume (rvol): is volume elevated or subdued vs. the 20/50/200-day averages? What does that signal about conviction?
-- Implied volatility: what is the market pricing as the expected weekly and monthly move? Is IV elevated or calm relative to the benchmark?
-- Volume profile (POC): where is the 2-year point of control? Is the stock trading above or below that range? Does it represent support or resistance?
-- One-sentence directional read on the technical picture
+Search the web for material news and upcoming catalysts for **$ARGUMENTS**. ~400-word section covering:
 
-### 3. News and catalyst check
-
-Use web search to check for material news, price-moving events, and upcoming catalysts for **$ARGUMENTS** specifically. Adapt the query to the single ticker.
-
-Write a **~400-word section** covering:
-
-- Any fresh material news (last 2–4 weeks): earnings releases, guidance changes, analyst upgrades/downgrades, management changes, M&A, regulatory filings (8-K, 13D/G, etc.)
-- Excessive or unusual price moves since the last earnings report and what drove them
+- Fresh material news (last 2–4 weeks): earnings, guidance changes, analyst actions, management changes, M&A, regulatory filings
+- Unusual price moves since the last earnings report and what drove them
 - Upcoming catalysts: next earnings date, investor day, product launches, regulatory decisions, lock-up expirations
-- Market sentiment: retail investor narrative (Reddit, social) and institutional posture (recent 13F changes, short interest if notable)
-- Key risks: macro, competitive, balance-sheet, or execution risks specific to this ticker right now
-- Technical context: price and volume patterns compared to recent averages (cross-reference with the check-prices output above)
+- Market sentiment: retail narrative and institutional posture (13F changes, short interest if notable)
+- Key risks: macro, competitive, balance-sheet, or execution risks specific to this ticker
 
-Do not add a summary or ask questions at the end.
+#### `rating.md`
 
-> **Formatting rule:** In all written sections and in the saved file, escape every `$` that precedes a number or unit (e.g. `\$952M`, `\$16.81`, `\$-307M`). Bare `$` signs in markdown can trigger math rendering. The only exception is inline code spans (backtick-wrapped text), where no escaping is needed.
+Single rating on its own line: **STRONG BUY / BUY / NEUTRAL / SELL / STRONG SELL**
 
-### Rating
+One short paragraph (3–5 sentences): key drivers, main risk, what would change the rating.
 
-After the three sections, add a final **Rating** section. Synthesize the valuation, technical, and news findings into a single rating:
+End with the exact disclaimer: *This is not financial advice; this rating reflects a sentiment aggregation of the current review only.*
 
-**STRONG BUY / BUY / NEUTRAL / SELL / STRONG SELL**
+---
 
-One short paragraph (3–5 sentences) explaining the key drivers behind the rating — what is working, what is the main risk, and what would change it. End with the disclaimer: *This is not financial advice; this rating reflects a sentiment aggregation of the current review only.*
+### Step 3 — Assemble the report
 
-### 4. Save the review
+Read `.claude/templates/ticker-review-template.md`. Substitute every placeholder with the corresponding content:
 
-Once the full review is written, save it to:
+| Placeholder | Source |
+|---|---|
+| `{{TICKER}}` | `$ARGUMENTS` |
+| `{{DATE}}` | today's date |
+| `{{PRICE}}` | ref price from the TTM column of `valuation-raw.txt` |
+| `{{VALUATION_RAW}}` | full contents of `valuation-raw.txt` |
+| `{{VALUATION_SUMMARY}}` | full contents of `valuation-summary.md` |
+| `{{PRICES_RAW}}` | full contents of `prices-raw.txt` |
+| `{{PRICES_SUMMARY}}` | full contents of `prices-summary.md` |
+| `{{NEWS}}` | full contents of `news.md` |
+| `{{RATING}}` | full contents of `rating.md` |
+
+> **Formatting rule:** In all written sections, escape every `$` that precedes a number or unit (e.g. `\$952M`, `\$16.81`). Bare `$` signs in markdown trigger math rendering. Exception: inline code spans (backtick-wrapped), where no escaping is needed.
+
+---
+
+### Step 4 — Save
+
+Create the output directory if needed and write the assembled report:
 
 ```
 $ARGUMENTS/reviews/YYYY-MM-DD-review.md
 ```
 
-where `YYYY-MM-DD` is today's date. Create the `reviews/` directory if it does not exist.
-
-The file should contain the complete review exactly as presented to the user, with a front-matter header:
-
-```markdown
----
-ticker: $ARGUMENTS
-date: YYYY-MM-DD
-price: <ref price from check-valuation TTM column>
----
-```
-
-followed by the three sections (Valuation, Price & Technicals, News & Catalysts) in full. Do not truncate or summarise — write the complete text that was shown to the user.
-
+Then show the user the assembled report in full.
