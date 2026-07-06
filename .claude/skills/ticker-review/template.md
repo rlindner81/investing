@@ -12,9 +12,11 @@ price: {{PRICE}}
 
 {{VALUATION_SUMMARY}}
 
+**Rating:** {{VALUATION_RATING}}
+
 ---
 
-## 2. Technical Analysis
+## 2. Prices
 
 ```
 {{PRICES_RAW}}
@@ -22,14 +24,20 @@ price: {{PRICE}}
 
 {{PRICES_SUMMARY}}
 
+**Rating:** {{PRICES_RATING}}
+
 ---
 
-## 3. News & Catalysts
+## 3. News
 
 {{NEWS}}
 
+**Rating:** {{NEWS_RATING}}
+
 ---
 
-## Rating
+## Verdict
 
-{{RATING}}
+{{VERDICT}}
+
+**Rating:** {{TOTAL_RATING}}

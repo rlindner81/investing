@@ -55,6 +55,12 @@ Write each qualitative section as its own file in `/tmp/ticker-review-$ARGUMENTS
 - Notable balance-sheet items (net cash/debt, SBC burden relative to FCF)
 - One-sentence verdict
 
+End the file with a sentiment score that reflects what the summary above actually says — not a standalone judgment, but a numerical translation of the tone and conclusions you just wrote. −2.0 = the section paints a strongly negative picture; +2.0 = strongly positive; 0.0 = neutral or mixed. Use the full range.
+
+```
+RATING: <score>
+```
+
 #### `prices-summary.md`
 
 ~300-word qualitative summary covering:
@@ -66,6 +72,12 @@ Write each qualitative section as its own file in `/tmp/ticker-review-$ARGUMENTS
 - Volume profile (POC): 2-year POC location — support or resistance?
 - One-sentence directional read
 
+End the file with a sentiment score that reflects what the summary above actually says — not a standalone judgment, but a numerical translation of the tone and conclusions you just wrote. −2.0 = the section paints a strongly negative picture; +2.0 = strongly positive; 0.0 = neutral or mixed. Use the full range.
+
+```
+RATING: <score>
+```
+
 #### `news.md`
 
 Search the web for material news and upcoming catalysts for **$ARGUMENTS**. ~400-word section covering:
@@ -76,13 +88,15 @@ Search the web for material news and upcoming catalysts for **$ARGUMENTS**. ~400
 - Market sentiment: retail narrative and institutional posture (13F changes, short interest if notable)
 - Key risks: macro, competitive, balance-sheet, or execution risks specific to this ticker
 
-#### `rating.md`
+End the file with a sentiment score that reflects what the summary above actually says — not a standalone judgment, but a numerical translation of the tone and conclusions you just wrote. −2.0 = the section paints a strongly negative picture; +2.0 = strongly positive; 0.0 = neutral or mixed. Use the full range.
 
-Single rating on its own line: **STRONG BUY / BUY / HOLD / SELL / STRONG SELL**
+```
+RATING: <score>
+```
 
-One short paragraph (3–5 sentences): key drivers, main risk, what would change the rating.
+#### `verdict.md`
 
-End with the exact disclaimer: *This is not financial advice; this rating reflects a sentiment aggregation of the current review only.*
+One short paragraph (3–5 sentences): key drivers, main risk, what would change the rating. Do not include the numeric score here — it is assembled separately as `{{TOTAL_RATING}}`.
 
 ---
 
@@ -96,11 +110,15 @@ Read [template.md](template.md). Substitute every placeholder with the correspon
 | `{{DATE}}` | today's date |
 | `{{PRICE}}` | ref price from the TTM column of `valuation-raw.txt` |
 | `{{VALUATION_RAW}}` | full contents of `valuation-raw.txt` |
-| `{{VALUATION_SUMMARY}}` | full contents of `valuation-summary.md` |
+| `{{VALUATION_SUMMARY}}` | body of `valuation-summary.md` (everything before the `RATING:` line) |
+| `{{VALUATION_RATING}}` | score from the `RATING:` line in `valuation-summary.md` |
 | `{{PRICES_RAW}}` | full contents of `prices-raw.txt` |
-| `{{PRICES_SUMMARY}}` | full contents of `prices-summary.md` |
-| `{{NEWS}}` | full contents of `news.md` |
-| `{{RATING}}` | full contents of `rating.md` |
+| `{{PRICES_SUMMARY}}` | body of `prices-summary.md` (everything before the `RATING:` line) |
+| `{{PRICES_RATING}}` | score from the `RATING:` line in `prices-summary.md` |
+| `{{NEWS}}` | body of `news.md` (everything before the `RATING:` line) |
+| `{{NEWS_RATING}}` | score from the `RATING:` line in `news.md` |
+| `{{VERDICT}}` | full contents of `verdict.md` |
+| `{{TOTAL_RATING}}` | average of the three section scores, rounded to 1 decimal place |
 
 > **Formatting rule:** In all written sections, escape every `$` that precedes a number or unit (e.g. `\$952M`, `\$16.81`). Bare `$` signs in markdown trigger math rendering. Exception: inline code spans (backtick-wrapped), where no escaping is needed.
 
