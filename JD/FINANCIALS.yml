@@ -33,6 +33,7 @@ quarters:
     ytd_operating_cf: -21607
     ytd_capex_ppe: 2145
     ytd_capex_other: 1068
+    ytd_sbc: 1474
     cash: 74373
     total_debt: 43616               # 14,280 ST + 10,091 senior notes + 19,245 LT
 
@@ -44,6 +45,7 @@ quarters:
     ytd_operating_cf: 24904
     ytd_capex_ppe: 4508
     ytd_capex_other: 2312
+    ytd_sbc: 2451
     cash: 91020
     total_debt: 50015               # 17,951 ST + 10,614 senior notes + 21,450 LT
 
@@ -55,6 +57,7 @@ quarters:
     ytd_operating_cf: 39908
     ytd_capex_ppe: 7521
     ytd_capex_other: 4292
+    ytd_sbc: 3824
     cash: 115971
     total_debt: 46481               # 13,740 ST + 10,550 senior notes + 22,191 LT
 
@@ -66,6 +69,7 @@ quarters:
     ytd_operating_cf: 59521
     ytd_capex_ppe: 12117
     ytd_capex_other: 6261
+    ytd_sbc: 4804
     cash: 71892
     total_debt: 47000               # 5,034 ST + 10,411 senior notes + 31,555 LT
 
@@ -77,6 +81,7 @@ quarters:
     ytd_operating_cf: -11315
     ytd_capex_ppe: 1360
     ytd_capex_other: 1520
+    ytd_sbc: 759
     cash: 81626
     total_debt: 47856               # 5,267 ST + 10,432 senior notes + 32,157 LT
 
@@ -88,6 +93,7 @@ quarters:
     ytd_operating_cf: 39423
     ytd_capex_ppe: 2950
     ytd_capex_other: 3251
+    ytd_sbc: 1425
     cash: 84496
     total_debt: 62382               # 5,601 ST + 24,514 senior notes + 32,267 LT
 
@@ -99,6 +105,7 @@ quarters:
     ytd_operating_cf: 33204         # H1 39,423 + Q3 standalone (−6,219)
     ytd_capex_ppe: 6411             # H1 2,950 + Q3 3,461
     ytd_capex_other: 5148           # H1 3,251 + Q3 1,897
+    ytd_sbc: 2203
     cash: 99092
     total_debt: 63531               # 9,684 ST + 24,126 senior notes + 29,721 LT
 
@@ -110,6 +117,7 @@ quarters:
     ytd_operating_cf: 58095
     ytd_capex_ppe: 7286
     ytd_capex_other: 6937
+    ytd_sbc: 2999
     cash: 108350
     total_debt: 64056               # 7,581 ST + 24,770 senior notes + 31,705 LT
 
@@ -121,6 +129,7 @@ quarters:
     ytd_operating_cf: -18262
     ytd_capex_ppe: 915
     ytd_capex_other: 1408
+    ytd_sbc: 767
     cash: 96778
     total_debt: 60480               # 4,230 ST + 24,758 senior notes + 31,492 LT
 
@@ -132,6 +141,7 @@ quarters:
     ytd_operating_cf: 6147
     ytd_capex_ppe: 1991
     ytd_capex_other: 3364
+    ytd_sbc: 2424
     cash: 116547
     total_debt: 71827               # 11,661 ST + 3,571 current + 21,141 senior notes + 35,454 LT
 
@@ -143,6 +153,7 @@ quarters:
     ytd_operating_cf: -1888         # H1 6,147 + Q3 standalone (−8,035)
     ytd_capex_ppe: 2069             # H1 1,991 + Q3 78
     ytd_capex_other: 5882           # H1 3,364 + Q3 2,518
+    ytd_sbc: 3582
     cash: 113069
     total_debt: 80571               # 17,062 ST + 3,547 current + 21,005 senior notes + 38,957 LT
 
@@ -154,6 +165,7 @@ quarters:
     ytd_operating_cf: 18991
     ytd_capex_ppe: 4098
     ytd_capex_other: 8637
+    ytd_sbc: 4726
     cash: 137488
     total_debt: 73998               # 8,014 ST + 3,511 current + 20,798 senior notes + 41,675 LT
 
@@ -165,5 +177,6 @@ quarters:
     ytd_operating_cf: 555
     ytd_capex_ppe: 3498
     ytd_capex_other: 1565
+    ytd_sbc: 913
     cash: 101829
     total_debt: 74389               # 8,274 ST + 3,459 current + 20,494 senior notes + 42,162 LT

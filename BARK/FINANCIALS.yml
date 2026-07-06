@@ -22,24 +22,28 @@ quarters:
     revenue: 120591
     ytd_operating_cf: -10741
     ytd_capex_ppe: 2972
+    ytd_sbc: 3225
 
   - id: q2-2024
     end_date: 2023-09-30
     revenue: 123036
     ytd_operating_cf: -7916
     ytd_capex_ppe: 4933
+    ytd_sbc: 6914
 
   - id: q3-2024
     end_date: 2023-12-31
     revenue: 125075
     ytd_operating_cf: 7106
     ytd_capex_ppe: 6699
+    ytd_sbc: 10510
 
   - id: q4-2024
     end_date: 2024-03-31
     revenue: 121482        # FY2024 490,184 − 9mo 368,702
     ytd_operating_cf: 6060  # full-year FY2024
     ytd_capex_ppe: 8831
+    ytd_sbc: 12931
 
   # --- FY2025 (ends Mar 2025). All four quarters displayed.
   #     q1/q2 shares from balance sheet parenthetical (issued − treasury) ÷ 20:
@@ -52,6 +56,7 @@ quarters:
     shares_outstanding: 8674
     ytd_operating_cf: 1792
     ytd_capex_ppe: 2043
+    ytd_sbc: 2941
     cash: 117795
     total_debt: 40027
 
@@ -62,6 +67,7 @@ quarters:
     shares_outstanding: 8724
     ytd_operating_cf: 4566
     ytd_capex_ppe: 3851
+    ytd_sbc: 5898
     cash: 115243
     total_debt: 40128
 
@@ -72,6 +78,7 @@ quarters:
     shares_outstanding: 9198     # 183,965,936 ÷ 20
     ytd_operating_cf: 3179
     ytd_capex_ppe: 4428
+    ytd_sbc: 9771
     cash: 115259
     total_debt: 42461              # PIK convertible note reclassified to current
     guidance_nq_revenue_low: 121200     # Q4 FY2025 implied
@@ -86,6 +93,7 @@ quarters:
     shares_outstanding: 8487     # 169,732,895 ÷ 20
     ytd_operating_cf: -7079      # full-year FY2025
     ytd_capex_ppe: 6157
+    ytd_sbc: 12735
     cash: 94022
     total_debt: 42573
     guidance_nq_revenue_low: 99000      # Q1 FY2026
@@ -100,6 +108,7 @@ quarters:
     shares_outstanding: 8492     # 169,830,115 ÷ 20
     ytd_operating_cf: -5440
     ytd_capex_ppe: 708
+    ytd_sbc: 3594
     cash: 84665
     total_debt: 42688
     guidance_nq_revenue_low: 102000     # Q2 FY2026
@@ -113,6 +122,7 @@ quarters:
     shares_outstanding: 8577     # 171,546,997 ÷ 20
     ytd_operating_cf: -23514
     ytd_capex_ppe: 2560
+    ytd_sbc: 7310
     cash: 63427
     total_debt: 42804
     guidance_nq_revenue_low: 101000     # Q3 FY2026
@@ -126,6 +136,7 @@ quarters:
     shares_outstanding: 8640     # 172,807,204 ÷ 20
     ytd_operating_cf: -21807
     ytd_capex_ppe: 2703
+    ytd_sbc: 10881
     cash: 21683
     total_debt: 0                  # convertible note paid off this quarter
     guidance_nq_hint: limited           # Q4 FY2026 — limited specific guidance
@@ -138,5 +149,6 @@ quarters:
     shares_outstanding: 8683
     ytd_operating_cf: -23158    # full-year FY2026
     ytd_capex_ppe: 3416
+    ytd_sbc: 14351
     cash: 19282
     total_debt: 0
