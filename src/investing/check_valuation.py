@@ -366,6 +366,23 @@ def compute_official(ticker: str, data: dict, price: float) -> dict:
         rev = nxt.get("revenue") if nxt else None
         c["vs_nq_guid"] = (rev / ((nq[0] + nq[1]) / 2) - 1) if rev is not None else None
 
+    # ---- FY guidance vs actual full-year revenue (retrospective accuracy) ----
+    # Q1-Q3 give updated guidance for the current FY; Q4 gives initial guidance for FY+1.
+    for c in cols:
+        if c.get("is_fy"):
+            c["vs_fy_guid"] = None
+            continue
+        fy_guid = c.get("guid_fy")
+        if not fy_guid:
+            c["vs_fy_guid"] = None
+            continue
+        n, fy = q_num(c["id"]), int(fy_token(c["id"]))
+        target_fy = str(fy + 1) if n == 4 else str(fy)
+        fy_actual = all_fycols.get(f"FY-{target_fy}")
+        actual_rev = fy_actual.get("revenue") if fy_actual else None
+        mid = (fy_guid[0] + fy_guid[1]) / 2
+        c["vs_fy_guid"] = (actual_rev / mid - 1) if actual_rev is not None else None
+
     # ---- per-column valuation: close on the report date × then-current data ----
     closes = load_closes(ticker)
     for c in cols:
@@ -593,6 +610,8 @@ def render_ticker(r: dict) -> None:
     has_est = any(c.get("est_fy") for c in cols)
     # the NQ actual/guide row is useless without at least one numeric NQ guidance
     has_nq_guid = any(c.get("guid_nq") for c in cols)
+    # the FY actual/guide row is useless without at least one numeric FY guidance
+    has_fy_guid = any(c.get("guid_fy") for c in cols)
 
     def fund_row(label, ttm_cell, key, end_section=False, m=None):
         cells = [num(c.get(key), fmult if m is None else m) for c in cols]
@@ -637,7 +656,11 @@ def render_ticker(r: dict) -> None:
                       *["" if c.get("is_fy") else fmt_yoy(c.get("vs_nq_guid")) for c in cols])
     table.add_row("FY Rev guidance ($M)", "",
                   *["" if c.get("is_fy") else guid_cell(c.get("guid_fy"), c.get("guid_fy_hint"), fmult)
-                    for c in cols], end_section=not has_est)
+                    for c in cols], end_section=not has_fy_guid and not has_est)
+    if has_fy_guid:
+        table.add_row("  FY actual/guide", "",
+                      *["" if c.get("is_fy") else fmt_yoy(c.get("vs_fy_guid")) for c in cols],
+                      end_section=not has_est)
     if has_est:
         table.add_row("FY Rev estimate ($M)", "",
                       *["" if c.get("is_fy") else rng_cell(c.get("est_fy"), fmult) for c in cols],
