@@ -6,8 +6,6 @@ dependencies = [
     "pyyaml>=6",
     "yfinance>=0.2",
     "rich>=13",
-    "ansi2html>=1.9.2",
-    "markdown>=3.10.2",
 ]
 
 [project.scripts]
@@ -17,7 +15,6 @@ fetch-transcript = "investing.fetch_transcript:main"
 fetch-prices = "investing.fetch_prices:main"
 check-prices = "investing.check_prices:main"
 check-valuation = "investing.check_valuation:main"
-render-review = "investing.render_review:main"
 
 [build-system]
 requires = ["hatchling"]
