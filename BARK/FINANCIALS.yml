@@ -59,6 +59,10 @@ quarters:
     ytd_sbc: 2941
     cash: 117795
     total_debt: 40027
+    guidance_nq_revenue_low: 123000     # Q2 FY2025
+    guidance_nq_revenue_high: 126000
+    guidance_fy_revenue_low: 490000     # FY2025
+    guidance_fy_revenue_high: 500000
 
   - id: q2-2025
     end_date: 2024-09-30
@@ -70,6 +74,10 @@ quarters:
     ytd_sbc: 5898
     cash: 115243
     total_debt: 40128
+    guidance_nq_revenue_low: 123000     # Q3 FY2025
+    guidance_nq_revenue_high: 126000
+    guidance_fy_revenue_low: 490000     # FY2025 (reaffirmed)
+    guidance_fy_revenue_high: 500000
 
   - id: q3-2025
     end_date: 2024-12-31
@@ -152,3 +160,7 @@ quarters:
     ytd_sbc: 14351
     cash: 19282
     total_debt: 0
+    guidance_nq_revenue_low: 77000      # Q1 FY2027
+    guidance_nq_revenue_high: 79000
+    guidance_fy_revenue_low: 325000     # FY2027
+    guidance_fy_revenue_high: 340000
