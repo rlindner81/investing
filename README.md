@@ -3,8 +3,11 @@
 ## reviews
 
 - [ABNB](ABNB/reviews)
-- [ODD](ODD/reviews)
+- [BARK](BARK/reviews)
 - [GTBIF](GTBIF/reviews)
+- [JD](JD/reviews)
+- [ODD](ODD/reviews)
+- [SNAP](SNAP/reviews)
 
 ## usage check-prices
 
