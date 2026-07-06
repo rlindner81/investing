@@ -91,9 +91,9 @@ snapshot, and historical closes from `prices/daily/<TICKER>.csv` (see
 `fetch-prices`) for each report-date column.
 
 ```bash
-uv run show-valuation              # all stocks in TICKERS.yml
-uv run show-valuation ODD BARK     # specific tickers
-uv run show-valuation NVDA         # ad-hoc ticker → yfinance fallback (flagged)
+uv run check-valuation              # all stocks in TICKERS.yml
+uv run check-valuation ODD BARK     # specific tickers
+uv run check-valuation NVDA         # ad-hoc ticker → yfinance fallback (flagged)
 ```
 
 A ticker without a `FINANCIALS.yml` falls back to yfinance's own P/S and P/FCF,
@@ -121,7 +121,7 @@ One entry per reported quarter, oldest first. All monetary values share a single
 
 An optional `currency` field names the ISO code of the filing currency (default:
 `USD`). When set to a non-USD code (e.g. `CNY` for Chinese Yuan, `HKD` for Hong
-Kong Dollar), `show-valuation` fetches the live `USD{currency}=X` rate from
+Kong Dollar), `check-valuation` fetches the live `USD{currency}=X` rate from
 yfinance and converts all fundamentals to USD at that rate. Prices are always
 sourced from NASDAQ/NYSE in USD, so only the fundamental values need conversion.
 The alias `RMB` is accepted as a synonym for `CNY`.
@@ -140,7 +140,7 @@ quarters:
     ytd_capex_ppe: 858          # PP&E purchases, YTD — the ONLY capex line in `company` FCF
     ytd_capex_software: 4197    # any other capitalized spend, YTD; add more ytd_capex_* as needed
     ytd_sbc: 8101               # stock-based comp, YTD (cash flow add-back). Optional; when present,
-                                # show-valuation adds SBC rows, FCF-after-SBC, and P/FCF-after-SBC.
+                                # check-valuation adds SBC rows, FCF-after-SBC, and P/FCF-after-SBC.
     # --- balance sheet snapshot at quarter end (optional) ---
     cash: 312000                  # cash and cash equivalents
     total_debt: 0                 # total financial debt (short-term + long-term)

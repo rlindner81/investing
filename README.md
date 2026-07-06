@@ -3,7 +3,7 @@
 ## usage
 
 ```
-usage: analyze-prices [-h] [--as-of DATE] [--weeks | --months] [--iv] [tickers ...]
+usage: check-prices [-h] [--as-of DATE] [--weeks | --months] [--iv] [tickers ...]
 
 Analyse prices vs benchmarks.
 
@@ -23,10 +23,10 @@ options:
 
 To ad-hoc analyze a stock
 ```
-uv run analyze-prices NIO --iv --vp
+uv run check-prices NIO --iv --vp
 ```
 
 For a comparative benchmark analysis check [TICKERS.yml](./TICKERS.yml) and run, e.g.
 ```
-uv run analyze-prices ODD
+uv run check-prices ODD
 ```

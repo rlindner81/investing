@@ -3,7 +3,7 @@
 # Source: SEC filings (6-K / 20-F) under JD/quarters/.
 #
 # Notes specific to JD:
-#   - currency: CNY  →  show-valuation fetches the live USD/CNY rate and converts
+#   - currency: CNY  →  check-valuation fetches the live USD/CNY rate and converts
 #     all fundamentals to USD on the fly. Prices from NASDAQ (USD per ADS).
 #   - 1 ADS = 2 ordinary shares. shares_outstanding stores millions of ADS
 #     (= ordinary shares / 2), matching the NASDAQ price quoted per ADS.

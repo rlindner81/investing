@@ -13,7 +13,7 @@ Call this skill as: `/ticker-review <TICKER>`
 Run:
 
 ```
-uv run show-valuation $ARGUMENTS
+uv run check-valuation $ARGUMENTS
 ```
 
 In the saved file, include the full terminal output verbatim in a fenced code block immediately before the qualitative summary. Then write a **~300-word qualitative summary** covering:
@@ -30,7 +30,7 @@ In the saved file, include the full terminal output verbatim in a fenced code bl
 Run:
 
 ```
-uv run analyze-prices $ARGUMENTS --iv --vp
+uv run check-prices $ARGUMENTS --iv --vp
 ```
 
 In the saved file, include the full terminal output verbatim in a fenced code block immediately before the qualitative summary. Then write a **~300-word qualitative summary** covering:
@@ -53,7 +53,7 @@ Write a **~400-word section** covering:
 - Upcoming catalysts: next earnings date, investor day, product launches, regulatory decisions, lock-up expirations
 - Market sentiment: retail investor narrative (Reddit, social) and institutional posture (recent 13F changes, short interest if notable)
 - Key risks: macro, competitive, balance-sheet, or execution risks specific to this ticker right now
-- Technical context: price and volume patterns compared to recent averages (cross-reference with the analyze-prices output above)
+- Technical context: price and volume patterns compared to recent averages (cross-reference with the check-prices output above)
 
 Do not add a summary or ask questions at the end.
 
@@ -83,7 +83,7 @@ The file should contain the complete review exactly as presented to the user, wi
 ---
 ticker: $ARGUMENTS
 date: YYYY-MM-DD
-price: <ref price from show-valuation TTM column>
+price: <ref price from check-valuation TTM column>
 ---
 ```
 

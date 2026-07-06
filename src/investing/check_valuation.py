@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-show_valuation.py — Fundamentals and valuation multiples from official reports.
+check_valuation.py — Fundamentals and valuation multiples from official reports.
 
 Numbers come from each ticker's `<TICKER>/FINANCIALS.yml`, hand-entered from the
 SEC reports under `<TICKER>/quarters/` (see CLAUDE.md for the schema). Only the

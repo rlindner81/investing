@@ -46,7 +46,7 @@ fields:
 # --- Not XBRL-derivable (forward-looking; keep manual) ---
 #   guidance_nq_revenue_*, guidance_fy_revenue_*, guidance_*_hint, est_fy_revenue_*
 #
-# --- Requires differencing, same as show-valuation already does ---
+# --- Requires differencing, same as check-valuation already does ---
 #   Q4 has no standalone 3-month fact (10-K tags the 12-month total only).
 #   Q4 revenue = FY total − 9-month YTD; Q4 ytd_operating_cf/capex = the
 #   12-month YTD fact directly (already what FINANCIALS stores).

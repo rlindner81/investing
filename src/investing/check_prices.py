@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-analyze_prices.py — Compare tracked stocks against their benchmarks.
+check_prices.py — Compare tracked stocks against their benchmarks.
 
 By default, shows both weekly (WTD + 3 prior weeks, SMAs 5/10/20) and monthly
 (MTD + 3 prior months, SMAs 20/50/200) views, weekly first.
