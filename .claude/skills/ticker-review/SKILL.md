@@ -55,7 +55,7 @@ Write each qualitative section as its own file in `/tmp/ticker-review-$ARGUMENTS
 - Notable balance-sheet items (net cash/debt, SBC burden relative to FCF)
 - One-sentence verdict
 
-End the file with a sentiment score that reflects what the summary above actually says — not a standalone judgment, but a numerical translation of the tone and conclusions you just wrote. −2.0 = the section paints a strongly negative picture; +2.0 = strongly positive; 0.0 = neutral or mixed. Use the full range.
+End the file with a sentiment score that reflects what the summary above actually says — not a standalone judgment, but a numerical representation of the sentiment and conclusions you just wrote. Scale: −2.5 to +2.5 (1 decimal place). Bands: −2.5 to −1.5 = STRONG SELL; −1.5 to −0.5 = SELL; −0.5 to +0.5 = HOLD; +0.5 to +1.5 = BUY; +1.5 to +2.5 = STRONG BUY. Use the full range.
 
 ```
 RATING: <score>
@@ -72,7 +72,7 @@ RATING: <score>
 - Volume profile (POC): 2-year POC location — support or resistance?
 - One-sentence directional read
 
-End the file with a sentiment score that reflects what the summary above actually says — not a standalone judgment, but a numerical translation of the tone and conclusions you just wrote. −2.0 = the section paints a strongly negative picture; +2.0 = strongly positive; 0.0 = neutral or mixed. Use the full range.
+End the file with a sentiment score that reflects what the summary above actually says — not a standalone judgment, but a numerical representation of the sentiment and conclusions you just wrote. Scale: −2.5 to +2.5 (1 decimal place). Bands: −2.5 to −1.5 = STRONG SELL; −1.5 to −0.5 = SELL; −0.5 to +0.5 = HOLD; +0.5 to +1.5 = BUY; +1.5 to +2.5 = STRONG BUY. Use the full range.
 
 ```
 RATING: <score>
@@ -88,7 +88,7 @@ Search the web for material news and upcoming catalysts for **$ARGUMENTS**. ~400
 - Market sentiment: retail narrative and institutional posture (13F changes, short interest if notable)
 - Key risks: macro, competitive, balance-sheet, or execution risks specific to this ticker
 
-End the file with a sentiment score that reflects what the summary above actually says — not a standalone judgment, but a numerical translation of the tone and conclusions you just wrote. −2.0 = the section paints a strongly negative picture; +2.0 = strongly positive; 0.0 = neutral or mixed. Use the full range.
+End the file with a sentiment score that reflects what the summary above actually says — not a standalone judgment, but a numerical representation of the sentiment and conclusions you just wrote. Scale: −2.5 to +2.5 (1 decimal place). Bands: −2.5 to −1.5 = STRONG SELL; −1.5 to −0.5 = SELL; −0.5 to +0.5 = HOLD; +0.5 to +1.5 = BUY; +1.5 to +2.5 = STRONG BUY. Use the full range.
 
 ```
 RATING: <score>
