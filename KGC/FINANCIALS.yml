@@ -1,0 +1,202 @@
+# KGC (Kinross Gold Corporation) — figures for multiple calculations.
+# Fiscal year = calendar year. All monetary values in USD MILLIONS (Kinross
+# reports its financials "expressed in millions of U.S. dollars"). Reporting
+# currency is USD, so no FX conversion. shares_outstanding is also in millions
+# (common shares issued and outstanding, from the balance sheet cover count).
+# Source: SEC 6-K news releases under KGC/quarters/. See CLAUDE.md → "Valuation Multiples".
+#
+# Notes specific to KGC:
+#   - MJDS FILER: Kinross files a 40-F annually and furnishes quarterly results on
+#     FORM 6-K (no 10-Q/10-K). Each quarter's figures are transcribed from the
+#     earnings NEWS RELEASE 6-K, whose condensed consolidated statements carry a
+#     standalone "Three months ended" column — so `revenue` is taken directly for
+#     Q1-Q3. Q4 has no standalone column in the annual release, so it is computed
+#     as FY total − 9-month YTD (comment shows the subtraction).
+#   - NO REVENUE GUIDANCE. Kinross guides annual PRODUCTION (gold-equivalent oz),
+#     production cost of sales, all-in sustaining cost and capital expenditures —
+#     never revenue (revenue = production × the gold price, which it does not
+#     forecast). So the guidance rows carry hints ("prod-guided" / "no-rev-guide")
+#     rather than invented numbers, and the forward-P/S rows stay blank.
+#   - FCF flavours: `ytd_capex_ppe` = "Additions to property, plant and equipment"
+#     (the line Kinross nets against operating cash flow for its own free cash
+#     flow). `ytd_capex_interest` = "Interest paid capitalized to property, plant
+#     and equipment", a separate investing outflow — folded only into the strict
+#     ex-capex FCF. company FCF here is a TOTAL figure (OCF − PP&E additions);
+#     Kinross's headline "attributable free cash flow" is a bit lower because it
+#     strips the non-controlling-interest (Manh Choh JV, 70%-owned) minority
+#     (e.g. FY2024 attributable $1,340.2M vs total OCF−PP&E $1,370.9M;
+#      FY2025 attributable $2,473.5M).
+#   - Share-based compensation is immaterial (<$15M/yr) and is omitted.
+#   - Shares outstanding fell through 2025-2026 on a buyback (1,229M → 1,194M).
+#   - 2023 operating cash flow is the "continuing operations" line; discontinued
+#     operations (Russia/Ghana, divested 2022) were nil in 2023, so it equals total.
+
+unit: millions
+
+quarters:
+  # --- FY2023 (base year: feeds TTM, out of the display window) ---
+  - id: q1-2023
+    end_date: 2023-03-31
+    report_date: 2023-05-10
+    revenue: 929.3
+    shares_outstanding: 1227.563
+    ytd_operating_cf: 259.0
+    ytd_capex_ppe: 221.2
+    ytd_capex_interest: 38.3
+    cash: 471.0
+    total_debt: 2694.2          # 535.3 current + 2,158.9 long-term
+
+  - id: q2-2023
+    end_date: 2023-06-30
+    report_date: 2023-08-03
+    revenue: 1092.3
+    shares_outstanding: 1227.579
+    ytd_operating_cf: 787.6
+    ytd_capex_ppe: 503.1
+    ytd_capex_interest: 46.8
+    cash: 478.4
+    total_debt: 2475.4          # 531.5 + 1,943.9
+
+  - id: q3-2023
+    end_date: 2023-09-30
+    report_date: 2023-11-09
+    revenue: 1102.4
+    shares_outstanding: 1227.699
+    ytd_operating_cf: 1194.4
+    ytd_capex_ppe: 787.0
+    ytd_capex_interest: 89.8
+    cash: 464.9
+    total_debt: 2415.3          # 32.0 + 2,383.3
+
+  - id: q4-2023
+    end_date: 2023-12-31
+    report_date: 2024-02-15
+    revenue: 1115.7             # FY2023 4,239.7 − 9mo 3,124.0
+    shares_outstanding: 1227.838
+    ytd_operating_cf: 1605.3    # full-year FY2023 (annual release, YTD only)
+    ytd_capex_ppe: 1098.3
+    ytd_capex_interest: 114.1
+    cash: 352.4
+    total_debt: 2232.6          # 0 current + 2,232.6 long-term
+    guidance_fy_hint: prod-guided
+    guidance_nq_hint: no-rev-guide
+
+  # --- FY2024 (displayed) ---
+  - id: q1-2024
+    end_date: 2024-03-31
+    report_date: 2024-05-08
+    revenue: 1081.5
+    shares_outstanding: 1228.983
+    ytd_operating_cf: 374.4
+    ytd_capex_ppe: 241.9
+    ytd_capex_interest: 34.9
+    cash: 406.9
+    total_debt: 2233.3          # 999.3 + 1,234.0
+    guidance_fy_hint: prod-guided
+    guidance_nq_hint: no-rev-guide
+
+  - id: q2-2024
+    end_date: 2024-06-30
+    report_date: 2024-08-01
+    revenue: 1219.5
+    shares_outstanding: 1229.026
+    ytd_operating_cf: 978.4
+    ytd_capex_ppe: 516.1
+    ytd_capex_interest: 51.9
+    cash: 480.0
+    total_debt: 2034.0          # 799.5 + 1,234.5
+    guidance_fy_hint: prod-guided
+    guidance_nq_hint: no-rev-guide
+
+  - id: q3-2024
+    end_date: 2024-09-30
+    report_date: 2024-11-06
+    revenue: 1432.0
+    shares_outstanding: 1229.048
+    ytd_operating_cf: 1711.9
+    ytd_capex_ppe: 794.8
+    ytd_capex_interest: 84.9
+    cash: 472.8
+    total_debt: 1684.7          # 449.7 + 1,235.0
+    guidance_fy_hint: prod-guided
+    guidance_nq_hint: no-rev-guide
+
+  - id: q4-2024
+    end_date: 2024-12-31
+    report_date: 2025-02-13
+    revenue: 1415.8             # FY2024 5,148.8 − 9mo 3,733.0
+    shares_outstanding: 1229.126
+    ytd_operating_cf: 2446.4    # full-year FY2024
+    ytd_capex_ppe: 1075.5
+    ytd_capex_interest: 92.6
+    cash: 611.5
+    total_debt: 1435.4          # 199.9 + 1,235.5
+    guidance_fy_hint: prod-guided
+    guidance_nq_hint: no-rev-guide
+
+  # --- FY2025 (displayed) ---
+  - id: q1-2025
+    end_date: 2025-03-31
+    report_date: 2025-05-07
+    revenue: 1497.5
+    shares_outstanding: 1230.444
+    ytd_operating_cf: 597.1
+    ytd_capex_ppe: 207.7
+    ytd_capex_interest: 13.5
+    cash: 694.6
+    total_debt: 1235.9          # 0 current + 1,235.9 long-term
+    guidance_fy_hint: prod-guided
+    guidance_nq_hint: no-rev-guide
+
+  - id: q2-2025
+    end_date: 2025-06-30
+    report_date: 2025-07-31
+    revenue: 1728.5
+    shares_outstanding: 1218.782
+    ytd_operating_cf: 1589.5
+    ytd_capex_ppe: 513.8
+    ytd_capex_interest: 13.5
+    cash: 1136.5
+    total_debt: 1236.4
+    guidance_fy_hint: prod-guided
+    guidance_nq_hint: no-rev-guide
+
+  - id: q3-2025
+    end_date: 2025-09-30
+    report_date: 2025-11-05
+    revenue: 1802.1
+    shares_outstanding: 1209.994
+    ytd_operating_cf: 2613.6
+    ytd_capex_ppe: 826.0
+    ytd_capex_interest: 18.0
+    cash: 1721.7
+    total_debt: 1236.9          # net cash position achieved (cash > debt)
+    guidance_fy_hint: prod-guided
+    guidance_nq_hint: no-rev-guide
+
+  - id: q4-2025
+    end_date: 2025-12-31
+    report_date: 2026-02-18
+    revenue: 2023.0             # FY2025 7,051.1 − 9mo 5,028.1
+    shares_outstanding: 1199.843
+    ytd_operating_cf: 3760.5    # full-year FY2025
+    ytd_capex_ppe: 1194.2
+    ytd_capex_interest: 19.8
+    cash: 1742.3
+    total_debt: 738.2           # 0 current + 738.2 long-term (repaid term debt)
+    guidance_fy_hint: prod-guided
+    guidance_nq_hint: no-rev-guide
+
+  # --- FY2026 (current partial year) ---
+  - id: q1-2026
+    end_date: 2026-03-31
+    report_date: 2026-04-29
+    revenue: 2407.7
+    shares_outstanding: 1194.109
+    ytd_operating_cf: 1139.5
+    ytd_capex_ppe: 283.2
+    ytd_capex_interest: 7.1
+    cash: 2185.0
+    total_debt: 738.5
+    guidance_fy_hint: prod-guided
+    guidance_nq_hint: no-rev-guide

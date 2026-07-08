@@ -1,0 +1,92 @@
+_meta:
+  cik: "0000701818"
+  # Kinross Gold is a Canadian MJDS filer: it files a 40-F annually (audited
+  # statements) and furnishes quarterly results on FORM 6-K. There is no 10-Q/10-K.
+  # `report` points at the earnings NEWS RELEASE 6-K (its EX-99.1 carries the
+  # condensed consolidated statements of operations, balance sheets and cash flows).
+  # A separate same-cluster 6-K holds the MD&A. Kinross does NOT guide revenue —
+  # it guides production (Au eq. oz), cost of sales and capex — so there is no
+  # investor "letter" with revenue guidance; the news release doubles as the report.
+
+"2023-05-10":
+  quarter: q1-2023
+  period_end: "2023-03-31"
+  report: https://www.sec.gov/Archives/edgar/data/701818/000110465923058037/
+  report_type: 6-K
+
+"2023-08-03":
+  quarter: q2-2023
+  period_end: "2023-06-30"
+  report: https://www.sec.gov/Archives/edgar/data/701818/000110465923086951/
+  report_type: 6-K
+
+"2023-11-09":
+  quarter: q3-2023
+  period_end: "2023-09-30"
+  report: https://www.sec.gov/Archives/edgar/data/701818/000110465923115900/
+  report_type: 6-K
+
+"2024-02-15":
+  quarter: q4-2023
+  period_end: "2023-12-31"
+  report: https://www.sec.gov/Archives/edgar/data/701818/000110465924024350/
+  report_type: 6-K
+
+"2024-05-08":
+  quarter: q1-2024
+  period_end: "2024-03-31"
+  report: https://www.sec.gov/Archives/edgar/data/701818/000110465924058188/
+  report_type: 6-K
+
+"2024-08-01":
+  quarter: q2-2024
+  period_end: "2024-06-30"
+  report: https://www.sec.gov/Archives/edgar/data/701818/000110465924084471/
+  report_type: 6-K
+
+"2024-11-06":
+  quarter: q3-2024
+  period_end: "2024-09-30"
+  report: https://www.sec.gov/Archives/edgar/data/701818/000110465924114459/
+  report_type: 6-K
+
+"2025-02-13":
+  quarter: q4-2024
+  period_end: "2024-12-31"
+  report: https://www.sec.gov/Archives/edgar/data/701818/000110465925012402/
+  report_type: 6-K
+
+"2025-05-07":
+  quarter: q1-2025
+  period_end: "2025-03-31"
+  report: https://www.sec.gov/Archives/edgar/data/701818/000110465925045153/
+  report_type: 6-K
+  transcript: https://stockanalysis.com/stocks/kgc/transcripts/
+
+"2025-07-31":
+  quarter: q2-2025
+  period_end: "2025-06-30"
+  report: https://www.sec.gov/Archives/edgar/data/701818/000110465925072367/
+  report_type: 6-K
+  transcript: https://stockanalysis.com/stocks/kgc/transcripts/
+
+"2025-11-05":
+  quarter: q3-2025
+  period_end: "2025-09-30"
+  report: https://www.sec.gov/Archives/edgar/data/701818/000110465925106741/
+  report_type: 6-K
+  transcript: https://stockanalysis.com/stocks/kgc/transcripts/
+
+"2026-02-18":
+  quarter: q4-2025
+  period_end: "2025-12-31"
+  report: https://www.sec.gov/Archives/edgar/data/701818/000117184326000896/
+  report_type: 6-K
+  transcript: https://stockanalysis.com/stocks/kgc/transcripts/
+
+"2026-04-29":
+  quarter: q1-2026
+  period_end: "2026-03-31"
+  report: https://www.sec.gov/Archives/edgar/data/701818/000117184326002835/
+  report_type: 6-K
+  transcript: https://stockanalysis.com/stocks/kgc/transcripts/

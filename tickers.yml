@@ -36,6 +36,9 @@ benchmarks:
     - symbol: GLUX.DE
       issuer: Amundi
       description: Tracks the S&P Global Luxury Index — holds LVMH, L'Oréal, Hermès, Richemont and other global luxury leaders. EUR-denominated, Frankfurt-listed.
+    - symbol: GDX
+      issuer: VanEck
+      description: Tracks the NYSE Arca Gold Miners Index — global gold-mining companies including Newmont, Agnico Eagle, Barrick, Kinross
 
   peers:
     - symbol: BKNG
@@ -71,3 +74,6 @@ stocks:
   - symbol: BARK
     tags: [small_cap, consumer, pets, subscription]
     benchmarks: [SPY, XLY, ONLN, PAWZ]
+  - symbol: KGC
+    tags: [large_cap, gold, mining, materials]
+    benchmarks: [SPY, GDX]
