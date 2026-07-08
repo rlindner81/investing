@@ -7,7 +7,7 @@ Review a single ticker: valuation multiples, price/volume technicals, and a fres
 
 `$ARGUMENTS` — the ticker symbol to review (e.g. `ODD`, `BARK`, `GTBIF`).
 
-Call this skill as: `/ticker-review <TICKER>`
+Call this skill as: `/review-ticker <TICKER>`
 
 ---
 
@@ -20,7 +20,7 @@ Work through the steps below in order. Each step writes to a temp directory; the
 Create a working directory for this run:
 
 ```bash
-mkdir -p /tmp/ticker-review-$ARGUMENTS
+mkdir -p /tmp/review-ticker-$ARGUMENTS
 ```
 
 All intermediate files go here. Today's date is in YYYY-MM-DD format.
@@ -32,8 +32,8 @@ All intermediate files go here. Today's date is in YYYY-MM-DD format.
 Run both commands, redirecting full output to files. Use `COLUMNS=300` so Rich renders wide tables without truncation.
 
 ```bash
-COLUMNS=300 uv run check-valuation $ARGUMENTS > /tmp/ticker-review-$ARGUMENTS/valuation-raw.txt 2>&1
-COLUMNS=300 uv run check-prices $ARGUMENTS > /tmp/ticker-review-$ARGUMENTS/prices-raw.txt 2>&1
+COLUMNS=300 uv run check-valuation $ARGUMENTS > /tmp/review-ticker-$ARGUMENTS/valuation-raw.txt 2>&1
+COLUMNS=300 uv run check-prices $ARGUMENTS > /tmp/review-ticker-$ARGUMENTS/prices-raw.txt 2>&1
 ```
 
 Read both files back in full before writing anything else.
@@ -42,7 +42,7 @@ Read both files back in full before writing anything else.
 
 ### Step 2 — Write section files
 
-Write each qualitative section as its own file in `/tmp/ticker-review-$ARGUMENTS/`. Do not echo these to the user — they are intermediate artifacts only.
+Write each qualitative section as its own file in `/tmp/review-ticker-$ARGUMENTS/`. Do not echo these to the user — they are intermediate artifacts only.
 
 #### `valuation-summary.md`
 
@@ -137,7 +137,7 @@ $ARGUMENTS/reviews/YYYY-MM-DD-review.md
 Remove the temporary working directory:
 
 ```bash
-rm -rf /tmp/ticker-review-$ARGUMENTS
+rm -rf /tmp/review-ticker-$ARGUMENTS
 ```
 
 Then tell the user the report has been saved and give the file path. Do not echo the report contents to the chat.
