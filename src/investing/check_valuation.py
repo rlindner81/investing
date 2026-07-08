@@ -411,7 +411,8 @@ def compute_official(ticker: str, data: dict, price: float) -> dict:
             c["nq_ps"] = (c["mktcap"] / (b + nq[1] * fmult), c["mktcap"] / (b + nq[0] * fmult))
 
         cash, td = c.get("cash"), c.get("total_debt")
-        c["net_cash"] = (cash - td) * fmult if cash is not None and td is not None else None
+        c["cash_val"] = cash * fmult if cash is not None else None
+        c["debt_val"] = td * fmult if td is not None else None
 
         c["pfcf_co"] = c["pfcf_strict"] = None
         if c["mktcap"] and t and t.get("ocf") is not None and t.get("ppe") is not None:
@@ -451,7 +452,8 @@ def compute_official(ticker: str, data: dict, price: float) -> dict:
         result["ttm"] = ttm
         result["rev_ttm"] = ttm["revenue"]
         lc, ltd = latest.get("cash"), latest.get("total_debt")
-        result["net_cash"] = (lc - ltd) * fmult if lc is not None and ltd is not None else None
+        result["cash_val"] = lc * fmult if lc is not None else None
+        result["debt_val"] = ltd * fmult if ltd is not None else None
         result["ps"] = mktcap / ttm["revenue"] if mktcap and ttm["revenue"] else None
         if mktcap and ttm["fcf_co"] and ttm["fcf_co"] > 0:
             result["pfcf_co"] = mktcap / ttm["fcf_co"]
@@ -509,18 +511,6 @@ def fmt_money(v: float | None) -> str:
     if abs(v) >= 1e6:
         return f"${v / 1e6:.0f}M"
     return f"${v:,.0f}"
-
-
-def fmt_money_signed(v: float | None) -> str:
-    if v is None:
-        return "[dim]—[/dim]"
-    if abs(v) >= 1e9:
-        s = f"${v / 1e9:.2f}B"
-    elif abs(v) >= 1e6:
-        s = f"${v / 1e6:.0f}M"
-    else:
-        s = f"${v:,.0f}"
-    return f"[red]{s}[/red]" if v < 0 else s
 
 
 def fmt_mult(v: float | None) -> str:
@@ -675,7 +665,8 @@ def render_ticker(r: dict) -> None:
     val_row("Ref date", fmt_date(date.today()), lambda c: fmt_date(c.get("report_date")))
     val_row("Ref price ($)", fmt_price(r.get("price")), lambda c: fmt_price(c.get("ref_price")))
     val_row("Market cap", fmt_money(r.get("mktcap")), lambda c: fmt_money(c.get("mktcap")))
-    val_row("Net cash", fmt_money_signed(r.get("net_cash")), lambda c: fmt_money_signed(c.get("net_cash")))
+    val_row("Cash", fmt_money(r.get("cash_val")), lambda c: fmt_money(c.get("cash_val")))
+    val_row("Debt", fmt_money(r.get("debt_val")), lambda c: fmt_money(c.get("debt_val")))
     val_row("P / S", fmt_mult(r.get("ps")), lambda c: fmt_mult(c.get("ps")))
     if show_fcf_strict:
         val_row("P / FCF company", fmt_mult(r.get("pfcf_co")), lambda c: fmt_mult(c.get("pfcf_co")))
