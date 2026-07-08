@@ -42,9 +42,10 @@ All intermediate files go here. Today's date is in YYYY-MM-DD format.
 
 ### Step 1 — Run data scripts
 
-Run both commands, redirecting full output to files. Use `COLUMNS=300` so Rich renders wide tables without truncation.
+First run `fetch-prices` so any missing price data is downloaded up front. Then run both data commands, redirecting full output to files. Use `COLUMNS=300` so Rich renders wide tables without truncation.
 
 ```bash
+uv run fetch-prices $ARGUMENTS
 COLUMNS=300 uv run check-valuation $ARGUMENTS > /tmp/review-ticker-$ARGUMENTS/valuation-raw.txt 2>&1
 COLUMNS=300 uv run check-prices $ARGUMENTS > /tmp/review-ticker-$ARGUMENTS/prices-raw.txt 2>&1
 ```
