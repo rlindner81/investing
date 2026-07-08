@@ -191,10 +191,13 @@ Conventions and derivations the tool relies on:
 - **Net cash** = `cash − total_debt` (negative = net debt, shown in red). Both
   fields are optional point-in-time balance sheet values. The row appears between
   Market cap and P/S in the valuation section; it is blank for FY-aggregate columns.
-- **History-only quarters.** Quarters kept purely to give later quarters a valid
-  TTM base (e.g. prior-year quarters reconstructed from comparatives) can omit
-  `report_date` and `shares_outstanding`; they still show fundamentals but their
-  valuation rows stay blank.
+- **Older quarters fall off the display automatically.** Only the current partial
+  fiscal year plus the last two complete fiscal years are shown (a hard-coded
+  window in `check-valuation`). Earlier quarters — e.g. prior-year quarters kept
+  purely as a diff base for standalone OCF/capex, or reconstructed from
+  comparatives — still contribute to the TTM math but are simply out of the
+  display window. They may omit `report_date` and `shares_outstanding` when those
+  aren't available (e.g. pre-IPO periods).
 
 After entering a new quarter, sanity-check that `ytd_operating_cf − ytd_capex_ppe`
 for the full year reproduces the company's own reported FCF figure.

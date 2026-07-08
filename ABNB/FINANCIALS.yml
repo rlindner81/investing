@@ -21,9 +21,6 @@
 unit: millions
 
 quarters:
-  # --- q1-2023: diff base so q2-2023 standalone OCF can be computed.
-  #     No report_date / shares → stays hidden as a history-only entry. ---
-
   - id: q1-2023
     end_date: 2023-03-31
     revenue: 1818

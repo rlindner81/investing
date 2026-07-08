@@ -14,9 +14,6 @@
 unit: thousands
 
 quarters:
-  # --- 2023 quarters: history-only diff base (no report_date / shares).
-  #     Revenue standalone from income statement; OCF/capex YTD from cash flow.
-  #     Q4 revenue = FY2023 1,054,553 − 9mo 776,322. ---
   - id: q1-2023
     end_date: 2023-03-31
     revenue: 248536

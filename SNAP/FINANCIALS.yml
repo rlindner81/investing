@@ -11,8 +11,6 @@
 unit: thousands
 
 quarters:
-  # --- 2023 quarters: history-only diff base (no report_date / shares).
-  #     Source: EDGAR XBRL companyfacts. q4 revenue = FY2023 4,606,115 − 9mo 3,244,828. ---
   - id: q1-2023
     end_date: 2023-03-31
     revenue: 988608

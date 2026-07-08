@@ -21,11 +21,6 @@
 unit: thousands
 
 quarters:
-  # --- 2023 quarters: history-only diff base (no report_date / shares).
-  #     Revenue standalone; OCF and capex YTD as reported.
-  #     Source: prior-year comparative columns in 2024 quarterly 6-K exhibits.
-  #     Q1-Q2 are pre-IPO periods (IPO was July 26, 2023); Q3-Q4 were reported
-  #     publicly but kept history-only here for TTM base purposes. ---
   - id: q1-2023
     end_date: 2023-03-31
     revenue: 165654

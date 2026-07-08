@@ -14,9 +14,6 @@
 unit: thousands
 
 quarters:
-  # --- FY2024 (ends Mar 2024). History-only diff base — no report_date/shares.
-  #     Revenue from EDGAR XBRL; OCF/capex YTD from XBRL (NetCashProvidedByUsedInOperatingActivities
-  #     / PaymentsToAcquireProductiveAssets). q4 revenue = FY2024 490,184 − 9mo 368,702. ---
   - id: q1-2024
     end_date: 2023-06-30
     revenue: 120591
