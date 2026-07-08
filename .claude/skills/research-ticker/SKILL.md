@@ -114,18 +114,16 @@ Per quarter, fill from the filings:
   empty. When guidance was withheld/withdrawn, record the reason with
   `guidance_nq_hint` / `guidance_fy_hint` instead of inventing numbers.
 
-**History-only base for the earliest year.** Follow the SNAP/BARK pattern: the oldest
-fiscal year (the 2023 quarters, or FY2024 for a March filer like BARK) exists to give
-later quarters a valid TTM base. Those quarters carry fundamentals only — **omit
-`report_date` and `shares_outstanding`** so their valuation rows stay blank. Every
-quarter from the first fully-covered fiscal year onward gets `report_date` (the
-announcement date), `shares_outstanding`, balance-sheet fields, and guidance so
-`check-valuation` renders full per-column valuation.
+**Reach back one extra fiscal year.** Include the oldest fiscal year (the 2023
+quarters, or FY2024 for a March filer like BARK) so the first year you actually care
+about has a valid four-quarter TTM base. Fill each quarter with whatever the filings
+provide. `check-valuation` only displays the current partial year plus the last two
+complete fiscal years, so these earliest quarters contribute to the TTM math without
+cluttering the output.
 
 Cross-check reconstructed history against EDGAR's XBRL companyfacts API
 (`https://data.sec.gov/api/xbrl/companyfacts/CIK<10-digit>.json`) — that's where SNAP's
-2023 diff-base quarters came from. Optionally record the tag mapping in
-`$ARGUMENTS/xbrl-to-financials.yml` like SNAP does.
+2023 quarters came from.
 
 ---
 
