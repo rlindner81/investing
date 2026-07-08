@@ -315,13 +315,11 @@ def compute_official(ticker: str, data: dict, price: float) -> dict:
     for q in quarters:
         by_fy.setdefault(fy_token(q["id"]), []).append(q)
     complete = {fy for fy, qs in by_fy.items()
-                if len({q_num(q["id"]) for q in qs}) == 4
-                and any(q.get("report_date") for q in qs)}
+                if len({q_num(q["id"]) for q in qs}) == 4}
 
     def qcols(fy):
         return [quarter_col(quarters, quarters.index(q), keys)
-                for q in sorted(by_fy[fy], key=lambda q: q_num(q["id"]), reverse=True)
-                if q.get("report_date")]
+                for q in sorted(by_fy[fy], key=lambda q: q_num(q["id"]), reverse=True)]
 
     sorted_fys = sorted(by_fy, reverse=True)
     complete_fys = [fy for fy in sorted_fys if fy in complete]
@@ -389,8 +387,7 @@ def compute_official(ticker: str, data: dict, price: float) -> dict:
         price = close_on(closes, c.get("report_date"))
         c["ref_price"] = price
         c["mktcap"] = price * c["shares"] * mult if price and c.get("shares") else None
-        # valuation rows are shown only for dated quarter columns (not FY aggregates
-        # or history-only quarters that carry no report date)
+        # valuation rows are shown only for dated quarter columns (not FY aggregates)
         c["show_val"] = price is not None and not c.get("is_fy")
         t = c.get("ttm")
         c["ps"] = c["mktcap"] / (t["rev"] * fmult) if c["mktcap"] and t and t.get("rev") else None
