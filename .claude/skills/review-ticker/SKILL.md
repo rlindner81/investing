@@ -15,6 +15,19 @@ Call this skill as: `/review-ticker <TICKER>`
 
 Work through the steps below in order. Each step writes to a temp directory; the final step assembles everything into the finished report using [template.md](template.md).
 
+### Step 0 — Skip if already reviewed this week
+
+Before doing any work, check whether a review already exists for the current week (weeks start Monday). Reviews are named `YYYY-MM-DD-review.md`, and ISO dates sort lexically, so compare each existing review's date against this Monday:
+
+```bash
+week_start=$(date -v-mon +%F)
+ls $ARGUMENTS/reviews/*-review.md 2>/dev/null \
+  | sed 's#.*/##; s/-review\.md$//' \
+  | awk -v w="$week_start" '$0 >= w { print }'
+```
+
+If that prints any date, a review already exists for this week. **Stop immediately** — do not run any scripts, create temp directories, or search the web. Report back to the user that a review already exists for `$ARGUMENTS` this week and give its path (`$ARGUMENTS/reviews/<date>-review.md`), then end the run. Only continue to Setup if nothing was printed.
+
 ### Setup
 
 Create a working directory for this run:
