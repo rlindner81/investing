@@ -335,10 +335,10 @@ def analyze_stock(symbol: str, benchmarks: list[str], as_of: date | None = None,
                     console.print(f"  [dim]fetching {ticker} hourly...[/dim]")
                     fetch_ticker(ticker, prices_dir=hourly_dir, interval="1h", prepost=True)
         for ticker in tickers:
-            poc = compute_poc(ticker)
-            if poc is not None:
-                lo, hi = poc
-                poc_str = f"{fmt_price(lo)}–{fmt_price(hi)}"
+            poc = compute_poc(ticker, mode=mode)
+            mids = [m for _, m in poc] if poc is not None else []
+            if len(mids) == 3 and all(m is not None for m in mids):
+                poc_str = fmt_tuple(*mids)
             else:
                 poc_str = "n/a"
             cells[ticker]["poc"] = [poc_str] + ["—"] * (len(columns) - 1)
@@ -392,7 +392,7 @@ def analyze_stock(symbol: str, benchmarks: list[str], as_of: date | None = None,
         for i, ticker in enumerate(tickers):
             is_last = i == len(tickers) - 1
             style = "bold" if ticker == symbol else ""
-            label = "POC" if i == 0 else ("2yr 1h" if i == 1 else "")
+            label = "POC" if i == 0 else (sma_label if i == 1 else "")
             table.add_row(label, ticker, *cells[ticker]["poc"], style=style, end_section=is_last)
 
     console.print(table)
