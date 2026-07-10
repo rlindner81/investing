@@ -7,86 +7,101 @@ _meta:
   # A separate same-cluster 6-K holds the MD&A. Kinross does NOT guide revenue —
   # it guides production (Au eq. oz), cost of sales and capex — so there is no
   # investor "letter" with revenue guidance; the news release doubles as the report.
+  #
+  # HOME EXCHANGE: KGC is the NYSE ADR ticker, but stockanalysis.com lists Kinross
+  # under its Canadian home listing (Toronto, TSX:K). The generic US transcript
+  # path `stockanalysis.com/stocks/kgc/` 404s — transcript URLs live under
+  # `stockanalysis.com/quote/tsx/K/transcripts/<id>-<quarter>/` instead.
+  home_exchange: tsx
+  home_ticker: K
 
 "2023-05-10":
   quarter: q1-2023
   period_end: "2023-03-31"
   report: https://www.sec.gov/Archives/edgar/data/701818/000110465923058037/
   report_type: 6-K
+  transcript: https://stockanalysis.com/quote/tsx/K/transcripts/49333-q1-2023/
 
 "2023-08-03":
   quarter: q2-2023
   period_end: "2023-06-30"
   report: https://www.sec.gov/Archives/edgar/data/701818/000110465923086951/
   report_type: 6-K
+  transcript: https://stockanalysis.com/quote/tsx/K/transcripts/52357-q2-2023/
 
 "2023-11-09":
   quarter: q3-2023
   period_end: "2023-09-30"
   report: https://www.sec.gov/Archives/edgar/data/701818/000110465923115900/
   report_type: 6-K
+  transcript: https://stockanalysis.com/quote/tsx/K/transcripts/69042-q3-2023/
 
 "2024-02-15":
   quarter: q4-2023
   period_end: "2023-12-31"
   report: https://www.sec.gov/Archives/edgar/data/701818/000110465924024350/
   report_type: 6-K
+  transcript: https://stockanalysis.com/quote/tsx/K/transcripts/127912-q4-2023/
 
 "2024-05-08":
   quarter: q1-2024
   period_end: "2024-03-31"
   report: https://www.sec.gov/Archives/edgar/data/701818/000110465924058188/
   report_type: 6-K
+  transcript: https://stockanalysis.com/quote/tsx/K/transcripts/158937-q1-2024/
 
 "2024-08-01":
   quarter: q2-2024
   period_end: "2024-06-30"
   report: https://www.sec.gov/Archives/edgar/data/701818/000110465924084471/
   report_type: 6-K
+  transcript: https://stockanalysis.com/quote/tsx/K/transcripts/164868-q2-2024/
 
 "2024-11-06":
   quarter: q3-2024
   period_end: "2024-09-30"
   report: https://www.sec.gov/Archives/edgar/data/701818/000110465924114459/
   report_type: 6-K
+  transcript: https://stockanalysis.com/quote/tsx/K/transcripts/193447-q3-2024/
 
 "2025-02-13":
   quarter: q4-2024
   period_end: "2024-12-31"
   report: https://www.sec.gov/Archives/edgar/data/701818/000110465925012402/
   report_type: 6-K
+  transcript: https://stockanalysis.com/quote/tsx/K/transcripts/243873-q4-2024/
 
 "2025-05-07":
   quarter: q1-2025
   period_end: "2025-03-31"
   report: https://www.sec.gov/Archives/edgar/data/701818/000110465925045153/
   report_type: 6-K
-  transcript: https://stockanalysis.com/stocks/kgc/transcripts/
+  transcript: https://stockanalysis.com/quote/tsx/K/transcripts/305855-q1-2025/
 
 "2025-07-31":
   quarter: q2-2025
   period_end: "2025-06-30"
   report: https://www.sec.gov/Archives/edgar/data/701818/000110465925072367/
   report_type: 6-K
-  transcript: https://stockanalysis.com/stocks/kgc/transcripts/
+  transcript: https://stockanalysis.com/quote/tsx/K/transcripts/311445-q2-2025/
 
 "2025-11-05":
   quarter: q3-2025
   period_end: "2025-09-30"
   report: https://www.sec.gov/Archives/edgar/data/701818/000110465925106741/
   report_type: 6-K
-  transcript: https://stockanalysis.com/stocks/kgc/transcripts/
+  transcript: https://stockanalysis.com/quote/tsx/K/transcripts/344720-q3-2025/
 
 "2026-02-18":
   quarter: q4-2025
   period_end: "2025-12-31"
   report: https://www.sec.gov/Archives/edgar/data/701818/000117184326000896/
   report_type: 6-K
-  transcript: https://stockanalysis.com/stocks/kgc/transcripts/
+  transcript: https://stockanalysis.com/quote/tsx/K/transcripts/399135-q4-2025/
 
 "2026-04-29":
   quarter: q1-2026
   period_end: "2026-03-31"
   report: https://www.sec.gov/Archives/edgar/data/701818/000117184326002835/
   report_type: 6-K
-  transcript: https://stockanalysis.com/stocks/kgc/transcripts/
+  transcript: https://stockanalysis.com/quote/tsx/K/transcripts/545743-q1-2026/

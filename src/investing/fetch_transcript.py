@@ -11,6 +11,16 @@ SOURCES.yml format (e.g. BARK/SOURCES.yml):
 The date is the announcement date and is the root key. The script downloads any
 transcript URL that does not yet have a corresponding file in quarters/.
 
+The `transcript` URL must be the SPECIFIC per-quarter page
+(.../transcripts/<id>-<quarter>/), not the bare index (.../transcripts/) — the
+extractor parses a single transcript page and fails on an index.
+
+Foreign filers list under their home exchange, not the US ticker/ADR: the
+`stocks/<us-ticker>/` path 404s and transcripts live under
+`quote/<exchange>/<home-ticker>/transcripts/<id>-<quarter>/` instead (e.g. KGC →
+`quote/tsx/K/`, GTBIF → `quote/cse/GTII/`). Record the home listing in the
+SOURCES `_meta` block via `home_exchange` / `home_ticker`.
+
 Usage:
   # Download all missing transcripts across the whole repo
   uv run src/fetch_transcript.py
