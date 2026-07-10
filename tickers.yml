@@ -60,7 +60,7 @@ stocks:
     tags: [large_cap, china, ecommerce]
     benchmarks: [MCHI, KWEB]
   - symbol: WDAY
-    tags: [mid_cap, saas, enterprise]
+    tags: [large_cap, saas, enterprise]
     benchmarks: [SPY, QQQ, IGV]
   - symbol: SNAP
     tags: [mid_cap, social_media, advertising, event_driven]

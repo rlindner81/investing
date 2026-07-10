@@ -81,6 +81,31 @@ uv run fetch-transcript ODD 2026-02-25 --url https://stockanalysis.com/stocks/od
 
 Source: stockanalysis.com. Find the transcript URL by navigating to `stockanalysis.com/stocks/<ticker>/transcripts/` and copying the link for the relevant quarter. Add it as the `transcript` key in `SOURCES.yml` before running the script.
 
+Always add the **specific per-quarter** URL (`.../transcripts/<id>-<quarter>/`), not
+the bare index page (`.../transcripts/`). The extractor parses a single transcript
+page — pointed at an index it silently fails with `could not extract transcript`.
+
+#### Foreign filers list under their home exchange
+
+stockanalysis.com keys many non-US companies by their **home listing**, not the US
+ticker/ADR. For those the `stocks/<us-ticker>/` path 404s and transcripts live under
+`stockanalysis.com/quote/<exchange>/<home-ticker>/transcripts/<id>-<quarter>/`
+instead. Examples in this repo: KGC (NYSE ADR) → `quote/tsx/K/` (Toronto);
+GTBIF (US OTC) → `quote/cse/GTII/` (Canadian Securities Exchange).
+
+When a ticker uses a home listing, record it in `SOURCES.yml` `_meta` so the
+convention is explicit rather than buried in each URL:
+
+```yaml
+_meta:
+  cik: "0000701818"
+  home_exchange: tsx     # stockanalysis.com exchange slug (tsx, cse, ...)
+  home_ticker: K         # the ticker under that exchange
+```
+
+These `_meta` fields are documentary — the scripts read the full URL on each
+`transcript:` entry — but they flag the home-listing convention for future quarters.
+
 ## Valuation Multiples
 
 Price-to-Sales and Price-to-FCF multiples are computed from the official SEC

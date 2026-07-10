@@ -17,6 +17,9 @@ Usage:
   uv run fetch-prices --hourly          # hourly only
   uv run fetch-prices SPY QQQ           # both, specific tickers
   uv run fetch-prices --hourly SPY QQQ  # hourly only, specific tickers
+
+Naming a tracked stock also fetches its benchmarks (from TICKERS.yml), so a
+subsequent `check-prices <stock>` finds every file it needs already present.
 """
 
 import argparse
@@ -35,14 +38,33 @@ START_DATE_HOURLY = date(2024, 1, 1)
 TICKERS_FILE = REPO_ROOT / "TICKERS.yml"
 
 
-def load_tickers() -> list[str]:
+def load_config() -> dict:
     with TICKERS_FILE.open() as f:
-        data = yaml.safe_load(f)
+        return yaml.safe_load(f)
+
+
+def load_tickers() -> list[str]:
+    data = load_config()
     b = data.get("benchmarks", {})
     etfs  = [e["symbol"] for e in b.get("etfs",  [])]
     peers = [p["symbol"] for p in b.get("peers", [])]
     stocks = [s["symbol"] for s in data.get("stocks", [])]
     return etfs + peers + stocks
+
+
+def expand_with_benchmarks(tickers: list[str]) -> list[str]:
+    """For any requested ticker that is a known stock, append its benchmarks so
+    a later `check-prices <ticker>` finds every file it needs already fetched.
+    Order-preserving and de-duplicated; benchmarks follow their stock."""
+    benchmarks = {
+        s["symbol"]: s.get("benchmarks", []) for s in load_config().get("stocks", [])
+    }
+    result: list[str] = []
+    for t in tickers:
+        for sym in [t, *benchmarks.get(t, [])]:
+            if sym not in result:
+                result.append(sym)
+    return result
 
 
 def load_last_date(path: Path, index_col: str) -> date | None:
@@ -147,13 +169,23 @@ def fetch_ticker(ticker: str, *, prices_dir: Path, interval: str, prepost: bool)
             earliest = date.today() - timedelta(days=729)
             fetch_start = max(fetch_start, earliest)
 
-    print(f"  {ticker}: appending {fetch_start} → today")
     df = download(ticker, fetch_start, interval=interval, prepost=prepost)
     if df.empty:
-        print(f"  {ticker}: no data returned")
+        print(f"  {ticker}: no new data ({last})" if last else f"  {ticker}: no data returned")
         return
 
     df = df[~df.index.duplicated(keep="last")]
+
+    # When appending, drop any rows for dates already on disk. Yahoo re-emits the
+    # boundary day (and a partial live bar for today), which would otherwise
+    # accumulate as duplicate rows on repeated runs.
+    if last is not None:
+        row_dates = pd.to_datetime(pd.Series(df.index)).dt.date.to_numpy()
+        df = df[row_dates > last]
+        if df.empty:
+            print(f"  {ticker}: already up to date ({last})")
+            return
+
     df.to_csv(path, mode="a" if path.exists() else "w", header=not path.exists(), float_format="%.6g")
     print(f"  {ticker}: wrote {len(df)} rows → {path.relative_to(REPO_ROOT)}")
 
@@ -165,7 +197,10 @@ def main() -> None:
     parser.add_argument("--hourly", action="store_true", help="Fetch hourly candles only")
     args = parser.parse_args()
 
-    tickers = [t.upper() for t in args.tickers] if args.tickers else load_tickers()
+    if args.tickers:
+        tickers = expand_with_benchmarks([t.upper() for t in args.tickers])
+    else:
+        tickers = load_tickers()
 
     modes = []
     if not args.daily and not args.hourly:
