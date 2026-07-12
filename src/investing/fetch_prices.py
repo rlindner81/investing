@@ -140,7 +140,7 @@ def fetch_iv(ticker: str, price: float) -> float | None:
     return None
 
 
-def fetch_ticker(ticker: str, *, prices_dir: Path, interval: str, prepost: bool) -> None:
+def fetch_ticker(ticker: str, *, prices_dir: Path, interval: str, prepost: bool, quiet: bool = False) -> None:
     path = prices_dir / f"{ticker}.csv"
     index_col = "Datetime" if prepost else "Date"
     start_date = START_DATE_HOURLY if prepost else START_DATE_DAILY
@@ -149,7 +149,8 @@ def fetch_ticker(ticker: str, *, prices_dir: Path, interval: str, prepost: bool)
     if last is not None:
         fetch_start = last + timedelta(days=1)
         if fetch_start > date.today():
-            print(f"  {ticker}: already up to date ({last})")
+            if not quiet:
+                print(f"  {ticker}: already up to date ({last})")
             return
 
         split_dates = splits_since(ticker, last)
@@ -171,7 +172,8 @@ def fetch_ticker(ticker: str, *, prices_dir: Path, interval: str, prepost: bool)
 
     df = download(ticker, fetch_start, interval=interval, prepost=prepost)
     if df.empty:
-        print(f"  {ticker}: no new data ({last})" if last else f"  {ticker}: no data returned")
+        if not quiet:
+            print(f"  {ticker}: no new data ({last})" if last else f"  {ticker}: no data returned")
         return
 
     df = df[~df.index.duplicated(keep="last")]
@@ -183,7 +185,8 @@ def fetch_ticker(ticker: str, *, prices_dir: Path, interval: str, prepost: bool)
         row_dates = pd.to_datetime(pd.Series(df.index)).dt.date.to_numpy()
         df = df[row_dates > last]
         if df.empty:
-            print(f"  {ticker}: already up to date ({last})")
+            if not quiet:
+                print(f"  {ticker}: already up to date ({last})")
             return
 
     df.to_csv(path, mode="a" if path.exists() else "w", header=not path.exists(), float_format="%.6g")

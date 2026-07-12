@@ -55,8 +55,7 @@ def load_prices(ticker: str, auto_fetch: bool = False) -> pd.DataFrame | None:
     elif auto_fetch:
         last = load_last_date(path, "Date")
         if last is not None and last < date_.today() - timedelta(days=1):
-            console.print(f"  [dim]updating {ticker}...[/dim]")
-            fetch_ticker(ticker, prices_dir=PRICES_DAILY, interval="1d", prepost=False)
+            fetch_ticker(ticker, prices_dir=PRICES_DAILY, interval="1d", prepost=False, quiet=True)
     df = pd.read_csv(path, index_col="Date", parse_dates=True)
     return df[~df.index.duplicated(keep="last")]
 
@@ -333,7 +332,7 @@ def analyze_stock(symbol: str, benchmarks: list[str], as_of: date | None = None,
             for ticker in tickers:
                 if not (hourly_dir / f"{ticker}.csv").exists():
                     console.print(f"  [dim]fetching {ticker} hourly...[/dim]")
-                    fetch_ticker(ticker, prices_dir=hourly_dir, interval="1h", prepost=True)
+                    fetch_ticker(ticker, prices_dir=hourly_dir, interval="1h", prepost=True, quiet=True)
         for ticker in tickers:
             poc = compute_poc(ticker, mode=mode)
             mids = [m for _, m in poc] if poc is not None else []
