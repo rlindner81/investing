@@ -39,6 +39,9 @@ benchmarks:
     - symbol: GDX
       issuer: VanEck
       description: Tracks the NYSE Arca Gold Miners Index — global gold-mining companies including Newmont, Agnico Eagle, Barrick, Kinross
+    - symbol: ILF
+      issuer: iShares (BlackRock)
+      description: Tracks the S&P Latin America 40 — large-cap Latin American equities across Brazil, Mexico, Chile; holds MercadoLibre, Vale, Petrobras, banks
 
   peers:
     - symbol: BKNG
@@ -77,3 +80,6 @@ stocks:
   - symbol: KGC
     tags: [large_cap, gold, mining, materials]
     benchmarks: [SPY, GDX]
+  - symbol: MELI
+    tags: [large_cap, ecommerce, fintech, marketplace, latam]
+    benchmarks: [SPY, ILF, ONLN]

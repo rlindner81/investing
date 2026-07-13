@@ -1,0 +1,170 @@
+# MELI (MercadoLibre, Inc.) — figures for multiple calculations.
+# Fiscal year = calendar year. All monetary values in USD MILLIONS (the SEC
+# statements are presented "$ in Millions"). Source: SEC reports under
+# MELI/quarters/. See CLAUDE.md → "Valuation Multiples".
+#
+# Notes specific to MELI:
+#   - Reports in USD (Nasdaq-listed Uruguayan/LatAm operator), so no currency
+#     conversion. Values are whole millions — coarser than SNAP's thousands.
+#   - Revenue = "Net revenues and financial income" (the total top line, which
+#     includes fintech financial income). In the FY2024 10-K MELI RECAST the
+#     presentation, moving interest/financial income into the revenue top line;
+#     2023 figures here use the RECAST basis (from the 2024 10-Q comparatives)
+#     so every quarter is on one consistent revenue definition. (As originally
+#     reported, FY2023 "Net revenues" was 14,473; recast it is 15,107.)
+#   - Q4 has no standalone column in the 10-K: computed as FY total − 9-month YTD,
+#     with the subtraction shown inline.
+#   - Single capex line ("Investments of property and equipment", later
+#     "Investments in property and equipment, intangible assets and intangible
+#     assets at fair value"), so `company` and `strict` FCF differ only by SBC.
+#   - SBC proxy = "Long term retention program (LTRP) accrued compensation", the
+#     non-cash comp add-back in the cash-flow statement (MELI has no conventional
+#     stock-based comp line).
+#   - shares_outstanding = common shares issued and outstanding (net of treasury)
+#     from the cover page / balance sheet. Single share class. Expressed in
+#     MILLIONS to match `unit` (e.g. 50,697,182 shares → 50.697182).
+#   - GUIDANCE: MercadoLibre issues NO numeric forward guidance (long-standing
+#     policy); the earnings press releases are qualitative only. The guidance
+#     rows are therefore left empty for every quarter.
+#   - total_debt = current + non-current "Loans payable and other financial
+#     liabilities". MELI carries substantial debt but also large cash + a fintech
+#     balance sheet (loans receivable, funds payable), so net debt here is a crude
+#     read of leverage only.
+
+unit: millions
+
+quarters:
+  # --- FY2023 (recast revenue basis; TTM base for the first displayed year) ---
+  - id: q1-2023
+    end_date: 2023-03-31
+    revenue: 3186
+    shares_outstanding: 50.207607
+    ytd_operating_cf: 859
+    ytd_capex_ppe: 89
+    ytd_sbc: 47
+
+  - id: q2-2023
+    end_date: 2023-06-30
+    revenue: 3585
+    shares_outstanding: 50.092669
+    ytd_operating_cf: 2271
+    ytd_capex_ppe: 203
+    ytd_sbc: 83
+
+  - id: q3-2023
+    end_date: 2023-09-30
+    revenue: 3927
+    shares_outstanding: 50.496474
+    ytd_operating_cf: 3212
+    ytd_capex_ppe: 329
+    ytd_sbc: 122
+
+  - id: q4-2023
+    end_date: 2023-12-31
+    revenue: 4409          # FY2023 recast 15,107 − 9mo recast 10,698
+    shares_outstanding: 50.697442
+    ytd_operating_cf: 5140  # full-year FY2023
+    ytd_capex_ppe: 509
+    ytd_sbc: 167
+
+  # --- FY2024: displayed. Shares from cover page (issued & outstanding). ---
+  - id: q1-2024
+    end_date: 2024-03-31
+    report_date: 2024-05-03
+    revenue: 4333
+    shares_outstanding: 50.697442
+    ytd_operating_cf: 1512
+    ytd_capex_ppe: 146
+    ytd_sbc: 68
+    cash: 2579
+    total_debt: 4470
+
+  - id: q2-2024
+    end_date: 2024-06-30
+    report_date: 2024-08-02
+    revenue: 5073
+    shares_outstanding: 50.697438
+    ytd_operating_cf: 3394
+    ytd_capex_ppe: 329
+    ytd_sbc: 127
+    cash: 2818
+    total_debt: 4642
+
+  - id: q3-2024
+    end_date: 2024-09-30
+    report_date: 2024-11-07
+    revenue: 5312
+    shares_outstanding: 50.697438
+    ytd_operating_cf: 4994
+    ytd_capex_ppe: 551
+    ytd_sbc: 210
+    cash: 2162
+    total_debt: 5353
+
+  - id: q4-2024
+    end_date: 2024-12-31
+    report_date: 2025-02-21
+    revenue: 6059          # FY2024 20,777 − 9mo 14,718
+    shares_outstanding: 50.697375
+    ytd_operating_cf: 7918  # full-year FY2024
+    ytd_capex_ppe: 860
+    ytd_sbc: 261
+    cash: 2635
+    total_debt: 5715
+
+  # --- FY2025: displayed, complete ---
+  - id: q1-2025
+    end_date: 2025-03-31
+    report_date: 2025-05-08
+    revenue: 5935
+    shares_outstanding: 50.697375
+    ytd_operating_cf: 1031
+    ytd_capex_ppe: 272
+    ytd_sbc: 92
+    cash: 2977
+    total_debt: 6433
+
+  - id: q2-2025
+    end_date: 2025-06-30
+    report_date: 2025-08-05
+    revenue: 6790
+    shares_outstanding: 50.697375
+    ytd_operating_cf: 3948
+    ytd_capex_ppe: 559
+    ytd_sbc: 188
+    cash: 3008
+    total_debt: 7302
+
+  - id: q3-2025
+    end_date: 2025-09-30
+    report_date: 2025-10-30
+    revenue: 7409
+    shares_outstanding: 50.697182
+    ytd_operating_cf: 6907
+    ytd_capex_ppe: 916
+    ytd_sbc: 252
+    cash: 2582
+    total_debt: 7840
+
+  - id: q4-2025
+    end_date: 2025-12-31
+    report_date: 2026-02-25
+    revenue: 8759          # FY2025 28,893 − 9mo 20,134
+    shares_outstanding: 50.697182
+    ytd_operating_cf: 12116  # full-year FY2025
+    ytd_capex_ppe: 1343
+    ytd_sbc: 303
+    cash: 3670
+    total_debt: 9193
+
+  # --- FY2026 (current partial year) ---
+  - id: q1-2026
+    end_date: 2026-03-31
+    report_date: 2026-05-08
+    revenue: 8845
+    shares_outstanding: 50.697182
+    ytd_operating_cf: 2075
+    ytd_capex_ppe: 271
+    ytd_sbc: 96
+    cash: 3677
+    total_debt: 9927

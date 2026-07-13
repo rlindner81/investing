@@ -1,0 +1,117 @@
+_meta:
+  cik: "0001099590"
+  # MercadoLibre issues NO numeric forward guidance (long-standing policy). The
+  # earnings 8-K EX-99.1 press releases carry only qualitative outlook language,
+  # so the guidance rows in FINANCIALS.yml are left empty for every quarter.
+  # letter: = the EX-99.1 earnings press release exhibit (documentary, no numbers).
+
+"2026-05-08":
+  quarter: q1-2026
+  period_end: "2026-03-31"
+  report: https://www.sec.gov/Archives/edgar/data/1099590/000109959026000017/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1099590/000109959026000014/meli-20260507xex991.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/meli/transcripts/
+
+"2026-02-25":
+  quarter: q4-2025
+  period_end: "2025-12-31"
+  report: https://www.sec.gov/Archives/edgar/data/1099590/000109959026000006/
+  report_type: 10-K
+  letter: https://www.sec.gov/Archives/edgar/data/1099590/000109959026000003/meli-20260224xex991.htm
+  letter_type: 8-K
+
+"2025-10-30":
+  quarter: q3-2025
+  period_end: "2025-09-30"
+  report: https://www.sec.gov/Archives/edgar/data/1099590/000109959025000051/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1099590/000109959025000048/meli-20251029xex991.htm
+  letter_type: 8-K
+
+"2025-08-05":
+  quarter: q2-2025
+  period_end: "2025-06-30"
+  report: https://www.sec.gov/Archives/edgar/data/1099590/000109959025000044/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1099590/000109959025000041/meli-20250804xex991.htm
+  letter_type: 8-K
+
+"2025-05-08":
+  quarter: q1-2025
+  period_end: "2025-03-31"
+  report: https://www.sec.gov/Archives/edgar/data/1099590/000109959025000028/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1099590/000109959025000025/meli-20250507xex991.htm
+  letter_type: 8-K
+
+"2025-02-21":
+  quarter: q4-2024
+  period_end: "2024-12-31"
+  report: https://www.sec.gov/Archives/edgar/data/1099590/000109959025000007/
+  report_type: 10-K
+  letter: https://www.sec.gov/Archives/edgar/data/1099590/000109959025000004/meli-20250220xex991.htm
+  letter_type: 8-K
+
+"2024-11-07":
+  quarter: q3-2024
+  period_end: "2024-09-30"
+  report: https://www.sec.gov/Archives/edgar/data/1099590/000109959024000042/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1099590/000109959024000039/meli-20241106xex991.htm
+  letter_type: 8-K
+
+"2024-08-02":
+  quarter: q2-2024
+  period_end: "2024-06-30"
+  report: https://www.sec.gov/Archives/edgar/data/1099590/000109959024000026/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1099590/000109959024000023/meli-20240801xex991.htm
+  letter_type: 8-K
+
+"2024-05-03":
+  quarter: q1-2024
+  period_end: "2024-03-31"
+  report: https://www.sec.gov/Archives/edgar/data/1099590/000109959024000017/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1099590/000109959024000015/meli-20240502xex991.htm
+  letter_type: 8-K
+
+"2024-02-23":
+  quarter: q4-2023
+  period_end: "2023-12-31"
+  report: https://www.sec.gov/Archives/edgar/data/1099590/000109959024000008/
+  report_type: 10-K
+  letter: https://www.sec.gov/Archives/edgar/data/1099590/000109959024000005/meli-20240222xex991.htm
+  letter_type: 8-K
+
+"2023-11-02":
+  quarter: q3-2023
+  period_end: "2023-09-30"
+  report: https://www.sec.gov/Archives/edgar/data/1099590/000109959023000033/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1099590/000109959023000029/meli-20231101xex991.htm
+  letter_type: 8-K
+
+"2023-08-03":
+  quarter: q2-2023
+  period_end: "2023-06-30"
+  report: https://www.sec.gov/Archives/edgar/data/1099590/000109959023000020/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1099590/000109959023000017/meli-20230802xex991.htm
+  letter_type: 8-K
+
+"2023-05-04":
+  quarter: q1-2023
+  period_end: "2023-03-31"
+  report: https://www.sec.gov/Archives/edgar/data/1099590/000109959023000013/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1099590/000109959023000010/meli-20230503xex991.htm
+  letter_type: 8-K
+
+"2023-02-24":
+  quarter: q4-2022
+  period_end: "2022-12-31"
+  report: https://www.sec.gov/Archives/edgar/data/1099590/000109959023000007/
+  report_type: 10-K
