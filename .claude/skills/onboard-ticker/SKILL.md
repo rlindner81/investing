@@ -8,7 +8,7 @@ Onboard a brand-new ticker end to end: create its directory, discover SEC filing
 `$ARGUMENTS` — the ticker symbol to onboard (e.g. `RDDT`, `CHWY`, `DUOL`). Optionally
 followed by the company's full name if the symbol is ambiguous.
 
-Call this skill as: `/research-ticker <TICKER>`
+Call this skill as: `/onboard-ticker <TICKER>`
 
 Reference implementations to match for depth and conventions: **SNAP** (calendar
 fiscal year, next-quarter-only guidance) and **BARK** (March fiscal-year end,
