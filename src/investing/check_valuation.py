@@ -531,6 +531,14 @@ def fmt_yoy(v: float | None) -> str:
     return f"[green]{s}[/green]" if v >= 0 else f"[red]{s}[/red]"
 
 
+def fmt_margin(fcf: float | None, revenue: float | None) -> str:
+    """FCF ÷ revenue as a signed percentage; red when negative."""
+    if fcf is None or not revenue:
+        return "[dim]—[/dim]"
+    s = f"{fcf / revenue * 100:+.1f}%"
+    return f"[green]{s}[/green]" if fcf >= 0 else f"[red]{s}[/red]"
+
+
 def fmt_mult_rng(r: tuple | None) -> str:
     """A (low, high) P/S range → '5.3x' when it rounds to one value, else '1.4–1.5x'."""
     if not r or r[0] is None or r[1] is None:
@@ -633,6 +641,21 @@ def render_ticker(r: dict) -> None:
         fund_row("FCF ($M)", num(ttm.get("fcf_co"), 1), "fcf_co")
         table.add_row("  FCF Y/Y", "", *[fmt_yoy(c.get("fcf_yoy")) for c in cols])
     fund_row("Shares out (M)", num(ttm.get("shares"), mult), "shares", end_section=True, m=mult)
+
+    # --- FCF margins (FCF ÷ revenue) ---
+    def margin_row(label, fcf_key, end_section=False):
+        table.add_row(label,
+                      fmt_margin(ttm.get(fcf_key), ttm.get("revenue")),
+                      *[fmt_margin(c.get(fcf_key), c.get("revenue")) for c in cols],
+                      end_section=end_section)
+
+    if show_fcf_strict:
+        margin_row("FCF co margin", "fcf_co")
+        strict_key = "fcf_strict_sbc" if has_sbc else "fcf_strict"
+        strict_label = "FCF strict ex SBC margin" if has_sbc else "FCF strict margin"
+        margin_row(strict_label, strict_key, end_section=True)
+    else:
+        margin_row("FCF margin", "fcf_co", end_section=True)
 
     # --- guidance / estimate as it stood at each report (quarter columns only) ---
     table.add_row("NQ Rev guidance ($M)", "",
