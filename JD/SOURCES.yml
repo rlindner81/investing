@@ -1,5 +1,11 @@
 _meta:
   cik: "0001549802"
+  # HOME EXCHANGE: JD is the NASDAQ ADR ticker for JD.com, whose primary listing is
+  # on the Hong Kong Stock Exchange (HKEX, HKG:9618). Data sources keyed by the home
+  # listing use `<home_exchange>/<home_ticker>` — e.g. stockanalysis.com transcripts
+  # live under `/quote/hkg/9618/`.
+  home_exchange: hkg
+  home_ticker: "9618"
 
 "2023-05-11":
   quarter: q1-2023

@@ -1,5 +1,11 @@
 _meta:
   cik: "0001795139"
+  # HOME EXCHANGE: GTBIF is the US OTC ticker for Green Thumb Industries, whose
+  # primary listing is on the Canadian Securities Exchange (CSE:GTII). Data sources
+  # keyed by the home listing use `<home_exchange>/<home_ticker>` — e.g.
+  # stockanalysis.com transcripts live under `/quote/cse/GTII/`.
+  home_exchange: cse
+  home_ticker: GTII
 
 "2023-05-03":
   quarter: q1-2023
