@@ -6,8 +6,6 @@
 #   - unit is MILLIONS (not thousands): ABNB rounds every figure — revenue, cash
 #     flow, and share counts — to the million in its filings, so millions is the
 #     native, loss-free granularity.
-#   - Values were pulled from EDGAR XBRL companyfacts and cross-checked against
-#     the downloaded reports (see ABNB/xbrl-to-financials.yml for the tag mapping).
 #   - CAPEX: ABNB is asset-light — no separate PP&E line in recent cash-flow
 #     statements (netted into "Other investing activities, net"). ytd_capex_ppe = 0
 #     → company FCF = OCF, matching how ABNB itself reports Free Cash Flow.
