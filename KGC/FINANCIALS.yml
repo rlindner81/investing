@@ -15,8 +15,9 @@
 #   - NO REVENUE GUIDANCE. Kinross guides annual PRODUCTION (gold-equivalent oz),
 #     production cost of sales, all-in sustaining cost and capital expenditures —
 #     never revenue (revenue = production × the gold price, which it does not
-#     forecast). So the guidance rows carry hints ("prod-guided" / "no-rev-guide")
-#     rather than invented numbers, and the forward-P/S rows stay blank.
+#     forecast). So the FY guidance row carries a "prod-guided" hint rather than
+#     invented numbers, the NQ guidance row is simply blank, and the forward-P/S
+#     rows stay blank.
 #   - FCF flavours: `ytd_capex_ppe` = "Additions to property, plant and equipment"
 #     (the line Kinross nets against operating cash flow for its own free cash
 #     flow). `ytd_capex_interest` = "Interest paid capitalized to property, plant
@@ -79,7 +80,6 @@ quarters:
     cash: 352.4
     total_debt: 2232.6          # 0 current + 2,232.6 long-term
     guidance_fy_hint: prod-guided
-    guidance_nq_hint: no-rev-guide
 
   # --- FY2024 (displayed) ---
   - id: q1-2024
@@ -93,7 +93,6 @@ quarters:
     cash: 406.9
     total_debt: 2233.3          # 999.3 + 1,234.0
     guidance_fy_hint: prod-guided
-    guidance_nq_hint: no-rev-guide
 
   - id: q2-2024
     end_date: 2024-06-30
@@ -106,7 +105,6 @@ quarters:
     cash: 480.0
     total_debt: 2034.0          # 799.5 + 1,234.5
     guidance_fy_hint: prod-guided
-    guidance_nq_hint: no-rev-guide
 
   - id: q3-2024
     end_date: 2024-09-30
@@ -119,7 +117,6 @@ quarters:
     cash: 472.8
     total_debt: 1684.7          # 449.7 + 1,235.0
     guidance_fy_hint: prod-guided
-    guidance_nq_hint: no-rev-guide
 
   - id: q4-2024
     end_date: 2024-12-31
@@ -132,7 +129,6 @@ quarters:
     cash: 611.5
     total_debt: 1435.4          # 199.9 + 1,235.5
     guidance_fy_hint: prod-guided
-    guidance_nq_hint: no-rev-guide
 
   # --- FY2025 (displayed) ---
   - id: q1-2025
@@ -146,7 +142,6 @@ quarters:
     cash: 694.6
     total_debt: 1235.9          # 0 current + 1,235.9 long-term
     guidance_fy_hint: prod-guided
-    guidance_nq_hint: no-rev-guide
 
   - id: q2-2025
     end_date: 2025-06-30
@@ -159,7 +154,6 @@ quarters:
     cash: 1136.5
     total_debt: 1236.4
     guidance_fy_hint: prod-guided
-    guidance_nq_hint: no-rev-guide
 
   - id: q3-2025
     end_date: 2025-09-30
@@ -172,7 +166,6 @@ quarters:
     cash: 1721.7
     total_debt: 1236.9          # net cash position achieved (cash > debt)
     guidance_fy_hint: prod-guided
-    guidance_nq_hint: no-rev-guide
 
   - id: q4-2025
     end_date: 2025-12-31
@@ -185,7 +178,6 @@ quarters:
     cash: 1742.3
     total_debt: 738.2           # 0 current + 738.2 long-term (repaid term debt)
     guidance_fy_hint: prod-guided
-    guidance_nq_hint: no-rev-guide
 
   # --- FY2026 (current partial year) ---
   - id: q1-2026
@@ -199,4 +191,3 @@ quarters:
     cash: 2185.0
     total_debt: 738.5
     guidance_fy_hint: prod-guided
-    guidance_nq_hint: no-rev-guide
