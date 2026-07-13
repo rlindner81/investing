@@ -1,0 +1,197 @@
+# WDAY (Workday, Inc.) — figures for multiple calculations.
+# FISCAL YEAR ENDS JANUARY 31 (non-calendar): FY2026 = Feb 2025–Jan 2026, so
+#   q1-fy2026 ended 2025-04-30 … q4-fy2026 ended 2026-01-31.
+# All monetary values in USD MILLIONS (the filings report $ in millions from the
+#   FY2024 10-K onward). Source: SEC reports under WDAY/quarters/.
+#
+# Notes specific to WDAY:
+#   - `revenue` = SUBSCRIPTION revenue, NOT total revenue. Workday guides only
+#     subscription revenue (next quarter as a point, full year as a range) plus a
+#     non-GAAP operating-margin target — it does not guide total revenue. Using
+#     subscription revenue keeps the revenue row, the guidance rows, the forward
+#     P/S rows and the beat/miss math on ONE consistent basis. Total revenue runs
+#     ~8% higher (professional services is a low-margin implementation pass-through
+#     of ~$180-190M/quarter); see business-plan.md for the total-revenue figures.
+#   - Q4 subscription revenue has no standalone column in the 10-K: computed as
+#     FY subscription total − 9-month YTD subscription (subtraction shown inline).
+#   - `cash` = cash & equivalents + marketable securities. WDAY parks the bulk of
+#     its liquidity (~$4-7B) in short-term marketable securities, so cash-only
+#     would wrongly show the company as deeply net-debt. `total_debt` = the
+#     convertible senior notes (current + noncurrent).
+#   - Only capitalized line is "Capital expenditures" (PP&E), so `company` and
+#     `strict ex-SBC` FCF differ only by the SBC add-back.
+#   - shares_outstanding = point-in-time total (Class A + Class B, net of treasury)
+#     from the equity-rollforward statement (10-Qs) / balance-sheet parenthetical
+#     (10-Ks), in millions.
+#   - report_date = earnings-announcement date (the 8-K press-release date), which
+#     is 1-2 weeks before the 10-Q/10-K filing date and is the price reference.
+#   - Q1 and Q2 of FY2025 releases gave only next-quarter subscription guidance
+#     (no restated full-year line), so those FY guidance fields are omitted.
+
+unit: millions
+
+quarters:
+  # --- FY2024 (ends Jan 2024): reach-back year, out of display window. Kept as
+  #     the TTM base for the first displayed year (FY2025) and as the YTD diff
+  #     base for standalone OCF/capex. shares/cash/debt/guidance omitted. ---
+  - id: q1-2024
+    end_date: 2023-04-30
+    revenue: 1528              # subscription
+    ytd_operating_cf: 277
+    ytd_capex_ppe: 59
+    ytd_sbc: 369
+
+  - id: q2-2024
+    end_date: 2023-07-31
+    revenue: 1624
+    ytd_operating_cf: 703
+    ytd_capex_ppe: 124
+    ytd_sbc: 722
+
+  - id: q3-2024
+    end_date: 2023-10-31
+    revenue: 1691
+    ytd_operating_cf: 1153
+    ytd_capex_ppe: 183
+    ytd_sbc: 1071
+
+  - id: q4-2024
+    end_date: 2024-01-31
+    revenue: 1760              # FY2024 subscription 6,603 − 9mo 4,843
+    ytd_operating_cf: 2149     # full-year FY2024
+    ytd_capex_ppe: 232
+    ytd_sbc: 1416
+
+  # --- FY2025 (ends Jan 2025), complete + displayed ---
+  - id: q1-2025
+    end_date: 2024-04-30
+    report_date: 2024-05-23
+    revenue: 1815
+    shares_outstanding: 265.218
+    ytd_operating_cf: 372
+    ytd_capex_ppe: 81
+    ytd_sbc: 385
+    cash: 7182                 # 1,752 cash + 5,430 marketable securities
+    total_debt: 2981
+    guidance_nq_revenue_low: 1895     # Q2 FY2025 subscription
+    guidance_nq_revenue_high: 1895
+
+  - id: q2-2025
+    end_date: 2024-07-31
+    report_date: 2024-08-22
+    revenue: 1903
+    shares_outstanding: 265.260
+    ytd_operating_cf: 943
+    ytd_capex_ppe: 136
+    ytd_sbc: 755
+    cash: 7373                 # 1,635 + 5,738
+    total_debt: 2982
+    guidance_nq_revenue_low: 1955     # Q3 FY2025 subscription
+    guidance_nq_revenue_high: 1955
+
+  - id: q3-2025
+    end_date: 2024-10-31
+    report_date: 2024-11-26
+    revenue: 1959
+    shares_outstanding: 265.469
+    ytd_operating_cf: 1349
+    ytd_capex_ppe: 183
+    ytd_sbc: 1122
+    cash: 7157                 # 1,311 + 5,846
+    total_debt: 2983
+    guidance_nq_revenue_low: 2025     # Q4 FY2025 subscription
+    guidance_nq_revenue_high: 2025
+    guidance_fy_revenue_low: 7703     # FY2025 subscription
+    guidance_fy_revenue_high: 7703
+
+  - id: q4-2025
+    end_date: 2025-01-31
+    report_date: 2025-02-25
+    revenue: 2040              # FY2025 subscription 7,718 − 9mo 5,678
+    shares_outstanding: 266.352
+    ytd_operating_cf: 2461     # full-year FY2025
+    ytd_capex_ppe: 269
+    ytd_sbc: 1519
+    cash: 8017                 # 1,543 + 6,474
+    total_debt: 2984
+    guidance_nq_revenue_low: 2050     # Q1 FY2026 subscription
+    guidance_nq_revenue_high: 2050
+    guidance_fy_revenue_low: 8800     # FY2026 subscription (initial)
+    guidance_fy_revenue_high: 8800
+
+  # --- FY2026 (ends Jan 2026), complete + displayed ---
+  - id: q1-2026
+    end_date: 2025-04-30
+    report_date: 2025-05-22
+    revenue: 2059
+    shares_outstanding: 266.596
+    ytd_operating_cf: 457
+    ytd_capex_ppe: 36
+    ytd_sbc: 459
+    cash: 7970                 # 972 + 6,998
+    total_debt: 2985
+    guidance_nq_revenue_low: 2160     # Q2 FY2026 subscription
+    guidance_nq_revenue_high: 2160
+    guidance_fy_revenue_low: 8800     # FY2026 subscription (reaffirmed)
+    guidance_fy_revenue_high: 8800
+
+  - id: q2-2026
+    end_date: 2025-07-31
+    report_date: 2025-08-21
+    revenue: 2169
+    shares_outstanding: 266.904
+    ytd_operating_cf: 1073
+    ytd_capex_ppe: 64
+    ytd_sbc: 851
+    cash: 8186                 # 1,264 + 6,922
+    total_debt: 2985
+    guidance_nq_revenue_low: 2235     # Q3 FY2026 subscription
+    guidance_nq_revenue_high: 2235
+    guidance_fy_revenue_low: 8815     # FY2026 subscription (raised)
+    guidance_fy_revenue_high: 8815
+
+  - id: q3-2026
+    end_date: 2025-10-31
+    report_date: 2025-11-25
+    revenue: 2244
+    shares_outstanding: 264.411
+    ytd_operating_cf: 1661
+    ytd_capex_ppe: 102
+    ytd_sbc: 1227
+    cash: 6843                 # 2,609 + 4,234
+    total_debt: 2986
+    guidance_nq_revenue_low: 2355     # Q4 FY2026 subscription
+    guidance_nq_revenue_high: 2355
+    guidance_fy_revenue_low: 8828     # FY2026 subscription (raised)
+    guidance_fy_revenue_high: 8828
+
+  - id: q4-2026
+    end_date: 2026-01-31
+    report_date: 2026-02-24
+    revenue: 2360              # FY2026 subscription 8,833 − 9mo 6,473
+    shares_outstanding: 259.131
+    ytd_operating_cf: 2939     # full-year FY2026
+    ytd_capex_ppe: 162
+    ytd_sbc: 1626
+    cash: 5443                 # 1,501 + 3,942
+    total_debt: 2987
+    guidance_nq_revenue_low: 2335     # Q1 FY2027 subscription
+    guidance_nq_revenue_high: 2335
+    guidance_fy_revenue_low: 9925     # FY2027 subscription (initial)
+    guidance_fy_revenue_high: 9950
+
+  # --- FY2027 (ends Jan 2027), current partial year ---
+  - id: q1-2027
+    end_date: 2026-04-30
+    report_date: 2026-05-21
+    revenue: 2354
+    shares_outstanding: 248.730
+    ytd_operating_cf: 696
+    ytd_capex_ppe: 80
+    ytd_sbc: 409
+    cash: 4353                 # 559 + 3,794
+    total_debt: 2988          # 998 current + 1,990 noncurrent
+    guidance_nq_revenue_low: 2455     # Q2 FY2027 subscription
+    guidance_nq_revenue_high: 2455
+    guidance_fy_revenue_low: 9925     # FY2027 subscription (reaffirmed)
+    guidance_fy_revenue_high: 9950

@@ -1,0 +1,115 @@
+_meta:
+  cik: "0001327811"
+
+'2026-05-22':
+  quarter: q1-fy2027
+  period_end: '2026-04-30'
+  report: https://www.sec.gov/Archives/edgar/data/1327811/000132781126000026/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1327811/000132781126000024/wday-04302026x991.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/wday/transcripts/
+
+'2026-03-06':
+  quarter: q4-fy2026
+  period_end: '2026-01-31'
+  report: https://www.sec.gov/Archives/edgar/data/1327811/000132781126000014/
+  report_type: 10-K
+  letter: https://www.sec.gov/Archives/edgar/data/1327811/000132781126000010/wday-01312026x991.htm
+  letter_type: 8-K
+
+'2025-11-26':
+  quarter: q3-fy2026
+  period_end: '2025-10-31'
+  report: https://www.sec.gov/Archives/edgar/data/1327811/000132781125000198/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1327811/000132781125000196/wday-10312025x991.htm
+  letter_type: 8-K
+
+'2025-08-22':
+  quarter: q2-fy2026
+  period_end: '2025-07-31'
+  report: https://www.sec.gov/Archives/edgar/data/1327811/000132781125000184/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1327811/000132781125000181/wday-07312025x991.htm
+  letter_type: 8-K
+
+'2025-05-23':
+  quarter: q1-fy2026
+  period_end: '2025-04-30'
+  report: https://www.sec.gov/Archives/edgar/data/1327811/000132781125000107/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1327811/000132781125000105/wday-04302025x991.htm
+  letter_type: 8-K
+
+'2025-03-11':
+  quarter: q4-fy2025
+  period_end: '2025-01-31'
+  report: https://www.sec.gov/Archives/edgar/data/1327811/000132781125000056/
+  report_type: 10-K
+  letter: https://www.sec.gov/Archives/edgar/data/1327811/000132781125000040/wday-1312025x991.htm
+  letter_type: 8-K
+
+'2024-12-05':
+  quarter: q3-fy2025
+  period_end: '2024-10-31'
+  report: https://www.sec.gov/Archives/edgar/data/1327811/000132781124000242/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1327811/000132781124000233/wday-10312024x991.htm
+  letter_type: 8-K
+
+'2024-08-28':
+  quarter: q2-fy2025
+  period_end: '2024-07-31'
+  report: https://www.sec.gov/Archives/edgar/data/1327811/000132781124000165/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1327811/000132781124000163/wday-07312024x991.htm
+  letter_type: 8-K
+
+'2024-05-29':
+  quarter: q1-fy2025
+  period_end: '2024-04-30'
+  report: https://www.sec.gov/Archives/edgar/data/1327811/000132781124000093/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1327811/000132781124000089/wday-04302024x991.htm
+  letter_type: 8-K
+
+'2024-03-08':
+  quarter: q4-fy2024
+  period_end: '2024-01-31'
+  report: https://www.sec.gov/Archives/edgar/data/1327811/000132781124000044/
+  report_type: 10-K
+  letter: https://www.sec.gov/Archives/edgar/data/1327811/000132781124000031/wday-1312024x991.htm
+  letter_type: 8-K
+
+'2023-11-28':
+  quarter: q3-fy2024
+  period_end: '2023-10-31'
+  report: https://www.sec.gov/Archives/edgar/data/1327811/000132781123000202/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1327811/000132781123000200/wday-10312023x991.htm
+  letter_type: 8-K
+
+'2023-08-24':
+  quarter: q2-fy2024
+  period_end: '2023-07-31'
+  report: https://www.sec.gov/Archives/edgar/data/1327811/000132781123000150/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1327811/000132781123000149/wday-07312023x991.htm
+  letter_type: 8-K
+
+'2023-05-25':
+  quarter: q1-fy2024
+  period_end: '2023-04-30'
+  report: https://www.sec.gov/Archives/edgar/data/1327811/000132781123000078/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1327811/000132781123000077/wday-04302023x991.htm
+  letter_type: 8-K
+
+'2023-02-27':
+  quarter: q4-fy2023
+  period_end: '2023-01-31'
+  report: https://www.sec.gov/Archives/edgar/data/1327811/000132781123000024/
+  report_type: 10-K
+  letter: https://www.sec.gov/Archives/edgar/data/1327811/000132781123000022/wday-01312023x991.htm
+  letter_type: 8-K
