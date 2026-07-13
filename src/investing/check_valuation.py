@@ -650,7 +650,7 @@ def render_ticker(r: dict) -> None:
                       end_section=end_section)
 
     if show_fcf_strict:
-        margin_row("FCF co margin", "fcf_co")
+        margin_row("FCF company margin", "fcf_co")
         strict_key = "fcf_strict_sbc" if has_sbc else "fcf_strict"
         strict_label = "FCF strict ex SBC margin" if has_sbc else "FCF strict margin"
         margin_row(strict_label, strict_key, end_section=True)
