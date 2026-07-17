@@ -1,0 +1,215 @@
+# NFLX (Netflix, Inc.) — figures for multiple calculations.
+# Fiscal year = calendar year. All monetary values in USD thousands.
+# Source: SEC reports under NFLX/quarters/. See CLAUDE.md → "Valuation Multiples".
+#
+# Notes specific to NFLX:
+#   - 10-FOR-1 FORWARD STOCK SPLIT effected 2025-11-14. The daily price CSV is
+#     split-adjusted, so ALL shares_outstanding are on the POST-split basis:
+#     pre-split balance-sheet counts (through q3-2025) are ×10 here so that
+#     price × shares stays consistent (e.g. 423,732,334 → 4,237,323,340).
+#   - Only capitalized line in investing is "Purchases of property and equipment"
+#     (content spend runs through operating CF as additions to content assets),
+#     so `company` and `strict` FCF coincide.
+#   - Q4 has no standalone income-statement column in the 10-K; revenue is
+#     computed as FY total − 9-month YTD (subtraction shown inline).
+#   - Guidance: Netflix guides a single-point NEXT-QUARTER revenue number in the
+#     shareholder letter (entered as low=high). Full-year REVENUE guidance only
+#     began at q3-2024 (for FY2025); earlier quarters guided margin/FCF, not a
+#     revenue range, so their FY rows use a hint. q3-2025 gave a point FY2025
+#     figure ($45.1B), entered low=high.
+
+unit: thousands
+
+quarters:
+  # --- FY2023: reach-back year (out of display window; feeds TTM base) ---
+  - id: q1-2023
+    end_date: 2023-03-31
+    report_date: 2023-04-21
+    revenue: 8161503
+    shares_outstanding: 4445369      # 444,536,878 ×10 (pre-split)
+    ytd_operating_cf: 2178740
+    ytd_capex_ppe: 62019
+    ytd_sbc: 99099
+    cash: 6714594
+    total_debt: 14437128
+    guidance_nq_revenue_low: 8242000    # Q2'23 forecast (letter)
+    guidance_nq_revenue_high: 8242000
+    guidance_fy_hint: revenue-not-guided
+
+  - id: q2-2023
+    end_date: 2023-06-30
+    report_date: 2023-07-21
+    revenue: 8187301
+    shares_outstanding: 4431468      # 443,146,751 ×10
+    ytd_operating_cf: 3618972
+    ytd_capex_ppe: 162991
+    ytd_sbc: 177129
+    cash: 7662788
+    total_debt: 14469538
+    guidance_nq_revenue_low: 8520000    # Q3'23
+    guidance_nq_revenue_high: 8520000
+    guidance_fy_hint: revenue-not-guided
+
+  - id: q3-2023
+    end_date: 2023-09-30
+    report_date: 2023-10-20
+    revenue: 8541668
+    shares_outstanding: 4376797      # 437,679,669 ×10
+    ytd_operating_cf: 5611287
+    ytd_capex_ppe: 266920
+    ytd_sbc: 256849
+    cash: 7353245
+    total_debt: 14300368
+    guidance_nq_revenue_low: 8692000    # Q4'23
+    guidance_nq_revenue_high: 8692000
+    guidance_fy_hint: revenue-not-guided
+
+  - id: q4-2023
+    end_date: 2023-12-31
+    report_date: 2024-01-26
+    revenue: 8832825          # FY2023 33,723,297 − 9mo 24,890,472
+    shares_outstanding: 4327596      # 432,759,584 ×10
+    ytd_operating_cf: 7274301  # full-year FY2023
+    ytd_capex_ppe: 348552
+    ytd_sbc: 339368
+    cash: 7116913
+    total_debt: 14543261
+    guidance_nq_revenue_low: 9240000    # Q1'24
+    guidance_nq_revenue_high: 9240000
+    guidance_fy_hint: revenue-not-guided
+
+  # --- FY2024: displayed ---
+  - id: q1-2024
+    end_date: 2024-03-31
+    report_date: 2024-04-22
+    revenue: 9370440
+    shares_outstanding: 4309650      # 430,964,991 ×10
+    ytd_operating_cf: 2212522
+    ytd_capex_ppe: 75714
+    ytd_sbc: 76345
+    cash: 7024766
+    total_debt: 14015974
+    guidance_nq_revenue_low: 9491000    # Q2'24
+    guidance_nq_revenue_high: 9491000
+    guidance_fy_hint: revenue-not-guided
+
+  - id: q2-2024
+    end_date: 2024-06-30
+    report_date: 2024-07-19
+    revenue: 9559310
+    shares_outstanding: 4291646      # 429,164,615 ×10
+    ytd_operating_cf: 3503369
+    ytd_capex_ppe: 154001
+    ytd_sbc: 145111
+    cash: 6624939
+    total_debt: 13980065
+    guidance_nq_revenue_low: 9727000    # Q3'24
+    guidance_nq_revenue_high: 9727000
+    guidance_fy_hint: revenue-not-guided
+
+  - id: q3-2024
+    end_date: 2024-09-30
+    report_date: 2024-10-18
+    revenue: 9824703
+    shares_outstanding: 4274581      # 427,458,114 ×10
+    ytd_operating_cf: 5824470
+    ytd_capex_ppe: 280864
+    ytd_sbc: 210761
+    cash: 7457025
+    total_debt: 15981328
+    guidance_nq_revenue_low: 10128000   # Q4'24
+    guidance_nq_revenue_high: 10128000
+    guidance_fy_revenue_low: 43000000   # FY2025 (first FY revenue guide)
+    guidance_fy_revenue_high: 44000000
+
+  - id: q4-2024
+    end_date: 2024-12-31
+    report_date: 2025-01-27
+    revenue: 10246513         # FY2024 39,000,966 − 9mo 28,754,453
+    shares_outstanding: 4277571      # 427,757,100 ×10
+    ytd_operating_cf: 7361364  # full-year FY2024
+    ytd_capex_ppe: 439538
+    ytd_sbc: 272588
+    cash: 7804733
+    total_debt: 15582804
+    guidance_nq_revenue_low: 10416000   # Q1'25
+    guidance_nq_revenue_high: 10416000
+    guidance_fy_revenue_low: 43500000   # FY2025 (raised)
+    guidance_fy_revenue_high: 44500000
+
+  # --- FY2025: displayed ---
+  - id: q1-2025
+    end_date: 2025-03-31
+    report_date: 2025-04-18
+    revenue: 10542801
+    shares_outstanding: 4256832      # 425,683,210 ×10
+    ytd_operating_cf: 2789199
+    ytd_capex_ppe: 128277
+    ytd_sbc: 71977
+    cash: 7199848
+    total_debt: 15016918
+    guidance_nq_revenue_low: 11035000   # Q2'25
+    guidance_nq_revenue_high: 11035000
+    guidance_fy_revenue_low: 43500000   # FY2025 (reaffirmed)
+    guidance_fy_revenue_high: 44500000
+
+  - id: q2-2025
+    end_date: 2025-06-30
+    report_date: 2025-07-18
+    revenue: 11079166
+    shares_outstanding: 4249263      # 424,926,346 ×10
+    ytd_operating_cf: 5212457
+    ytd_capex_ppe: 284166
+    ytd_sbc: 152839
+    cash: 8177405
+    total_debt: 14453206
+    guidance_nq_revenue_low: 11526000   # Q3'25
+    guidance_nq_revenue_high: 11526000
+    guidance_fy_revenue_low: 44800000   # FY2025 (raised)
+    guidance_fy_revenue_high: 45200000
+
+  - id: q3-2025
+    end_date: 2025-09-30
+    report_date: 2025-10-22
+    revenue: 11510307
+    shares_outstanding: 4237323      # 423,732,334 ×10
+    ytd_operating_cf: 8037631
+    ytd_capex_ppe: 448885
+    ytd_sbc: 233825
+    cash: 9287287
+    total_debt: 14463020
+    guidance_nq_revenue_low: 11960000   # Q4'25
+    guidance_nq_revenue_high: 11960000
+    guidance_fy_revenue_low: 45100000   # FY2025 point estimate ($45.1B)
+    guidance_fy_revenue_high: 45100000
+
+  - id: q4-2025
+    end_date: 2025-12-31
+    report_date: 2026-01-23
+    revenue: 12050762         # FY2025 45,183,036 − 9mo 33,132,274
+    shares_outstanding: 4222162      # 4,222,162,150 (post-split)
+    ytd_operating_cf: 10149273 # full-year FY2025
+    ytd_capex_ppe: 688220
+    ytd_sbc: 368449
+    cash: 9033681
+    total_debt: 14462836
+    guidance_nq_revenue_low: 12157000   # Q1'26
+    guidance_nq_revenue_high: 12157000
+    guidance_fy_revenue_low: 50700000   # FY2026
+    guidance_fy_revenue_high: 51700000
+
+  # --- FY2026: in progress ---
+  - id: q1-2026
+    end_date: 2026-03-31
+    report_date: 2026-04-17
+    revenue: 12249757
+    shares_outstanding: 4212794      # 4,212,794,271 (post-split)
+    ytd_operating_cf: 5290205
+    ytd_capex_ppe: 196130
+    ytd_sbc: 140405
+    cash: 12259772
+    total_debt: 14360516
+    guidance_nq_revenue_low: 12574000   # Q2'26
+    guidance_nq_revenue_high: 12574000
+    guidance_fy_revenue_low: 50700000   # FY2026 (reaffirmed)
+    guidance_fy_revenue_high: 51700000

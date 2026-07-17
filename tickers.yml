@@ -83,3 +83,6 @@ stocks:
   - symbol: MELI
     tags: [large_cap, ecommerce, fintech, marketplace, latam]
     benchmarks: [SPY, ILF, ONLN]
+  - symbol: NFLX
+    tags: [mega_cap, streaming, media, subscription]
+    benchmarks: [SPY, XLC]
