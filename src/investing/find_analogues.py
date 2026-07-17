@@ -565,10 +565,6 @@ def report(query: Series, results: list[Match], stats: dict, args) -> None:
         table.add_row(lbl, "px", *px_cells, *fpx_cells)
         table.add_row("", "vol", *vol_cells, *fvol_cells)
 
-    # Start date of the displayed window (bar -5) — the anchor to open in a chart.
-    def _start(dates: np.ndarray) -> str:
-        return dates[-show_past] if len(dates) >= show_past else dates[0]
-
     # Fixed-width label so the d= and date columns line up regardless of ticker
     # length. Rich markup has zero display width, so pad the plain text first.
     tw = max([len(m.ticker) for m in results[:n_show]] + [len(query.ticker)])
@@ -576,23 +572,24 @@ def report(query: Series, results: list[Match], stats: dict, args) -> None:
     def _label(ticker: str, dist: str, date: str) -> str:
         return f"{ticker:<{tw}}  {dist:<7}  [dim]{date}[/]"
 
-    # Reference: the query's actual last-5 (no future).
-    add_pair(_label(query.ticker, "(ref)", _start(query.dates)),
+    # Reference: the query's actual last-5 (no future). The date is bar 0 —
+    # each row's "today" / window-end — the unambiguous anchor to open in a chart.
+    add_pair(_label(query.ticker, "(ref)", query.dates[-1]),
              query.close, query.volume, None, None, style="bold green")
     table.add_row("")
 
     for mtch in results[:n_show]:
         win_px, win_vol, fut_px, fut_vol = _proj(mtch, query)
-        add_pair(_label(mtch.ticker, f"d={mtch.score:.2f}", _start(mtch.win_dates)),
+        add_pair(_label(mtch.ticker, f"d={mtch.score:.2f}", mtch.end_date),
                  win_px, win_vol, fut_px, fut_vol)
 
     console.print(table)
     console.print(
         f"[dim]Candidate values are z-denormalized onto {query.ticker}'s scale "
         f"(px = projected price, vol = projected volume). "
-        f"Column 0 is today (the latest bar); -{show_past - 1}..0 overlap {query.ticker}'s window; "
-        f"+1..+{fut_cols} are the projection. "
-        f"The date after each ticker is the -{show_past - 1} bar (window start) — the anchor to open in your chart.[/]"
+        f"Column 0 is today (the latest bar); -{show_past - 1}..0 are the last shown bars of "
+        f"the {args.query_len}-bar match window; +1..+{fut_cols} are the projection. "
+        f"The date after each ticker is its bar 0 (window-end / that row's 'today') — the anchor to open in your chart.[/]"
     )
 
     _print_bar_stats(query, results, args, show_past, fut_cols)
