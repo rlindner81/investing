@@ -60,6 +60,7 @@ import json
 import pickle
 import time
 import zipfile
+from datetime import date
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -345,6 +346,10 @@ def search(query: Series, args) -> tuple[list[Match], dict]:
     heap: list[Match] = []  # min-heap on sort_key=-score → root is worst kept
     top_k = args.top_k
     min_distance = args.min_distance
+    # Weekday of the query's bar 0 ("today"); candidates must land on the same
+    # weekday so the day-of-week phase lines up (holidays can still desync the
+    # rest of the window). Disable with --any-dow.
+    query_dow = date.fromisoformat(query.dates[-1]).weekday() if args.match_dow else None
 
     start = time.monotonic()
     scanned = 0
@@ -377,6 +382,10 @@ def search(query: Series, args) -> tuple[list[Match], dict]:
             start_idx = int(idx)
             end_idx = start_idx + m - 1
             end_date = dates[end_idx]
+
+            # Day-of-week phase: candidate's bar 0 must be the query's weekday.
+            if query_dow is not None and date.fromisoformat(end_date).weekday() != query_dow:
+                continue
 
             fut_close = close[end_idx + 1 : end_idx + 1 + args.forward]
             fut_volume = volume[end_idx + 1 : end_idx + 1 + args.forward]
@@ -426,7 +435,7 @@ def search(query: Series, args) -> tuple[list[Match], dict]:
 # it is a key input; --budget-secs changes how much of the universe gets scanned.
 _CACHE_KEY_ARGS = (
     "ticker", "query_len", "forward", "top_k", "price_weight",
-    "segments", "markets", "min_distance", "budget_secs",
+    "segments", "markets", "min_distance", "budget_secs", "match_dow",
 )
 
 
@@ -670,6 +679,9 @@ def main() -> None:
     p.add_argument("--min-distance", type=float, default=0.05,
                    help="Drop matches with combined distance below this — they are the query "
                         "itself, a duplicate or dual listing (default: 0.05)")
+    p.add_argument("--any-dow", dest="match_dow", action="store_false",
+                   help="Allow any day-of-week (default: candidate's bar 0 must be the "
+                        "query's weekday)")
     p.add_argument("--refresh", action="store_true",
                    help="Ignore the 1h cache and recompute the search from scratch")
     args = p.parse_args()
