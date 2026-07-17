@@ -614,7 +614,7 @@ def _print_bar_stats(query: Series, results: list[Match], args, show_past: int, 
     px_fut = np.vstack(px_fut); vol_fut = np.vstack(vol_fut)
 
     console.print(f"\n[bold]Per-bar stats[/] across all {len(results)} matches "
-                  f"(mean ± std, denormalized to {query.ticker}):")
+                  f"(mean denormalized to {query.ticker}; cv% = std/mean, the spread across matches):")
 
     st = Table(show_header=True, header_style="bold", pad_edge=False)
     st.add_column("", justify="left", no_wrap=True)
@@ -626,8 +626,17 @@ def _print_bar_stats(query: Series, results: list[Match], args, show_past: int, 
     def stat_rows(label: str, win: np.ndarray, fut: np.ndarray, fmt, actual: np.ndarray | None):
         wmean, wstd = np.nanmean(win, axis=0), np.nanstd(win, axis=0)
         fmean, fstd = np.nanmean(fut, axis=0), np.nanstd(fut, axis=0)
+        # Coefficient of variation (std / |mean|) — a unitless % so the spread
+        # across matches is comparable between price and volume: the "volatility"
+        # of the analogue set at each bar.
+        def _cv(std, mean):
+            return [
+                "[dim]·[/]" if not np.isfinite(m) or abs(m) < 1e-12 else f"{100 * s / abs(m):.0f}%"
+                for s, m in zip(std, mean)
+            ]
+
         st.add_row(f"{label} mean", *[fmt(v) for v in wmean], *[fmt(v) for v in fmean])
-        st.add_row(f"{label} std",  *[fmt(v) for v in wstd],  *[fmt(v) for v in fstd])
+        st.add_row(f"{label} cv%",  *_cv(wstd, wmean),        *_cv(fstd, fmean))
         if actual is not None:
             # deviation of the candidate mean from the query's actual bar
             dev = wmean - actual[-show_past:]
