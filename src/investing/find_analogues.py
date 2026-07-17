@@ -529,7 +529,7 @@ def report(query: Series, results: list[Match], stats: dict, args) -> None:
         f"(price weight {args.price_weight:.2f}, forward {args.forward} bars)"
     )
     note = "[yellow]budget hit[/]" if stats["budget_hit"] else "full scan"
-    origin = "[green]cached[/] (<1h)" if stats.get("cached") else f"{stats['elapsed']:.1f}s ({note})"
+    origin = "cached (<1h)" if stats.get("cached") else f"{stats['elapsed']:.1f}s ({note})"
     console.print(
         f"scanned [bold]{stats['scanned']:,}[/] tickers in {origin}; {len(results)} matches"
     )
