@@ -16,16 +16,30 @@ Euclidean distance profile computed in one FFT pass per series.
 The search is *anytime*: it streams tickers out of the zips (never unpacking
 them), keeps a bounded top-k of the best matches so far with early-abandoning,
 and stops when a wall-clock ``--budget-secs`` is hit — returning the best matches
-found up to that point. This makes the enormous universe tractable. Narrow the
-universe with ``--segments`` (instrument class) and ``--markets`` (country).
+found up to that point. This makes the enormous universe tractable. By default
+only real equity segments are searched (``DEFAULT_SEGMENTS``); narrow further with
+``--segments`` (instrument class) and ``--markets`` (country).
 
-For each match, the forward return over the next ``--forward`` bars (the bars
-*after* the matched window) is measured, and the distribution across matches is
-summarized (mean / median / hit-rate) so you can read the "effective outcome".
+Output is not statistical-summary but a denormalized projection: each match's
+last 5 window bars and next ``--forward`` bars are z-denormalized onto the query's
+own price/volume scale (invert the candidate's z-scores through the query's
+window mean/std). The query's actual last 5 bars head the table as a reference,
+so match quality is directly eyeballable and the future bars read as a projected
+path in the query's own dollars. Per-bar mean±std across the full ``--top-k`` pool
+follows, including the deviation of the past bars from the query's actuals. Each
+bar carries its actual ISO date (the daily feed has no intraday time) so a match
+can be opened directly in an external chart; the window-end date sits after each
+ticker as the anchor.
+
+Search results are cached under ``prices-historic/recent/`` for one hour, keyed
+on every search-affecting input plus a hash of the query bars — so iterating on
+display (``--show``, layout) re-renders instantly while a real input change or a
+data re-fetch recomputes. ``--refresh`` forces recomputation; stale (>1h) entries
+are pruned automatically.
 
 Usage:
   uv run find-analogues ODD                       # last 30 bars of ODD, default search
-  uv run find-analogues ODD --query-len 40 --forward 20 --top-k 25
+  uv run find-analogues ODD --query-len 40 --forward 20 --top-k 25 --show 10
   uv run find-analogues ODD --budget-secs 120 --price-weight 0.7
   uv run find-analogues ODD --segments "nyse stocks,nasdaq stocks"
   uv run find-analogues ODD --markets us,uk --segments "nyse stocks,lse stocks"
@@ -39,8 +53,11 @@ same series can't surface as a trivial self-match — independent of ticker.
 
 import argparse
 import csv
+import hashlib
 import heapq
 import io
+import json
+import pickle
 import time
 import zipfile
 from dataclasses import dataclass, field
@@ -54,12 +71,24 @@ from investing.lib import REPO_ROOT
 
 PRICES_DIR = REPO_ROOT / "prices" / "daily"
 ARCHIVE_DIR = REPO_ROOT / "prices-historic"
+CACHE_DIR = ARCHIVE_DIR / "recent"
+CACHE_TTL_SECS = 3600  # search results are reused for an hour, then recomputed
 
 # Country suffixes stripped from a file stem to recover a bare symbol. World
 # indices carry no suffix; crypto/bonds use .v/.b.
 _SUFFIXES = (".us", ".jp", ".uk", ".hk", ".v", ".b")
 
-console = Console()
+# Default universe: real equity segments only. Excludes warrants, CBBCs, ETFs,
+# options, bonds, crypto, FX, indices — instruments whose z-normalized shape
+# matches a stock but whose behaviour is nothing like it. Override with --segments.
+DEFAULT_SEGMENTS = (
+    "nasdaq stocks", "nyse stocks", "nysemkt stocks",  # us
+    "lse stocks", "lse stocks intl",                   # uk
+    "tse stocks",                                      # jp
+    "hkex stocks",                                     # hk
+)
+
+console = Console(width=160)
 
 
 def archives() -> list[Path]:
@@ -274,7 +303,14 @@ class Match:
     ticker: str = field(compare=False)
     start_idx: int = field(compare=False)
     end_date: str = field(compare=False)
-    fwd_return: float | None = field(default=None, compare=False)
+    # Raw candidate bars (the matched window and what followed), used for the
+    # denormalized projection onto the query's scale.
+    win_close: np.ndarray = field(default=None, compare=False)   # full matched window
+    win_volume: np.ndarray = field(default=None, compare=False)
+    fut_close: np.ndarray = field(default=None, compare=False)   # next N bars after window
+    fut_volume: np.ndarray = field(default=None, compare=False)
+    win_dates: np.ndarray = field(default=None, compare=False)   # ISO dates of the window bars
+    fut_dates: np.ndarray = field(default=None, compare=False)   # ISO dates of the future bars
 
 
 def combined_profile(
@@ -295,24 +331,13 @@ def combined_profile(
     return price_weight * d_price + (1.0 - price_weight) * d_vol
 
 
-def forward_return(close: np.ndarray, end_idx: int, forward: int) -> float | None:
-    """Return over `forward` bars after window ending at end_idx (inclusive)."""
-    last = end_idx
-    fut = end_idx + forward
-    if fut >= len(close):
-        return None
-    base = close[last]
-    if base <= 0:
-        return None
-    return close[fut] / base - 1.0
-
-
 def search(query: Series, args) -> tuple[list[Match], dict]:
     q_close, q_volume = query.close, query.volume
     m = len(q_close)
-    segments = None
     if args.segments:
         segments = [s.strip() for s in args.segments.split(",") if s.strip()]
+    else:
+        segments = list(DEFAULT_SEGMENTS)  # equity segments only by default
     markets = None
     if args.markets:
         markets = [s.strip().lower() for s in args.markets.split(",") if s.strip()]
@@ -349,16 +374,24 @@ def search(query: Series, args) -> tuple[list[Match], dict]:
             if score < min_distance:
                 continue
 
-            end_idx = int(idx) + m - 1
+            start_idx = int(idx)
+            end_idx = start_idx + m - 1
             end_date = dates[end_idx]
 
-            fwd = forward_return(close, end_idx, args.forward)
-            if args.require_forward and fwd is None:
+            fut_close = close[end_idx + 1 : end_idx + 1 + args.forward]
+            fut_volume = volume[end_idx + 1 : end_idx + 1 + args.forward]
+            if args.require_forward and len(fut_close) < args.forward:
                 continue
 
             match = Match(
                 sort_key=-score, score=score, ticker=ticker,
-                start_idx=int(idx), end_date=end_date, fwd_return=fwd,
+                start_idx=start_idx, end_date=end_date,
+                win_close=close[start_idx : end_idx + 1].copy(),
+                win_volume=volume[start_idx : end_idx + 1].copy(),
+                fut_close=fut_close.copy(),
+                fut_volume=fut_volume.copy(),
+                win_dates=dates[start_idx : end_idx + 1].copy(),
+                fut_dates=dates[end_idx + 1 : end_idx + 1 + args.forward].copy(),
             )
             if len(heap) < top_k:
                 heapq.heappush(heap, match)
@@ -383,8 +416,108 @@ def search(query: Series, args) -> tuple[list[Match], dict]:
 
 
 # ---------------------------------------------------------------------------
+# Cache: fix the (slow) search result for an hour so UX iteration is instant
+# ---------------------------------------------------------------------------
+
+# Args that change the match set; --show and layout are NOT here so they stay
+# instant on re-run. Note: --forward changes how many future bars are stored, so
+# it is a key input; --budget-secs changes how much of the universe gets scanned.
+_CACHE_KEY_ARGS = (
+    "ticker", "query_len", "forward", "top_k", "price_weight",
+    "segments", "markets", "min_distance", "budget_secs", "require_forward",
+)
+
+
+def _cache_key(query: Series, args) -> str:
+    payload = {a: getattr(args, a) for a in _CACHE_KEY_ARGS}
+    # Fold the query bars in so a re-fetch (new data) invalidates the cache.
+    payload["query_close"] = query.close.tolist()
+    payload["query_volume"] = query.volume.tolist()
+    payload["query_dates"] = query.dates.tolist()
+    blob = json.dumps(payload, sort_keys=True, default=str).encode()
+    return hashlib.sha1(blob).hexdigest()[:16]
+
+
+def _prune_stale_cache() -> None:
+    """Delete cache files older than the TTL so `recent/` doesn't accumulate."""
+    if not CACHE_DIR.exists():
+        return
+    now = time.time()
+    for f in CACHE_DIR.glob("*.pkl"):
+        if now - f.stat().st_mtime > CACHE_TTL_SECS:
+            f.unlink(missing_ok=True)
+
+
+def load_cached(query: Series, args) -> tuple[list[Match], dict] | None:
+    """Return a cached (results, stats) if a fresh entry exists, else None."""
+    _prune_stale_cache()
+    path = CACHE_DIR / f"{_cache_key(query, args)}.pkl"
+    if not path.exists():
+        return None
+    if time.time() - path.stat().st_mtime > CACHE_TTL_SECS:
+        return None
+    try:
+        with path.open("rb") as f:
+            results, stats = pickle.load(f)
+    except Exception:
+        return None  # corrupt/incompatible cache — recompute
+    stats = {**stats, "cached": True}
+    return results, stats
+
+
+def save_cached(query: Series, args, results: list[Match], stats: dict) -> None:
+    CACHE_DIR.mkdir(parents=True, exist_ok=True)
+    path = CACHE_DIR / f"{_cache_key(query, args)}.pkl"
+    tmp = path.with_suffix(".pkl.tmp")
+    with tmp.open("wb") as f:
+        pickle.dump((results, stats), f)
+    tmp.replace(path)  # atomic
+
+
+# ---------------------------------------------------------------------------
 # Reporting
 # ---------------------------------------------------------------------------
+
+def denormalize(values: np.ndarray, src_ref: np.ndarray, dst_mean: float, dst_std: float) -> np.ndarray:
+    """Project `values` onto the query's scale by z-score inversion.
+
+    The candidate's own window (`src_ref`) defines the z-normalization the match
+    was computed under; we invert those z-scores through the query channel's
+    `dst_mean`/`dst_std`. For a perfect match this reproduces the query's bars.
+    """
+    src_mean = src_ref.mean()
+    src_std = src_ref.std()
+    if src_std < 1e-10:
+        return np.full_like(values, dst_mean, dtype=float)
+    z = (values - src_mean) / src_std
+    return z * dst_std + dst_mean
+
+
+def _proj(match: Match, query: Series) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+    """Return (win_px, win_vol, fut_px, fut_vol) for `match`, denormalized onto
+    the query's price/volume scale. Future arrays are padded with NaN to
+    `forward` length so all rows align."""
+    qc, qv = query.close, query.volume
+    win_px = denormalize(match.win_close, match.win_close, qc.mean(), qc.std())
+    win_vol = denormalize(match.win_volume, match.win_volume, qv.mean(), qv.std())
+    fut_px = denormalize(match.fut_close, match.win_close, qc.mean(), qc.std())
+    fut_vol = denormalize(match.fut_volume, match.win_volume, qv.mean(), qv.std())
+    return win_px, win_vol, fut_px, fut_vol
+
+
+def _fmt_px(x: float) -> str:
+    return "[dim]·[/]" if not np.isfinite(x) else f"{x:.2f}"
+
+
+def _fmt_vol(x: float) -> str:
+    if not np.isfinite(x):
+        return "[dim]·[/]"
+    if abs(x) >= 1e6:
+        return f"{x / 1e6:.1f}M"
+    if abs(x) >= 1e3:
+        return f"{x / 1e3:.0f}K"
+    return f"{x:.0f}"
+
 
 def report(query: Series, results: list[Match], stats: dict, args) -> None:
     console.print()
@@ -394,43 +527,118 @@ def report(query: Series, results: list[Match], stats: dict, args) -> None:
         f"(price weight {args.price_weight:.2f}, forward {args.forward} bars)"
     )
     note = "[yellow]budget hit[/]" if stats["budget_hit"] else "full scan"
+    origin = "[green]cached[/] (<1h)" if stats.get("cached") else f"{stats['elapsed']:.1f}s ({note})"
     console.print(
-        f"scanned [bold]{stats['scanned']:,}[/] tickers in "
-        f"{stats['elapsed']:.1f}s ({note}); showing top {len(results)}"
+        f"scanned [bold]{stats['scanned']:,}[/] tickers in {origin}; {len(results)} matches"
     )
 
-    table = Table(show_header=True, header_style="bold")
-    table.add_column("#", justify="right")
-    table.add_column("Ticker")
-    table.add_column("Window ends")
-    table.add_column("Distance", justify="right")
-    table.add_column(f"Fwd {args.forward}d", justify="right")
+    if not results:
+        console.print("\n[dim]No matches found.[/]\n")
+        return
 
-    fwds = []
-    for i, mtch in enumerate(results, 1):
-        if mtch.fwd_return is None:
-            fwd_str = "[dim]n/a[/]"
-        else:
-            fwds.append(mtch.fwd_return)
-            color = "green" if mtch.fwd_return >= 0 else "red"
-            fwd_str = f"[{color}]{mtch.fwd_return:+.1%}[/]"
-        table.add_row(
-            str(i), mtch.ticker, mtch.end_date, f"{mtch.score:.2f}", fwd_str
-        )
+    n_show = min(args.show, len(results))
+    show_past = 5                     # last 5 window bars we display
+    fwd = args.forward
+    fut_cols = min(5, fwd)            # future bars we display (5 by default)
+
+    # Column layout: label | last-5 window bars | future bars.
+    table = Table(show_header=True, header_style="bold", pad_edge=False)
+    table.add_column("match", justify="left", no_wrap=True)
+    for k in range(show_past, 0, -1):
+        table.add_column(f"-{k}", justify="right")
+    table.add_column("│", justify="center")
+    for k in range(1, fut_cols + 1):
+        table.add_column(f"+{k}", justify="right", style="cyan")
+
+    def _mmdd(iso: str) -> str:
+        return iso[5:] if iso else ""  # MM-DD, compact
+
+    def add_pair(label: str, px: np.ndarray, vol: np.ndarray,
+                 fpx: np.ndarray | None, fvol: np.ndarray | None,
+                 wdates: np.ndarray | None, fdates: np.ndarray | None,
+                 style: str = "") -> None:
+        px_cells = [_fmt_px(v) for v in px[-show_past:]]
+        vol_cells = [_fmt_vol(v) for v in vol[-show_past:]]
+        fpx_cells = [_fmt_px(v) for v in (fpx[:fut_cols] if fpx is not None else [])]
+        fvol_cells = [_fmt_vol(v) for v in (fvol[:fut_cols] if fvol is not None else [])]
+        fpx_cells += ["[dim]·[/]"] * (fut_cols - len(fpx_cells))
+        fvol_cells += ["[dim]·[/]"] * (fut_cols - len(fvol_cells))
+        lbl = f"[{style}]{label}[/]" if style else label
+        table.add_row(lbl, *px_cells, "px", *fpx_cells)
+        table.add_row("", *vol_cells, "vol", *fvol_cells)
+        # date row (MM-DD) so each bar is openable in an external chart
+        wd = [f"[dim]{_mmdd(d)}[/]" for d in (wdates[-show_past:] if wdates is not None else [])]
+        wd += ["[dim]·[/]"] * (show_past - len(wd))
+        fd = [f"[dim]{_mmdd(d)}[/]" for d in (fdates[:fut_cols] if fdates is not None else [])]
+        fd += ["[dim]·[/]"] * (fut_cols - len(fd))
+        table.add_row("[dim]  date[/]", *wd, "[dim]dt[/]", *fd)
+
+    # Reference: the query's actual last-5 (no future).
+    add_pair(f"{query.ticker} (ref)", query.close, query.volume, None, None,
+             query.dates, None, style="bold green")
+    table.add_row("")
+
+    for mtch in results[:n_show]:
+        win_px, win_vol, fut_px, fut_vol = _proj(mtch, query)
+        label = f"{mtch.ticker}  d={mtch.score:.2f}  [dim]{mtch.end_date}[/]"
+        add_pair(label, win_px, win_vol, fut_px, fut_vol,
+                 mtch.win_dates, mtch.fut_dates)
+
     console.print(table)
+    console.print(
+        f"[dim]Candidate values are z-denormalized onto {query.ticker}'s scale "
+        f"(px = projected price, vol = projected volume, date = actual bar date). "
+        f"Columns -5..-1 overlap {query.ticker}'s window; +1..+{fut_cols} are the projection. "
+        f"The date after each ticker is its window-end — the anchor to open in your chart.[/]"
+    )
 
-    if fwds:
-        arr = np.array(fwds)
-        hit = (arr > 0).mean()
-        console.print(
-            f"\n[bold]Outcome[/] over {len(arr)} matches with a forward window:  "
-            f"mean [bold]{arr.mean():+.1%}[/]  median [bold]{np.median(arr):+.1%}[/]  "
-            f"hit-rate [bold]{hit:.0%}[/]  "
-            f"(min {arr.min():+.1%}, max {arr.max():+.1%})"
-        )
-    else:
-        console.print("\n[dim]No matches had a full forward window to measure.[/]")
+    _print_bar_stats(query, results, args, show_past, fut_cols)
     console.print()
+
+
+def _print_bar_stats(query: Series, results: list[Match], args, show_past: int, fut_cols: int) -> None:
+    """Per-bar mean±std of the denormalized candidates over the FULL result set,
+    for both the overlapping window bars (vs the query's actual) and the future
+    projection."""
+    px_win, vol_win, px_fut, vol_fut = [], [], [], []
+    for mtch in results:
+        wpx, wvol, fpx, fvol = _proj(mtch, query)
+        px_win.append(wpx[-show_past:])
+        vol_win.append(wvol[-show_past:])
+        # pad future to fut_cols with NaN so stacking aligns
+        fp = np.full(fut_cols, np.nan); fp[:min(fut_cols, len(fpx))] = fpx[:fut_cols]
+        fv = np.full(fut_cols, np.nan); fv[:min(fut_cols, len(fvol))] = fvol[:fut_cols]
+        px_fut.append(fp); vol_fut.append(fv)
+
+    px_win = np.vstack(px_win); vol_win = np.vstack(vol_win)
+    px_fut = np.vstack(px_fut); vol_fut = np.vstack(vol_fut)
+
+    console.print(f"\n[bold]Per-bar stats[/] across all {len(results)} matches "
+                  f"(mean ± std, denormalized to {query.ticker}):")
+
+    st = Table(show_header=True, header_style="bold", pad_edge=False)
+    st.add_column("", justify="left", no_wrap=True)
+    for k in range(show_past, 0, -1):
+        st.add_column(f"-{k}", justify="right")
+    st.add_column("│", justify="center")
+    for k in range(1, fut_cols + 1):
+        st.add_column(f"+{k}", justify="right", style="cyan")
+
+    def stat_rows(label: str, win: np.ndarray, fut: np.ndarray, fmt, actual: np.ndarray | None):
+        wmean, wstd = np.nanmean(win, axis=0), np.nanstd(win, axis=0)
+        fmean, fstd = np.nanmean(fut, axis=0), np.nanstd(fut, axis=0)
+        st.add_row(f"{label} mean", *[fmt(v) for v in wmean], "│", *[fmt(v) for v in fmean])
+        st.add_row(f"{label} std",  *[fmt(v) for v in wstd],  "│", *[fmt(v) for v in fstd])
+        if actual is not None:
+            # deviation of the candidate mean from the query's actual bar
+            dev = wmean - actual[-show_past:]
+            st.add_row(f"[dim]{label} Δ vs {query.ticker}[/]",
+                       *[f"[dim]{fmt(v)}[/]" for v in dev], "│",
+                       *["[dim]·[/]"] * fut_cols)
+
+    stat_rows("px", px_win, px_fut, _fmt_px, query.close)
+    stat_rows("vol", vol_win, vol_fut, _fmt_vol, query.volume)
+    console.print(st)
 
 
 def main() -> None:
@@ -438,14 +646,17 @@ def main() -> None:
     p.add_argument("ticker", help="Repo ticker whose recent window is the query")
     p.add_argument("--query-len", type=int, default=30, help="Query window length in bars (default 30)")
     p.add_argument("--forward", type=int, default=20, help="Forward-outcome horizon in bars (default 20)")
-    p.add_argument("--top-k", type=int, default=20, help="Number of matches to keep (default 20)")
+    p.add_argument("--top-k", type=int, default=20,
+                   help="Matches to keep for the per-bar statistics pool (default 20)")
+    p.add_argument("--show", type=int, default=10,
+                   help="How many top matches to print in the detail table (default 10)")
     p.add_argument("--price-weight", type=float, default=0.6,
                    help="Weight on price vs volume distance, 0..1 (default 0.6)")
     p.add_argument("--budget-secs", type=float, default=60.0,
                    help="Wall-clock search budget; returns best-so-far (default 60)")
     p.add_argument("--segments", type=str, default=None,
                    help='Comma-separated Stooq segments to search, e.g. "nyse stocks,nasdaq stocks" '
-                        '(default: all). See prices-historic/STRUCTURE.md for the full list.')
+                        '(default: real equity segments only). See prices-historic/STRUCTURE.md.')
     p.add_argument("--markets", type=str, default=None,
                    help='Comma-separated markets to search: us,jp,uk,hk,world (default: all)')
     p.add_argument("--min-distance", type=float, default=0.05,
@@ -453,6 +664,8 @@ def main() -> None:
                         "itself, a duplicate or dual listing (default: 0.05)")
     p.add_argument("--require-forward", action="store_true",
                    help="Only keep matches that have a full forward window to measure")
+    p.add_argument("--refresh", action="store_true",
+                   help="Ignore the 1h cache and recompute the search from scratch")
     args = p.parse_args()
 
     args.ticker = args.ticker.upper()
@@ -463,7 +676,14 @@ def main() -> None:
 
     query = load_query(args.ticker, args.query_len)
     warn_query_quality(query)
-    results, stats = search(query, args)
+
+    cached = None if args.refresh else load_cached(query, args)
+    if cached is not None:
+        results, stats = cached
+    else:
+        results, stats = search(query, args)
+        save_cached(query, args, results, stats)
+
     report(query, results, stats, args)
 
 
