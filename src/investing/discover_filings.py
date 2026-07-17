@@ -193,7 +193,7 @@ def main():
             continue
         accn_nodash = f["accession"].replace("-", "")
         url = f"{EDGAR_ARCHIVE}/{int(cik)}/{accn_nodash}/"
-        ok += download(ticker, date, quarter, report_path, explicit_url=url)
+        ok += download(ticker, date, quarter, report_path, "report", explicit_url=url)
 
     print(f"\nDone: {ok}/{len(filings)} report(s) available.")
 
