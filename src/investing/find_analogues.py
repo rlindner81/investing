@@ -26,10 +26,10 @@ own price/volume scale (invert the candidate's z-scores through the query's
 window mean/std). The query's actual last 5 bars head the table as a reference,
 so match quality is directly eyeballable and the future bars read as a projected
 path in the query's own dollars. Per-bar mean±std across the full ``--top-k`` pool
-follows, including the deviation of the past bars from the query's actuals. Each
-bar carries its actual ISO date (the daily feed has no intraday time) so a match
-can be opened directly in an external chart; the window-end date sits after each
-ticker as the anchor.
+follows, including the deviation of the past bars from the query's actuals. The
+window-start date (the -5 bar) sits after each ticker — including the reference —
+as the anchor to open the match in an external chart (the daily feed has no
+intraday time). Only matches with a full ``--forward`` window are kept.
 
 Search results are cached under ``prices-historic/recent/`` for one hour, keyed
 on every search-affecting input plus a hash of the query bars — so iterating on
@@ -380,7 +380,9 @@ def search(query: Series, args) -> tuple[list[Match], dict]:
 
             fut_close = close[end_idx + 1 : end_idx + 1 + args.forward]
             fut_volume = volume[end_idx + 1 : end_idx + 1 + args.forward]
-            if args.require_forward and len(fut_close) < args.forward:
+            # A match must have the full forward window — a window ending too near
+            # the end of its own series has nothing to project and is useless here.
+            if len(fut_close) < args.forward:
                 continue
 
             match = Match(
@@ -424,7 +426,7 @@ def search(query: Series, args) -> tuple[list[Match], dict]:
 # it is a key input; --budget-secs changes how much of the universe gets scanned.
 _CACHE_KEY_ARGS = (
     "ticker", "query_len", "forward", "top_k", "price_weight",
-    "segments", "markets", "min_distance", "budget_secs", "require_forward",
+    "segments", "markets", "min_distance", "budget_secs",
 )
 
 
@@ -541,21 +543,17 @@ def report(query: Series, results: list[Match], stats: dict, args) -> None:
     fwd = args.forward
     fut_cols = min(5, fwd)            # future bars we display (5 by default)
 
-    # Column layout: label | last-5 window bars | future bars.
+    # Column layout: label | px/vol | past bars (-(n-1)..0, 0 = today) | future bars.
     table = Table(show_header=True, header_style="bold", pad_edge=False)
     table.add_column("match", justify="left", no_wrap=True)
-    for k in range(show_past, 0, -1):
-        table.add_column(f"-{k}", justify="right")
-    table.add_column("│", justify="center")
+    table.add_column("", justify="left")
+    for k in range(show_past - 1, -1, -1):
+        table.add_column("0" if k == 0 else f"-{k}", justify="right")
     for k in range(1, fut_cols + 1):
         table.add_column(f"+{k}", justify="right", style="cyan")
 
-    def _mmdd(iso: str) -> str:
-        return iso[5:] if iso else ""  # MM-DD, compact
-
     def add_pair(label: str, px: np.ndarray, vol: np.ndarray,
                  fpx: np.ndarray | None, fvol: np.ndarray | None,
-                 wdates: np.ndarray | None, fdates: np.ndarray | None,
                  style: str = "") -> None:
         px_cells = [_fmt_px(v) for v in px[-show_past:]]
         vol_cells = [_fmt_vol(v) for v in vol[-show_past:]]
@@ -564,32 +562,37 @@ def report(query: Series, results: list[Match], stats: dict, args) -> None:
         fpx_cells += ["[dim]·[/]"] * (fut_cols - len(fpx_cells))
         fvol_cells += ["[dim]·[/]"] * (fut_cols - len(fvol_cells))
         lbl = f"[{style}]{label}[/]" if style else label
-        table.add_row(lbl, *px_cells, "px", *fpx_cells)
-        table.add_row("", *vol_cells, "vol", *fvol_cells)
-        # date row (MM-DD) so each bar is openable in an external chart
-        wd = [f"[dim]{_mmdd(d)}[/]" for d in (wdates[-show_past:] if wdates is not None else [])]
-        wd += ["[dim]·[/]"] * (show_past - len(wd))
-        fd = [f"[dim]{_mmdd(d)}[/]" for d in (fdates[:fut_cols] if fdates is not None else [])]
-        fd += ["[dim]·[/]"] * (fut_cols - len(fd))
-        table.add_row("[dim]  date[/]", *wd, "[dim]dt[/]", *fd)
+        table.add_row(lbl, "px", *px_cells, *fpx_cells)
+        table.add_row("", "vol", *vol_cells, *fvol_cells)
+
+    # Start date of the displayed window (bar -5) — the anchor to open in a chart.
+    def _start(dates: np.ndarray) -> str:
+        return dates[-show_past] if len(dates) >= show_past else dates[0]
+
+    # Fixed-width label so the d= and date columns line up regardless of ticker
+    # length. Rich markup has zero display width, so pad the plain text first.
+    tw = max([len(m.ticker) for m in results[:n_show]] + [len(query.ticker)])
+
+    def _label(ticker: str, dist: str, date: str) -> str:
+        return f"{ticker:<{tw}}  {dist:<7}  [dim]{date}[/]"
 
     # Reference: the query's actual last-5 (no future).
-    add_pair(f"{query.ticker} (ref)", query.close, query.volume, None, None,
-             query.dates, None, style="bold green")
+    add_pair(_label(query.ticker, "(ref)", _start(query.dates)),
+             query.close, query.volume, None, None, style="bold green")
     table.add_row("")
 
     for mtch in results[:n_show]:
         win_px, win_vol, fut_px, fut_vol = _proj(mtch, query)
-        label = f"{mtch.ticker}  d={mtch.score:.2f}  [dim]{mtch.end_date}[/]"
-        add_pair(label, win_px, win_vol, fut_px, fut_vol,
-                 mtch.win_dates, mtch.fut_dates)
+        add_pair(_label(mtch.ticker, f"d={mtch.score:.2f}", _start(mtch.win_dates)),
+                 win_px, win_vol, fut_px, fut_vol)
 
     console.print(table)
     console.print(
         f"[dim]Candidate values are z-denormalized onto {query.ticker}'s scale "
-        f"(px = projected price, vol = projected volume, date = actual bar date). "
-        f"Columns -5..-1 overlap {query.ticker}'s window; +1..+{fut_cols} are the projection. "
-        f"The date after each ticker is its window-end — the anchor to open in your chart.[/]"
+        f"(px = projected price, vol = projected volume). "
+        f"Column 0 is today (the latest bar); -{show_past - 1}..0 overlap {query.ticker}'s window; "
+        f"+1..+{fut_cols} are the projection. "
+        f"The date after each ticker is the -{show_past - 1} bar (window start) — the anchor to open in your chart.[/]"
     )
 
     _print_bar_stats(query, results, args, show_past, fut_cols)
@@ -618,22 +621,21 @@ def _print_bar_stats(query: Series, results: list[Match], args, show_past: int, 
 
     st = Table(show_header=True, header_style="bold", pad_edge=False)
     st.add_column("", justify="left", no_wrap=True)
-    for k in range(show_past, 0, -1):
-        st.add_column(f"-{k}", justify="right")
-    st.add_column("│", justify="center")
+    for k in range(show_past - 1, -1, -1):
+        st.add_column("0" if k == 0 else f"-{k}", justify="right")
     for k in range(1, fut_cols + 1):
         st.add_column(f"+{k}", justify="right", style="cyan")
 
     def stat_rows(label: str, win: np.ndarray, fut: np.ndarray, fmt, actual: np.ndarray | None):
         wmean, wstd = np.nanmean(win, axis=0), np.nanstd(win, axis=0)
         fmean, fstd = np.nanmean(fut, axis=0), np.nanstd(fut, axis=0)
-        st.add_row(f"{label} mean", *[fmt(v) for v in wmean], "│", *[fmt(v) for v in fmean])
-        st.add_row(f"{label} std",  *[fmt(v) for v in wstd],  "│", *[fmt(v) for v in fstd])
+        st.add_row(f"{label} mean", *[fmt(v) for v in wmean], *[fmt(v) for v in fmean])
+        st.add_row(f"{label} std",  *[fmt(v) for v in wstd],  *[fmt(v) for v in fstd])
         if actual is not None:
             # deviation of the candidate mean from the query's actual bar
             dev = wmean - actual[-show_past:]
             st.add_row(f"[dim]{label} Δ vs {query.ticker}[/]",
-                       *[f"[dim]{fmt(v)}[/]" for v in dev], "│",
+                       *[f"[dim]{fmt(v)}[/]" for v in dev],
                        *["[dim]·[/]"] * fut_cols)
 
     stat_rows("px", px_win, px_fut, _fmt_px, query.close)
@@ -662,8 +664,6 @@ def main() -> None:
     p.add_argument("--min-distance", type=float, default=0.05,
                    help="Drop matches with combined distance below this — they are the query "
                         "itself, a duplicate or dual listing (default: 0.05)")
-    p.add_argument("--require-forward", action="store_true",
-                   help="Only keep matches that have a full forward window to measure")
     p.add_argument("--refresh", action="store_true",
                    help="Ignore the 1h cache and recompute the search from scratch")
     args = p.parse_args()
