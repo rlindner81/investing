@@ -654,17 +654,45 @@ def _print_bar_stats(query: Series, results: list[Match], args, show_past: int, 
                        *["[dim]·[/]"] * fut_cols)
 
     stat_rows("px", px_win, px_fut, _fmt_px, query.close)
+
+    # Return-distribution buckets: for each future bar, how many of the matches
+    # landed in each price-return band (return measured from bar 0, raw closes →
+    # scale-invariant). Distinct, exhaustive bands. Past columns are blank.
+    n = len(results)
+    ret = np.full((n, fut_cols), np.nan)  # match × future-bar return from bar 0
+    for i, mtch in enumerate(results):
+        base = mtch.win_close[-1]
+        k = min(fut_cols, len(mtch.fut_close))
+        if base > 0:
+            ret[i, :k] = mtch.fut_close[:k] / base - 1.0
+
+    buckets = [
+        ("px ≥+5%",      lambda r: r >= 0.05,               "green"),
+        ("px +1..+5%",   lambda r: (r >= 0.01) & (r < 0.05), "green"),
+        ("px -1..+1%",   lambda r: (r > -0.01) & (r < 0.01), "yellow"),
+        ("px -5..-1%",   lambda r: (r > -0.05) & (r <= -0.01), "red"),
+        ("px ≤-5%",      lambda r: r <= -0.05,              "red"),
+    ]
+    for name, pred, color in buckets:
+        counts = [int(np.sum(pred(ret[:, c]) & np.isfinite(ret[:, c]))) for c in range(fut_cols)]
+        cells = [f"[{color}]{c}[/]" if c else "[dim]0[/]" for c in counts]
+        st.add_row(f"[{color}]{name}[/]", *["[dim]·[/]"] * show_past, *cells)
+
     stat_rows("vol", vol_win, vol_fut, _fmt_vol, query.volume)
     console.print(st)
+    console.print(
+        f"[dim]Buckets: count of the {n} matches whose price return from bar 0 fell in each "
+        f"band at +1..+{fut_cols} (bands are distinct and cover all outcomes).[/]"
+    )
 
 
 def main() -> None:
     p = argparse.ArgumentParser(description="Find historical chart analogues of a current pattern.")
     p.add_argument("ticker", help="Repo ticker whose recent window is the query")
     p.add_argument("--query-len", type=int, default=30, help="Query window length in bars (default 30)")
-    p.add_argument("--forward", type=int, default=20, help="Forward-outcome horizon in bars (default 20)")
-    p.add_argument("--top-k", type=int, default=20,
-                   help="Matches to keep for the per-bar statistics pool (default 20)")
+    p.add_argument("--forward", type=int, default=5, help="Forward-outcome horizon in bars (default 5)")
+    p.add_argument("--top-k", type=int, default=30,
+                   help="Matches to keep for the per-bar statistics pool (default 30)")
     p.add_argument("--show", type=int, default=10,
                    help="How many top matches to print in the detail table (default 10)")
     p.add_argument("--price-weight", type=float, default=0.6,
