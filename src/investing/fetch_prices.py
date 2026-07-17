@@ -84,6 +84,23 @@ def splits_since(ticker: str, since: date) -> list[date]:
     return list(s.index.date[s.index.date > since])
 
 
+def _same_boundary(old_tail: pd.DataFrame, fresh_tail: pd.DataFrame) -> bool:
+    """True when the stored boundary row equals the freshly-fetched one, compared
+    at the 6-significant-digit precision the CSV is written with (so we don't
+    rewrite the file over floating-point noise). Only the first (boundary) row
+    matters — new days are handled separately."""
+    if old_tail.empty or fresh_tail.empty:
+        return False
+
+    def fmt(v: float) -> str:
+        return f"{float(v):.6g}"
+
+    old = old_tail.iloc[0]
+    new = fresh_tail.iloc[0]
+    cols = ["Open", "High", "Low", "Close", "Volume"]
+    return all(fmt(old[c]) == fmt(new[c]) for c in cols)
+
+
 def download(ticker: str, start: date, *, interval: str, prepost: bool) -> pd.DataFrame:
     df = yf.download(
         ticker,
@@ -147,11 +164,11 @@ def fetch_ticker(ticker: str, *, prices_dir: Path, interval: str, prepost: bool,
     last = load_last_date(path, index_col)
 
     if last is not None:
-        fetch_start = last + timedelta(days=1)
-        if fetch_start > date.today():
-            if not quiet:
-                print(f"  {ticker}: already up to date ({last})")
-            return
+        # Re-fetch FROM the last stored day (inclusive), not the day after. The
+        # boundary row may have been written from a partial/live bar (e.g. a
+        # mid-session Monday pull → truncated volume and a non-final close); by
+        # re-downloading it we heal that stale bar once the session has closed.
+        fetch_start = last
 
         split_dates = splits_since(ticker, last)
         if split_dates:
@@ -170,27 +187,49 @@ def fetch_ticker(ticker: str, *, prices_dir: Path, interval: str, prepost: bool,
             earliest = date.today() - timedelta(days=729)
             fetch_start = max(fetch_start, earliest)
 
-    df = download(ticker, fetch_start, interval=interval, prepost=prepost)
-    if df.empty:
+    fresh = download(ticker, fetch_start, interval=interval, prepost=prepost)
+    if fresh.empty:
         if not quiet:
             print(f"  {ticker}: no new data ({last})" if last else f"  {ticker}: no data returned")
         return
 
-    df = df[~df.index.duplicated(keep="last")]
+    fresh = fresh[~fresh.index.duplicated(keep="last")]
 
-    # When appending, drop any rows for dates already on disk. Yahoo re-emits the
-    # boundary day (and a partial live bar for today), which would otherwise
-    # accumulate as duplicate rows on repeated runs.
     if last is not None:
-        row_dates = pd.to_datetime(pd.Series(df.index)).dt.date.to_numpy()
-        df = df[row_dates > last]
-        if df.empty:
+        # Splice: keep on-disk rows strictly before the boundary, then take the
+        # freshly-fetched rows (boundary + any new days). This overwrites the
+        # boundary row rather than appending a duplicate, so a stale partial bar
+        # is corrected in place.
+        existing = pd.read_csv(path, index_col=index_col)
+        existing_dates = pd.to_datetime(pd.Series(existing.index)).dt.date.to_numpy()
+        head = existing[existing_dates < last]
+
+        fresh_dates = pd.to_datetime(pd.Series(fresh.index)).dt.date.to_numpy()
+        tail = fresh[fresh_dates >= last]
+        if tail.empty:
             if not quiet:
                 print(f"  {ticker}: already up to date ({last})")
             return
 
-    df.to_csv(path, mode="a" if path.exists() else "w", header=not path.exists(), float_format="%.6g")
-    print(f"  {ticker}: wrote {len(df)} rows → {path.relative_to(REPO_ROOT)}")
+        # No-op guard: if the refreshed boundary+tail is identical to what's on
+        # disk (same dates and rounded values), don't rewrite the file.
+        old_tail = existing[existing_dates >= last]
+        boundary_changed = not _same_boundary(old_tail, tail)
+        n_new = int((fresh_dates > last).sum())
+        if not boundary_changed and n_new == 0:
+            if not quiet:
+                print(f"  {ticker}: already up to date ({last})")
+            return
+
+        combined = pd.concat([head, tail])
+        combined.index.name = index_col
+        combined.to_csv(path, float_format="%.6g")
+        healed = " (healed boundary bar)" if boundary_changed else ""
+        print(f"  {ticker}: refreshed {last}{healed}, +{n_new} new → {path.relative_to(REPO_ROOT)}")
+        return
+
+    fresh.to_csv(path, mode="w", header=True, float_format="%.6g")
+    print(f"  {ticker}: wrote {len(fresh)} rows → {path.relative_to(REPO_ROOT)}")
 
 
 def main() -> None:
