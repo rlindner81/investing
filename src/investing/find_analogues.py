@@ -667,11 +667,9 @@ def _print_bar_stats(query: Series, results: list[Match], args, show_past: int, 
             ret[i, :k] = mtch.fut_close[:k] / base - 1.0
 
     buckets = [
-        ("px ≥+3%",      lambda r: r >= 0.03,               "green"),
-        ("px +1..+3%",   lambda r: (r >= 0.01) & (r < 0.03), "green"),
+        ("px ≥+1%",      lambda r: r >= 0.01,                "green"),
         ("px -1..+1%",   lambda r: (r > -0.01) & (r < 0.01), "yellow"),
-        ("px -3..-1%",   lambda r: (r > -0.03) & (r <= -0.01), "red"),
-        ("px ≤-3%",      lambda r: r <= -0.03,              "red"),
+        ("px ≤-1%",      lambda r: r <= -0.01,               "red"),
     ]
     for name, pred, color in buckets:
         counts = [int(np.sum(pred(ret[:, c]) & np.isfinite(ret[:, c]))) for c in range(fut_cols)]
