@@ -102,7 +102,15 @@ def archives() -> list[Path]:
 # ---------------------------------------------------------------------------
 
 def _sliding_mean_std(series: np.ndarray, m: int) -> tuple[np.ndarray, np.ndarray]:
-    """Rolling mean and (population) std of every length-m window of `series`."""
+    """Rolling mean and (population) std of every length-m window of `series`.
+
+    Variance is computed as E[x²] − E[x]² from cumulative sums (fast, one pass).
+    For a genuinely flat window that subtraction suffers catastrophic
+    cancellation and leaves a tiny positive residual (~1e-7 × value²) instead of
+    exactly 0. Left alone, that fake std is above an absolute flat-window
+    threshold and slips a dead, carried-forward price stretch through as a
+    "perfect" match. So snap any variance below a *relative* floor (a negligible
+    fraction of the window's mean²) down to 0, marking such windows truly flat."""
     cumsum = np.concatenate(([0.0], np.cumsum(series)))
     cumsum2 = np.concatenate(([0.0], np.cumsum(series ** 2)))
     seg_sum = cumsum[m:] - cumsum[:-m]
@@ -110,6 +118,8 @@ def _sliding_mean_std(series: np.ndarray, m: int) -> tuple[np.ndarray, np.ndarra
     mean = seg_sum / m
     var = seg_sum2 / m - mean ** 2
     var = np.clip(var, 0.0, None)
+    # Kill cancellation residue: variance under ~(1e-5·mean)² is really zero.
+    var[var < (1e-5 * np.abs(mean)) ** 2] = 0.0
     return mean, np.sqrt(var)
 
 
@@ -124,7 +134,8 @@ def _sliding_dot(series: np.ndarray, kernel: np.ndarray, m: int, n: int) -> np.n
     return prod[m - 1 : n]  # length n - m + 1
 
 
-def mass(query: np.ndarray, series: np.ndarray, weights: np.ndarray | None = None) -> np.ndarray:
+def mass(query: np.ndarray, series: np.ndarray, weights: np.ndarray | None = None,
+         min_cv: float = 0.0) -> np.ndarray:
     """Distance profile: z-normalized Euclidean distance from `query` (length m)
     to every length-m subsequence of `series`. Lower is more similar.
 
@@ -139,6 +150,11 @@ def mass(query: np.ndarray, series: np.ndarray, weights: np.ndarray | None = Non
     so the weighting reshapes what "close" means without distorting the scale
     normalization. The weighted form still resolves to a few FFT convolutions,
     so it costs the same as plain MASS.
+
+    `min_cv` rejects near-flat, low-information windows: any window whose
+    coefficient of variation (std/|mean|) is below `min_cv` gets +inf, using the
+    per-window mean/std already computed here — no extra pass. 0 disables it
+    (only exactly-flat windows are dropped, as before).
     """
     m = len(query)
     n = len(series)
@@ -183,7 +199,10 @@ def mass(query: np.ndarray, series: np.ndarray, weights: np.ndarray | None = Non
 
     dist_sq = np.clip(dist_sq, 0.0, None)
     dist = np.sqrt(dist_sq)
-    dist[std < 1e-10] = np.inf  # flat windows can't match a varying query
+    # Drop flat/near-flat windows: std under an absolute floor (exactly flat) or
+    # under min_cv of the window's own scale (low-information, barely moving).
+    floor = np.maximum(1e-10, min_cv * np.abs(mean))
+    dist[std < floor] = np.inf
     return dist
 
 
@@ -376,14 +395,19 @@ def combined_profile(
     volume: np.ndarray,
     price_weight: float,
     weights: np.ndarray | None = None,
+    min_cv: float = 0.0,
 ) -> np.ndarray | None:
     """Weighted price+volume distance profile for one series, or None if too short.
 
-    `weights` is an optional per-bar recency weighting applied to both channels."""
+    `weights` is an optional per-bar recency weighting applied to both channels.
+    `min_cv` drops near-flat, low-information windows (see `mass`); it is applied
+    to the *price* channel — a barely-moving price is uninformative — and, since
+    an inf in either channel already sinks the combined score, that alone kicks
+    the window out. Volume is left unfiltered (it's naturally spiky)."""
     m = len(q_close)
     if len(close) < m:
         return None
-    d_price = mass(q_close, close, weights)
+    d_price = mass(q_close, close, weights, min_cv=min_cv)
     if d_price.size == 0:
         return None
     d_vol = mass(q_volume, volume, weights)
@@ -421,7 +445,8 @@ def search(query: Series, args) -> tuple[list[Match], dict]:
 
     for ticker, dates, close, volume in iter_universe(segments, markets):
         scanned += 1
-        profile = combined_profile(q_close, q_volume, close, volume, args.price_weight, weights)
+        profile = combined_profile(q_close, q_volume, close, volume, args.price_weight,
+                                    weights, min_cv=args.min_cv)
         if profile is None:
             continue
 
@@ -499,7 +524,7 @@ def search(query: Series, args) -> tuple[list[Match], dict]:
 _CACHE_KEY_ARGS = (
     "ticker", "query_len", "forward", "top_k", "price_weight",
     "segments", "markets", "min_distance", "budget_secs", "match_dow",
-    "recency_bucket", "recency_ramp",
+    "recency_bucket", "recency_ramp", "min_cv",
 )
 
 
@@ -783,6 +808,10 @@ def main() -> None:
     p.add_argument("--recency-bucket", type=int, default=5,
                    help="Bar-block size for recency weighting; bars are grouped into "
                         "blocks of this size from the window end (default 5)")
+    p.add_argument("--min-cv", type=float, default=0.005,
+                   help="Reject near-flat windows whose price coefficient of variation "
+                        "(std/|mean|) over the window is below this — low-information, "
+                        "barely-moving stretches. 0 disables (default 0.005 = 0.5%%).")
     p.add_argument("--recency-ramp", dest="recency_ramp", type=float, default=0.5,
                    help="Weight floor for the oldest block, 0..1: weights ramp linearly "
                         "from 1.0 (most recent block) down to this for the oldest. "
@@ -798,6 +827,8 @@ def main() -> None:
         raise SystemExit("--recency-ramp must be in (0, 1]")
     if args.recency_bucket < 1:
         raise SystemExit("--recency-bucket must be >= 1")
+    if args.min_cv < 0:
+        raise SystemExit("--min-cv must be >= 0")
     if not archives():
         raise SystemExit(f"No d_*_txt.zip archives found in {ARCHIVE_DIR.relative_to(REPO_ROOT)}")
 
