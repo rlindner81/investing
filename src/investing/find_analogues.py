@@ -113,12 +113,32 @@ def _sliding_mean_std(series: np.ndarray, m: int) -> tuple[np.ndarray, np.ndarra
     return mean, np.sqrt(var)
 
 
-def mass(query: np.ndarray, series: np.ndarray) -> np.ndarray:
+def _sliding_dot(series: np.ndarray, kernel: np.ndarray, m: int, n: int) -> np.ndarray:
+    """Sliding dot product: out[i] = sum_j kernel[j] * series[i+j], for each
+    length-m window. Length n - m + 1. Computed via one FFT convolution."""
+    rev = kernel[::-1]
+    fft_len = 1
+    while fft_len < n + m:
+        fft_len <<= 1
+    prod = np.fft.irfft(np.fft.rfft(series, fft_len) * np.fft.rfft(rev, fft_len), fft_len)
+    return prod[m - 1 : n]  # length n - m + 1
+
+
+def mass(query: np.ndarray, series: np.ndarray, weights: np.ndarray | None = None) -> np.ndarray:
     """Distance profile: z-normalized Euclidean distance from `query` (length m)
     to every length-m subsequence of `series`. Lower is more similar.
 
     Returns an array of length ``len(series) - m + 1``. Windows whose std is ~0
-    (flat, degenerate) get +inf. Implementation follows Mueen's MASS via FFT.
+    (flat, degenerate) get +inf. Follows Mueen's MASS via FFT.
+
+    `weights` (length m, non-negative) applies a per-bar weight to the squared
+    error at each position, so some bars in the window count more toward the
+    match than others. With `weights=None` (all ones) this is the standard
+    unweighted MASS. Both the query and every window are z-normalized the same
+    way (unweighted mean/std over the window) — only the *distance* is weighted,
+    so the weighting reshapes what "close" means without distorting the scale
+    normalization. The weighted form still resolves to a few FFT convolutions,
+    so it costs the same as plain MASS.
     """
     m = len(query)
     n = len(series)
@@ -132,20 +152,35 @@ def mass(query: np.ndarray, series: np.ndarray) -> np.ndarray:
         return np.zeros(n - m + 1)
 
     mean, std = _sliding_mean_std(series, m)
+    a = (query - q_mean) / q_std  # z-normalized query (constant across windows)
 
-    # Sliding dot product QT[i] = sum_j query[j] * series[i+j] via FFT.
-    rev = query[::-1]
-    fft_len = 1
-    while fft_len < n + m:
-        fft_len <<= 1
-    prod = np.fft.irfft(np.fft.rfft(series, fft_len) * np.fft.rfft(rev, fft_len), fft_len)
-    qt = prod[m - 1 : n]  # length n - m + 1
+    if weights is None:
+        # Standard MASS: dist^2 = 2*m*(1 - corr), corr from a single dot product.
+        qt = _sliding_dot(series, query, m, n)
+        denom = m * std * q_std
+        with np.errstate(divide="ignore", invalid="ignore"):
+            corr = (qt - m * mean * q_mean) / denom
+        dist_sq = 2 * m * (1 - corr)
+    else:
+        # Weighted z-normalized distance^2 = sum_j w_j (a_j - b_j)^2 with
+        # b_j = (x_j - mean)/std the z-normalized window. Expanded into sliding
+        # sums, each an FFT convolution against a fixed kernel:
+        #   sum w*a^2                                    -> scalar A
+        #   sum w*a*x  (kernel w*a),  sum w*a (scalar WA)
+        #   sum w*x    (kernel w),    sum w*x^2 (kernel w),  sum w (scalar W)
+        w = weights
+        A = float(np.sum(w * a * a))
+        WA = float(np.sum(w * a))
+        W = float(np.sum(w))
+        s_wax = _sliding_dot(series, w * a, m, n)
+        s_wx = _sliding_dot(series, w, m, n)
+        s_wx2 = _sliding_dot(series ** 2, w, m, n)
+        with np.errstate(divide="ignore", invalid="ignore"):
+            cross = (s_wax - mean * WA) / std              # sum w*a*b
+            sq_b = (s_wx2 - 2 * mean * s_wx + mean ** 2 * W) / (std ** 2)  # sum w*b^2
+            # Flat windows (std ~ 0) yield inf/nan here; masked to +inf below.
+            dist_sq = A - 2 * cross + sq_b
 
-    # z-normalized Euclidean distance^2 = 2*m*(1 - (QT - m*mean*q_mean)/(m*std*q_std))
-    denom = m * std * q_std
-    with np.errstate(divide="ignore", invalid="ignore"):
-        corr = (qt - m * mean * q_mean) / denom
-    dist_sq = 2 * m * (1 - corr)
     dist_sq = np.clip(dist_sq, 0.0, None)
     dist = np.sqrt(dist_sq)
     dist[std < 1e-10] = np.inf  # flat windows can't match a varying query
@@ -314,21 +349,44 @@ class Match:
     fut_dates: np.ndarray = field(default=None, compare=False)   # ISO dates of the future bars
 
 
+def recency_weights(m: int, bucket: int, floor: float) -> np.ndarray | None:
+    """Per-bar weights (length m) that make the *recent* end of the window matter
+    more in the match. Bars are grouped into `bucket`-sized blocks from the end;
+    weights ramp *linearly* across blocks from 1.0 (most recent block) down to
+    `floor` (oldest block), so the tail on display is weighted up without the
+    recent bars swamping everything.
+
+    With the default 5-bar buckets and floor 0.5 on a 30-bar window (6 blocks),
+    the blocks carry weights 1.0, 0.9, 0.8, 0.7, 0.6, 0.5 from recent to old.
+    Returns None (→ unweighted) when the weighting is a no-op (floor >= 1)."""
+    if floor >= 1.0:
+        return None
+    idx_from_end = np.arange(m)[::-1]           # 0 for the last bar, m-1 for the first
+    block = idx_from_end // max(1, bucket)      # 0 = most-recent block, higher = older
+    n_blocks = int(block.max())                 # oldest block index
+    if n_blocks == 0:                           # single block → uniform
+        return None
+    return 1.0 - (1.0 - floor) * (block.astype(float) / n_blocks)
+
+
 def combined_profile(
     q_close: np.ndarray,
     q_volume: np.ndarray,
     close: np.ndarray,
     volume: np.ndarray,
     price_weight: float,
+    weights: np.ndarray | None = None,
 ) -> np.ndarray | None:
-    """Weighted price+volume distance profile for one series, or None if too short."""
+    """Weighted price+volume distance profile for one series, or None if too short.
+
+    `weights` is an optional per-bar recency weighting applied to both channels."""
     m = len(q_close)
     if len(close) < m:
         return None
-    d_price = mass(q_close, close)
+    d_price = mass(q_close, close, weights)
     if d_price.size == 0:
         return None
-    d_vol = mass(q_volume, volume)
+    d_vol = mass(q_volume, volume, weights)
     return price_weight * d_price + (1.0 - price_weight) * d_vol
 
 
@@ -351,6 +409,11 @@ def search(query: Series, args) -> tuple[list[Match], dict]:
     # rest of the window). Disable with --any-dow.
     query_dow = date.fromisoformat(query.dates[-1]).weekday() if args.match_dow else None
 
+    # Per-bar recency weighting: the recent (on-display) end of the window is
+    # weighted up so the tail must match tightly while older bars only need the
+    # broad shape. None → uniform weighting (plain MASS).
+    weights = recency_weights(m, args.recency_bucket, args.recency_ramp)
+
     start = time.monotonic()
     scanned = 0
     matched = 0
@@ -358,7 +421,7 @@ def search(query: Series, args) -> tuple[list[Match], dict]:
 
     for ticker, dates, close, volume in iter_universe(segments, markets):
         scanned += 1
-        profile = combined_profile(q_close, q_volume, close, volume, args.price_weight)
+        profile = combined_profile(q_close, q_volume, close, volume, args.price_weight, weights)
         if profile is None:
             continue
 
@@ -436,6 +499,7 @@ def search(query: Series, args) -> tuple[list[Match], dict]:
 _CACHE_KEY_ARGS = (
     "ticker", "query_len", "forward", "top_k", "price_weight",
     "segments", "markets", "min_distance", "budget_secs", "match_dow",
+    "recency_bucket", "recency_ramp",
 )
 
 
@@ -708,6 +772,13 @@ def main() -> None:
     p.add_argument("--any-dow", dest="match_dow", action="store_false",
                    help="Allow any day-of-week (default: candidate's bar 0 must be the "
                         "query's weekday)")
+    p.add_argument("--recency-bucket", type=int, default=5,
+                   help="Bar-block size for recency weighting; bars are grouped into "
+                        "blocks of this size from the window end (default 5)")
+    p.add_argument("--recency-ramp", dest="recency_ramp", type=float, default=0.5,
+                   help="Weight floor for the oldest block, 0..1: weights ramp linearly "
+                        "from 1.0 (most recent block) down to this for the oldest. "
+                        "1.0 = uniform (older bars matter as much as recent). Default 0.5.")
     p.add_argument("--refresh", action="store_true",
                    help="Ignore the 1h cache and recompute the search from scratch")
     args = p.parse_args()
@@ -715,6 +786,10 @@ def main() -> None:
     args.ticker = args.ticker.upper()
     if not (0.0 <= args.price_weight <= 1.0):
         raise SystemExit("--price-weight must be between 0 and 1")
+    if not (0.0 < args.recency_ramp <= 1.0):
+        raise SystemExit("--recency-ramp must be in (0, 1]")
+    if args.recency_bucket < 1:
+        raise SystemExit("--recency-bucket must be >= 1")
     if not archives():
         raise SystemExit(f"No d_*_txt.zip archives found in {ARCHIVE_DIR.relative_to(REPO_ROOT)}")
 
