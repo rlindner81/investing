@@ -708,6 +708,11 @@ def _print_bar_stats(query: Series, results: list[Match], args, show_past: int, 
                 for s, m in zip(std, mean)
             ]
 
+        if actual is not None:
+            # the query's own actual bars — the reference the candidates fit to
+            st.add_row(f"[bold]{label} {query.ticker} ref[/]",
+                       *[f"[bold]{fmt(v)}[/]" for v in actual[-show_past:]],
+                       *["[dim]·[/]"] * fut_cols)
         st.add_row(f"{label} mean", *[fmt(v) for v in wmean], *[fmt(v) for v in fmean])
         st.add_row(f"{label} cv%",  *_cv(wstd, wmean),        *_cv(fstd, fmean))
         if actual is not None:
@@ -751,7 +756,7 @@ def _print_bar_stats(query: Series, results: list[Match], args, show_past: int, 
 def main() -> None:
     p = argparse.ArgumentParser(description="Find historical chart analogues of a current pattern.")
     p.add_argument("ticker", help="Repo ticker whose recent window is the query")
-    p.add_argument("--query-len", type=int, default=30, help="Query window length in bars (default 30)")
+    p.add_argument("--query-len", type=int, default=20, help="Query window length in bars (default 20)")
     p.add_argument("--forward", type=int, default=5, help="Forward-outcome horizon in bars (default 5)")
     p.add_argument("--top-k", type=int, default=30,
                    help="Matches to keep for the per-bar statistics pool (default 30)")
