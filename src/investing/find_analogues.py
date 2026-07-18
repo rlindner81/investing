@@ -598,7 +598,7 @@ def report(query: Series, results: list[Match], stats: dict, args) -> None:
         f"(px = projected price, vol = projected volume). "
         f"Column 0 is today (the latest bar); -{show_past - 1}..0 are the last shown bars of "
         f"the {args.query_len}-bar match window; +1..+{fut_cols} are the projection. "
-        f"The date after each ticker is its bar 0 (window-end / that row's 'today') — the anchor to open in your chart.[/]"
+        f"The date after each ticker is its bar 0 (window-end) — the anchor to open in your chart.[/]"
     )
 
     _print_bar_stats(query, results, args, show_past, fut_cols)
