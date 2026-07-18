@@ -619,6 +619,12 @@ def _fmt_vol(x: float) -> str:
     return f"{x:.0f}"
 
 
+def _shade_vol(cell: str) -> str:
+    # Render vol numbers dimmed — same shade as the date in each row label — so
+    # they sit visually below the (brighter) price row above them.
+    return cell if cell.startswith("[dim]") else f"[dim]{cell}[/]"
+
+
 def report(query: Series, results: list[Match], stats: dict, args) -> None:
     console.print()
     console.print(
@@ -654,9 +660,9 @@ def report(query: Series, results: list[Match], stats: dict, args) -> None:
                  fpx: np.ndarray | None, fvol: np.ndarray | None,
                  style: str = "") -> None:
         px_cells = [_fmt_px(v) for v in px[-show_past:]]
-        vol_cells = [_fmt_vol(v) for v in vol[-show_past:]]
+        vol_cells = [_shade_vol(_fmt_vol(v)) for v in vol[-show_past:]]
         fpx_cells = [_fmt_px(v) for v in (fpx[:fut_cols] if fpx is not None else [])]
-        fvol_cells = [_fmt_vol(v) for v in (fvol[:fut_cols] if fvol is not None else [])]
+        fvol_cells = [_shade_vol(_fmt_vol(v)) for v in (fvol[:fut_cols] if fvol is not None else [])]
         fpx_cells += ["[dim]·[/]"] * (fut_cols - len(fpx_cells))
         fvol_cells += ["[dim]·[/]"] * (fut_cols - len(fvol_cells))
         lbl = f"[{style}]{label}[/]" if style else label
