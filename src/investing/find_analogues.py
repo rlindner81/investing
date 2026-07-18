@@ -642,8 +642,11 @@ def report(query: Series, results: list[Match], stats: dict, args) -> None:
     # length. Rich markup has zero display width, so pad the plain text first.
     tw = max([len(m.ticker) for m in results[:n_show]] + [len(query.ticker)])
 
-    def _label(ticker: str, dist: str, date: str) -> str:
-        return f"{ticker:<{tw}}  {dist:<7}  [dim]{date}[/]"
+    def _label(ticker: str, dist: str, iso_date: str) -> str:
+        # Show bar 0's weekday alongside its date. With --match-dow it's constant
+        # (documents the alignment); with --any-dow it varies, so it's essential.
+        dow = date.fromisoformat(iso_date).strftime("%a")
+        return f"{ticker:<{tw}}  {dist:<7}  [dim]{iso_date} {dow}[/]"
 
     # Reference: the query's actual last-5 (no future). The date is bar 0 —
     # each row's "today" / window-end — the unambiguous anchor to open in a chart.
@@ -662,7 +665,7 @@ def report(query: Series, results: list[Match], stats: dict, args) -> None:
         f"(px = projected price, vol = projected volume). "
         f"Column 0 is today (the latest bar); -{show_past - 1}..0 are the last shown bars of "
         f"the {args.query_len}-bar match window; +1..+{fut_cols} are the projection. "
-        f"The date after each ticker is its bar 0 (window-end) — the anchor to open in your chart.[/]"
+        f"The date (and weekday) after each ticker is its bar 0 (window-end) — the anchor to open in your chart.[/]"
     )
 
     _print_bar_stats(query, results, args, show_past, fut_cols)
