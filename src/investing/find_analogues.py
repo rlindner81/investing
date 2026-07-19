@@ -14,7 +14,7 @@ found via MASS (Mueen's Algorithm for Similarity Search): a z-normalized
 Euclidean distance profile computed in one FFT pass per series.
 
 Scale-invariance has a blind spot: it also matches instruments that are nothing
-like the query — a delisted stub whose split-adjusted price reads \$70B/share, or
+like the query — a delisted stub whose split-adjusted price reads $70B/share, or
 a dead ticker trading 0 shares/day, has the same *shape* as a real large-cap and
 scores identically. ``--max-scale-ratio`` re-imposes the discarded scale: a
 candidate window whose price OR volume mean diverges from the query's by more
@@ -402,8 +402,8 @@ def _scale_reject(series: np.ndarray, q_mean: float, m: int, max_ratio: float) -
     the query channel's mean to be a comparable instrument.
 
     The match distance is z-normalized, so a window's price/volume *level* is
-    divided out before scoring — a dead \$70B-per-share split artifact or a
-    zero-volume stub matches a real \$244 stock's shape perfectly. This gate
+    divided out before scoring — a dead $70B-per-share split artifact or a
+    zero-volume stub matches a real $244 stock's shape perfectly. This gate
     re-introduces the discarded scale: reject any window whose mean diverges from
     the query's by more than `max_ratio`× in either direction. Applied to the
     price and volume channels independently (means only). 0/None disables.
@@ -664,6 +664,39 @@ def _fmt_vol(x: float) -> str:
     return f"{x:.0f}"
 
 
+def channel_transform(cand_win: np.ndarray, q_win: np.ndarray) -> tuple[float, float] | None:
+    """The affine map that z-denormalizes a candidate window onto the query's axis,
+    expressed as (gain, offset) so ``projected = real × gain + offset`` reproduces
+    the table cells exactly.
+
+    Derivation: the projection is ``(x − Cm)/Cs × Ks + Km`` (re-center by the
+    candidate mean/std, re-scale to the query's). Collecting terms in ``x``:
+        gain   = Ks / Cs         (query std ÷ candidate std)
+        offset = Km − Cm × gain  (in the query's units)
+    Returns None if the candidate window is flat (Cs≈0) — no reproducible map."""
+    Cm, Cs = cand_win.mean(), cand_win.std()
+    Km, Ks = q_win.mean(), q_win.std()
+    if Cs < 1e-10:
+        return None
+    gain = Ks / Cs
+    return gain, Km - Cm * gain
+
+
+def _fmt_transform(tf: tuple[float, float] | None, offset_fmt=None) -> str:
+    """Render a channel's (gain, offset) affine map as ``×g +c`` — multiply the
+    candidate's real value by the gain, then add the offset, to land on the
+    query's axis (reproduces the projected cell exactly). `offset_fmt` formats the
+    offset in the channel's units (e.g. M/K for volume); defaults to `%.3g`. The
+    gain is a unitless multiplier. Blank for the reference row (tf None). Dimmed
+    so it reads as an annotation, not data."""
+    if tf is None:
+        return ""
+    gain, offset = tf
+    sign = "+" if offset >= 0 else "−"
+    body = offset_fmt(abs(offset)) if offset_fmt else f"{abs(offset):.3g}"
+    return f"[dim]×{gain:.3g} {sign}{body}[/]"
+
+
 def _shade_vol(cell: str) -> str:
     # Render vol numbers dimmed — same shade as the date in each row label — so
     # they sit visually below the (brighter) price row above them.
@@ -703,7 +736,9 @@ def report(query: Series, results: list[Match], stats: dict, args) -> None:
 
     def add_pair(label: str, px: np.ndarray, vol: np.ndarray,
                  fpx: np.ndarray | None, fvol: np.ndarray | None,
-                 style: str = "") -> None:
+                 style: str = "",
+                 px_tf: tuple[float, float] | None = None,
+                 vol_tf: tuple[float, float] | None = None) -> None:
         px_cells = [_fmt_px(v) for v in px[-show_past:]]
         vol_cells = [_shade_vol(_fmt_vol(v)) for v in vol[-show_past:]]
         fpx_cells = [_fmt_px(v) for v in (fpx[:fut_cols] if fpx is not None else [])]
@@ -711,8 +746,11 @@ def report(query: Series, results: list[Match], stats: dict, args) -> None:
         fpx_cells += ["[dim]·[/]"] * (fut_cols - len(fpx_cells))
         fvol_cells += ["[dim]·[/]"] * (fut_cols - len(fvol_cells))
         lbl = f"[{style}]{label}[/]" if style else label
-        table.add_row(lbl, "px", *px_cells, *fpx_cells)
-        table.add_row("", "vol", *vol_cells, *fvol_cells)
+        # Channel-label column carries the affine map (×gain +offset) that takes
+        # this row's REAL price/volume onto the query's axis — reproduces the
+        # projected cells exactly: projected = real × gain + offset.
+        table.add_row(lbl, f"px {_fmt_transform(px_tf)}", *px_cells, *fpx_cells)
+        table.add_row("", f"vol {_fmt_transform(vol_tf, offset_fmt=_fmt_vol)}", *vol_cells, *fvol_cells)
 
     # Fixed-width label so the d= and date columns line up regardless of ticker
     # length. Rich markup has zero display width, so pad the plain text first.
@@ -732,8 +770,13 @@ def report(query: Series, results: list[Match], stats: dict, args) -> None:
 
     for mtch in results[:n_show]:
         win_px, win_vol, fut_px, fut_vol = _proj(mtch, query)
+        # Affine map (×gain +offset) taking the candidate's REAL price/volume onto
+        # the query's axis — the exact transform behind the projected cells.
+        px_tf = channel_transform(mtch.win_close, query.close)
+        vol_tf = channel_transform(mtch.win_volume, query.volume)
         add_pair(_label(mtch.ticker, f"d={mtch.score:.2f}", mtch.end_date),
-                 win_px, win_vol, fut_px, fut_vol)
+                 win_px, win_vol, fut_px, fut_vol,
+                 px_tf=px_tf, vol_tf=vol_tf)
 
     console.print(table)
     console.print(
@@ -741,7 +784,10 @@ def report(query: Series, results: list[Match], stats: dict, args) -> None:
         f"(px = projected price, vol = projected volume). "
         f"Column 0 is today (the latest bar); -{show_past - 1}..0 are the last shown bars of "
         f"the {args.query_len}-bar match window; +1..+{fut_cols} are the projection. "
-        f"The date (and weekday) after each ticker is its bar 0 (window-end) — the anchor to open in your chart.[/]"
+        f"The date (and weekday) after each ticker is its bar 0 (window-end) — the anchor to open in your chart. "
+        f"The ×g +c next to px and vol is the affine map from the candidate's REAL value onto "
+        f"{query.ticker}'s axis: real × gain + offset = the projected cell (offset in {query.ticker}'s units). "
+        f"E.g. a candidate real price P shows here as P×g+c. --max-scale-ratio bounds the level difference.[/]"
     )
 
     _print_bar_stats(query, results, args, show_past, fut_cols)
