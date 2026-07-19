@@ -13,6 +13,15 @@ distances combined with a weight (``--price-weight``). The current pattern is
 found via MASS (Mueen's Algorithm for Similarity Search): a z-normalized
 Euclidean distance profile computed in one FFT pass per series.
 
+Scale-invariance has a blind spot: it also matches instruments that are nothing
+like the query — a delisted stub whose split-adjusted price reads \$70B/share, or
+a dead ticker trading 0 shares/day, has the same *shape* as a real large-cap and
+scores identically. ``--max-scale-ratio`` re-imposes the discarded scale: a
+candidate window whose price OR volume mean diverges from the query's by more
+than that factor (either direction) is rejected. This keeps legitimately
+different-priced but liquid analogues while dropping the phantom split-artifacts
+and zero-volume husks.
+
 The search is *anytime*: it streams tickers out of the zips (never unpacking
 them), keeps a bounded top-k of the best matches so far with early-abandoning,
 and stops when a wall-clock ``--budget-secs`` is hit — returning the best matches
@@ -388,6 +397,29 @@ def recency_weights(m: int, bucket: int, floor: float) -> np.ndarray | None:
     return 1.0 - (1.0 - floor) * (block.astype(float) / n_blocks)
 
 
+def _scale_reject(series: np.ndarray, q_mean: float, m: int, max_ratio: float) -> np.ndarray:
+    """Boolean mask (length len(series)-m+1) of windows whose mean is too far from
+    the query channel's mean to be a comparable instrument.
+
+    The match distance is z-normalized, so a window's price/volume *level* is
+    divided out before scoring — a dead \$70B-per-share split artifact or a
+    zero-volume stub matches a real \$244 stock's shape perfectly. This gate
+    re-introduces the discarded scale: reject any window whose mean diverges from
+    the query's by more than `max_ratio`× in either direction. Applied to the
+    price and volume channels independently (means only). 0/None disables.
+
+    Zero/near-zero means (dead-volume stubs) yield a ratio of 0 or inf and are
+    rejected; a zero query mean disables the gate for that channel (no scale to
+    compare against)."""
+    if not max_ratio or max_ratio <= 0 or q_mean == 0:
+        return np.zeros(len(series) - m + 1, dtype=bool)
+    mean, _ = _sliding_mean_std(series, m)
+    with np.errstate(divide="ignore", invalid="ignore"):
+        ratio = np.abs(mean) / abs(q_mean)
+    # Reject outside [1/max_ratio, max_ratio]; NaN (0/0) also rejected.
+    return ~((ratio >= 1.0 / max_ratio) & (ratio <= max_ratio))
+
+
 def combined_profile(
     q_close: np.ndarray,
     q_volume: np.ndarray,
@@ -396,6 +428,7 @@ def combined_profile(
     price_weight: float,
     weights: np.ndarray | None = None,
     min_cv: float = 0.0,
+    max_scale_ratio: float = 0.0,
 ) -> np.ndarray | None:
     """Weighted price+volume distance profile for one series, or None if too short.
 
@@ -403,7 +436,13 @@ def combined_profile(
     `min_cv` drops near-flat, low-information windows (see `mass`); it is applied
     to the *price* channel — a barely-moving price is uninformative — and, since
     an inf in either channel already sinks the combined score, that alone kicks
-    the window out. Volume is left unfiltered (it's naturally spiky)."""
+    the window out. Volume is left unfiltered (it's naturally spiky).
+
+    `max_scale_ratio` gates on raw scale: a window whose price OR volume mean
+    diverges from the query's by more than this factor (either direction) is set
+    to +inf. Kills z-normalization's blind spot — split-adjusted phantom prices
+    and dead-volume stubs whose *shape* matches but whose scale is nonsensical.
+    0 disables (see `_scale_reject`)."""
     m = len(q_close)
     if len(close) < m:
         return None
@@ -411,7 +450,12 @@ def combined_profile(
     if d_price.size == 0:
         return None
     d_vol = mass(q_volume, volume, weights)
-    return price_weight * d_price + (1.0 - price_weight) * d_vol
+    combined = price_weight * d_price + (1.0 - price_weight) * d_vol
+    if max_scale_ratio:
+        reject = (_scale_reject(close, q_close.mean(), m, max_scale_ratio)
+                  | _scale_reject(volume, q_volume.mean(), m, max_scale_ratio))
+        combined[reject] = np.inf
+    return combined
 
 
 def search(query: Series, args) -> tuple[list[Match], dict]:
@@ -446,7 +490,8 @@ def search(query: Series, args) -> tuple[list[Match], dict]:
     for ticker, dates, close, volume in iter_universe(segments, markets):
         scanned += 1
         profile = combined_profile(q_close, q_volume, close, volume, args.price_weight,
-                                    weights, min_cv=args.min_cv)
+                                    weights, min_cv=args.min_cv,
+                                    max_scale_ratio=args.max_scale_ratio)
         if profile is None:
             continue
 
@@ -524,7 +569,7 @@ def search(query: Series, args) -> tuple[list[Match], dict]:
 _CACHE_KEY_ARGS = (
     "ticker", "query_len", "forward", "top_k", "price_weight",
     "segments", "markets", "min_distance", "budget_secs", "match_dow",
-    "recency_bucket", "recency_ramp", "min_cv",
+    "recency_bucket", "recency_ramp", "min_cv", "max_scale_ratio",
 )
 
 
@@ -822,6 +867,12 @@ def main() -> None:
                    help="Weight floor for the oldest block, 0..1: weights ramp linearly "
                         "from 1.0 (most recent block) down to this for the oldest. "
                         "1.0 = uniform (older bars matter as much as recent). Default 0.5.")
+    p.add_argument("--max-scale-ratio", type=float, default=100.0,
+                   help="Reject a candidate window whose price OR volume mean diverges "
+                        "from the query's by more than this factor (either direction). "
+                        "The match is scale-invariant (z-normalized), so this re-imposes "
+                        "a scale bound to drop split-adjusted phantom prices and "
+                        "dead-volume stubs. 0 disables (default 100).")
     p.add_argument("--refresh", action="store_true",
                    help="Ignore the 1h cache and recompute the search from scratch")
     args = p.parse_args()
@@ -835,6 +886,10 @@ def main() -> None:
         raise SystemExit("--recency-bucket must be >= 1")
     if args.min_cv < 0:
         raise SystemExit("--min-cv must be >= 0")
+    if args.max_scale_ratio < 0:
+        raise SystemExit("--max-scale-ratio must be >= 0 (0 disables)")
+    if 0 < args.max_scale_ratio < 1:
+        raise SystemExit("--max-scale-ratio must be >= 1 (it is a fold-divergence, applied both ways)")
     if not archives():
         raise SystemExit(f"No d_*_txt.zip archives found in {ARCHIVE_DIR.relative_to(REPO_ROOT)}")
 
