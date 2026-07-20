@@ -160,7 +160,7 @@ quarters:
     report_date: 2026-06-02     # check-valuation's price reference — the close that day
     announce_date: 2026-06-01   # actual SEC 8-K (item 2.02) acceptance date; optional but
     announce_session: after-close  #   preferred. Session: pre-open | after-close (from the ET
-                                #   timestamp). Used by check-reactions to place the reaction bar.
+                                #   timestamp). Used by check-reaction to place the reaction bar.
     revenue: 197940             # standalone quarter, from the income statement
     shares_outstanding: 56657   # point-in-time total (all classes) at quarter end, from the
                                 # balance sheet / cover page — NOT the weighted average
@@ -191,7 +191,7 @@ Conventions and derivations the tool relies on:
   announcement day, sometimes a session or two later). `announce_date` is the
   precise SEC filing acceptance date and `announce_session` (`pre-open` /
   `intraday` / `after-close`) says which side of the 09:30–16:00 ET session it
-  landed on; together they let check-reactions place the reaction bar exactly.
+  landed on; together they let check-reaction place the reaction bar exactly.
   Fill both by hand from the SEC filing that carries the earnings — read the
   acceptance timestamp off the SEC submissions feed
   (`https://data.sec.gov/submissions/CIK<10-digit-cik>.json`, using `_meta.cik`
@@ -249,7 +249,7 @@ for the full year reproduces the company's own reported FCF figure.
 
 ## Earnings Reactions
 
-`check-reactions` shows how each past earnings was received by the market: for one
+`check-reaction` shows how each past earnings was received by the market: for one
 ticker it walks the reported quarters (dates from `<TICKER>/FINANCIALS.yml`) and
 prints the price and volume around each announcement from
 `prices/daily/<TICKER>.csv` (see `fetch-prices`). Both files are required; a
@@ -259,9 +259,9 @@ ticker is required. It anchors on each quarter's `announce_date` +
 hard error telling you to add the fields by hand from the SEC filing.
 
 ```bash
-uv run check-reactions NFLX                       # last 10 earnings, -4..+5 days
-uv run check-reactions ODD --before 2 --after 3   # tighter window
-uv run check-reactions NFLX --show 5              # fewer rows
+uv run check-reaction NFLX                       # last 10 earnings, -4..+5 days
+uv run check-reaction ODD --before 2 --after 3   # tighter window
+uv run check-reaction NFLX --show 5              # fewer rows
 ```
 
 ### Output layout

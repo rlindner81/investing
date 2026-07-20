@@ -108,7 +108,7 @@ Per quarter, fill from the filings:
 - **`ytd_operating_cf`, `ytd_capex_ppe`**, any other `ytd_capex_*`, **`ytd_sbc`** —
   as reported year-to-date; the tool differences consecutive quarters itself.
 - **`cash`, `total_debt`** — balance-sheet snapshot (optional but include when present).
-- **`announce_date`, `announce_session`** — required for `check-reactions`; insert both
+- **`announce_date`, `announce_session`** — required for `check-reaction`; insert both
   right after `report_date` in each quarter's block. Derive them from the SEC filing
   that carried the earnings, using the acceptance timestamps from the submissions feed
   (you already fetch this feed's data in Step 1/2 via `_meta.cik`):
@@ -195,7 +195,7 @@ Confirm the pipeline produces a clean valuation table:
 ```bash
 uv run fetch-prices $ARGUMENTS
 COLUMNS=300 uv run check-valuation $ARGUMENTS
-uv run check-reactions $ARGUMENTS --show 3
+uv run check-reaction $ARGUMENTS --show 3
 ```
 
 Check that:
@@ -205,7 +205,7 @@ Check that:
 - **FCF reconciles**: for each full fiscal year, `ytd_operating_cf − ytd_capex_ppe`
   reproduces the company's own reported free cash flow (per the CLAUDE.md sanity check).
 - Currency, split, and share-count assumptions look right versus the live price.
-- `check-reactions` runs without error — this proves every quarter's `announce_date` +
+- `check-reaction` runs without error — this proves every quarter's `announce_date` +
   `announce_session` (Step 3) is valid; it hard-errors on any that are missing.
 
 Fix any transcription errors and re-run until the table is coherent. Then report to the

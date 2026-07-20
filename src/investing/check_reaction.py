@@ -1,4 +1,4 @@
-"""check-reactions — how each past earnings was received in the market.
+"""check-reaction — how each past earnings was received in the market.
 
 For one ticker, walk its reported quarters (from ``<TICKER>/FINANCIALS.yml``) and
 show, per quarter, the price and volume around the announcement date: a few bars
@@ -16,8 +16,8 @@ Requires ``<TICKER>/FINANCIALS.yml`` (for the report dates) and
 ``prices/daily/<TICKER>.csv`` (see fetch-prices). Prices are z-agnostic here — no
 projection or matching; each row shows the ticker's own raw prices/volumes.
 
-    uv run check-reactions NFLX
-    uv run check-reactions NFLX --before 4 --after 5 --show 10
+    uv run check-reaction NFLX
+    uv run check-reaction NFLX --before 4 --after 5 --show 10
 """
 
 from __future__ import annotations
@@ -126,7 +126,7 @@ def load_quarters(ticker: str) -> list[Quarter]:
         raise SystemExit(
             f"{ticker}: missing/invalid announce_date + announce_session for "
             f"{', '.join(missing)}. Add the fields by hand from the SEC filing's "
-            f"item-2.02 acceptance timestamp; check-reactions does not guess."
+            f"item-2.02 acceptance timestamp; check-reaction does not guess."
         )
     out.sort(key=lambda x: x.anchor)
     return out
@@ -312,7 +312,7 @@ def report(ticker: str, prices: Prices, quarters: list[Quarter], args) -> None:
 
 def parse_args(argv=None) -> argparse.Namespace:
     p = argparse.ArgumentParser(
-        prog="check-reactions",
+        prog="check-reaction",
         description="Show how each past earnings was received (price + volume "
                     "around the report date).",
     )

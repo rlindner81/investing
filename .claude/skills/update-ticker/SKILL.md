@@ -103,7 +103,7 @@ numbers. Per quarter fill, as onboarding does:
 - **`ytd_operating_cf`, `ytd_capex_ppe`**, any other `ytd_capex_*`, **`ytd_sbc`** — as
   reported year-to-date.
 - **`cash`, `total_debt`** — balance-sheet snapshot when present.
-- **`announce_date`, `announce_session`** — required for `check-reactions`, which does
+- **`announce_date`, `announce_session`** — required for `check-reaction`, which does
   not guess; insert both right after `report_date` in the new quarter's block. Fill
   them by hand from the authoritative SEC acceptance timestamp of the earnings filing —
   you already have the accession from Step 2's `letter` block (or the `report` 8-K).
@@ -148,7 +148,7 @@ quirk (a split, a new capex line, a currency change).
 ```bash
 uv run fetch-prices $ARGUMENTS
 COLUMNS=300 uv run check-valuation $ARGUMENTS
-uv run check-reactions $ARGUMENTS --show 3
+uv run check-reaction $ARGUMENTS --show 3
 ```
 
 Check that:
@@ -157,7 +157,7 @@ Check that:
   P/S, and P/FCF (no unexpected blanks), and their guidance / forward-P/S rows populate.
 - **FCF reconciles** for any newly completed fiscal year: `ytd_operating_cf −
   ytd_capex_ppe` reproduces the company's reported free cash flow.
-- `check-reactions` runs without error (proves the announce fields are valid) and the
+- `check-reaction` runs without error (proves the announce fields are valid) and the
   new quarter's reaction reads sensibly.
 
 Fix transcription errors and re-run until coherent.
