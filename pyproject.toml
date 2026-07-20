@@ -18,6 +18,7 @@ check-prices = "investing.check_prices:main"
 check-valuation = "investing.check_valuation:main"
 check-reaction = "investing.check_reaction:main"
 check-shape = "investing.check_shape:main"
+check-flow = "investing.check_flow:main"
 
 [build-system]
 requires = ["hatchling"]
