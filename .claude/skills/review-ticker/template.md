@@ -12,7 +12,7 @@ price: {{PRICE}}
 
 {{VALUATION_SUMMARY}}
 
-**Rating:** {{VALUATION_RATING}}
+**Rating:** {{VALUATION_RATING}} — {{VALUATION_RATING_WORD}}
 
 ---
 
@@ -24,7 +24,7 @@ price: {{PRICE}}
 
 {{PRICES_SUMMARY}}
 
-**Rating:** {{PRICES_RATING}}
+**Rating:** {{PRICES_RATING}} — {{PRICES_RATING_WORD}}
 
 ---
 
@@ -32,7 +32,7 @@ price: {{PRICE}}
 
 {{NEWS}}
 
-**Rating:** {{NEWS_RATING}}
+**Rating:** {{NEWS_RATING}} — {{NEWS_RATING_WORD}}
 
 ---
 
@@ -40,4 +40,4 @@ price: {{PRICE}}
 
 {{VERDICT}}
 
-**Rating:** {{TOTAL_RATING}}
+**Rating:** {{TOTAL_RATING}} — {{TOTAL_RATING_WORD}}
