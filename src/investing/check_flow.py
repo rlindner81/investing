@@ -28,7 +28,7 @@ import csv
 import io
 from contextlib import redirect_stdout
 from dataclasses import dataclass
-from datetime import date, datetime
+from datetime import date, datetime, time
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
@@ -42,6 +42,7 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 HOURLY_DIR = REPO_ROOT / "prices" / "hourly"
 DAILY_DIR = REPO_ROOT / "prices" / "daily"
 ET = ZoneInfo("America/New_York")
+LOCAL = datetime.now().astimezone().tzinfo      # the machine's local timezone
 console = Console()
 
 # Weekday columns for the daily grid (Mon–Fri). Holidays leave gaps (NaN).
@@ -49,9 +50,23 @@ WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri"]
 
 # The seven regular-session bar starts in ET. 09:30 and 15:30 are 30-minute
 # stubs (open auction hour and the last half hour into the 16:00 close); the
-# middle five are full hours. Fixed year-round because we bucket in ET, so the
-# columns line up across DST.
+# middle five are full hours. Bucketing is ALWAYS done in ET (fixed year-round,
+# so the columns line up across US DST); only the display labels are localized.
 SESSION_HOURS = ["09:30", "10:30", "11:30", "12:30", "13:30", "14:30", "15:30"]
+
+
+def session_labels(sample_day: date) -> list[str]:
+    """The ET session hours rendered as HH:MM in the machine's local timezone,
+    for column headers. `sample_day` anchors the conversion so the local clock
+    reflects the DST offset in effect then (ET↔local offset varies a few weeks a
+    year when the two zones' DST transitions don't align). Bucketing is unchanged
+    — this only relabels the columns."""
+    out = []
+    for hh in SESSION_HOURS:
+        h, m = (int(x) for x in hh.split(":"))
+        et_dt = datetime.combine(sample_day, time(h, m), tzinfo=ET)
+        out.append(et_dt.astimezone(LOCAL).strftime("%H:%M"))
+    return out
 
 
 # ---------------------------------------------------------------------------
@@ -260,10 +275,15 @@ def report_hourly(ticker: str, grid: HourGrid, n_days: int) -> None:
     # instead of a meaningless 100%.
     dod, fill, baseline = flow_metrics(volume)
 
+    # Column headers are the ET session hours converted to local time, anchored
+    # on the newest displayed day so the DST offset is current.
+    tz_name = datetime.now(LOCAL).strftime("%Z")
+    labels = session_labels(days[-1])
+
     console.print()
     console.print(
         f"[bold]{ticker}[/] — hourly volume flow "
-        f"(newest {min(n_days, n)} of {n} days; ET session hours)"
+        f"(newest {min(n_days, n)} of {n} days; US session, {tz_name} times)"
     )
     console.print(
         "[dim]per cell: volume · Δ day-over-day (same hour) · fill % vs 5-day "
@@ -273,7 +293,7 @@ def report_hourly(ticker: str, grid: HourGrid, n_days: int) -> None:
     table = Table(show_header=True, header_style="bold")
     table.add_column("day", justify="left", no_wrap=True)
     table.add_column("", justify="left")
-    for h in SESSION_HOURS:
+    for h in labels:
         table.add_column(h, justify="right")
 
     order = list(range(n - 1, -1, -1))[:n_days]     # newest first
