@@ -108,6 +108,34 @@ Per quarter, fill from the filings:
 - **`ytd_operating_cf`, `ytd_capex_ppe`**, any other `ytd_capex_*`, **`ytd_sbc`** —
   as reported year-to-date; the tool differences consecutive quarters itself.
 - **`cash`, `total_debt`** — balance-sheet snapshot (optional but include when present).
+- **`announce_date`, `announce_session`** — required for `check-reactions`; insert both
+  right after `report_date` in each quarter's block. Derive them from the SEC filing
+  that carried the earnings, using the acceptance timestamps from the submissions feed
+  (you already fetch this feed's data in Step 1/2 via `_meta.cik`):
+
+  ```bash
+  uv run python -c "
+  import json, urllib.request
+  cik = '<10-digit cik>'
+  req = urllib.request.Request(
+      f'https://data.sec.gov/submissions/CIK{cik}.json',
+      headers={'User-Agent': 'research example@example.com'})
+  r = json.load(urllib.request.urlopen(req))['filings']['recent']
+  for form, acc, adt, items in zip(r['form'], r['accessionNumber'],
+                                   r['acceptanceDateTime'], r['items']):
+      if form in ('8-K', '6-K', '20-F'):
+          print(adt, form, items)
+  "
+  ```
+
+  For each quarter, match the earnings filing in three tiers: the **item-2.02 8-K**
+  nearest that quarter's `report_date` (±6 days), else an **item-7.01/8.01 8-K** on the
+  exact date, else the nearest **6-K/20-F** within ±3 days (foreign filers). Then set
+  `announce_date` = that filing's acceptance **date**, and `announce_session` from its
+  acceptance **time in ET** (feed timestamps are UTC): before 09:30 → `pre-open`,
+  09:30–16:00 → `intraday`, after 16:00 → `after-close`. The submissions feed's
+  `recent` array may not reach back to q1-2023; page into the older
+  `filings.files[*].name` shards from the same JSON for the earliest quarters.
 - **Revenue guidance** issued *at that report* (from the Step-2 letter):
   `guidance_nq_revenue_low/high` for next-quarter, `guidance_fy_revenue_low/high` for
   full-year. When a company guides only next-quarter (like SNAP), leave the FY rows
@@ -167,6 +195,7 @@ Confirm the pipeline produces a clean valuation table:
 ```bash
 uv run fetch-prices $ARGUMENTS
 COLUMNS=300 uv run check-valuation $ARGUMENTS
+uv run check-reactions $ARGUMENTS --show 3
 ```
 
 Check that:
@@ -176,6 +205,8 @@ Check that:
 - **FCF reconciles**: for each full fiscal year, `ytd_operating_cf − ytd_capex_ppe`
   reproduces the company's own reported free cash flow (per the CLAUDE.md sanity check).
 - Currency, split, and share-count assumptions look right versus the live price.
+- `check-reactions` runs without error — this proves every quarter's `announce_date` +
+  `announce_session` (Step 3) is valid; it hard-errors on any that are missing.
 
 Fix any transcription errors and re-run until the table is coherent. Then report to the
 user: the directory created, the quarters covered, the TICKERS.yml entry (tags +

@@ -98,3 +98,10 @@ _meta:
   report_type: 10-K
   letter: https://www.sec.gov/Archives/edgar/data/1065280/000106528023000034/ex991_q422.htm
   letter_type: 8-K
+'2026-07-17':
+  quarter: q2-2026
+  period_end: '2026-06-30'
+  report: https://www.sec.gov/Archives/edgar/data/1065280/000106528026000212/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1065280/000106528026000211/ex991_q226.htm
+  letter_type: 8-K

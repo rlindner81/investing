@@ -239,3 +239,20 @@ quarters:
     guidance_nq_revenue_high: 12574000
     guidance_fy_revenue_low: 50700000   # FY2026 (reaffirmed)
     guidance_fy_revenue_high: 51700000
+
+  - id: q2-2026
+    end_date: 2026-06-30
+    report_date: 2026-07-17
+    announce_date: 2026-07-16
+    announce_session: after-close
+    revenue: 12559938
+    shares_outstanding: 4163940      # 4,163,939,676 issued and outstanding
+    ytd_operating_cf: 7034017
+    ytd_capex_ppe: 414774
+    ytd_sbc: 271717
+    cash: 9099232
+    total_debt: 14309306             # ST 2,483,758 + LT 11,825,548
+    guidance_nq_revenue_low: 12860000   # Q3'26
+    guidance_nq_revenue_high: 12860000
+    guidance_fy_revenue_low: 51000000   # FY2026 (narrowed to $51.0–51.4B)
+    guidance_fy_revenue_high: 51400000
