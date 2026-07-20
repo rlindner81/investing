@@ -16,7 +16,7 @@ Two cues sharpen the read. Volume carries a **candle-direction triangle** — �
 when the bar closed up (close ≥ open), ▼ when down — the closest proxy to
 buy/sell pressure available from plain OHLCV (real up/down volume needs tick
 data we don't have). And the **still-forming bar** (the last printed hour today,
-or today's daily bar) has its Δ/fill dimmed and suffixed `~`, so an in-progress
+or today's daily bar) has its Δ/fill wrapped in [brackets], so an in-progress
 low total doesn't misread as a real drop.
 
 Hourly bars come from ``prices/hourly/<TICKER>.csv`` (UTC, see fetch-prices).
@@ -234,8 +234,8 @@ def _last_present(row: np.ndarray) -> int:
     return int(present[-1]) if present.size else -1
 
 
-def flow_metrics(volume: np.ndarray, baseline_n: int = 5):
-    """Period-over-period change and cumulative fill vs a median full period.
+def flow_metrics(volume: np.ndarray, baseline_n: int = 8):
+    """Period-over-period change and cumulative fill vs an average full period.
 
     `volume` is [n_rows, n_cols], rows ascending (oldest first); a row is a day
     (columns = hours) or a week (columns = weekdays).
@@ -245,7 +245,7 @@ def flow_metrics(volume: np.ndarray, baseline_n: int = 5):
     - fill[i,j] = (cumulative volume through column j in row i) / baseline —
       how full the period is by that column, measured against a normal full
       period. Meaningful even for a still-running row: it just reads partial.
-    - baseline = median total volume over the last `baseline_n` FULL rows (rows
+    - baseline = mean total volume over the last `baseline_n` FULL rows (rows
       with every column present). The current partial row has missing columns so
       it is naturally excluded from the baseline.
 
@@ -257,7 +257,7 @@ def flow_metrics(volume: np.ndarray, baseline_n: int = 5):
     full_mask = np.isfinite(volume).all(axis=1)      # rows with every column
     totals = np.nansum(volume, axis=1)
     full_totals = totals[full_mask]
-    baseline = (float(np.median(full_totals[-baseline_n:]))
+    baseline = (float(np.mean(full_totals[-baseline_n:]))
                 if full_totals.size else np.nan)
 
     cum = np.nancumsum(volume, axis=1)
@@ -303,21 +303,20 @@ def _fmt_vol(x: float, sign: float = float("nan")) -> str:
 
 def _fmt_rel(x: float, partial: bool = False) -> str:
     """Period-over-period volume change as a signed % (green more / red less).
-    `partial` tags a change against a still-running period with a trailing ~;
+    `partial` wraps a change against a still-running period in [brackets];
     the colour is kept full so it doesn't read as a different signal."""
     if not np.isfinite(x):
         return "[dim]·[/]"
-    tail = "~" if partial else ""
+    body = f"[{x:+.0%}]" if partial else f"{x:+.0%}"
     color = "green" if x > 0 else "red" if x < 0 else "dim"
-    return f"[{color}]{x:+.0%}{tail}[/]"
+    return f"[{color}]{body}[/]"
 
 
 def _fmt_share(x: float, partial: bool = False) -> str:
     if not np.isfinite(x):
         return "[dim]·[/]"
-    tail = "~" if partial else ""
-    style = "dim italic" if partial else "dim"
-    return f"[{style}]{x:.0%}{tail}[/]"
+    body = f"[{x:.0%}]" if partial else f"{x:.0%}"
+    return f"[dim]{body}[/]"
 
 
 # ---------------------------------------------------------------------------
@@ -329,9 +328,9 @@ def report_hourly(ticker: str, grid: HourGrid, n_days: int) -> None:
     n = len(days)
 
     # dod = same-hour prior day; fill = cumulative volume through the hour vs the
-    # median full day (last 5 complete days), so a still-running day reads partial
-    # instead of a meaningless 100%.
-    dod, fill, baseline = flow_metrics(volume)
+    # average full day over twice the display window, so a still-running day reads
+    # partial instead of a meaningless 100%.
+    dod, fill, baseline = flow_metrics(volume, baseline_n=2 * n_days)
 
     # Column headers are the ET session hours converted to local time, anchored
     # on the newest displayed day so the DST offset is current.
@@ -346,8 +345,8 @@ def report_hourly(ticker: str, grid: HourGrid, n_days: int) -> None:
     console.print(
         "[dim]per cell: volume (▲ up candle / ▼ down) · "
         "Δ day-over-day, same hour ([green]green[/] more / [red]red[/] less) · "
-        f"fill % vs 5-day median day ({_vol_str(baseline)}) · close   "
-        "[italic]~ = period still running (provisional)[/][/]"
+        f"fill % vs {2 * n_days}-day avg day ({_vol_str(baseline)}) · close   "
+        "[italic][…] = period still running (provisional)[/][/]"
     )
 
     table = Table(show_header=True, header_style="bold")
@@ -386,9 +385,9 @@ def report_daily(ticker: str, grid: WeekGrid, n_weeks: int) -> None:
     n = len(weeks)
 
     # wow = same-weekday prior week; fill = cumulative volume through the weekday
-    # vs the median full week (last 5 complete Mon–Fri weeks), so the running week
+    # vs the average full week over twice the display window, so the running week
     # reads partial instead of 100%.
-    wow, fill, baseline = flow_metrics(volume)
+    wow, fill, baseline = flow_metrics(volume, baseline_n=2 * n_weeks)
 
     console.print()
     console.print(
@@ -398,8 +397,8 @@ def report_daily(ticker: str, grid: WeekGrid, n_weeks: int) -> None:
     console.print(
         "[dim]per cell: volume (▲ up candle / ▼ down) · "
         "Δ week-over-week, same weekday ([green]green[/] more / [red]red[/] less) · "
-        f"fill % vs 5-week median week ({_vol_str(baseline)}) · close   "
-        "[italic]~ = period still running (provisional)[/][/]"
+        f"fill % vs {2 * n_weeks}-week avg week ({_vol_str(baseline)}) · close   "
+        "[italic][…] = period still running (provisional)[/][/]"
     )
 
     table = Table(show_header=True, header_style="bold")
