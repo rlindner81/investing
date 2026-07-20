@@ -98,9 +98,11 @@ def load_quarters(ticker: str) -> list[Quarter]:
     announcement) and `announce_session` (`pre-open` / `intraday` / `after-close`)
     fixes the reaction bar exactly. Both are REQUIRED for any quarter that reported to the
     market: a quarter that has a `report_date` (or `announce_date`) but lacks a
-    valid announce pair is a hard error — run `backfill-announcements <TICKER>`.
-    Only pure reach-back quarters with no dates at all (pre-IPO diff bases) are
-    skipped, since they never had a reaction to show."""
+    valid announce pair is a hard error — fill the fields by hand from the SEC
+    filing (the 8-K/6-K item-2.02 acceptance timestamp: date → `announce_date`,
+    ET time vs. the 09:30–16:00 session → `announce_session`). Only pure
+    reach-back quarters with no dates at all (pre-IPO diff bases) are skipped,
+    since they never had a reaction to show."""
     path = REPO_ROOT / ticker / "FINANCIALS.yml"
     if not path.exists():
         raise SystemExit(
@@ -123,8 +125,8 @@ def load_quarters(ticker: str) -> list[Quarter]:
     if missing:
         raise SystemExit(
             f"{ticker}: missing/invalid announce_date + announce_session for "
-            f"{', '.join(missing)}. Run `uv run backfill-announcements {ticker}` "
-            f"(or add the fields by hand); check-reactions does not guess."
+            f"{', '.join(missing)}. Add the fields by hand from the SEC filing's "
+            f"item-2.02 acceptance timestamp; check-reactions does not guess."
         )
     out.sort(key=lambda x: x.anchor)
     return out

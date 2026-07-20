@@ -190,17 +190,19 @@ Conventions and derivations the tool relies on:
   for check-valuation and has historically been entered loosely (sometimes the
   announcement day, sometimes a session or two later). `announce_date` is the
   precise SEC filing acceptance date and `announce_session` (`pre-open` /
-  `after-close`) says which side of the 09:30–16:00 ET session it landed on;
-  together they let check-reactions place the reaction bar exactly. Every ticker's
-  quarters have been backfilled once via `uv run backfill-announcements <TICKER>`
-  — it reads `_meta.cik` from SOURCES.yml, hits the SEC submissions feed, and
-  inserts the two keys after each `report_date` line without disturbing comments.
-  It matches the earnings filing in three tiers: item-2.02 8-K (±6 days), then an
-  item-7.01/8.01 8-K on the exact date (some issuers furnish earnings there), then
-  the nearest 6-K/20-F within ±3 days (foreign filers, which carry no item
-  taxonomy); off-date / 6-K / intraday picks are flagged for review. Going forward,
-  add these fields by hand alongside `report_date`, or re-run the script for a new
-  ticker.
+  `intraday` / `after-close`) says which side of the 09:30–16:00 ET session it
+  landed on; together they let check-reactions place the reaction bar exactly.
+  Fill both by hand from the SEC filing that carries the earnings — read the
+  acceptance timestamp off the SEC submissions feed
+  (`https://data.sec.gov/submissions/CIK<10-digit-cik>.json`, using `_meta.cik`
+  from SOURCES.yml) or the filing index page. Identify that filing in three tiers:
+  the item-2.02 8-K nearest `report_date` (±6 days), else an item-7.01/8.01 8-K on
+  the exact date (some issuers furnish earnings there), else the nearest 6-K/20-F
+  within ±3 days (foreign filers, which carry no item taxonomy). `announce_date`
+  is that filing's acceptance date; `announce_session` comes from its acceptance
+  time converted to ET — before 09:30 → `pre-open`, 09:30–16:00 → `intraday`,
+  after 16:00 → `after-close`. Eyeball any off-date / 6-K / intraday pick against
+  the actual filing.
 - **Standalone vs. YTD.** Revenue is entered standalone (the income statement
   always has a quarterly column). Cash-flow lines are entered exactly as the
   filing reports them — year-to-date — and the tool differences consecutive
@@ -251,10 +253,10 @@ for the full year reproduces the company's own reported FCF figure.
 ticker it walks the reported quarters (dates from `<TICKER>/FINANCIALS.yml`) and
 prints the price and volume around each announcement from
 `prices/daily/<TICKER>.csv` (see `fetch-prices`). Both files are required; a
-ticker is required. It anchors on `announce_date` + `announce_session` (backfilled
-for every ticker via `backfill-announcements`) and does **not** guess: any quarter
-that reported but is missing a valid announce pair is a hard error telling you to
-backfill it.
+ticker is required. It anchors on each quarter's `announce_date` +
+`announce_session` (see the `report_date` vs. `announce_date` note above) and does
+**not** guess: any quarter that reported but is missing a valid announce pair is a
+hard error telling you to add the fields by hand from the SEC filing.
 
 ```bash
 uv run check-reactions NFLX                       # last 10 earnings, -4..+5 days
