@@ -50,6 +50,8 @@ quarters:
   - id: q1-2024
     end_date: 2024-03-31
     report_date: 2024-05-08
+    announce_date: 2024-05-08
+    announce_session: after-close
     revenue: 2142
     shares_outstanding: 636
     ytd_operating_cf: 1923
@@ -63,6 +65,8 @@ quarters:
   - id: q2-2024
     end_date: 2024-06-30
     report_date: 2024-08-06
+    announce_date: 2024-08-06
+    announce_session: after-close
     revenue: 2748
     shares_outstanding: 634
     ytd_operating_cf: 2974
@@ -76,6 +80,8 @@ quarters:
   - id: q3-2024
     end_date: 2024-09-30
     report_date: 2024-11-07
+    announce_date: 2024-11-07
+    announce_session: after-close
     revenue: 3732
     shares_outstanding: 627
     ytd_operating_cf: 4052
@@ -89,6 +95,8 @@ quarters:
   - id: q4-2024
     end_date: 2024-12-31
     report_date: 2025-02-13
+    announce_date: 2025-02-13
+    announce_session: after-close
     revenue: 2480              # FY2024 11,102 − 9mo 8,622
     shares_outstanding: 623
     ytd_operating_cf: 4518
@@ -103,6 +111,8 @@ quarters:
   - id: q1-2025
     end_date: 2025-03-31
     report_date: 2025-05-01
+    announce_date: 2025-05-01
+    announce_session: after-close
     revenue: 2272
     shares_outstanding: 619
     ytd_operating_cf: 1789
@@ -116,6 +126,8 @@ quarters:
   - id: q2-2025
     end_date: 2025-06-30
     report_date: 2025-08-06
+    announce_date: 2025-08-06
+    announce_session: after-close
     revenue: 3096
     shares_outstanding: 613
     ytd_operating_cf: 2764
@@ -129,6 +141,8 @@ quarters:
   - id: q3-2025
     end_date: 2025-09-30
     report_date: 2025-11-06
+    announce_date: 2025-11-06
+    announce_session: after-close
     revenue: 4095
     shares_outstanding: 608
     ytd_operating_cf: 4120
@@ -142,6 +156,8 @@ quarters:
   - id: q4-2025
     end_date: 2025-12-31
     report_date: 2026-02-12
+    announce_date: 2026-02-12
+    announce_session: after-close
     revenue: 2778              # FY2025 12,241 − 9mo 9,463
     shares_outstanding: 602
     ytd_operating_cf: 4646
@@ -156,6 +172,8 @@ quarters:
   - id: q1-2026
     end_date: 2026-03-31
     report_date: 2026-05-07
+    announce_date: 2026-05-07
+    announce_session: after-close
     revenue: 2678
     shares_outstanding: 595
     ytd_operating_cf: 1708

@@ -71,6 +71,8 @@ quarters:
   - id: q1-2024
     end_date: 2024-03-31
     report_date: 2024-05-03
+    announce_date: 2024-05-02
+    announce_session: after-close
     revenue: 4333
     shares_outstanding: 50.697442
     ytd_operating_cf: 1512
@@ -82,6 +84,8 @@ quarters:
   - id: q2-2024
     end_date: 2024-06-30
     report_date: 2024-08-02
+    announce_date: 2024-08-01
+    announce_session: after-close
     revenue: 5073
     shares_outstanding: 50.697438
     ytd_operating_cf: 3394
@@ -93,6 +97,8 @@ quarters:
   - id: q3-2024
     end_date: 2024-09-30
     report_date: 2024-11-07
+    announce_date: 2024-11-06
+    announce_session: after-close
     revenue: 5312
     shares_outstanding: 50.697438
     ytd_operating_cf: 4994
@@ -104,6 +110,8 @@ quarters:
   - id: q4-2024
     end_date: 2024-12-31
     report_date: 2025-02-21
+    announce_date: 2025-02-20
+    announce_session: after-close
     revenue: 6059          # FY2024 20,777 − 9mo 14,718
     shares_outstanding: 50.697375
     ytd_operating_cf: 7918  # full-year FY2024
@@ -116,6 +124,8 @@ quarters:
   - id: q1-2025
     end_date: 2025-03-31
     report_date: 2025-05-08
+    announce_date: 2025-05-07
+    announce_session: after-close
     revenue: 5935
     shares_outstanding: 50.697375
     ytd_operating_cf: 1031
@@ -127,6 +137,8 @@ quarters:
   - id: q2-2025
     end_date: 2025-06-30
     report_date: 2025-08-05
+    announce_date: 2025-08-04
+    announce_session: after-close
     revenue: 6790
     shares_outstanding: 50.697375
     ytd_operating_cf: 3948
@@ -138,6 +150,8 @@ quarters:
   - id: q3-2025
     end_date: 2025-09-30
     report_date: 2025-10-30
+    announce_date: 2025-10-29
+    announce_session: after-close
     revenue: 7409
     shares_outstanding: 50.697182
     ytd_operating_cf: 6907
@@ -149,6 +163,8 @@ quarters:
   - id: q4-2025
     end_date: 2025-12-31
     report_date: 2026-02-25
+    announce_date: 2026-02-24
+    announce_session: after-close
     revenue: 8759          # FY2025 28,893 − 9mo 20,134
     shares_outstanding: 50.697182
     ytd_operating_cf: 12116  # full-year FY2025
@@ -161,6 +177,8 @@ quarters:
   - id: q1-2026
     end_date: 2026-03-31
     report_date: 2026-05-08
+    announce_date: 2026-05-07
+    announce_session: after-close
     revenue: 8845
     shares_outstanding: 50.697182
     ytd_operating_cf: 2075
