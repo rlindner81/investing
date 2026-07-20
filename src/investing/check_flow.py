@@ -303,15 +303,12 @@ def _fmt_vol(x: float, sign: float = float("nan")) -> str:
 
 def _fmt_rel(x: float, partial: bool = False) -> str:
     """Period-over-period volume change as a signed % (green more / red less).
-    `partial` tags a change that compares against a still-running period — dimmed,
-    with a trailing ~."""
+    `partial` tags a change against a still-running period with a trailing ~;
+    the colour is kept full so it doesn't read as a different signal."""
     if not np.isfinite(x):
         return "[dim]·[/]"
     tail = "~" if partial else ""
-    if partial:
-        color = "green dim italic" if x > 0 else "red dim italic" if x < 0 else "dim italic"
-    else:
-        color = "green" if x > 0 else "red" if x < 0 else "dim"
+    color = "green" if x > 0 else "red" if x < 0 else "dim"
     return f"[{color}]{x:+.0%}{tail}[/]"
 
 
