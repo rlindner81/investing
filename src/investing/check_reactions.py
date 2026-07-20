@@ -77,43 +77,55 @@ def load_prices(ticker: str) -> Prices:
     )
 
 
+VALID_SESSIONS = ("pre-open", "intraday", "after-close")
+
+
 @dataclass
 class Quarter:
-    """One reported quarter's anchoring info. `anchor` is the day 0 bar date —
-    the SEC announcement date when we have it, else the legacy report_date.
-    `session` is pre-open / after-close / None (unknown). `has_announce` records
-    whether the precise SEC fields were present (vs. a report_date fallback)."""
+    """One reported quarter's anchoring info. `anchor` (day 0) is the SEC
+    `announce_date`; `session` is its `announce_session` (`pre-open` / `intraday`
+    / `after-close`). Both come from FINANCIALS.yml and are required — the reaction
+    bar is placed from them exactly, never guessed."""
     id: str
     anchor: date
-    session: str | None
-    has_announce: bool
+    session: str
 
 
 def load_quarters(ticker: str) -> list[Quarter]:
-    """Anchoring info per quarter from FINANCIALS.yml, ascending by anchor date.
+    """Anchoring info per quarter from FINANCIALS.yml, ascending by announce date.
 
-    Day 0 anchors on `announce_date` (the SEC 8-K item-2.02 acceptance date, the
-    true announcement) when present, together with `announce_session` (pre-open /
-    after-close) which fixes the reaction bar exactly. Quarters lacking those fall
-    back to `report_date` with an unknown session (the reaction bar is then
-    inferred). Quarters with neither date (pre-IPO reach-back periods) are
-    skipped — no market reaction to show."""
+    Day 0 anchors on `announce_date` (the SEC filing acceptance date, the true
+    announcement) and `announce_session` (`pre-open` / `intraday` / `after-close`)
+    fixes the reaction bar exactly. Both are REQUIRED for any quarter that reported to the
+    market: a quarter that has a `report_date` (or `announce_date`) but lacks a
+    valid announce pair is a hard error — run `backfill-announcements <TICKER>`.
+    Only pure reach-back quarters with no dates at all (pre-IPO diff bases) are
+    skipped, since they never had a reaction to show."""
     path = REPO_ROOT / ticker / "FINANCIALS.yml"
     if not path.exists():
         raise SystemExit(
             f"No {path.relative_to(REPO_ROOT)} — this script needs the ticker's "
-            f"FINANCIALS.yml for its report dates."
+            f"FINANCIALS.yml for its announce dates."
         )
     data = yaml.safe_load(path.read_text()) or {}
     out: list[Quarter] = []
+    missing: list[str] = []
     for q in data.get("quarters", []):
+        qid = str(q.get("id", "?"))
         ann = _as_date(q.get("announce_date"))
-        rep = _as_date(q.get("report_date"))
-        anchor = ann or rep
-        if anchor is None:
-            continue
-        session = q.get("announce_session") if ann else None
-        out.append(Quarter(str(q.get("id", "?")), anchor, session, ann is not None))
+        session = q.get("announce_session")
+        # A quarter that reported (has any date) must carry a valid announce pair.
+        reported = ann is not None or q.get("report_date") is not None
+        if ann is not None and session in VALID_SESSIONS:
+            out.append(Quarter(qid, ann, session))
+        elif reported:
+            missing.append(qid)
+    if missing:
+        raise SystemExit(
+            f"{ticker}: missing/invalid announce_date + announce_session for "
+            f"{', '.join(missing)}. Run `uv run backfill-announcements {ticker}` "
+            f"(or add the fields by hand); check-reactions does not guess."
+        )
     out.sort(key=lambda x: x.anchor)
     return out
 
@@ -140,27 +152,14 @@ def bar_index(dates: list[date], target: date) -> int | None:
 # Reaction-bar offset (relative to day 0 = the anchor bar)
 # ---------------------------------------------------------------------------
 
-def reaction_offset(q: Quarter, prices: Prices, before: int) -> int:
-    """How many sessions after day 0 (the anchor bar) the reaction trades.
-
-    With a known session it's exact: an `after-close` release can't trade until
-    the NEXT session (+1); a `pre-open` release trades the announce bar itself
-    (0). Without a session (report_date fallback) we infer from the volume spike —
-    whichever of bar 0 / +1 is heavier relative to a quiet pre-report baseline."""
-    if q.session == "after-close":
-        return 1
-    if q.session == "pre-open":
-        return 0
-    # Fallback: infer from volume.
-    c = bar_index(prices.dates, q.anchor)
-    if c is None or c + 1 >= len(prices.volume):
-        return 0
-    lo = max(0, c - before)
-    baseline = prices.volume[lo:c]
-    base = np.median(baseline[baseline > 0]) if np.any(baseline > 0) else 0.0
-    if base <= 0:
-        return 0
-    return 1 if prices.volume[c + 1] > prices.volume[c] else 0
+def reaction_offset(q: Quarter) -> int:
+    """How many sessions after day 0 (the anchor bar) the reaction trades, from
+    `announce_session` (authoritative, from the SEC filing timestamp). Only an
+    `after-close` release trades on the NEXT session (+1); a `pre-open` release
+    OR an `intraday` one is public while the announce bar is trading, so the
+    reaction is that same bar (0). The session is validated at load, so it is
+    always one of the three."""
+    return 1 if q.session == "after-close" else 0
 
 
 # ---------------------------------------------------------------------------
@@ -219,23 +218,23 @@ def report(ticker: str, prices: Prices, quarters: list[Quarter], args) -> None:
         f"newest {n_show} of {len(quarters)})"
     )
     # Session summary across the quarters we can place — where the reaction bar
-    # sits (day 0 for pre-open, +1 for after-close) and how it was determined.
+    # sits (day 0 for pre-open/intraday, +1 for after-close). Every session is
+    # from the SEC filing; if a stock's quarters share one, say so, else note both.
     placed = [q for q in reversed(quarters)
               if bar_index(prices.dates, q.anchor) is not None][:n_show]
-    n_ann = sum(q.has_announce for q in placed)
-    sessions = {q.session for q in placed if q.session}
-    if n_ann == len(placed) and len(sessions) == 1:
+    sessions = {q.session for q in placed}
+    if len(sessions) == 1:
         s = next(iter(sessions))
-        rb = "the announce bar (day 0)" if s == "pre-open" else "the next session (day +1)"
+        rb = "the next session (day +1)" if s == "after-close" else "the announce bar (day 0)"
         console.print(
             f"[dim]reports land [/][bold]{s}[/][dim] (per SEC filing) → reaction "
-            f"on {rb}, marked ★.[/]"
+            f"on {rb}, where rel px begins.[/]"
         )
     else:
-        detail = f"{n_ann}/{len(placed)} from SEC filings" if n_ann else "inferred from volume"
         console.print(
-            f"[dim]reaction bar ★ = announce bar (pre-open) or next session "
-            f"(after-close); {detail}. Day 0 is the announcement bar.[/]"
+            "[dim]reaction bar = announce bar (pre-open / intraday) or next "
+            "session (after-close), per each quarter's SEC filing; rel px begins "
+            "there. Day 0 is the announcement bar.[/]"
         )
 
     table = Table(show_header=True, header_style="bold", pad_edge=False)
@@ -250,22 +249,13 @@ def report(ticker: str, prices: Prices, quarters: list[Quarter], args) -> None:
     # (same label check-valuation uses) on top, then the announce date with its
     # weekday leading. When the announcement fell on a non-trading day, the
     # anchored day-0 bar goes on a third line, prefixed → to flag the shift.
-    def _label_lines(qid: str, ann: date, bar: date, session: str | None) -> list[str]:
+    def _label_lines(qid: str, ann: date, bar: date, session: str) -> list[str]:
         id_line = f"[bold]{qid}[/]"
-        sess = f" [dim]{session}[/]" if session else ""
-        report_line = f"[dim]{ann.strftime('%a')} {ann.isoformat()}[/]{sess}"
+        report_line = f"[dim]{ann.strftime('%a')} {ann.isoformat()}[/] [dim]{session}[/]"
         if bar == ann:
             return [id_line, report_line, ""]
         anchor_line = f"[dim]→ {bar.strftime('%a')} {bar.isoformat()}[/]"
         return [id_line, report_line, anchor_line]
-
-    def _mark_react(cells: list[str], k: int) -> list[str]:
-        """Bold-magenta the reaction cell and prefix ★ so the reaction bar stands
-        out wherever it lands per row (its column varies with the session)."""
-        if 0 <= k < len(cells):
-            cells = list(cells)
-            cells[k] = f"[bold magenta]★{cells[k]}[/]"
-        return cells
 
     shown = 0
     for q in reversed(quarters):         # most recent first
@@ -275,7 +265,7 @@ def report(ticker: str, prices: Prices, quarters: list[Quarter], args) -> None:
         if center is None:
             continue                     # announcement newer than our price history
         bar = prices.dates[center]
-        react = zero + reaction_offset(q, prices, before)
+        react = zero + reaction_offset(q)
 
         px = _window(prices.close, center, before, after)
         vol = _window(prices.volume, center, before, after)
@@ -295,9 +285,6 @@ def report(ticker: str, prices: Prices, quarters: list[Quarter], args) -> None:
                 if np.isfinite(px[k]):
                     rel_cells[k] = _fmt_rel(px[k] / base - 1.0)
 
-        px_cells = _mark_react(px_cells, react)
-        rel_cells = _mark_react(rel_cells, react)
-
         lbl = _label_lines(q.id, q.anchor, bar, q.session)
         table.add_row(lbl[0], "px", *px_cells)
         table.add_row(lbl[1], "rel px", *rel_cells)
@@ -314,11 +301,10 @@ def report(ticker: str, prices: Prices, quarters: list[Quarter], args) -> None:
     console.print(table)
     console.print(
         f"[dim]Day 0 = the announcement bar (announce_date close, or first trading "
-        f"day after). ★ marks the reaction bar — the announce bar for a pre-open "
-        f"release, the next session for an after-close one. rel px runs from ★ "
-        f"onward as the % return vs the last pre-news close (the bar just before "
-        f"★), so ★ itself carries the headline move. A →date on the second label "
-        f"line marks an announcement on a non-trading day.[/]\n"
+        f"day after). rel px is the % return vs the last pre-news close, starting "
+        f"on the reaction bar — day 0 for a pre-open/intraday release, day +1 for "
+        f"an after-close one. A →date on the second label line marks an "
+        f"announcement on a non-trading day.[/]\n"
     )
 
 

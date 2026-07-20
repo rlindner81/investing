@@ -251,9 +251,10 @@ for the full year reproduces the company's own reported FCF figure.
 ticker it walks the reported quarters (dates from `<TICKER>/FINANCIALS.yml`) and
 prints the price and volume around each announcement from
 `prices/daily/<TICKER>.csv` (see `fetch-prices`). Both files are required; a
-ticker is required. It anchors on `announce_date` + `announce_session` when those
-are present (backfill them via `backfill-announcements`), else falls back to
-`report_date` with a volume-inferred reaction bar.
+ticker is required. It anchors on `announce_date` + `announce_session` (backfilled
+for every ticker via `backfill-announcements`) and does **not** guess: any quarter
+that reported but is missing a valid announce pair is a hard error telling you to
+backfill it.
 
 ```bash
 uv run check-reactions NFLX                       # last 10 earnings, -4..+5 days
@@ -270,28 +271,27 @@ Columns are trading days relative to the announcement bar: `-4..-1` context
 before, `0` the announcement bar, `+1..+5` after. Rows are ordered newest earnings
 first, capped by `--show` (default 10).
 
-- **Day 0** is the `announce_date` trading bar (or `report_date` in the fallback).
-  The label leads with the weekday (`Thu 2026-04-16`) and, when known, the session
-  (`after-close`). If the announcement landed on a non-trading day, day 0 is the
-  first trading day on/after it, shown on a second label line as `→ <weekday>
-  <date>`.
-- **Reaction bar (★).** With `announce_session` this is *exact*: a `pre-open`
-  release trades the announce bar (day 0★); an `after-close` release can't trade
-  until the next session (day +1★). Without it, the tool infers from the volume
-  spike. ★ is marked inline on the reaction cell (its column varies per row with
-  the session). The header summarizes the session and how it was determined
-  (SEC filings vs. volume).
-- **`rel px`** runs from the ★ bar onward as the % return vs the **last pre-news
-  close** — the bar right before ★ (green up / red down); earlier bars are blank.
-  The reaction is the move *into* the reaction bar, so ★ itself carries the
-  headline number: for a pre-open reaction that's bar -1→0; for an after-close
-  one the last clean close is bar 0, so it's 0→+1 (and the day-0 cell stays blank,
-  being pre-news).
-- **`vol`** is raw share volume — the reaction bar spikes (this is also the
-  fallback signal when the session is unknown).
+- **Day 0** is the `announce_date` trading bar. The label leads with the weekday
+  (`Thu 2026-04-16`) and the session (`after-close`). If the announcement landed
+  on a non-trading day, day 0 is the first trading day on/after it, shown on a
+  second label line as `→ <weekday> <date>`.
+- **Reaction bar.** Determined exactly from `announce_session`, never guessed, and
+  not marked with any glyph — the `rel px` row makes it obvious (it's the first
+  column that carries a value). Only an `after-close` release can't trade until
+  the next session (day +1); a `pre-open` OR `intraday` release is public while the
+  announce bar trades, so the reaction is that bar (day 0). The header summarizes
+  the session.
+- **`rel px`** runs from the reaction bar onward as the % return vs the **last
+  pre-news close** — the bar right before it (green up / red down); earlier bars
+  are blank. The reaction is the move *into* that bar, so it carries the headline
+  number: for a day-0 reaction (pre-open / intraday) that's bar -1→0; for an
+  after-close one the last clean close is bar 0, so it's 0→+1 (and the day-0 cell
+  stays blank, being pre-news).
+- **`vol`** is raw share volume — the reaction bar typically spikes.
 
-Quarters without any date (e.g. pre-IPO reach-back periods kept only as a
-diff base) are skipped. Reports newer than the local price history are skipped too.
+Quarters with no dates at all (pre-IPO reach-back diff bases) are skipped. A
+quarter that reported but lacks a valid `announce_date` + `announce_session` is a
+hard error, not skipped. Reports newer than the local price history are skipped.
 
 ## Adding a New Ticker
 
