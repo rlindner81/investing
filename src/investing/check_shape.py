@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-find_shape.py — Find historical chart windows that match a current pattern.
+check_shape.py — Find historical chart windows that match a current pattern.
 
 Given a query window (the last L trading days of a repo ticker), search a large
 historical universe (every Stooq ``prices-historic/d_*_txt.zip`` bundle — US, JP,
@@ -58,11 +58,11 @@ data re-fetch recomputes. ``--refresh`` forces recomputation; stale (>1h) entrie
 are pruned automatically.
 
 Usage:
-  uv run find-shape ODD                       # last 30 bars of ODD, default search
-  uv run find-shape ODD --query-len 40 --forward 20 --top-k 25 --show 10
-  uv run find-shape ODD --budget-secs 120 --price-weight 0.7
-  uv run find-shape ODD --segments "nyse stocks,nasdaq stocks"
-  uv run find-shape ODD --markets us,uk --segments "nyse stocks,lse stocks"
+  uv run check-shape ODD                       # last 30 bars of ODD, default search
+  uv run check-shape ODD --query-len 40 --forward 20 --top-k 25 --show 10
+  uv run check-shape ODD --budget-secs 120 --price-weight 0.7
+  uv run check-shape ODD --segments "nyse stocks,nasdaq stocks"
+  uv run check-shape ODD --markets us,uk --segments "nyse stocks,lse stocks"
 
 Query source is the repo CSV ``prices/daily/<TICKER>.csv`` (see fetch-prices).
 Matches may come from any historical ticker including the query ticker itself;

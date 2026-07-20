@@ -165,7 +165,7 @@ def reaction_offset(q: Quarter) -> int:
 
 
 # ---------------------------------------------------------------------------
-# Formatting (mirrors find_shape's px / rel px / vol cell style)
+# Formatting (mirrors check_shape's px / rel px / vol cell style)
 # ---------------------------------------------------------------------------
 
 def _fmt_px(x: float) -> str:
