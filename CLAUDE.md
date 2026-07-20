@@ -157,7 +157,10 @@ currency: USD           # optional; omit for USD-denominated tickers
 quarters:
   - id: q1-2026                 # q<n>-<fiscal-year-label>; n and year drive the fiscal logic
     end_date: 2026-03-31
-    report_date: 2026-06-02     # announcement date — the close that day is the price reference
+    report_date: 2026-06-02     # check-valuation's price reference — the close that day
+    announce_date: 2026-06-01   # actual SEC 8-K (item 2.02) acceptance date; optional but
+    announce_session: after-close  #   preferred. Session: pre-open | after-close (from the ET
+                                #   timestamp). Used by check-reactions to place the reaction bar.
     revenue: 197940             # standalone quarter, from the income statement
     shares_outstanding: 56657   # point-in-time total (all classes) at quarter end, from the
                                 # balance sheet / cover page — NOT the weighted average
@@ -183,6 +186,21 @@ quarters:
 
 Conventions and derivations the tool relies on:
 
+- **`report_date` vs. `announce_date`.** `report_date` is only a price reference
+  for check-valuation and has historically been entered loosely (sometimes the
+  announcement day, sometimes a session or two later). `announce_date` is the
+  precise SEC filing acceptance date and `announce_session` (`pre-open` /
+  `after-close`) says which side of the 09:30–16:00 ET session it landed on;
+  together they let check-reactions place the reaction bar exactly. Every ticker's
+  quarters have been backfilled once via `uv run backfill-announcements <TICKER>`
+  — it reads `_meta.cik` from SOURCES.yml, hits the SEC submissions feed, and
+  inserts the two keys after each `report_date` line without disturbing comments.
+  It matches the earnings filing in three tiers: item-2.02 8-K (±6 days), then an
+  item-7.01/8.01 8-K on the exact date (some issuers furnish earnings there), then
+  the nearest 6-K/20-F within ±3 days (foreign filers, which carry no item
+  taxonomy); off-date / 6-K / intraday picks are flagged for review. Going forward,
+  add these fields by hand alongside `report_date`, or re-run the script for a new
+  ticker.
 - **Standalone vs. YTD.** Revenue is entered standalone (the income statement
   always has a quarterly column). Cash-flow lines are entered exactly as the
   filing reports them — year-to-date — and the tool differences consecutive
@@ -226,6 +244,54 @@ Conventions and derivations the tool relies on:
 
 After entering a new quarter, sanity-check that `ytd_operating_cf − ytd_capex_ppe`
 for the full year reproduces the company's own reported FCF figure.
+
+## Earnings Reactions
+
+`check-reactions` shows how each past earnings was received by the market: for one
+ticker it walks the reported quarters (dates from `<TICKER>/FINANCIALS.yml`) and
+prints the price and volume around each announcement from
+`prices/daily/<TICKER>.csv` (see `fetch-prices`). Both files are required; a
+ticker is required. It anchors on `announce_date` + `announce_session` when those
+are present (backfill them via `backfill-announcements`), else falls back to
+`report_date` with a volume-inferred reaction bar.
+
+```bash
+uv run check-reactions NFLX                       # last 10 earnings, -4..+5 days
+uv run check-reactions ODD --before 2 --after 3   # tighter window
+uv run check-reactions NFLX --show 5              # fewer rows
+```
+
+### Output layout
+
+One table per ticker. Each earnings is three rows — `px`, `rel px`, `vol` — with
+a spacer between them. The label column leads with the fiscal-quarter id (the same
+`q1-2026` / `q4-fy2026` label check-valuation uses) over the announcement date.
+Columns are trading days relative to the announcement bar: `-4..-1` context
+before, `0` the announcement bar, `+1..+5` after. Rows are ordered newest earnings
+first, capped by `--show` (default 10).
+
+- **Day 0** is the `announce_date` trading bar (or `report_date` in the fallback).
+  The label leads with the weekday (`Thu 2026-04-16`) and, when known, the session
+  (`after-close`). If the announcement landed on a non-trading day, day 0 is the
+  first trading day on/after it, shown on a second label line as `→ <weekday>
+  <date>`.
+- **Reaction bar (★).** With `announce_session` this is *exact*: a `pre-open`
+  release trades the announce bar (day 0★); an `after-close` release can't trade
+  until the next session (day +1★). Without it, the tool infers from the volume
+  spike. ★ is marked inline on the reaction cell (its column varies per row with
+  the session). The header summarizes the session and how it was determined
+  (SEC filings vs. volume).
+- **`rel px`** runs from the ★ bar onward as the % return vs the **last pre-news
+  close** — the bar right before ★ (green up / red down); earlier bars are blank.
+  The reaction is the move *into* the reaction bar, so ★ itself carries the
+  headline number: for a pre-open reaction that's bar -1→0; for an after-close
+  one the last clean close is bar 0, so it's 0→+1 (and the day-0 cell stays blank,
+  being pre-news).
+- **`vol`** is raw share volume — the reaction bar spikes (this is also the
+  fallback signal when the session is unknown).
+
+Quarters without any date (e.g. pre-IPO reach-back periods kept only as a
+diff base) are skipped. Reports newer than the local price history are skipped too.
 
 ## Adding a New Ticker
 
