@@ -13,6 +13,17 @@ distances combined with a weight (``--price-weight``). The current pattern is
 found via MASS (Mueen's Algorithm for Similarity Search): a z-normalized
 Euclidean distance profile computed in one FFT pass per series.
 
+The price side matches the full **candle** (open/high/low/close), not just the
+close. The four price channels share a single normalization — the close window's
+mean/std — so a bar's body and wick proportions are preserved: a candidate whose
+high-low range is 3× the query's is penalized rather than rescaled away (which is
+what independent per-channel normalization would do). The price distance is the
+mean of the four channels' shared-normalization MASS profiles, keeping it on the
+same scale as a close-only match so ``--price-weight`` trades price vs volume
+unchanged. Volume has no candle geometry and keeps its own independent
+normalization. Display remains close-centric (the projected close line + volume);
+the OHLC geometry shapes the ranking.
+
 Scale-invariance has a blind spot: it also matches instruments that are nothing
 like the query — a delisted stub whose split-adjusted price reads $70B/share, or
 a dead ticker trading 0 shares/day, has the same *shape* as a real large-cap and
@@ -215,6 +226,77 @@ def mass(query: np.ndarray, series: np.ndarray, weights: np.ndarray | None = Non
     return dist
 
 
+def mass_shared_norm(
+    q_chan: np.ndarray,
+    chan: np.ndarray,
+    q_close: np.ndarray,
+    close: np.ndarray,
+    weights: np.ndarray | None = None,
+    min_cv: float = 0.0,
+) -> np.ndarray:
+    """Distance profile for ONE candle price channel (open/high/low/close),
+    normalized by the *close* channel's scale rather than the channel's own.
+
+    Plain `mass` z-normalizes each series by its own window mean/std, which
+    destroys the geometry *between* a bar's O/H/L/C: a candidate whose high-low
+    range is 3× the query's still scores perfectly because each channel is
+    independently rescaled. To match candle *bodies*, every price channel of a
+    window must share one normalization — the close window's mean/std. Then a
+    wide-range bar stays wide relative to the query and body/wick geometry is
+    preserved (Option B).
+
+    So the query channel `q_chan` is z-scored by the query CLOSE stats
+    (`Km`,`Ks` = mean/std of `q_close`), and each candidate window of `chan` is
+    z-scored by that window's CLOSE stats (`Cm`,`Cs`, the sliding mean/std of
+    `close`). The weighted squared distance
+        sum_j w_j ((q_chan[j]−Km)/Ks − (chan[j+i]−Cm)/Cs)²
+    expands into sliding dot products against fixed kernels — the same FFT
+    machinery as `mass`, so it costs the same. Note the windowing runs over
+    `chan` while the normalization stats come from `close`: the two series are
+    driven independently.
+
+    Flat/low-information windows are gated on the *close* channel (its std/CV),
+    matching how `mass`'s own gate works — here that gate is shared across all
+    four price channels since they normalize together. Returns +inf for such
+    windows.
+    """
+    m = len(q_chan)
+    n = len(chan)
+    if n < m:
+        return np.array([])
+
+    Km = q_close.mean()
+    Ks = q_close.std()
+    if Ks < 1e-10:
+        # Degenerate query close — no scale to normalize the candle on.
+        return np.zeros(n - m + 1)
+
+    # a = z-normalized query channel under the query CLOSE stats (constant).
+    a = (q_chan - Km) / Ks
+    # Candidate normalization comes from the CLOSE window, shared by all channels.
+    c_mean, c_std = _sliding_mean_std(close, m)
+
+    w = np.ones(m) if weights is None else weights
+    A = float(np.sum(w * a * a))
+    WA = float(np.sum(w * a))
+    W = float(np.sum(w))
+    # Sliding sums window over `chan`; normalization scalars come from `close`.
+    s_wax = _sliding_dot(chan, w * a, m, n)
+    s_wx = _sliding_dot(chan, w, m, n)
+    s_wx2 = _sliding_dot(chan ** 2, w, m, n)
+    with np.errstate(divide="ignore", invalid="ignore"):
+        cross = (s_wax - c_mean * WA) / c_std             # sum w*a*b
+        sq_b = (s_wx2 - 2 * c_mean * s_wx + c_mean ** 2 * W) / (c_std ** 2)  # sum w*b^2
+        dist_sq = A - 2 * cross + sq_b
+
+    dist_sq = np.clip(dist_sq, 0.0, None)
+    dist = np.sqrt(dist_sq)
+    # Flat/low-info gate on the CLOSE channel (shared across all price channels).
+    floor = np.maximum(1e-10, min_cv * np.abs(c_mean))
+    dist[c_std < floor] = np.inf
+    return dist
+
+
 # ---------------------------------------------------------------------------
 # Loading
 # ---------------------------------------------------------------------------
@@ -223,6 +305,9 @@ def mass(query: np.ndarray, series: np.ndarray, weights: np.ndarray | None = Non
 class Series:
     ticker: str
     dates: np.ndarray       # ISO date strings
+    open: np.ndarray
+    high: np.ndarray
+    low: np.ndarray
     close: np.ndarray
     volume: np.ndarray
 
@@ -233,19 +318,26 @@ def load_query(ticker: str, query_len: int) -> Series:
         raise SystemExit(
             f"No price file at {path.relative_to(REPO_ROOT)} — run `uv run fetch-prices {ticker}` first."
         )
-    dates, close, volume = [], [], []
+    dates, open_, high, low, close, volume = [], [], [], [], [], []
     with path.open() as f:
         for row in csv.DictReader(f):
             dates.append(row["Date"][:10])
+            open_.append(float(row["Open"]))
+            high.append(float(row["High"]))
+            low.append(float(row["Low"]))
             close.append(float(row["Close"]))
             volume.append(float(row["Volume"]))
     if len(close) < query_len:
         raise SystemExit(f"{ticker} has only {len(close)} rows; need at least {query_len}.")
+    s = slice(-query_len, None)
     return Series(
         ticker=ticker,
-        dates=np.array(dates[-query_len:]),
-        close=np.array(close[-query_len:], dtype=float),
-        volume=np.array(volume[-query_len:], dtype=float),
+        dates=np.array(dates[s]),
+        open=np.array(open_[s], dtype=float),
+        high=np.array(high[s], dtype=float),
+        low=np.array(low[s], dtype=float),
+        close=np.array(close[s], dtype=float),
+        volume=np.array(volume[s], dtype=float),
     )
 
 
@@ -285,23 +377,31 @@ def warn_query_quality(query: Series) -> None:
         console.print()
 
 
-def _parse_stooq_member(text: str) -> tuple[np.ndarray, np.ndarray, np.ndarray] | None:
-    """Parse a Stooq .txt member into (dates, close, volume). None if unusable."""
+def _parse_stooq_member(text: str):
+    """Parse a Stooq .txt member into (dates, open, high, low, close, volume).
+    None if unusable. Columns: <TICKER>,<PER>,<DATE>,<TIME>,<OPEN>,<HIGH>,<LOW>,
+    <CLOSE>,<VOL>,<OPENINT> → indices 4,5,6,7,8."""
     lines = text.splitlines()
     if len(lines) < 2:
         return None
-    dates, close, volume = [], [], []
+    dates, open_, high, low, close, volume = [], [], [], [], [], []
     for line in lines[1:]:  # skip header
         parts = line.split(",")
         if len(parts) < 9:
             continue
         d = parts[2]
         dates.append(f"{d[:4]}-{d[4:6]}-{d[6:8]}")
+        open_.append(float(parts[4]))
+        high.append(float(parts[5]))
+        low.append(float(parts[6]))
         close.append(float(parts[7]))
         volume.append(float(parts[8]))
     if not close:
         return None
-    return np.array(dates), np.array(close, dtype=float), np.array(volume, dtype=float)
+    return (np.array(dates),
+            np.array(open_, dtype=float), np.array(high, dtype=float),
+            np.array(low, dtype=float), np.array(close, dtype=float),
+            np.array(volume, dtype=float))
 
 
 def _member_meta(name: str) -> tuple[str, str, str] | None:
@@ -329,7 +429,8 @@ def _member_meta(name: str) -> tuple[str, str, str] | None:
 
 
 def iter_universe(segments: list[str] | None, markets: list[str] | None):
-    """Yield (ticker, dates, close, volume) across every archive, streaming.
+    """Yield (ticker, dates, open, high, low, close, volume) across every archive,
+    streaming.
 
     `segments` filters by the "<segment>" directory (e.g. "nyse stocks",
     "tse stocks"); `markets` filters by country ("us", "jp", "uk", "hk",
@@ -351,8 +452,8 @@ def iter_universe(segments: list[str] | None, markets: list[str] | None):
                 parsed = _parse_stooq_member(text)
                 if parsed is None:
                     continue
-                dates, close, volume = parsed
-                yield ticker, dates, close, volume
+                dates, open_, high, low, close, volume = parsed
+                yield ticker, dates, open_, high, low, close, volume
 
 
 # ---------------------------------------------------------------------------
@@ -368,9 +469,17 @@ class Match:
     start_idx: int = field(compare=False)
     end_date: str = field(compare=False)
     # Raw candidate bars (the matched window and what followed), used for the
-    # denormalized projection onto the query's scale.
+    # denormalized projection onto the query's scale. The OHLC price channels
+    # all denormalize through the CLOSE window's scale (shared), so the candle
+    # geometry carries over to the query's axis intact; volume keeps its own.
+    win_open: np.ndarray = field(default=None, compare=False)
+    win_high: np.ndarray = field(default=None, compare=False)
+    win_low: np.ndarray = field(default=None, compare=False)
     win_close: np.ndarray = field(default=None, compare=False)   # full matched window
     win_volume: np.ndarray = field(default=None, compare=False)
+    fut_open: np.ndarray = field(default=None, compare=False)
+    fut_high: np.ndarray = field(default=None, compare=False)
+    fut_low: np.ndarray = field(default=None, compare=False)
     fut_close: np.ndarray = field(default=None, compare=False)   # next N bars after window
     fut_volume: np.ndarray = field(default=None, compare=False)
     win_dates: np.ndarray = field(default=None, compare=False)   # ISO dates of the window bars
@@ -421,46 +530,63 @@ def _scale_reject(series: np.ndarray, q_mean: float, m: int, max_ratio: float) -
 
 
 def combined_profile(
-    q_close: np.ndarray,
-    q_volume: np.ndarray,
-    close: np.ndarray,
-    volume: np.ndarray,
+    query: Series,
+    cand: Series,
     price_weight: float,
     weights: np.ndarray | None = None,
     min_cv: float = 0.0,
     max_scale_ratio: float = 0.0,
 ) -> np.ndarray | None:
-    """Weighted price+volume distance profile for one series, or None if too short.
+    """Weighted candle(OHLC)+volume distance profile for one series, or None if
+    too short.
 
-    `weights` is an optional per-bar recency weighting applied to both channels.
-    `min_cv` drops near-flat, low-information windows (see `mass`); it is applied
-    to the *price* channel — a barely-moving price is uninformative — and, since
-    an inf in either channel already sinks the combined score, that alone kicks
-    the window out. Volume is left unfiltered (it's naturally spiky).
+    The price term is the mean of four per-channel distances — open, high, low,
+    close — each computed with `mass_shared_norm`, i.e. z-normalized by the
+    *close* window's scale (shared across the four). That shared normalization is
+    what makes this a *candle* match rather than four independent line matches:
+    the query's O/H/L/C are all scaled by the query close's mean/std, and each
+    candidate window's O/H/L/C by that window's close mean/std, so a bar's body
+    and wick proportions are preserved (Option B). Averaging the four keeps the
+    price term on the same scale as the old close-only distance, so
+    `--price-weight` still trades price against volume the same way. Volume is
+    matched independently on its own scale (plain `mass`) — it has no candle
+    geometry to share.
 
-    `max_scale_ratio` gates on raw scale: a window whose price OR volume mean
-    diverges from the query's by more than this factor (either direction) is set
-    to +inf. Kills z-normalization's blind spot — split-adjusted phantom prices
-    and dead-volume stubs whose *shape* matches but whose scale is nonsensical.
-    0 disables (see `_scale_reject`)."""
-    m = len(q_close)
-    if len(close) < m:
+    `weights` is an optional per-bar recency weighting applied to every channel.
+    `min_cv` drops near-flat, low-information windows (see `mass`); it gates on
+    the *close* channel via `mass_shared_norm`, and since that inf propagates to
+    all four price channels (they share the close normalization) the window is
+    dropped. Volume is left unfiltered (it's naturally spiky).
+
+    `max_scale_ratio` gates on raw scale: a window whose close-price OR volume
+    mean diverges from the query's by more than this factor (either direction)
+    is set to +inf. Kills z-normalization's blind spot — split-adjusted phantom
+    prices and dead-volume stubs whose *shape* matches but whose scale is
+    nonsensical. 0 disables (see `_scale_reject`). Close stands in for the whole
+    candle here (O/H/L track it within a bar)."""
+    m = len(query.close)
+    if len(cand.close) < m:
         return None
-    d_price = mass(q_close, close, weights, min_cv=min_cv)
-    if d_price.size == 0:
+    # Four price channels, each normalized by the CLOSE window's scale (shared).
+    d_open = mass_shared_norm(query.open, cand.open, query.close, cand.close, weights)
+    d_high = mass_shared_norm(query.high, cand.high, query.close, cand.close, weights)
+    d_low = mass_shared_norm(query.low, cand.low, query.close, cand.close, weights)
+    d_close = mass_shared_norm(query.close, cand.close, query.close, cand.close,
+                               weights, min_cv=min_cv)
+    if d_close.size == 0:
         return None
-    d_vol = mass(q_volume, volume, weights)
+    d_price = (d_open + d_high + d_low + d_close) / 4.0
+    d_vol = mass(query.volume, cand.volume, weights)
     combined = price_weight * d_price + (1.0 - price_weight) * d_vol
     if max_scale_ratio:
-        reject = (_scale_reject(close, q_close.mean(), m, max_scale_ratio)
-                  | _scale_reject(volume, q_volume.mean(), m, max_scale_ratio))
+        reject = (_scale_reject(cand.close, query.close.mean(), m, max_scale_ratio)
+                  | _scale_reject(cand.volume, query.volume.mean(), m, max_scale_ratio))
         combined[reject] = np.inf
     return combined
 
 
 def search(query: Series, args) -> tuple[list[Match], dict]:
-    q_close, q_volume = query.close, query.volume
-    m = len(q_close)
+    m = len(query.close)
     if args.segments:
         segments = [s.strip() for s in args.segments.split(",") if s.strip()]
     else:
@@ -487,9 +613,11 @@ def search(query: Series, args) -> tuple[list[Match], dict]:
     matched = 0
     budget_hit = False
 
-    for ticker, dates, close, volume in iter_universe(segments, markets):
+    for ticker, dates, open_, high, low, close, volume in iter_universe(segments, markets):
         scanned += 1
-        profile = combined_profile(q_close, q_volume, close, volume, args.price_weight,
+        cand = Series(ticker=ticker, dates=dates, open=open_, high=high,
+                      low=low, close=close, volume=volume)
+        profile = combined_profile(query, cand, args.price_weight,
                                     weights, min_cv=args.min_cv,
                                     max_scale_ratio=args.max_scale_ratio)
         if profile is None:
@@ -520,8 +648,9 @@ def search(query: Series, args) -> tuple[list[Match], dict]:
             if query_dow is not None and date.fromisoformat(end_date).weekday() != query_dow:
                 continue
 
-            fut_close = close[end_idx + 1 : end_idx + 1 + args.forward]
-            fut_volume = volume[end_idx + 1 : end_idx + 1 + args.forward]
+            fwin = slice(start_idx, end_idx + 1)
+            ffut = slice(end_idx + 1, end_idx + 1 + args.forward)
+            fut_close = close[ffut]
             # A match must have the full forward window — a window ending too near
             # the end of its own series has nothing to project and is useless here.
             if len(fut_close) < args.forward:
@@ -530,12 +659,14 @@ def search(query: Series, args) -> tuple[list[Match], dict]:
             match = Match(
                 sort_key=-score, score=score, ticker=ticker,
                 start_idx=start_idx, end_date=end_date,
-                win_close=close[start_idx : end_idx + 1].copy(),
-                win_volume=volume[start_idx : end_idx + 1].copy(),
-                fut_close=fut_close.copy(),
-                fut_volume=fut_volume.copy(),
-                win_dates=dates[start_idx : end_idx + 1].copy(),
-                fut_dates=dates[end_idx + 1 : end_idx + 1 + args.forward].copy(),
+                win_open=open_[fwin].copy(), win_high=high[fwin].copy(),
+                win_low=low[fwin].copy(), win_close=close[fwin].copy(),
+                win_volume=volume[fwin].copy(),
+                fut_open=open_[ffut].copy(), fut_high=high[ffut].copy(),
+                fut_low=low[ffut].copy(), fut_close=fut_close.copy(),
+                fut_volume=volume[ffut].copy(),
+                win_dates=dates[fwin].copy(),
+                fut_dates=dates[ffut].copy(),
             )
             if len(heap) < top_k:
                 heapq.heappush(heap, match)
@@ -576,6 +707,11 @@ _CACHE_KEY_ARGS = (
 def _cache_key(query: Series, args) -> str:
     payload = {a: getattr(args, a) for a in _CACHE_KEY_ARGS}
     # Fold the query bars in so a re-fetch (new data) invalidates the cache.
+    # All four price channels are folded in — the match now uses full OHLC
+    # candles, so a change in any channel (or the switch itself) must recompute.
+    payload["query_open"] = query.open.tolist()
+    payload["query_high"] = query.high.tolist()
+    payload["query_low"] = query.low.tolist()
     payload["query_close"] = query.close.tolist()
     payload["query_volume"] = query.volume.tolist()
     payload["query_dates"] = query.dates.tolist()
