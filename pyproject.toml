@@ -16,7 +16,7 @@ fetch-transcript = "investing.fetch_transcript:main"
 fetch-prices = "investing.fetch_prices:main"
 check-prices = "investing.check_prices:main"
 check-valuation = "investing.check_valuation:main"
-find-analogues = "investing.find_analogues:main"
+find-shape = "investing.find_shape:main"
 
 [build-system]
 requires = ["hatchling"]
