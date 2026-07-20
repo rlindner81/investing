@@ -16,6 +16,8 @@ fetch-transcript = "investing.fetch_transcript:main"
 fetch-prices = "investing.fetch_prices:main"
 check-prices = "investing.check_prices:main"
 check-valuation = "investing.check_valuation:main"
+check-reactions = "investing.check_reactions:main"
+backfill-announcements = "investing.backfill_announcements:main"
 find-shape = "investing.find_shape:main"
 
 [build-system]
