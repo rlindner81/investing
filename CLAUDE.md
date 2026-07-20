@@ -42,11 +42,10 @@ This is an investment research repository. Each ticker gets its own top-level di
 - `letter` → `YYYY-MM-DD_<quarter>-letter.md` — shareholder/earnings letter (8-K exhibit HTML, converted to markdown)
 - `letter_type` — filing type for the letter URL: typically `8-K` for US companies, `6-K` or `20-F` for foreign filers
 
-```bash
-# Download all missing reports + letters across the whole repo
-uv run fetch-sources
+A ticker is required.
 
-# One ticker only
+```bash
+# Download all missing reports + letters for one ticker
 uv run fetch-sources ODD
 
 # One quarter
@@ -56,8 +55,8 @@ uv run fetch-sources ODD 2026-06-02
 uv run fetch-sources ODD 2026-06-02 --url https://www.sec.gov/Archives/edgar/data/.../
 
 # Only one file type
-uv run fetch-sources --report-only
-uv run fetch-sources --letter-only
+uv run fetch-sources ODD --report-only
+uv run fetch-sources ODD --letter-only
 ```
 
 Source: SEC EDGAR. Add the filing index URL as the `report` key (with its `report_type`) and the 8-K exhibit URL as the `letter` key (with its `letter_type`) in `SOURCES.yml` before running.
@@ -69,8 +68,8 @@ Transcripts are saved as `YYYY-MM-DD_<quarter>-transcript.md` alongside each sum
 Use `fetch-transcript` to download them:
 
 ```bash
-# Download all missing transcripts in the repo
-uv run fetch-transcript
+# Download all missing transcripts for one ticker (required)
+uv run fetch-transcript BARK
 
 # Download a specific quarter
 uv run fetch-transcript BARK 2025-06-04
@@ -115,8 +114,9 @@ prices come from market data — the live price from yfinance for the current
 snapshot, and historical closes from `prices/daily/<TICKER>.csv` (see
 `fetch-prices`) for each report-date column.
 
+A ticker is required (one or more).
+
 ```bash
-uv run check-valuation              # all stocks in TICKERS.yml
 uv run check-valuation ODD BARK     # specific tickers
 uv run check-valuation NVDA         # ad-hoc ticker → yfinance fallback (flagged)
 ```

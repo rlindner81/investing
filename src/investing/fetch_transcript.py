@@ -22,14 +22,14 @@ Foreign filers list under their home exchange, not the US ticker/ADR: the
 SOURCES `_meta` block via `home_exchange` / `home_ticker`.
 
 Usage:
-  # Download all missing transcripts across the whole repo
-  uv run src/fetch_transcript.py
+  # Download all missing transcripts for one ticker (required)
+  uv run fetch-transcript BARK
 
   # Download a specific quarter by ticker and announcement date
-  uv run src/fetch_transcript.py BARK 2025-06-04
+  uv run fetch-transcript BARK 2025-06-04
 
   # Supply a URL directly (bypasses SOURCES.yml lookup)
-  uv run src/fetch_transcript.py BARK 2025-06-04 --url https://...
+  uv run fetch-transcript BARK 2025-06-04 --url https://...
 
 Output files: <TICKER>/quarters/<date>_<quarter>-transcript.md
 """
@@ -203,10 +203,11 @@ def main():
         if not jobs:
             sys.exit(f"No entry found for {ticker} {date} in SOURCES.yml")
 
-    elif len(args) == 0:
-        jobs = [j for j in find_jobs() if not j[3].exists()]
+    elif len(args) == 1:
+        ticker = args[0].upper()
+        jobs = [j for j in find_jobs(ticker) if not j[3].exists()]
         if not jobs:
-            print("All transcripts already downloaded.")
+            print(f"All {ticker} transcripts already downloaded.")
             return
         print(f"Found {len(jobs)} missing transcript(s)")
 

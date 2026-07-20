@@ -39,8 +39,6 @@ from rich.table import Table
 from investing.lib import REPO_ROOT
 from investing.fetch_prices import fetch_live_price
 
-TICKERS_FILE = REPO_ROOT / "TICKERS.yml"
-
 UNIT_MULT = {"thousands": 1_000, "millions": 1_000_000, "units": 1}
 
 console = Console()
@@ -66,12 +64,6 @@ def fetch_fx_rate(currency: str) -> float:
 # --------------------------------------------------------------------------- #
 # Loading
 # --------------------------------------------------------------------------- #
-def load_stocks() -> list[str]:
-    with TICKERS_FILE.open() as f:
-        data = yaml.safe_load(f)
-    return [s["symbol"] for s in data.get("stocks", [])]
-
-
 def load_financials(ticker: str) -> dict | None:
     path = REPO_ROOT / ticker / "FINANCIALS.yml"
     if not path.exists():
@@ -722,10 +714,10 @@ def render(results: list[dict]) -> None:
 # --------------------------------------------------------------------------- #
 def main() -> None:
     parser = argparse.ArgumentParser(description="Show P/S and P/FCF multiples from official reports.")
-    parser.add_argument("tickers", nargs="*", help="Tickers (default: all stocks in TICKERS.yml)")
+    parser.add_argument("tickers", nargs="+", help="Tickers")
     args = parser.parse_args()
 
-    tickers = [t.upper() for t in args.tickers] if args.tickers else load_stocks()
+    tickers = [t.upper() for t in args.tickers]
 
     results = []
     for ticker in tickers:

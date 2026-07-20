@@ -43,15 +43,6 @@ def load_config() -> dict:
         return yaml.safe_load(f)
 
 
-def load_tickers() -> list[str]:
-    data = load_config()
-    b = data.get("benchmarks", {})
-    etfs  = [e["symbol"] for e in b.get("etfs",  [])]
-    peers = [p["symbol"] for p in b.get("peers", [])]
-    stocks = [s["symbol"] for s in data.get("stocks", [])]
-    return etfs + peers + stocks
-
-
 def expand_with_benchmarks(tickers: list[str]) -> list[str]:
     """For any requested ticker that is a known stock, append its benchmarks so
     a later `check-prices <ticker>` finds every file it needs already fetched.
@@ -234,15 +225,12 @@ def fetch_ticker(ticker: str, *, prices_dir: Path, interval: str, prepost: bool,
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Fetch OHLCV price data.")
-    parser.add_argument("tickers", nargs="*", help="Tickers to fetch (default: TICKERS.yml)")
+    parser.add_argument("tickers", nargs="+", help="Tickers to fetch")
     parser.add_argument("--daily", action="store_true", help="Fetch daily candles only")
     parser.add_argument("--hourly", action="store_true", help="Fetch hourly candles only")
     args = parser.parse_args()
 
-    if args.tickers:
-        tickers = expand_with_benchmarks([t.upper() for t in args.tickers])
-    else:
-        tickers = load_tickers()
+    tickers = expand_with_benchmarks([t.upper() for t in args.tickers])
 
     modes = []
     if not args.daily and not args.hourly:

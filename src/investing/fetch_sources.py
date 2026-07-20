@@ -23,10 +23,7 @@ SOURCES.yml format:
     transcript: https://stockanalysis.com/...
 
 Usage:
-  # Download all missing reports + letters across the whole repo
-  uv run fetch-sources
-
-  # One ticker only
+  # Download all missing reports + letters for one ticker (required)
   uv run fetch-sources BARK
 
   # One quarter
@@ -36,8 +33,8 @@ Usage:
   uv run fetch-sources BARK 2025-08-07 --url https://www.sec.gov/Archives/edgar/data/.../
 
   # Only one file type
-  uv run fetch-sources --report-only
-  uv run fetch-sources --letter-only
+  uv run fetch-sources BARK --report-only
+  uv run fetch-sources BARK --letter-only
 """
 
 import re
@@ -702,12 +699,12 @@ def main():
         else:
             rest.append(a); i += 1
 
-    ticker_filter = rest[0].upper() if len(rest) >= 1 else None
-    date_filter   = rest[1]         if len(rest) >= 2 else None
-
-    if len(rest) > 2:
+    if len(rest) < 1 or len(rest) > 2:
         print(__doc__)
         sys.exit(1)
+
+    ticker_filter = rest[0].upper()
+    date_filter   = rest[1]         if len(rest) >= 2 else None
 
     if date_filter:
         # Single quarter: build jobs directly (entry may not have report URL yet)
