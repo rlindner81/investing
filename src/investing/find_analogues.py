@@ -664,6 +664,22 @@ def _fmt_vol(x: float) -> str:
     return f"{x:.0f}"
 
 
+def _fmt_rel(x: float) -> str:
+    """Signed percent return, coloured by direction; · for a missing/NaN bar."""
+    if not np.isfinite(x):
+        return "[dim]·[/]"
+    color = "green" if x > 0 else "red" if x < 0 else "dim"
+    return f"[{color}]{x:+.1%}[/]"
+
+
+def _rel_cells(values: np.ndarray | None, base: float | None) -> list[str]:
+    """Percent return of each raw close in `values` vs `base` (this row's bar 0).
+    `base` None or non-positive → all cells blank. Bar 0 itself reads +0%."""
+    if values is None or base is None or base <= 0:
+        return ["[dim]·[/]"] * (len(values) if values is not None else 0)
+    return [_fmt_rel(v / base - 1.0) for v in values]
+
+
 def channel_transform(cand_win: np.ndarray, q_win: np.ndarray) -> tuple[float, float] | None:
     """The affine map that z-denormalizes a candidate window onto the query's axis,
     expressed as (gain, offset) so ``projected = real × gain + offset`` reproduces
@@ -738,7 +754,10 @@ def report(query: Series, results: list[Match], stats: dict, args) -> None:
                  fpx: np.ndarray | None, fvol: np.ndarray | None,
                  style: str = "",
                  px_tf: tuple[float, float] | None = None,
-                 vol_tf: tuple[float, float] | None = None) -> None:
+                 vol_tf: tuple[float, float] | None = None,
+                 raw_win: np.ndarray | None = None,
+                 raw_fut: np.ndarray | None = None,
+                 show_rel: bool = True) -> None:
         px_cells = [_fmt_px(v) for v in px[-show_past:]]
         vol_cells = [_shade_vol(_fmt_vol(v)) for v in vol[-show_past:]]
         fpx_cells = [_fmt_px(v) for v in (fpx[:fut_cols] if fpx is not None else [])]
@@ -750,6 +769,19 @@ def report(query: Series, results: list[Match], stats: dict, args) -> None:
         # this row's REAL price/volume onto the query's axis — reproduces the
         # projected cells exactly: projected = real × gain + offset.
         table.add_row(lbl, f"px {_fmt_transform(px_tf)}", *px_cells, *fpx_cells)
+        # Relative performance: each forward bar's % return vs this row's own bar 0
+        # (the window end). Computed from the candidate's RAW closes — a true
+        # return, scale-invariant, so it reads the same regardless of the
+        # z-projection. Sits right under px (it is the price channel's return).
+        # Only the forward bars carry a value; the window bars and bar 0 itself
+        # are blank — a backward-running return in the window reads oddly, and
+        # bar 0 is always +0%. Skipped for the query ref row (`show_rel=False`),
+        # which has no forward projection to measure.
+        if show_rel:
+            base = raw_win[-1] if raw_win is not None and len(raw_win) else None
+            rel_fut = _rel_cells(raw_fut[:fut_cols], base) if raw_fut is not None else []
+            rel_fut += ["[dim]·[/]"] * (fut_cols - len(rel_fut))
+            table.add_row("", "rel px", *["[dim]·[/]"] * show_past, *rel_fut)
         table.add_row("", f"vol {_fmt_transform(vol_tf, offset_fmt=_fmt_vol)}", *vol_cells, *fvol_cells)
 
     # Fixed-width label so the d= and date columns line up regardless of ticker
@@ -765,7 +797,8 @@ def report(query: Series, results: list[Match], stats: dict, args) -> None:
     # Reference: the query's actual last-5 (no future). The date is bar 0 —
     # each row's "today" / window-end — the unambiguous anchor to open in a chart.
     add_pair(_label(query.ticker, "(ref)", query.dates[-1]),
-             query.close, query.volume, None, None, style="bold green")
+             query.close, query.volume, None, None, style="bold green",
+             show_rel=False)
     table.add_row("")
 
     for mtch in results[:n_show]:
@@ -776,18 +809,15 @@ def report(query: Series, results: list[Match], stats: dict, args) -> None:
         vol_tf = channel_transform(mtch.win_volume, query.volume)
         add_pair(_label(mtch.ticker, f"d={mtch.score:.2f}", mtch.end_date),
                  win_px, win_vol, fut_px, fut_vol,
-                 px_tf=px_tf, vol_tf=vol_tf)
+                 px_tf=px_tf, vol_tf=vol_tf,
+                 raw_win=mtch.win_close, raw_fut=mtch.fut_close)
 
     console.print(table)
     console.print(
-        f"[dim]Candidate values are z-denormalized onto {query.ticker}'s scale "
-        f"(px = projected price, vol = projected volume). "
-        f"Column 0 is today (the latest bar); -{show_past - 1}..0 are the last shown bars of "
-        f"the {args.query_len}-bar match window; +1..+{fut_cols} are the projection. "
-        f"The date (and weekday) after each ticker is its bar 0 (window-end) — the anchor to open in your chart. "
-        f"The ×g +c next to px and vol is the affine map from the candidate's REAL value onto "
-        f"{query.ticker}'s axis: real × gain + offset = the projected cell (offset in {query.ticker}'s units). "
-        f"E.g. a candidate real price P shows here as P×g+c. --max-scale-ratio bounds the level difference.[/]"
+        f"[dim]px/vol are z-denormalized onto {query.ticker}'s scale; col 0 is today, "
+        f"-{show_past - 1}..0 the {args.query_len}-bar window, +1..+{fut_cols} the projection. "
+        f"×g +c is the affine map from the candidate's REAL value onto {query.ticker}'s axis (real×g+c = cell). "
+        f"rel px = each forward bar's raw % return vs bar 0. Date after the ticker is bar 0 (chart anchor).[/]"
     )
 
     _print_bar_stats(query, results, args, show_past, fut_cols)
