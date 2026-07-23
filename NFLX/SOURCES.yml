@@ -7,6 +7,7 @@ _meta:
   report_type: 10-Q
   letter: https://www.sec.gov/Archives/edgar/data/1065280/000106528026000137/ex991_q126.htm
   letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/nflx/transcripts/543775-q1-2026/
 '2026-01-23':
   quarter: q4-2025
   period_end: '2025-12-31'
@@ -14,6 +15,7 @@ _meta:
   report_type: 10-K
   letter: https://www.sec.gov/Archives/edgar/data/1065280/000106528026000033/ex991_q425.htm
   letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/nflx/transcripts/396519-q4-2025/
 '2025-10-22':
   quarter: q3-2025
   period_end: '2025-09-30'
@@ -21,6 +23,7 @@ _meta:
   report_type: 10-Q
   letter: https://www.sec.gov/Archives/edgar/data/1065280/000106528025000404/ex991_q325.htm
   letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/nflx/transcripts/364276-q3-2025/
 '2025-07-18':
   quarter: q2-2025
   period_end: '2025-06-30'
@@ -28,6 +31,7 @@ _meta:
   report_type: 10-Q
   letter: https://www.sec.gov/Archives/edgar/data/1065280/000106528025000322/ex991_q225.htm
   letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/nflx/transcripts/337130-q2-2025/
 '2025-04-18':
   quarter: q1-2025
   period_end: '2025-03-31'
@@ -35,6 +39,7 @@ _meta:
   report_type: 10-Q
   letter: https://www.sec.gov/Archives/edgar/data/1065280/000106528025000175/ex991_q125.htm
   letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/nflx/transcripts/308436-q1-2025/
 '2025-01-27':
   quarter: q4-2024
   period_end: '2024-12-31'
@@ -42,6 +47,7 @@ _meta:
   report_type: 10-K
   letter: https://www.sec.gov/Archives/edgar/data/1065280/000106528025000033/ex991_q424.htm
   letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/nflx/transcripts/246618-q4-2024/
 '2024-10-18':
   quarter: q3-2024
   period_end: '2024-09-30'
@@ -49,6 +55,7 @@ _meta:
   report_type: 10-Q
   letter: https://www.sec.gov/Archives/edgar/data/1065280/000106528024000286/ex991_q324.htm
   letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/nflx/transcripts/214347-q3-2024/
 '2024-07-19':
   quarter: q2-2024
   period_end: '2024-06-30'
@@ -56,6 +63,7 @@ _meta:
   report_type: 10-Q
   letter: https://www.sec.gov/Archives/edgar/data/1065280/000106528024000199/ex991_q224.htm
   letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/nflx/transcripts/186025-q2-2024/
 '2024-04-22':
   quarter: q1-2024
   period_end: '2024-03-31'
@@ -63,6 +71,7 @@ _meta:
   report_type: 10-Q
   letter: https://www.sec.gov/Archives/edgar/data/1065280/000106528024000127/ex991_q124.htm
   letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/nflx/transcripts/161315-q1-2024/
 '2024-01-26':
   quarter: q4-2023
   period_end: '2023-12-31'
@@ -70,6 +79,7 @@ _meta:
   report_type: 10-K
   letter: https://www.sec.gov/Archives/edgar/data/1065280/000106528024000029/ex991_q423.htm
   letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/nflx/transcripts/124273-q4-2023/
 '2023-10-20':
   quarter: q3-2023
   period_end: '2023-09-30'
@@ -77,6 +87,7 @@ _meta:
   report_type: 10-Q
   letter: https://www.sec.gov/Archives/edgar/data/1065280/000106528023000272/ex991_q323.htm
   letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/nflx/transcripts/83750-q3-2023/
 '2023-07-21':
   quarter: q2-2023
   period_end: '2023-06-30'
@@ -84,6 +95,7 @@ _meta:
   report_type: 10-Q
   letter: https://www.sec.gov/Archives/edgar/data/1065280/000106528023000197/ex991_q223.htm
   letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/nflx/transcripts/63902-q2-2023/
 '2023-04-21':
   quarter: q1-2023
   period_end: '2023-03-31'
@@ -91,6 +103,7 @@ _meta:
   report_type: 10-Q
   letter: https://www.sec.gov/Archives/edgar/data/1065280/000106528023000119/ex991_q123.htm
   letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/nflx/transcripts/50096-q1-2023/
 '2023-01-26':
   quarter: q4-2022
   period_end: '2022-12-31'
@@ -98,6 +111,7 @@ _meta:
   report_type: 10-K
   letter: https://www.sec.gov/Archives/edgar/data/1065280/000106528023000034/ex991_q422.htm
   letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/nflx/transcripts/38298-q4-2022/
 '2026-07-17':
   quarter: q2-2026
   period_end: '2026-06-30'
@@ -105,3 +119,4 @@ _meta:
   report_type: 10-Q
   letter: https://www.sec.gov/Archives/edgar/data/1065280/000106528026000211/ex991_q226.htm
   letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/nflx/transcripts/650439-q2-2026/
