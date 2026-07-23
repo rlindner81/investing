@@ -148,7 +148,10 @@ the scarcity value of a huge content budget declines. The market could be starti
 to price "content is commoditizing" — bearish for the category leader's *premium*
 even as it is bullish for near-term margins.
 
-**Caveat, and why this one stays open:** this read is likely **premature.** Unlike
+**Caveat, and why this one stays open:** this read is likely **premature** — and
+its bull mirror (margin accretion arrives years before moat erosion) is the more
+important half of the story; see
+[WHAT_COULD_GO_RIGHT.md](WHAT_COULD_GO_RIGHT.md) §3. Unlike
 points 1 and 2 — which the data now largely establishes — the commoditization
 thesis is a *hypothesis about the future* that today's price may not yet reflect at
 all. GenAI is still mostly a post-production efficiency story (~300 titles, cost/
