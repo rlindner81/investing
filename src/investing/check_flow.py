@@ -7,17 +7,15 @@ Where check-reaction and check-shape lead with price, check-flow leads with
   columns are the regular-session hours in ET (09:30 … 15:30). Each cell shows
   the hour's volume, its **day-over-day** change vs. the same hour the day below,
   a **day-to-hour** cumulative share (this hour's volume as a running fraction of
-  the day so far), and the hour's close price (dimmed).
+  the day so far), and **oc** (the close plus its signed move from the open, so
+  the bar's direction reads at a glance).
 
 - a DAILY grid: rows are weeks, columns are weekdays, with a week-over-week
   comparison.
 
-Two cues sharpen the read. Volume carries a **candle-direction triangle** — ▲
-when the bar closed up (close ≥ open), ▼ when down — the closest proxy to
-buy/sell pressure available from plain OHLCV (real up/down volume needs tick
-data we don't have). And the **still-forming bar** (the last printed hour today,
-or today's daily bar) has its Δ/fill wrapped in [brackets], so an in-progress
-low total doesn't misread as a real drop.
+The **still-forming bar** (the last printed hour today, or today's daily bar) has
+its Δ/fill wrapped in [brackets], so an in-progress low total doesn't misread as a
+real drop.
 
 Hourly bars come from ``prices/hourly/<TICKER>.csv`` (UTC, see fetch-prices).
 Pre/post-market bars carry zero volume (a Yahoo limitation) and are dropped —
@@ -115,12 +113,11 @@ def refresh_prices(ticker: str) -> None:
 class HourGrid:
     """Regular-session hourly bars pivoted to a (day × hour) grid. Each channel
     is a 2-D array [n_days, 7]; row 0 is the OLDEST day (ascending), aligned with
-    `days`. Missing cells (e.g. a half day) are NaN. `sign` is the candle
-    direction per cell: +1 up (close ≥ open), -1 down, NaN missing."""
+    `days`. Missing cells (e.g. a half day) are NaN."""
     days: list[date]
     close: np.ndarray          # [n_days, 7]
     volume: np.ndarray         # [n_days, 7]
-    sign: np.ndarray           # [n_days, 7]
+    open: np.ndarray           # [n_days, 7]
 
 
 def load_hourly(ticker: str) -> HourGrid:
@@ -130,7 +127,7 @@ def load_hourly(ticker: str) -> HourGrid:
             f"No hourly file at {path.relative_to(REPO_ROOT)} — "
             f"run `uv run fetch-prices --hourly {ticker}` first."
         )
-    # (day, hour) -> (close, open, volume). Only regular-session, volume-bearing bars.
+    # (day, hour) -> (open, close, volume). Only regular-session, volume-bearing bars.
     close_by: dict[tuple[date, str], float] = {}
     open_by: dict[tuple[date, str], float] = {}
     vol_by: dict[tuple[date, str], float] = {}
@@ -159,25 +156,24 @@ def load_hourly(ticker: str) -> HourGrid:
     day_index = {d: i for i, d in enumerate(days)}
     close = np.full((n, len(SESSION_HOURS)), np.nan)
     volume = np.full((n, len(SESSION_HOURS)), np.nan)
-    sign = np.full((n, len(SESSION_HOURS)), np.nan)
+    open_ = np.full((n, len(SESSION_HOURS)), np.nan)
     for (d, hh), v in vol_by.items():
         i, j = day_index[d], hour_index[hh]
         volume[i, j] = v
         close[i, j] = close_by[(d, hh)]
-        sign[i, j] = 1.0 if close_by[(d, hh)] >= open_by[(d, hh)] else -1.0
-    return HourGrid(days=days, close=close, volume=volume, sign=sign)
+        open_[i, j] = open_by[(d, hh)]
+    return HourGrid(days=days, close=close, volume=volume, open=open_)
 
 
 @dataclass
 class WeekGrid:
     """Daily bars pivoted to a (week × weekday) grid. Each channel is [n_weeks, 5];
     row 0 is the OLDEST week (ascending), aligned with `weeks` (each the Monday
-    date of that ISO week). Missing weekdays (holidays) are NaN. `sign` is the
-    daily candle direction per cell: +1 up (close ≥ open), -1 down, NaN missing."""
+    date of that ISO week). Missing weekdays (holidays) are NaN."""
     weeks: list[date]          # Monday of each week, ascending
     close: np.ndarray          # [n_weeks, 5]
     volume: np.ndarray         # [n_weeks, 5]
-    sign: np.ndarray           # [n_weeks, 5]
+    open: np.ndarray           # [n_weeks, 5]
 
 
 def _week_monday(d: date) -> date:
@@ -215,13 +211,13 @@ def load_daily(ticker: str) -> WeekGrid:
     week_index = {w: i for i, w in enumerate(weeks)}
     close = np.full((n, len(WEEKDAYS)), np.nan)
     volume = np.full((n, len(WEEKDAYS)), np.nan)
-    sign = np.full((n, len(WEEKDAYS)), np.nan)
+    open_ = np.full((n, len(WEEKDAYS)), np.nan)
     for (w, wd), v in vol_by.items():
         i = week_index[w]
         volume[i, wd] = v
         close[i, wd] = close_by[(w, wd)]
-        sign[i, wd] = 1.0 if close_by[(w, wd)] >= open_by[(w, wd)] else -1.0
-    return WeekGrid(weeks=weeks, close=close, volume=volume, sign=sign)
+        open_[i, wd] = open_by[(w, wd)]
+    return WeekGrid(weeks=weeks, close=close, volume=volume, open=open_)
 
 
 # ---------------------------------------------------------------------------
@@ -273,8 +269,15 @@ def flow_metrics(volume: np.ndarray, baseline_n: int = 8):
 # Formatting (mirrors check_reaction's px / vol / rel cell style)
 # ---------------------------------------------------------------------------
 
-def _fmt_px(x: float) -> str:
-    return "[dim]·[/]" if not np.isfinite(x) else f"[dim]{x:.2f}[/]"
+def _fmt_close_move(close: float, open_: float) -> str:
+    """The bar's close, then its absolute move from the open (close − open) as a
+    signed number — narrower than printing the open too, and the sign carries the
+    candle direction (green up / red down). Close is full."""
+    if not (np.isfinite(close) and np.isfinite(open_)):
+        return "[dim]·[/]"
+    move = close - open_
+    color = "green" if move > 0 else "red" if move < 0 else "dim"
+    return f"{close:.2f} [{color}]{move:+.2f}[/]"
 
 
 def _vol_str(x: float) -> str:
@@ -286,30 +289,17 @@ def _vol_str(x: float) -> str:
     return f"{x:.0f}"
 
 
-def _fmt_vol(x: float, sign: float = float("nan")) -> str:
-    """Volume magnitude prefixed with the bar's candle direction: ▲ up candle
-    (close ≥ open), ▼ down candle, no glyph when the sign is unknown. The
-    triangle here means *price direction of the bar*, not change-in-volume — the
-    Δ row owns the change signal (via colour), so the two never clash."""
-    if not np.isfinite(x):
+def _fmt_vol_rel(vol: float, rel: float, partial: bool = False) -> str:
+    """Volume magnitude and its period-over-period change in one cell, e.g.
+    ``464K -1%`` — the change colored (green more / red less), `partial` bracketed
+    for a still-running period. Blank change (row 0) shows just the volume."""
+    if not np.isfinite(vol):
         return "[dim]·[/]"
-    body = _vol_str(x)
-    if sign > 0:
-        return f"▲{body}"
-    if sign < 0:
-        return f"▼{body}"
-    return body
-
-
-def _fmt_rel(x: float, partial: bool = False) -> str:
-    """Period-over-period volume change as a signed % (green more / red less).
-    `partial` wraps a change against a still-running period in [brackets];
-    the colour is kept full so it doesn't read as a different signal."""
-    if not np.isfinite(x):
-        return "[dim]·[/]"
-    body = f"[{x:+.0%}]" if partial else f"{x:+.0%}"
-    color = "green" if x > 0 else "red" if x < 0 else "dim"
-    return f"[{color}]{body}[/]"
+    if not np.isfinite(rel):
+        return _vol_str(vol)
+    body = f"[{rel:+.0%}]" if partial else f"{rel:+.0%}"
+    color = "green" if rel > 0 else "red" if rel < 0 else "dim"
+    return f"{_vol_str(vol)} [{color}]{body}[/]"
 
 
 def _fmt_share(x: float, partial: bool = False) -> str:
@@ -343,9 +333,10 @@ def report_hourly(ticker: str, grid: HourGrid, n_days: int) -> None:
         f"(newest {min(n_days, n)} of {n} days; US session, {tz_name} times)"
     )
     console.print(
-        "[dim]per cell: volume (▲ up candle / ▼ down) · "
-        "Δ day-over-day, same hour ([green]green[/] more / [red]red[/] less) · "
-        f"fill % vs {2 * n_days}-day avg day ({_vol_str(baseline)}) · close   "
+        "[dim]per cell: volume + Δ day-over-day, same hour "
+        "([green]green[/] more / [red]red[/] less) · "
+        f"fill % vs {2 * n_days}-day avg day ({_vol_str(baseline)}) · "
+        "oc close + move from open   "
         "[italic][…] = period still running (provisional)[/][/]"
     )
 
@@ -362,19 +353,16 @@ def report_hourly(ticker: str, grid: HourGrid, n_days: int) -> None:
     p_col = _last_present(volume[p_row]) if market_open_now() else -1
     order = list(range(n - 1, -1, -1))[:n_days]     # newest first
     for i in order:
-        vol_cells = [_fmt_vol(v, s) for v, s in zip(volume[i], grid.sign[i])]
-        dod_cells = [_fmt_rel(v, i == p_row and j == p_col)
-                     for j, v in enumerate(dod[i])]
+        vol_cells = [_fmt_vol_rel(v, r, i == p_row and j == p_col)
+                     for j, (v, r) in enumerate(zip(volume[i], dod[i]))]
         fill_cells = [_fmt_share(v, i == p_row and j == p_col)
                       for j, v in enumerate(fill[i])]
-        px_cells = [_fmt_px(v) for v in close[i]]
-
+        oc_cells = [_fmt_close_move(c, o) for o, c in zip(grid.open[i], close[i])]
         d = days[i]
         lbl = f"[bold]{d.strftime('%a')}[/] [dim]{d.isoformat()}[/]"
-        table.add_row(lbl, "vol", *vol_cells)
-        table.add_row("", "Δ dod", *dod_cells)
+        table.add_row(lbl, "vol Δ", *vol_cells)
         table.add_row("", "fill%", *fill_cells)
-        table.add_row("", "px", *px_cells)
+        table.add_row("", "oc", *oc_cells)
         table.add_row("")
 
     console.print(table)
@@ -395,9 +383,10 @@ def report_daily(ticker: str, grid: WeekGrid, n_weeks: int) -> None:
         f"(newest {min(n_weeks, n)} of {n} weeks; Mon–Fri)"
     )
     console.print(
-        "[dim]per cell: volume (▲ up candle / ▼ down) · "
-        "Δ week-over-week, same weekday ([green]green[/] more / [red]red[/] less) · "
-        f"fill % vs {2 * n_weeks}-week avg week ({_vol_str(baseline)}) · close   "
+        "[dim]per cell: volume + Δ week-over-week, same weekday "
+        "([green]green[/] more / [red]red[/] less) · "
+        f"fill % vs {2 * n_weeks}-week avg week ({_vol_str(baseline)}) · "
+        "oc close + move from open   "
         "[italic][…] = period still running (provisional)[/][/]"
     )
 
@@ -414,19 +403,16 @@ def report_daily(ticker: str, grid: WeekGrid, n_weeks: int) -> None:
     p_col = datetime.now(ET).weekday() if market_open_now() else -1
     order = list(range(n - 1, -1, -1))[:n_weeks]     # newest first
     for i in order:
-        vol_cells = [_fmt_vol(v, s) for v, s in zip(volume[i], grid.sign[i])]
-        wow_cells = [_fmt_rel(v, i == p_row and j == p_col)
-                     for j, v in enumerate(wow[i])]
+        vol_cells = [_fmt_vol_rel(v, r, i == p_row and j == p_col)
+                     for j, (v, r) in enumerate(zip(volume[i], wow[i]))]
         fill_cells = [_fmt_share(v, i == p_row and j == p_col)
                       for j, v in enumerate(fill[i])]
-        px_cells = [_fmt_px(v) for v in close[i]]
-
+        oc_cells = [_fmt_close_move(c, o) for o, c in zip(grid.open[i], close[i])]
         w = weeks[i]
         lbl = f"[bold]{w.isoformat()}[/]"
-        table.add_row(lbl, "vol", *vol_cells)
-        table.add_row("", "Δ wow", *wow_cells)
+        table.add_row(lbl, "vol Δ", *vol_cells)
         table.add_row("", "fill%", *fill_cells)
-        table.add_row("", "px", *px_cells)
+        table.add_row("", "oc", *oc_cells)
         table.add_row("")
 
     console.print(table)
