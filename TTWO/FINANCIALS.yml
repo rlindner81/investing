@@ -1,0 +1,318 @@
+# TTWO (Take-Two Interactive) — figures for multiple calculations.
+# FISCAL YEAR ENDS MARCH 31 (non-calendar): FY2026 = Apr 2025–Mar 2026, so
+#   q1-fy2026 ended 2025-06-30 … q4-fy2026 ended 2026-03-31.
+# All monetary values in USD MILLIONS (the filings report in $ millions).
+# Source: SEC reports under TTWO/quarters/. See CLAUDE.md → "Valuation Multiples".
+#
+# Notes specific to TTWO:
+#   - TWO capex lines. `ytd_capex_ppe` = "Purchases of fixed assets" (investing
+#     section) → matches company/"free cash flow" convention. `ytd_capex_software`
+#     = the cash spent capitalizing "Software development costs and licenses" (the
+#     game-development capex buried in the operating-activities changes-in-assets
+#     line). The strict FCF flavour nets BOTH plus SBC; company FCF = OCF − PP&E.
+#   - shares_outstanding = common issued − treasury (23.7M held throughout), from
+#     the balance-sheet cover parenthetical, in millions.
+#   - announce_date is the item-2.02 8-K acceptance date; every earnings 8-K was
+#     furnished ~16:15 ET, so announce_session is `after-close` for all quarters.
+#   - GUIDANCE: TTWO prints a GAAP total-net-revenue "Outlook" range for both the
+#     full year and the next quarter in every earnings release, alongside its
+#     headline Net Bookings guidance. The revenue ranges are transcribed here.
+#   - Perennially GAAP-unprofitable over this window (goodwill impairments FY2024
+#     $2.34B, FY2025 $3.55B tied to Zynga); OCF swings around game launches.
+#     GTA VI ships in FY2027 — the FY2027 initial guide ($7.9–8.1B net revenue,
+#     $8.0–8.2B net bookings) is the pre-launch baseline.
+
+unit: millions
+
+quarters:
+  # --- FY2023 (ends Mar 2023): reach-back TTM base for the FY2024/25 display ---
+  - id: q1-2023
+    end_date: 2022-06-30
+    report_date: 2022-08-09
+    announce_date: 2022-08-08
+    announce_session: after-close
+    revenue: 1102.4
+    shares_outstanding: 166.2       # 189.9 issued − 23.7 treasury
+    ytd_operating_cf: 100.8
+    ytd_capex_ppe: 42.5
+    ytd_capex_software: 103.5       # capitalized software dev (operating section)
+    ytd_sbc: 43.9
+    cash: 847.4
+    total_debt: 3285.5              # 350.0 short-term + 2,935.5 long-term
+    guidance_nq_revenue_low: 1370   # Q2 FY2023 GAAP net revenue outlook
+    guidance_nq_revenue_high: 1420
+    guidance_fy_revenue_low: 5730   # FY2023 GAAP net revenue outlook
+    guidance_fy_revenue_high: 5830
+
+  - id: q2-2023
+    end_date: 2022-09-30
+    report_date: 2022-11-08
+    announce_date: 2022-11-07
+    announce_session: after-close
+    revenue: 1393.5
+    shares_outstanding: 167.5       # 191.2 − 23.7
+    ytd_operating_cf: 155.4
+    ytd_capex_ppe: 99.4
+    ytd_capex_software: 252.2
+    ytd_sbc: 151.8
+    cash: 956.4
+    total_debt: 3285.5
+    guidance_nq_revenue_low: 1430   # Q3 FY2023
+    guidance_nq_revenue_high: 1480
+    guidance_fy_revenue_low: 5410   # FY2023 (lowered)
+    guidance_fy_revenue_high: 5510
+
+  - id: q3-2023
+    end_date: 2022-12-31
+    report_date: 2023-02-07
+    announce_date: 2023-02-06
+    announce_session: after-close
+    revenue: 1407.8
+    shares_outstanding: 168.5       # 192.2 − 23.7
+    ytd_operating_cf: 35.8
+    ytd_capex_ppe: 137.7
+    ytd_capex_software: 362.9
+    ytd_sbc: 238.5
+    cash: 860.9
+    total_debt: 3085.5             # 350.0 + 2,735.5
+    guidance_nq_revenue_low: 1336   # Q4 FY2023
+    guidance_nq_revenue_high: 1386
+    guidance_fy_revenue_low: 5240   # FY2023 (lowered again)
+    guidance_fy_revenue_high: 5290
+
+  - id: q4-2023
+    end_date: 2023-03-31
+    report_date: 2023-05-26
+    announce_date: 2023-05-17
+    announce_session: after-close
+    revenue: 1446.2                # FY2023 5,349.9 − 9mo 3,903.7
+    shares_outstanding: 168.9       # 192.6 − 23.7
+    ytd_operating_cf: 1.1           # full-year FY2023
+    ytd_capex_ppe: 204.2
+    ytd_capex_software: 492.8
+    ytd_sbc: 317.8
+    cash: 827.4
+    total_debt: 3079.8             # 1,346.8 short-term + 1,733.0 long-term
+    guidance_nq_revenue_low: 1210   # Q1 FY2024
+    guidance_nq_revenue_high: 1260
+    guidance_fy_revenue_low: 5370   # initial FY2024
+    guidance_fy_revenue_high: 5470
+
+  # --- FY2024 (ends Mar 2024) ---
+  - id: q1-2024
+    end_date: 2023-06-30
+    report_date: 2023-08-09
+    announce_date: 2023-08-08
+    announce_session: after-close
+    revenue: 1284.7
+    shares_outstanding: 169.8       # 193.5 − 23.7
+    ytd_operating_cf: 5.0
+    ytd_capex_ppe: 31.5
+    ytd_capex_software: 125.2
+    ytd_sbc: 78.7
+    cash: 775.8
+    total_debt: 3076.8             # 372.1 + 2,704.7
+    guidance_nq_revenue_low: 1260   # Q2 FY2024
+    guidance_nq_revenue_high: 1310
+    guidance_fy_revenue_low: 5370   # FY2024 (reiterated)
+    guidance_fy_revenue_high: 5470
+
+  - id: q2-2024
+    end_date: 2023-09-30
+    report_date: 2023-11-09
+    announce_date: 2023-11-08
+    announce_session: after-close
+    revenue: 1299.2
+    shares_outstanding: 170.0       # 193.7 − 23.7
+    ytd_operating_cf: 69.8
+    ytd_capex_ppe: 59.9
+    ytd_capex_software: 300.7
+    ytd_sbc: 169.1
+    cash: 756.8
+    total_debt: 3080.2             # 373.1 + 2,707.1
+    guidance_nq_revenue_low: 1290   # Q3 FY2024
+    guidance_nq_revenue_high: 1340
+    guidance_fy_revenue_low: 5370   # FY2024 (reiterated)
+    guidance_fy_revenue_high: 5470
+
+  - id: q3-2024
+    end_date: 2023-12-31
+    report_date: 2024-02-09
+    announce_date: 2024-02-08
+    announce_session: after-close
+    revenue: 1366.3
+    shares_outstanding: 170.5       # 194.2 − 23.7
+    ytd_operating_cf: -7.2
+    ytd_capex_ppe: 95.5
+    ytd_capex_software: 457.3
+    ytd_sbc: 255.0
+    cash: 898.7
+    total_debt: 3081.4             # 373.2 + 2,708.2
+    guidance_nq_revenue_low: 1323   # Q4 FY2024
+    guidance_nq_revenue_high: 1373
+    guidance_fy_revenue_low: 5270   # FY2024 (lowered)
+    guidance_fy_revenue_high: 5320
+
+  - id: q4-2024
+    end_date: 2024-03-31
+    report_date: 2024-05-22
+    announce_date: 2024-05-16
+    announce_session: after-close
+    revenue: 1399.4                # FY2024 5,349.6 − 9mo 3,950.2
+    shares_outstanding: 170.8       # 194.5 − 23.7
+    ytd_operating_cf: -16.1         # full-year FY2024
+    ytd_capex_ppe: 141.7
+    ytd_capex_software: 603.4
+    ytd_sbc: 335.6
+    cash: 754.0
+    total_debt: 3082.9             # 24.6 + 3,058.3
+    guidance_nq_revenue_low: 1300   # Q1 FY2025
+    guidance_nq_revenue_high: 1350
+    guidance_fy_revenue_low: 5570   # initial FY2025
+    guidance_fy_revenue_high: 5670
+
+  # --- FY2025 (ends Mar 2025), displayed ---
+  - id: q1-2025
+    end_date: 2024-06-30
+    report_date: 2024-08-09
+    announce_date: 2024-08-08
+    announce_session: after-close
+    revenue: 1338.2
+    shares_outstanding: 175.2       # 198.8 − 23.7 (rounds; 198.9 issued table)
+    ytd_operating_cf: -191.0
+    ytd_capex_ppe: 35.1
+    ytd_capex_software: 197.9
+    ytd_sbc: 75.3
+    cash: 1081.1
+    total_debt: 3653.3             # 598.9 + 3,054.4
+    guidance_nq_revenue_low: 1290   # Q2 FY2025
+    guidance_nq_revenue_high: 1340
+    guidance_fy_revenue_low: 5570   # FY2025 (reiterated)
+    guidance_fy_revenue_high: 5670
+
+  - id: q2-2025
+    end_date: 2024-09-30
+    report_date: 2024-11-07
+    announce_date: 2024-11-06
+    announce_session: after-close
+    revenue: 1353.1
+    shares_outstanding: 175.5       # 199.2 − 23.7
+    ytd_operating_cf: -319.4
+    ytd_capex_ppe: 71.9
+    ytd_capex_software: 362.8
+    ytd_sbc: 161.5
+    cash: 876.1
+    total_debt: 3655.1             # 599.2 + 3,055.9
+    guidance_nq_revenue_low: 1360   # Q3 FY2025
+    guidance_nq_revenue_high: 1410
+    guidance_fy_revenue_low: 5570   # FY2025 (reiterated)
+    guidance_fy_revenue_high: 5670
+
+  - id: q3-2025
+    end_date: 2024-12-31
+    report_date: 2025-02-07
+    announce_date: 2025-02-06
+    announce_session: after-close
+    revenue: 1359.8
+    shares_outstanding: 176.4       # 200.1 − 23.7
+    ytd_operating_cf: -324.2
+    ytd_capex_ppe: 115.3
+    ytd_capex_software: 568.9
+    ytd_sbc: 244.4
+    cash: 1206.8
+    total_debt: 3657.9             # 599.6 + 3,058.3
+    guidance_nq_revenue_low: 1519   # Q4 FY2025
+    guidance_nq_revenue_high: 1619
+    guidance_fy_revenue_low: 5570   # FY2025 (reiterated)
+    guidance_fy_revenue_high: 5670
+
+  - id: q4-2025
+    end_date: 2025-03-31
+    report_date: 2025-05-20
+    announce_date: 2025-05-15
+    announce_session: after-close
+    revenue: 1582.5                # FY2025 5,633.6 − 9mo 4,051.1
+    shares_outstanding: 177.1       # 200.8 − 23.7
+    ytd_operating_cf: -45.2         # full-year FY2025
+    ytd_capex_ppe: 169.4
+    ytd_capex_software: 691.6
+    ytd_sbc: 324.0
+    cash: 1456.1
+    total_debt: 3661.1             # 1,148.5 + 2,512.6
+    guidance_nq_revenue_low: 1350   # Q1 FY2026
+    guidance_nq_revenue_high: 1400
+    guidance_fy_revenue_low: 5950   # initial FY2026
+    guidance_fy_revenue_high: 6050
+
+  # --- FY2026 (ends Mar 2026), displayed / complete ---
+  - id: q1-2026
+    end_date: 2025-06-30
+    report_date: 2025-08-07
+    announce_date: 2025-08-07
+    announce_session: after-close
+    revenue: 1503.8
+    shares_outstanding: 184.4       # 208.1 − 23.7
+    ytd_operating_cf: -44.7
+    ytd_capex_ppe: 25.1
+    ytd_capex_software: 164.6
+    ytd_sbc: 40.7
+    cash: 2025.0
+    total_debt: 3065.1             # 549.0 + 2,516.1
+    guidance_nq_revenue_low: 1650   # Q2 FY2026
+    guidance_nq_revenue_high: 1700
+    guidance_fy_revenue_low: 6100   # FY2026 (raised)
+    guidance_fy_revenue_high: 6200
+
+  - id: q2-2026
+    end_date: 2025-09-30
+    report_date: 2025-11-07
+    announce_date: 2025-11-06
+    announce_session: after-close
+    revenue: 1773.8
+    shares_outstanding: 184.7       # 208.4 − 23.7
+    ytd_operating_cf: 83.7
+    ytd_capex_ppe: 57.0
+    ytd_capex_software: 345.0
+    ytd_sbc: 136.6
+    cash: 1869.1
+    total_debt: 3066.6             # 549.3 + 2,517.3
+    guidance_nq_revenue_low: 1570   # Q3 FY2026
+    guidance_nq_revenue_high: 1620
+    guidance_fy_revenue_low: 6380   # FY2026 (raised)
+    guidance_fy_revenue_high: 6480
+
+  - id: q3-2026
+    end_date: 2025-12-31
+    report_date: 2026-02-04
+    announce_date: 2026-02-03
+    announce_session: after-close
+    revenue: 1699.0
+    shares_outstanding: 185.1       # 208.8 − 23.7
+    ytd_operating_cf: 388.9
+    ytd_capex_ppe: 126.0
+    ytd_capex_software: 518.5
+    ytd_sbc: 226.9
+    cash: 2160.0
+    total_debt: 3069.2             # 582.2 + 2,487.0
+    guidance_nq_revenue_low: 1573   # Q4 FY2026
+    guidance_nq_revenue_high: 1623
+    guidance_fy_revenue_low: 6550   # FY2026 (raised)
+    guidance_fy_revenue_high: 6600
+
+  - id: q4-2026
+    end_date: 2026-03-31
+    report_date: 2026-05-22
+    announce_date: 2026-05-21
+    announce_session: after-close
+    revenue: 1679.8                # FY2026 6,656.4 − 9mo 4,976.6
+    shares_outstanding: 185.4       # 209.1 − 23.7
+    ytd_operating_cf: 624.3         # full-year FY2026
+    ytd_capex_ppe: 162.8
+    ytd_capex_software: 688.9
+    ytd_sbc: 305.3
+    cash: 1545.5
+    total_debt: 2518.0             # 30.0 + 2,488.0
+    guidance_nq_revenue_low: 1450   # Q1 FY2027
+    guidance_nq_revenue_high: 1500
+    guidance_fy_revenue_low: 7900   # initial FY2027 (GTA VI year)
+    guidance_fy_revenue_high: 8100

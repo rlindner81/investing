@@ -42,6 +42,9 @@ benchmarks:
     - symbol: ILF
       issuer: iShares (BlackRock)
       description: Tracks the S&P Latin America 40 — large-cap Latin American equities across Brazil, Mexico, Chile; holds MercadoLibre, Vale, Petrobras, banks
+    - symbol: IPAY
+      issuer: Amplify (formerly ETFMG)
+      description: Tracks the Prime Mobile Payments Index — global digital-payments and card-network companies including Visa, Mastercard, PayPal, Block, Fiserv, Global Payments
 
   peers:
     - symbol: BKNG
@@ -85,4 +88,10 @@ stocks:
     benchmarks: [SPY, ILF, ONLN]
   - symbol: NFLX
     tags: [mega_cap, streaming, media, subscription]
+    benchmarks: [SPY, XLC]
+  - symbol: PYPL
+    tags: [large_cap, fintech, payments, ecommerce]
+    benchmarks: [SPY, IPAY]
+  - symbol: TTWO
+    tags: [large_cap, gaming, media, interactive_entertainment, event_driven]
     benchmarks: [SPY, XLC]

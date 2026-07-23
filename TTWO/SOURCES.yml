@@ -1,0 +1,167 @@
+_meta:
+  cik: "0000946581"
+# Take-Two Interactive — FISCAL YEAR ENDS MARCH 31 (non-calendar).
+#   FY2026 = Apr 2025–Mar 2026, so q1-fy2026 ended 2025-06-30 … q4-fy2026 2026-03-31.
+# stockanalysis.com labels transcripts by TTWO's fiscal quarter (q1-2026 = the Aug
+#   call for fiscal Q1 FY2026), so its slugs line up with our fiscal labels.
+# Earnings release exhibit pattern: ttwo<n>q<yy>earningsrelease.htm off each 2.02 8-K.
+
+'2026-05-22':
+  quarter: q4-fy2026
+  period_end: '2026-03-31'
+  report: https://www.sec.gov/Archives/edgar/data/946581/000162828026037434/
+  report_type: 10-K
+  letter: https://www.sec.gov/Archives/edgar/data/946581/000162828026037260/ttwo4q26earningsrelease.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/ttwo/transcripts/537669-q4-2026/
+
+'2026-02-04':
+  quarter: q3-fy2026
+  period_end: '2025-12-31'
+  report: https://www.sec.gov/Archives/edgar/data/946581/000162828026005119/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/946581/000162828026005010/ttwo3q26earningsrelease.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/ttwo/transcripts/412555-q3-2026/
+
+'2025-11-07':
+  quarter: q2-fy2026
+  period_end: '2025-09-30'
+  report: https://www.sec.gov/Archives/edgar/data/946581/000162828025050326/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/946581/000162828025050182/ttwo2q26earningsrelease.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/ttwo/transcripts/372479-q2-2026/
+
+'2025-08-07':
+  quarter: q1-fy2026
+  period_end: '2025-06-30'
+  report: https://www.sec.gov/Archives/edgar/data/946581/000162828025038963/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/946581/000162828025038919/ttwo1q26earningsrelease.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/ttwo/transcripts/347141-q1-2026/
+
+'2025-05-20':
+  quarter: q4-fy2025
+  period_end: '2025-03-31'
+  report: https://www.sec.gov/Archives/edgar/data/946581/000162828025026694/
+  report_type: 10-K
+  letter: https://www.sec.gov/Archives/edgar/data/946581/000162828025025900/ttwo4q25earningsrelease.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/ttwo/transcripts/304148-q4-2025/
+
+'2025-02-07':
+  quarter: q3-fy2025
+  period_end: '2024-12-31'
+  report: https://www.sec.gov/Archives/edgar/data/946581/000162828025004308/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/946581/000162828025004262/ttwo3q25earningsrelease.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/ttwo/transcripts/253571-q3-2025/
+
+'2024-11-07':
+  quarter: q2-fy2025
+  period_end: '2024-09-30'
+  report: https://www.sec.gov/Archives/edgar/data/946581/000162828024045867/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/946581/000162828024045720/ttwo2q25earningsrelease.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/ttwo/transcripts/223752-q2-2025/
+
+'2024-08-09':
+  quarter: q1-fy2025
+  period_end: '2024-06-30'
+  report: https://www.sec.gov/Archives/edgar/data/946581/000162828024036273/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/946581/000162828024036152/ttwo1q25earningsrelease.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/ttwo/transcripts/195370-q1-2025/
+
+'2024-05-22':
+  quarter: q4-fy2024
+  period_end: '2024-03-31'
+  report: https://www.sec.gov/Archives/edgar/data/946581/000162828024024623/
+  report_type: 10-K
+  letter: https://www.sec.gov/Archives/edgar/data/946581/000162828024023782/ttwo4q24earningsrelease.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/ttwo/transcripts/156919-q4-2024/
+
+'2024-02-09':
+  quarter: q3-fy2024
+  period_end: '2023-12-31'
+  report: https://www.sec.gov/Archives/edgar/data/946581/000162828024003951/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/946581/000162828024003879/ttwo3q24earningsrelease.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/ttwo/transcripts/129456-q3-2024/
+
+'2023-11-09':
+  quarter: q2-fy2024
+  period_end: '2023-09-30'
+  report: https://www.sec.gov/Archives/edgar/data/946581/000162828023037956/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/946581/000162828023037860/ttwo2q24earningsrelease.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/ttwo/transcripts/88640-q2-2024/
+
+'2023-08-09':
+  quarter: q1-fy2024
+  period_end: '2023-06-30'
+  report: https://www.sec.gov/Archives/edgar/data/946581/000162828023028326/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/946581/000162828023028199/ttwo1q24earningsrelease.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/ttwo/transcripts/69707-q1-2024/
+
+'2023-05-26':
+  quarter: q4-fy2023
+  period_end: '2023-03-31'
+  report: https://www.sec.gov/Archives/edgar/data/946581/000162828023019851/
+  report_type: 10-K
+  letter: https://www.sec.gov/Archives/edgar/data/946581/000162828023018699/ttwo4q23earningsrelease.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/ttwo/transcripts/49706-q4-2023/
+
+'2023-02-07':
+  quarter: q3-fy2023
+  period_end: '2022-12-31'
+  report: https://www.sec.gov/Archives/edgar/data/946581/000162828023002448/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/946581/000162828023002424/ttwo3q23earningsrelease.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/ttwo/transcripts/42909-q3-2023/
+
+'2022-11-08':
+  quarter: q2-fy2023
+  period_end: '2022-09-30'
+  report: https://www.sec.gov/Archives/edgar/data/946581/000162828022028716/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/946581/000162828022028640/ttwo2q23earningsrelease.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/ttwo/transcripts/27411-q2-2023/
+
+'2022-08-09':
+  quarter: q1-fy2023
+  period_end: '2022-06-30'
+  report: https://www.sec.gov/Archives/edgar/data/946581/000162828022021685/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/946581/000162828022021573/ttwo1q23earningsrelease.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/ttwo/transcripts/27378-q1-2023/
+
+'2022-05-17':
+  quarter: q4-fy2022
+  period_end: '2022-03-31'
+  report: https://www.sec.gov/Archives/edgar/data/946581/000162828022014580/
+  report_type: 10-K
+  letter: https://www.sec.gov/Archives/edgar/data/946581/000162828022014496/ttwo4q22earningsrelease.htm
+  letter_type: 8-K
+
+'2022-02-08':
+  quarter: q3-fy2022
+  period_end: '2021-12-31'
+  report: https://www.sec.gov/Archives/edgar/data/946581/000162828022001929/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/946581/000162828022001906/ttwo3q22earningsrelease.htm
+  letter_type: 8-K
