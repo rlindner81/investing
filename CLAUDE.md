@@ -16,6 +16,7 @@ This is an investment research repository. Each ticker gets its own top-level di
   SOURCES.yml            — SEC filing URLs and filing types per quarter (see "Downloading Source Files")
   quarters/
     YYYY-MM-DD_<label>-summary.md   — one file per reported earnings, date = announcement date
+  notes/                 — freeform deep-dive notes on ticker-specific topics (optional; see "Ticker Notes")
 ```
 
 ## File Conventions
@@ -25,6 +26,21 @@ This is an investment research repository. Each ticker gets its own top-level di
 **management-team.md** covers: one section per named executive with background, career prior to the company, role, and notable facts. Ends with corporate governance notes.
 
 **Quarterly summary files** are named `YYYY-MM-DD_q#-<period>-summary.md` where the date is the announcement date. Each file covers: reported financial metrics (income statement, balance sheet, consensus vs. actual), key operating KPIs, forward guidance, stock reaction, and conference call highlights (CEO statements, CFO statements, key analyst Q&A themes).
+
+## Ticker Notes
+
+Some tickers have a `notes/` subdirectory holding freeform deep-dive markdown on
+topics that don't fit the standard files — a cost metric, a flagship project, a
+benchmark rationale, a recurring guidance quirk, etc. These capture insight
+gained over time and the *why* behind non-obvious choices (e.g. KGC has
+`AISC.md`, `GreatBear.md`, `BENCHMARK_INFO.md`).
+
+**Before answering a complex or deeper question about a ticker, check its
+`notes/` directory** — a relevant note often already holds the framing or the
+caveat. When a genuinely new insight emerges (not just this-conversation
+scratch), consider adding or updating a note there. Match the house style: an H1
+title, bold lead-ins, `\$` escaped in all prose, and relative markdown links
+between notes.
 
 ## Quarterly File Naming
 
