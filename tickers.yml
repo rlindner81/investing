@@ -39,6 +39,9 @@ benchmarks:
     - symbol: GDX
       issuer: VanEck
       description: Tracks the NYSE Arca Gold Miners Index — global gold-mining companies including Newmont, Agnico Eagle, Barrick, Kinross
+    - symbol: GLD
+      issuer: State Street Global Advisors (World Gold Council sponsor)
+      description: Tracks the spot price of physical gold bullion — the metal itself, not miners. The purest gold-price benchmark for isolating commodity beta from mining-equity risk.
     - symbol: ILF
       issuer: iShares (BlackRock)
       description: Tracks the S&P Latin America 40 — large-cap Latin American equities across Brazil, Mexico, Chile; holds MercadoLibre, Vale, Petrobras, banks
@@ -82,7 +85,7 @@ stocks:
     benchmarks: [SPY, XLY, ONLN, PAWZ]
   - symbol: KGC
     tags: [large_cap, gold, mining, materials]
-    benchmarks: [SPY, GDX]
+    benchmarks: [SPY, GDX, GLD]
   - symbol: MELI
     tags: [large_cap, ecommerce, fintech, marketplace, latam]
     benchmarks: [SPY, ILF, ONLN]
