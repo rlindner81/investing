@@ -47,7 +47,7 @@ First run `fetch-prices` so any missing price data is downloaded up front. Then 
 ```bash
 uv run fetch-prices $ARGUMENTS
 COLUMNS=300 uv run check-valuation $ARGUMENTS > /tmp/review-ticker-$ARGUMENTS/valuation-raw.txt 2>&1
-COLUMNS=300 uv run check-prices $ARGUMENTS > /tmp/review-ticker-$ARGUMENTS/prices-raw.txt 2>&1
+COLUMNS=300 uv run check-price $ARGUMENTS > /tmp/review-ticker-$ARGUMENTS/prices-raw.txt 2>&1
 ```
 
 Read both files back in full before writing anything else.

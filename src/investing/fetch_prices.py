@@ -19,7 +19,7 @@ Usage:
   uv run fetch-prices --hourly SPY QQQ  # hourly only, specific tickers
 
 Naming a tracked stock also fetches its benchmarks (from TICKERS.yml), so a
-subsequent `check-prices <stock>` finds every file it needs already present.
+subsequent `check-price <stock>` finds every file it needs already present.
 """
 
 import argparse
@@ -45,7 +45,7 @@ def load_config() -> dict:
 
 def expand_with_benchmarks(tickers: list[str]) -> list[str]:
     """For any requested ticker that is a known stock, append its benchmarks so
-    a later `check-prices <ticker>` finds every file it needs already fetched.
+    a later `check-price <ticker>` finds every file it needs already fetched.
     Order-preserving and de-duplicated; benchmarks follow their stock."""
     benchmarks = {
         s["symbol"]: s.get("benchmarks", []) for s in load_config().get("stocks", [])

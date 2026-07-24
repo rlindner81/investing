@@ -9,10 +9,10 @@
 - [ODD](ODD/reviews)
 - [SNAP](SNAP/reviews)
 
-## usage check-prices
+## usage check-price
 
 ```
-usage: check-prices [-h] [--as-of DATE] [--weeks | --months] tickers [tickers ...]
+usage: check-price [-h] [--as-of DATE] [--weeks | --months] tickers [tickers ...]
 
 Analyse prices vs benchmarks.
 
@@ -30,10 +30,10 @@ options:
 
 To ad-hoc analyze a stock
 ```
-uv run check-prices NIO
+uv run check-price NIO
 ```
 
 For a comparative benchmark analysis check [TICKERS.yml](./TICKERS.yml) and run, e.g.
 ```
-uv run check-prices ODD
+uv run check-price ODD
 ```

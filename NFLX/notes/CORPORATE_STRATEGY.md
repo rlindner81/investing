@@ -5,7 +5,7 @@ where three consecutive earnings drew a negative reaction (‑2% → ‑10% → 
 recovering through +5 days) while, on inspection, the *corporate-strategy* record
 over those same quarters was strong. This note is the "why" behind that
 disconnect — read it alongside the price/flow tools (`check-reaction`,
-`check-flow`, `check-prices`) before forming a view on the tape.
+`check-flow`, `check-price`) before forming a view on the tape.
 
 ## The Warner Bros. topping-bid — Netflix won by losing
 

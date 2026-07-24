@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """
-check_prices.py — Compare tracked stocks against their benchmarks.
+check_price.py — Compare tracked stocks against their benchmarks.
 
 By default, shows both weekly (WTD + 3 prior weeks, SMAs 5/10/20) and monthly
 (MTD + 3 prior months, SMAs 20/50/200) views, weekly first.
 
 Usage:
-  uv run check-prices ODD SNAP        # both views
-  uv run check-prices ODD --weeks     # weekly view only
-  uv run check-prices ODD --months    # monthly view only
+  uv run check-price ODD SNAP        # both views
+  uv run check-price ODD --weeks     # weekly view only
+  uv run check-price ODD --months    # monthly view only
 """
 
 import re
