@@ -111,6 +111,15 @@ def download(ticker: str, start: date, *, interval: str, prepost: bool) -> pd.Da
         return df
     df = df[["Open", "High", "Low", "Close", "Volume"]]
     df.columns = df.columns.droplevel("Ticker")
+    # Drop bars with no usable price. For the current/most-recent session Yahoo can
+    # return a placeholder row with NaN OHLC but a non-zero Volume (a partial or
+    # pre-market artifact). Written out with float_format it becomes an empty-close
+    # line (e.g. "2026-07-24,,,,,17942637") that has no valid price and crashes
+    # downstream readers (check-reaction's load_prices). A row without a Close is
+    # not a real bar, so drop any where Close is NaN before it can be persisted.
+    df = df[df["Close"].notna()]
+    if df.empty:
+        return df
     if prepost:
         df.index = df.index.tz_convert("UTC")
         df.index.name = "Datetime"
