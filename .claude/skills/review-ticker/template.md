@@ -22,6 +22,10 @@ price: {{PRICE}}
 {{PRICES_RAW}}
 ```
 
+```
+{{FLOW_RAW}}
+```
+
 {{PRICES_SUMMARY}}
 
 **Rating:** {{PRICES_RATING}} — {{PRICES_RATING_WORD}}

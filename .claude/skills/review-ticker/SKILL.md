@@ -42,15 +42,15 @@ All intermediate files go here. Today's date is in YYYY-MM-DD format.
 
 ### Step 1 — Run data scripts
 
-First run `fetch-prices` so any missing price data is downloaded up front. Then run both data commands, redirecting full output to files. Use `COLUMNS=300` so Rich renders wide tables without truncation.
+Run the three data commands, redirecting full output to files. Use `COLUMNS=300` so Rich renders wide tables without truncation.
 
 ```bash
-uv run fetch-prices $ARGUMENTS
 COLUMNS=300 uv run check-valuation $ARGUMENTS > /tmp/review-ticker-$ARGUMENTS/valuation-raw.txt 2>&1
 COLUMNS=300 uv run check-price $ARGUMENTS > /tmp/review-ticker-$ARGUMENTS/prices-raw.txt 2>&1
+COLUMNS=300 uv run check-flow $ARGUMENTS > /tmp/review-ticker-$ARGUMENTS/flow-raw.txt 2>&1
 ```
 
-Read both files back in full before writing anything else.
+Read all three files back in full before writing anything else.
 
 ---
 
@@ -87,13 +87,14 @@ RATING: <score>
 
 #### `prices-summary.md`
 
-~300-word qualitative summary covering:
+~300-word qualitative summary drawing on **both** `prices-raw.txt` (`check-price`) and `flow-raw.txt` (`check-flow`), covering:
 
 - Recent price performance: WTD and MTD returns vs. benchmarks in the table
 - SMA signal: above/below 20/50/200-day SMAs? Uptrend, downtrend, or mixed? Compare to benchmark SMAs
 - Relative volume (rvol): elevated or subdued vs. 20/50/200-day averages? Conviction signal?
 - Implied volatility: expected weekly and monthly move; elevated or calm vs. benchmark?
 - Volume profile (POC): read the POC levels the table reports relative to the current price — support or resistance?
+- Volume flow (from `check-flow`): read the hourly (day-over-day) and daily (week-over-week) grids — where is volume concentrating (which hours/days), is participation building or fading vs. the trailing-average fill %, and do the intraday/intraweek closes confirm or diverge from that volume? Is buying/selling pressure accumulating or distributing?
 - One-sentence directional read
 
 ```
@@ -102,12 +103,21 @@ RATING: <score>
 
 #### `news.md`
 
-Search the web for material news and upcoming catalysts for **$ARGUMENTS**. ~400-word section covering:
+Investigate recent developments for **$ARGUMENTS** in two layers. First the **surface read**: a normal web search for what's moving the story and grabbing attention right now. Then go a layer deeper on what you find and ask: **is there a deeper truth underneath this, or is it mostly attention-grabbing?** — i.e. does the story rest on real data (reported financials, disclosed guidance and committed numbers, signed contracts, unit/subscriber/booking figures, regulatory decisions, verifiable transactions) or is it mostly noise (analyst price-target changes, rumor, "sources say" reporting, narrative/hype, forward-looking claims with nothing concrete behind them)?
 
-- Fresh material news (last 2–4 weeks): earnings, guidance changes, analyst actions, management changes, M&A, regulatory filings
-- Unusual price moves since the last earnings report and what drove them
+**How to investigate (go beyond one round of search):**
+
+1. **Surface pass** — a broad search to surface what's moving the story and getting attention (last 2–4 weeks): earnings, guidance changes, analyst actions, management changes, M&A, regulatory filings, unusual price moves.
+2. **Depth pass** — for each material item, run a second search to find whatever hard data exists behind it: the company's own release or filing, disclosed figures, a regulator's decision, third-party data. The question is whether the headline is standing on something real or just repeating itself. (This repo's own records are usually more stale than what's online, so don't rely on them to confirm current news.)
+3. For each development, say whether it's **substantiated** (there's real data underneath) or **mostly attention** (opinion, rumor, narrative, uncommitted forward claims), and note when a big price move is running ahead of anything concrete.
+
+~400-word section covering:
+
+- The surface narrative: what's moving the story and grabbing attention now (last 2–4 weeks)
+- The deeper read on each material item: substantiated by data vs. mostly attention, with the supporting evidence named where it exists
+- Unusual price moves since the last earnings report and what drove them — and whether that driver is real or just narrative
 - Upcoming catalysts: next earnings date, investor day, product launches, regulatory decisions, lock-up expirations
-- Market sentiment: retail narrative and institutional posture (13F changes, short interest if notable)
+- Market sentiment: retail narrative and institutional posture (13F changes, short interest if notable) — flag where sentiment is detached from anything concrete
 - Key risks: macro, competitive, balance-sheet, or execution risks specific to this ticker
 
 ```
@@ -134,6 +144,7 @@ Read [template.md](template.md). Substitute every placeholder with the correspon
 | `{{VALUATION_RATING}}` | score from the `RATING:` line in `valuation-summary.md` |
 | `{{VALUATION_RATING_WORD}}` | band word for `{{VALUATION_RATING}}` (rating scale, Step 2) |
 | `{{PRICES_RAW}}` | full contents of `prices-raw.txt` |
+| `{{FLOW_RAW}}` | full contents of `flow-raw.txt` |
 | `{{PRICES_SUMMARY}}` | body of `prices-summary.md` (everything before the `RATING:` line) |
 | `{{PRICES_RATING}}` | score from the `RATING:` line in `prices-summary.md` |
 | `{{PRICES_RATING_WORD}}` | band word for `{{PRICES_RATING}}` (rating scale, Step 2) |
