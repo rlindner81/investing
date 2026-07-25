@@ -75,21 +75,27 @@ def splits_since(ticker: str, since: date) -> list[date]:
     return list(s.index.date[s.index.date > since])
 
 
-def _same_boundary(old_tail: pd.DataFrame, fresh_tail: pd.DataFrame) -> bool:
-    """True when the stored boundary row equals the freshly-fetched one, compared
-    at the 6-significant-digit precision the CSV is written with (so we don't
-    rewrite the file over floating-point noise). Only the first (boundary) row
-    matters — new days are handled separately."""
+def _same_tail(old_tail: pd.DataFrame, fresh_tail: pd.DataFrame) -> bool:
+    """True when the stored tail (every row from the boundary day onward) is
+    identical to the freshly-fetched one, compared at the 6-significant-digit
+    precision the CSV is written with (so we don't rewrite over floating-point
+    noise). Compares the WHOLE tail, not just the first row: an hourly file pulled
+    mid-session keeps its early bars final while later bars are missing/partial, so
+    the first (09:30) bar matching is not enough — we must also catch new intraday
+    bars and healed later bars on the same day. Different length ⇒ not same."""
     if old_tail.empty or fresh_tail.empty:
+        return False
+    if len(old_tail) != len(fresh_tail):
         return False
 
     def fmt(v: float) -> str:
         return f"{float(v):.6g}"
 
-    old = old_tail.iloc[0]
-    new = fresh_tail.iloc[0]
     cols = ["Open", "High", "Low", "Close", "Volume"]
-    return all(fmt(old[c]) == fmt(new[c]) for c in cols)
+    for (_, old), (_, new) in zip(old_tail.iterrows(), fresh_tail.iterrows()):
+        if any(fmt(old[c]) != fmt(new[c]) for c in cols):
+            return False
+    return True
 
 
 def download(ticker: str, start: date, *, interval: str, prepost: bool) -> pd.DataFrame:
@@ -202,20 +208,22 @@ def fetch_ticker(ticker: str, *, prices_dir: Path, interval: str, prepost: bool,
                 print(f"  {ticker}: already up to date ({last})")
             return
 
-        # No-op guard: if the refreshed boundary+tail is identical to what's on
-        # disk (same dates and rounded values), don't rewrite the file.
+        # No-op guard: if the refreshed tail (boundary day onward) is identical to
+        # what's on disk — same rows and rounded values — don't rewrite the file.
+        # Comparing the whole tail (not just the boundary row) is what catches a
+        # mid-session hourly pull that later gained bars on the same day.
         old_tail = existing[existing_dates >= last]
-        boundary_changed = not _same_boundary(old_tail, tail)
-        n_new = int((fresh_dates > last).sum())
-        if not boundary_changed and n_new == 0:
+        if _same_tail(old_tail, tail):
             if not quiet:
                 print(f"  {ticker}: already up to date ({last})")
             return
 
+        n_new = int((fresh_dates > last).sum())
+        tail_grew = len(tail) > len(old_tail)
         combined = pd.concat([head, tail])
         combined.index.name = index_col
         combined.to_csv(path, float_format="%.6g")
-        healed = " (healed boundary bar)" if boundary_changed else ""
+        healed = " (healed boundary/tail)" if not tail_grew else ""
         print(f"  {ticker}: refreshed {last}{healed}, +{n_new} new → {path.relative_to(REPO_ROOT)}")
         return
 
