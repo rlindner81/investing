@@ -1,0 +1,114 @@
+_meta:
+  cik: 0001759509
+'2026-05-07':
+  quarter: q1-2026
+  period_end: '2026-03-31'
+  report: https://www.sec.gov/Archives/edgar/data/1759509/000162828026032412/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1759509/000162828026032102/lyft-20260331xpressrelease.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/lyft/transcripts/554719-q1-2026/
+'2026-02-10':
+  quarter: q4-2025
+  period_end: '2025-12-31'
+  report: https://www.sec.gov/Archives/edgar/data/1759509/000162828026006960/
+  report_type: 10-K
+  letter: https://www.sec.gov/Archives/edgar/data/1759509/000162828026006817/lyft-2025x12x31pressreleas.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/lyft/transcripts/411160-q4-2025/
+'2025-11-05':
+  quarter: q3-2025
+  period_end: '2025-09-30'
+  report: https://www.sec.gov/Archives/edgar/data/1759509/000162828025049701/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1759509/000162828025049556/lyft-20250930xpressrelease.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/lyft/transcripts/371538-q3-2025/
+'2025-08-06':
+  quarter: q2-2025
+  period_end: '2025-06-30'
+  report: https://www.sec.gov/Archives/edgar/data/1759509/000175950925000126/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1759509/000175950925000123/lyft-20250630xpressrelease.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/lyft/transcripts/344485-q2-2025/
+'2025-05-08':
+  quarter: q1-2025
+  period_end: '2025-03-31'
+  report: https://www.sec.gov/Archives/edgar/data/1759509/000175950925000088/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1759509/000175950925000084/lyft-20250331xpressrelease.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/lyft/transcripts/314912-q1-2025/
+'2025-02-11':
+  quarter: q4-2024
+  period_end: '2024-12-31'
+  report: https://www.sec.gov/Archives/edgar/data/1759509/000175950925000025/
+  report_type: 10-K
+  letter: https://www.sec.gov/Archives/edgar/data/1759509/000175950925000009/lyft-2024x12x31pressreleas.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/lyft/transcripts/246625-q4-2024/
+'2024-11-06':
+  quarter: q3-2024
+  period_end: '2024-09-30'
+  report: https://www.sec.gov/Archives/edgar/data/1759509/000175950924000128/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1759509/000175950924000121/lyft-20240930xpressrelease.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/lyft/transcripts/219475-q3-2024/
+'2024-08-07':
+  quarter: q2-2024
+  period_end: '2024-06-30'
+  report: https://www.sec.gov/Archives/edgar/data/1759509/000175950924000102/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1759509/000175950924000096/lyft-20240630xpressrelease.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/lyft/transcripts/192206-q2-2024/
+'2024-05-07':
+  quarter: q1-2024
+  period_end: '2024-03-31'
+  report: https://www.sec.gov/Archives/edgar/data/1759509/000175950924000069/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1759509/000175950924000064/lyft-20240331xpressrelease.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/lyft/transcripts/166965-q1-2024/
+'2024-02-13':
+  quarter: q4-2023
+  period_end: '2023-12-31'
+  report: https://www.sec.gov/Archives/edgar/data/1759509/000175950924000019/
+  report_type: 10-K
+  letter: https://www.sec.gov/Archives/edgar/data/1759509/000175950924000011/lyft-2023x12x31pressreleas.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/lyft/transcripts/123119-q4-2023/
+'2023-11-08':
+  quarter: q3-2023
+  period_end: '2023-09-30'
+  report: https://www.sec.gov/Archives/edgar/data/1759509/000175950923000115/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1759509/000175950923000108/lyft-20230930xpressrelease.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/lyft/transcripts/87821-q3-2023/
+'2023-08-08':
+  quarter: q2-2023
+  period_end: '2023-06-30'
+  report: https://www.sec.gov/Archives/edgar/data/1759509/000175950923000096/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1759509/000175950923000091/lyft-20230630xpressrelease.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/lyft/transcripts/67183-q2-2023/
+'2023-05-04':
+  quarter: q1-2023
+  period_end: '2023-03-31'
+  report: https://www.sec.gov/Archives/edgar/data/1759509/000175950923000063/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1759509/000175950923000056/lyft-20230331xpressrelease.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/lyft/transcripts/53117-q1-2023/
+'2023-02-09':
+  quarter: q4-2022
+  period_end: '2022-12-31'
+  report: https://www.sec.gov/Archives/edgar/data/1759509/000175950923000028/
+  report_type: 10-K
+  letter: https://www.sec.gov/Archives/edgar/data/1759509/000175950923000018/lyft-2022x12x31pressreleas.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/lyft/transcripts/40433-q4-2022/

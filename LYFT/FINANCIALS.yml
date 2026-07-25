@@ -1,0 +1,182 @@
+# LYFT (Lyft, Inc.) — figures for multiple calculations.
+# Fiscal year = calendar year. All monetary values in USD thousands.
+# Source: SEC reports under LYFT/quarters/. See CLAUDE.md → "Valuation Multiples".
+#
+# Notes specific to LYFT:
+#   - Only capitalized line is "Purchases of property and equipment and scooter
+#     fleet" (ytd_capex_ppe), so `company` and `strict` FCF differ only by SBC.
+#   - Cash-flow lines are entered YTD as reported; the tool differences
+#     consecutive quarters within a fiscal year. Q4 revenue is FY − 9mo YTD.
+#   - LYFT guides GROSS BOOKINGS + Adjusted EBITDA + Rides growth, NOT a revenue
+#     dollar range, so revenue-guidance rows carry a guidance_nq_hint instead of
+#     numbers (see PYPL for the analogous "no revenue $ guidance" pattern).
+#   - shares_outstanding = point-in-time Class A + Class B total at quarter end
+#     (cover page). Class B (8.5M founder shares) fully converted to Class A
+#     during Q3-2025, so from q3-2025 on the total is Class A only.
+#   - Q4-2025 recorded a $2.9B deferred-tax benefit (valuation-allowance release)
+#     that flows through net income and OCF; the DTA add-back is inside OCF as
+#     reported, which is what FCF uses.
+
+unit: thousands
+
+quarters:
+  # --- 2023 reach-back year: contributes to TTM, out of the display window ---
+  - id: q1-2023
+    end_date: 2023-03-31
+    revenue: 1000548
+    shares_outstanding: 378119        # Class A 369,516 + Class B 8,603
+    ytd_operating_cf: -74040
+    ytd_capex_ppe: 46799
+    ytd_sbc: 180383
+
+  - id: q2-2023
+    end_date: 2023-06-30
+    revenue: 1020906
+    shares_outstanding: 386237        # Class A 377,634 + Class B 8,603
+    ytd_operating_cf: -144013
+    ytd_capex_ppe: 88975
+    ytd_sbc: 294309
+
+  - id: q3-2023
+    end_date: 2023-09-30
+    revenue: 1157550
+    shares_outstanding: 392986        # Class A 384,383 + Class B 8,603
+    ytd_operating_cf: -141752
+    ytd_capex_ppe: 121250
+    ytd_sbc: 392852
+
+  - id: q4-2023
+    end_date: 2023-12-31
+    revenue: 1224585                  # FY2023 4,403,589 − 9mo 3,179,004
+    shares_outstanding: 399806        # Class A 391,239 + Class B 8,567
+    ytd_operating_cf: -98244          # full-year FY2023 (10-K annual)
+    ytd_capex_ppe: 149819
+    ytd_sbc: 484533
+
+  # --- 2024 quarters: displayed. announce_date = earnings 8-K (item 2.02)
+  #     acceptance date; sessions from ET acceptance time. ---
+  - id: q1-2024
+    end_date: 2024-03-31
+    report_date: 2024-05-07
+    announce_date: 2024-05-07
+    announce_session: after-close     # 8-K 2024-05-07 20:07Z = 16:07 ET
+    revenue: 1277201
+    shares_outstanding: 403119        # Class A 394,588 + Class B 8,531
+    ytd_operating_cf: 156177
+    ytd_capex_ppe: 29106
+    ytd_sbc: 80098
+    cash: 507918
+    total_debt: 942174                # long-term debt, net (no current convert this qtr)
+    guidance_nq_hint: gross-bookings-only   # LYFT guides Gross Bookings + Adj EBITDA, not revenue $
+
+  - id: q2-2024
+    end_date: 2024-06-30
+    report_date: 2024-08-07
+    announce_date: 2024-08-07
+    announce_session: pre-open        # 8-K 2024-08-07 10:02Z = 06:02 ET
+    revenue: 1435846
+    shares_outstanding: 410151        # Class A 401,620 + Class B 8,531
+    ytd_operating_cf: 432379
+    ytd_capex_ppe: 48905
+    ytd_sbc: 165837
+    cash: 604357
+    total_debt: 967708                # current convert 389,374 + LT 578,334
+    guidance_nq_hint: gross-bookings-only
+
+  - id: q3-2024
+    end_date: 2024-09-30
+    report_date: 2024-11-06
+    announce_date: 2024-11-06
+    announce_session: after-close     # 8-K 2024-11-06 21:05Z = 16:05 ET
+    revenue: 1522692
+    shares_outstanding: 414812        # Class A 406,281 + Class B 8,531
+    ytd_operating_cf: 696371
+    ytd_capex_ppe: 70055
+    ytd_sbc: 254793
+    cash: 770298
+    total_debt: 964248                # current convert 389,773 + LT 574,475
+    guidance_nq_hint: gross-bookings-only
+
+  - id: q4-2024
+    end_date: 2024-12-31
+    report_date: 2025-02-11
+    announce_date: 2025-02-11
+    announce_session: after-close     # 8-K 2025-02-11 21:04Z = 16:04 ET
+    revenue: 1550277                  # FY2024 5,786,016 − 9mo 4,235,739
+    shares_outstanding: 418005        # Class A 409,474 + Class B 8,531
+    ytd_operating_cf: 849737          # full-year FY2024 (10-K annual)
+    ytd_capex_ppe: 83470
+    ytd_sbc: 330921
+    cash: 759319
+    total_debt: 956143                # current convert 390,175 + LT 565,968
+    guidance_nq_hint: gross-bookings-only
+
+  - id: q1-2025
+    end_date: 2025-03-31
+    report_date: 2025-05-08
+    announce_date: 2025-05-08
+    announce_session: after-close     # 8-K 2025-05-08 20:11Z = 16:11 ET
+    revenue: 1450172
+    shares_outstanding: 420348        # Class A 411,817 + Class B 8,531
+    ytd_operating_cf: 287234
+    ytd_capex_ppe: 6500
+    ytd_sbc: 93158
+    cash: 985494
+    total_debt: 940415                # current convert 390,537 + LT 549,878
+    guidance_nq_hint: gross-bookings-only
+
+  - id: q2-2025
+    end_date: 2025-06-30
+    report_date: 2025-08-06
+    announce_date: 2025-08-06
+    announce_session: after-close     # 8-K 2025-08-06 20:09Z = 16:09 ET
+    revenue: 1588183
+    shares_outstanding: 411106        # Class A 402,575 + Class B 8,531
+    ytd_operating_cf: 630962
+    ytd_capex_ppe: 20786
+    ytd_sbc: 175260
+    cash: 913845
+    total_debt: 526532                # long-term debt, net (2025 convert settled)
+    guidance_nq_hint: gross-bookings-only
+
+  - id: q3-2025
+    end_date: 2025-09-30
+    report_date: 2025-11-05
+    announce_date: 2025-11-05
+    announce_session: after-close     # 8-K 2025-11-05 21:11Z = 16:11 ET
+    revenue: 1685195
+    shares_outstanding: 401465        # Class A 401,465 (Class B fully converted)
+    ytd_operating_cf: 922213
+    ytd_capex_ppe: 34220
+    ytd_sbc: 241845
+    cash: 1305908
+    total_debt: 1010044               # long-term debt, net (2029/2030 converts)
+    guidance_nq_hint: gross-bookings-only
+
+  - id: q4-2025
+    end_date: 2025-12-31
+    report_date: 2026-02-10
+    announce_date: 2026-02-10
+    announce_session: after-close     # 8-K 2026-02-10 21:05Z = 16:05 ET
+    revenue: 1592711                  # FY2025 6,316,261 − 9mo 4,723,550
+    shares_outstanding: 400856        # Class A 400,856 (no Class B)
+    ytd_operating_cf: 1168438         # full-year FY2025 (10-K annual)
+    ytd_capex_ppe: 52822
+    ytd_sbc: 322268
+    cash: 1132009
+    total_debt: 1002404               # long-term debt, net
+    guidance_nq_hint: gross-bookings-only
+
+  - id: q1-2026
+    end_date: 2026-03-31
+    report_date: 2026-05-07
+    announce_date: 2026-05-07
+    announce_session: after-close     # 8-K 2026-05-07 20:10Z = 16:10 ET
+    revenue: 1650489
+    shares_outstanding: 382531        # Class A 382,531 (no Class B)
+    ytd_operating_cf: 307679
+    ytd_capex_ppe: 20423
+    ytd_sbc: 86878
+    cash: 1034869
+    total_debt: 986618                # long-term debt, net
+    guidance_nq_hint: gross-bookings-only

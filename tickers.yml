@@ -98,3 +98,6 @@ stocks:
   - symbol: TTWO
     tags: [large_cap, gaming, media, interactive_entertainment, event_driven]
     benchmarks: [SPY, XLC]
+  - symbol: LYFT
+    tags: [mid_cap, rideshare, marketplace, gig_economy]
+    benchmarks: [SPY, XLY]
