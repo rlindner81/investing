@@ -178,13 +178,16 @@ def fetch_ticker(ticker: str, *, prices_dir: Path, interval: str, prepost: bool,
 
         split_dates = splits_since(ticker, last)
         if split_dates:
-            print(f"  {ticker}: split(s) detected on {split_dates} — full re-download")
+            if not quiet:
+                print(f"  {ticker}: split(s) detected on {split_dates} — full re-download")
             df = download(ticker, start_date, interval=interval, prepost=prepost)
             if df.empty:
-                print(f"  {ticker}: no data returned")
+                if not quiet:
+                    print(f"  {ticker}: no data returned")
                 return
             df.to_csv(path, float_format="%.6g")
-            print(f"  {ticker}: rewrote {len(df)} rows → {path.relative_to(REPO_ROOT)}")
+            if not quiet:
+                print(f"  {ticker}: rewrote {len(df)} rows → {path.relative_to(REPO_ROOT)}")
             return
     else:
         fetch_start = start_date
@@ -233,11 +236,13 @@ def fetch_ticker(ticker: str, *, prices_dir: Path, interval: str, prepost: bool,
         combined.index.name = index_col
         combined.to_csv(path, float_format="%.6g")
         healed = " (healed boundary/tail)" if not tail_grew else ""
-        print(f"  {ticker}: refreshed {last}{healed}, +{n_new} new → {path.relative_to(REPO_ROOT)}")
+        if not quiet:
+            print(f"  {ticker}: refreshed {last}{healed}, +{n_new} new → {path.relative_to(REPO_ROOT)}")
         return
 
     fresh.to_csv(path, mode="w", header=True, float_format="%.6g")
-    print(f"  {ticker}: wrote {len(fresh)} rows → {path.relative_to(REPO_ROOT)}")
+    if not quiet:
+        print(f"  {ticker}: wrote {len(fresh)} rows → {path.relative_to(REPO_ROOT)}")
 
 
 def main() -> None:

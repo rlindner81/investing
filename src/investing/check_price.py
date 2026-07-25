@@ -48,7 +48,7 @@ def load_prices(ticker: str, auto_fetch: bool = False) -> pd.DataFrame | None:
         if auto_fetch:
             console.print(f"  [dim]fetching {ticker}...[/dim]")
             PRICES_DAILY.mkdir(parents=True, exist_ok=True)
-            fetch_ticker(ticker, prices_dir=PRICES_DAILY, interval="1d", prepost=False)
+            fetch_ticker(ticker, prices_dir=PRICES_DAILY, interval="1d", prepost=False, quiet=True)
         if not path.exists():
             console.print(f"  [yellow]warning:[/yellow] no price file for {ticker}")
             return None
