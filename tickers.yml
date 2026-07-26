@@ -101,3 +101,6 @@ stocks:
   - symbol: LYFT
     tags: [mid_cap, rideshare, marketplace, gig_economy]
     benchmarks: [SPY, XLY]
+  - symbol: SAP
+    tags: [mega_cap, tech, software, saas, enterprise, ai]
+    benchmarks: [SPY, IGV]

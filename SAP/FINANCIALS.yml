@@ -1,0 +1,260 @@
+# SAP (SAP SE) — figures for multiple calculations.
+# Fiscal year = calendar year. All monetary values in EUR millions.
+# Source: SAP quarterly earnings press releases (6-K EX-99.1) under SAP/quarters/
+#   *-letter.md, cross-checked against the annual 20-F reports. See CLAUDE.md
+#   → "Valuation Multiples".
+#
+# Notes specific to SAP:
+#   - FOREIGN PRIVATE ISSUER (German). Files ANNUAL 20-F only; quarterly results
+#     are furnished on 6-K. No quarterly XBRL is submitted to the SEC, so every
+#     quarterly figure here is transcribed by hand from the 6-K press releases —
+#     specifically the "Financial and Non-Financial Key Facts" table, which prints
+#     each quarter STANDALONE (total revenue, operating cash flow, free cash flow,
+#     cash, financial debt).
+#   - currency: EUR. check-valuation fetches USDEUR=X and converts fundamentals to
+#     USD; the NYSE ADR (1 ADR = 1 ordinary share) price is already USD.
+#   - CASH FLOW IS ENTERED AS CUMULATIVE YTD (the schema convention: the tool
+#     differences consecutive quarters within a fiscal year to recover standalone).
+#     SAP's press release prints STANDALONE quarters, so ytd_operating_cf below is
+#     the running sum within each calendar year (Q1, Q1+Q2, Q1+Q2+Q3, full year).
+#     This reproduces SAP's own formal YTD cash-flow statement exactly.
+#   - CAPEX LINE: SAP's "free cash flow" = operating cash flow − net purchases of
+#     intangibles/PP&E − lease payments. There is no single capex line that alone
+#     reconciles company FCF, so ytd_capex_ppe here is set to (YTD OCF − YTD FCF),
+#     i.e. the full deduction SAP applies. This makes `company` FCF (OCF − capex)
+#     reproduce SAP's printed free cash flow. Only one capex line is used, so
+#     `company` and `strict` FCF differ solely by the SBC add-back.
+#   - SHARES: SAP has a constant 1,229M issued ordinary shares; it funds share-based
+#     compensation from treasury rather than issuing new stock. shares_outstanding
+#     is issued (1,229) net of treasury (the "effect of treasury shares" from the
+#     20-F EPS note, ~62-63M), i.e. ~1,166-1,168M. Exact quarterly treasury counts
+#     are not disclosed, so interim quarters use the year's net-of-treasury level.
+#   - GUIDANCE: SAP guides FULL-YEAR ONLY (cloud revenue + cloud-and-software
+#     revenue at constant currency, and free cash flow). It does NOT guide total
+#     revenue or next-quarter revenue. guidance_fy_revenue_* below holds the FY
+#     CLOUD-AND-SOFTWARE revenue guidance (constant currency) — the closest
+#     revenue-line guide SAP issues — NOT total revenue. The FW P/S FY guidance row
+#     therefore divides market cap by guided cloud+software revenue, which is a
+#     subset of total revenue. NQ guidance rows stay empty (none is given).
+
+unit: millions
+currency: EUR
+
+quarters:
+  # --- FY2023 (reach-back base; out of the display window) ---
+  - id: q1-2023
+    end_date: 2023-03-31
+    report_date: 2023-04-24
+    announce_date: 2023-04-24
+    announce_session: pre-open
+    revenue: 7441
+    shares_outstanding: 1168
+    ytd_operating_cf: 2311
+    ytd_capex_ppe: 356        # 2311 OCF − 1955 FCF
+    ytd_sbc: 553
+    cash: 8766
+    total_debt: 10751
+    guidance_fy_revenue_low: 26900    # FY2023 cloud+software revenue (const. curr.)
+    guidance_fy_revenue_high: 27400
+
+  - id: q2-2023
+    end_date: 2023-06-30
+    report_date: 2023-07-25
+    announce_date: 2023-07-25
+    announce_session: pre-open
+    revenue: 7554
+    shares_outstanding: 1168
+    ytd_operating_cf: 3159    # 2311 + 848
+    ytd_capex_ppe: 600        # 3159 OCF − 2559 FCF (YTD)
+    ytd_sbc: 1167
+    cash: 14142
+    total_debt: 10146
+    guidance_fy_revenue_low: 27000
+    guidance_fy_revenue_high: 27400
+
+  - id: q3-2023
+    end_date: 2023-09-30
+    report_date: 2023-10-20
+    announce_date: 2023-10-20
+    announce_session: pre-open
+    revenue: 7744
+    shares_outstanding: 1168
+    ytd_operating_cf: 4283    # + 1124
+    ytd_capex_ppe: 860        # 4283 OCF − 3423 FCF (YTD)
+    ytd_sbc: 1677
+    cash: 9378
+    total_debt: 8445
+    guidance_fy_revenue_low: 27000
+    guidance_fy_revenue_high: 27400
+
+  - id: q4-2023
+    end_date: 2023-12-31
+    report_date: 2024-01-25
+    announce_date: 2024-01-25
+    announce_session: pre-open
+    revenue: 8468            # FY2023 31,207 − 9mo 22,739
+    shares_outstanding: 1168
+    ytd_operating_cf: 6193    # full-year FY2023 (2311+848+1124+1909)
+    ytd_capex_ppe: 1110       # 6193 OCF − 5083 FCF (FY)
+    ytd_sbc: 2221
+    cash: 8124
+    total_debt: 7755
+    guidance_fy_revenue_low: 29000    # FY2024 cloud+software revenue (const. curr.)
+    guidance_fy_revenue_high: 29500
+
+  # --- FY2024: displayed ---
+  - id: q1-2024
+    end_date: 2024-03-31
+    report_date: 2024-04-24
+    announce_date: 2024-04-24
+    announce_session: pre-open
+    revenue: 8041
+    shares_outstanding: 1167
+    ytd_operating_cf: 2878
+    ytd_capex_ppe: 236        # 2878 OCF − 2642 FCF
+    ytd_sbc: 688
+    cash: 9295
+    total_debt: 7770
+    guidance_fy_revenue_low: 29000    # FY2024 cloud+software revenue (const. curr.)
+    guidance_fy_revenue_high: 29500
+
+  - id: q2-2024
+    end_date: 2024-06-30
+    report_date: 2024-07-24
+    announce_date: 2024-07-24
+    announce_session: pre-open
+    revenue: 8288
+    shares_outstanding: 1167
+    ytd_operating_cf: 4387    # 2878 + 1509
+    ytd_capex_ppe: 457        # 4387 OCF − 3930 FCF (YTD: 2642+1288)
+    ytd_sbc: 1280
+    cash: 7870
+    total_debt: 7776
+    guidance_fy_revenue_low: 29000
+    guidance_fy_revenue_high: 29500
+
+  - id: q3-2024
+    end_date: 2024-09-30
+    report_date: 2024-10-23
+    announce_date: 2024-10-23
+    announce_session: pre-open
+    revenue: 8470
+    shares_outstanding: 1167
+    ytd_operating_cf: 5790    # + 1403
+    ytd_capex_ppe: 660        # 5790 OCF − 5130 FCF (YTD: 2642+1288+1200)
+    ytd_sbc: 1815
+    cash: 10005
+    total_debt: 8996
+    guidance_fy_revenue_low: 29500    # raised at Q3-24
+    guidance_fy_revenue_high: 29800
+
+  - id: q4-2024
+    end_date: 2024-12-31
+    report_date: 2025-01-29
+    announce_date: 2025-01-29
+    announce_session: pre-open
+    revenue: 9377           # FY2024 34,176 − 9mo 24,799
+    shares_outstanding: 1167
+    ytd_operating_cf: 5207    # full-year FY2024 (2878+1509+1403−584)
+    ytd_capex_ppe: 985        # 5207 OCF − 4222 FCF (FY)
+    ytd_sbc: 2385
+    cash: 9609
+    total_debt: 9385
+    guidance_fy_revenue_low: 33100    # FY2025 cloud+software revenue (const. curr.)
+    guidance_fy_revenue_high: 33600
+
+  # --- FY2025: displayed ---
+  - id: q1-2025
+    end_date: 2025-03-31
+    report_date: 2025-04-25
+    announce_date: 2025-04-25
+    announce_session: pre-open
+    revenue: 9013
+    shares_outstanding: 1166
+    ytd_operating_cf: 3780
+    ytd_capex_ppe: 197        # 3780 OCF − 3583 FCF
+    ytd_sbc: 420
+    cash: 11345
+    total_debt: 8121
+    guidance_fy_revenue_low: 33100
+    guidance_fy_revenue_high: 33600
+
+  - id: q2-2025
+    end_date: 2025-06-30
+    report_date: 2025-07-25
+    announce_date: 2025-07-25
+    announce_session: pre-open
+    revenue: 9027
+    shares_outstanding: 1166
+    ytd_operating_cf: 6357    # 3780 + 2577
+    ytd_capex_ppe: 417        # 6357 OCF − 5940 FCF (YTD: 3583+2357)
+    ytd_sbc: 949
+    cash: 7942
+    total_debt: 7492
+    guidance_fy_revenue_low: 33100
+    guidance_fy_revenue_high: 33600
+
+  - id: q3-2025
+    end_date: 2025-09-30
+    report_date: 2025-10-27
+    announce_date: 2025-10-27
+    announce_session: pre-open
+    revenue: 9076
+    shares_outstanding: 1166
+    ytd_operating_cf: 7859    # + 1502
+    ytd_capex_ppe: 654        # 7859 OCF − 7205 FCF (YTD: 3583+2357+1266)
+    ytd_sbc: 1379
+    cash: 8554
+    total_debt: 7235
+    guidance_fy_revenue_low: 33100
+    guidance_fy_revenue_high: 33600
+
+  - id: q4-2025
+    end_date: 2025-12-31
+    report_date: 2026-02-03
+    announce_date: 2026-02-03
+    announce_session: pre-open
+    revenue: 9684           # FY2025 36,800 − 9mo 27,116
+    shares_outstanding: 1166
+    ytd_operating_cf: 9156    # full-year FY2025 (3780+2577+1502+1297)
+    ytd_capex_ppe: 917        # 9156 OCF − 8239 FCF (FY)
+    ytd_sbc: 1695
+    cash: 8220
+    total_debt: 8071          # current 2,050 + non-current 6,021 (20-F balance sheet)
+    guidance_fy_revenue_low: 36300    # FY2026 cloud+software revenue (const. curr.)
+    guidance_fy_revenue_high: 36800
+
+  # --- FY2026 (in progress) ---
+  - id: q1-2026
+    end_date: 2026-03-31
+    report_date: 2026-04-28
+    announce_date: 2026-04-28
+    announce_session: pre-open
+    revenue: 9555
+    shares_outstanding: 1166
+    ytd_operating_cf: 3513
+    ytd_capex_ppe: 265        # 3513 OCF − 3248 FCF
+    ytd_sbc: 285
+    cash: 9648
+    total_debt: 7862          # current 2,824 + non-current 5,038
+    guidance_fy_revenue_low: 36300    # FY2026 cloud+software revenue (const. curr.), reaffirmed
+    guidance_fy_revenue_high: 36800
+
+  # q2-2026: announced 2026-07-23. NOT yet on EDGAR at time of entry (SAP files its
+  #   6-K on a lag); figures transcribed from SAP's official IR "Quarterly Statement
+  #   Q2 2026" PDF (https://www.sap.com/investors/sap-2026-q2-statement). Replace the
+  #   letter source in SOURCES.yml with the 6-K EX-99.1 once it appears on EDGAR.
+  - id: q2-2026
+    end_date: 2026-06-30
+    report_date: 2026-07-23
+    announce_date: 2026-07-23
+    announce_session: after-close   # results/analyst call 5 PM EDT (11 PM CEST) on the 23rd
+    revenue: 9878
+    shares_outstanding: 1156        # ~1,229 issued − ~73 treasury (buybacks; wtd-avg basic 1,153)
+    ytd_operating_cf: 6666          # H1 2026 (3,513 + 3,153)
+    ytd_capex_ppe: 416             # 6666 OCF − 6250 FCF (H1)
+    ytd_sbc: 753                    # H1 2026 SBC expense (cash-flow add-back)
+    cash: 10511
+    total_debt: 10507               # current 1,966 + non-current 8,541
+    guidance_fy_revenue_low: 36300  # FY2026 cloud+software revenue (const. curr.), reaffirmed
+    guidance_fy_revenue_high: 36800

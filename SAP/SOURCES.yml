@@ -1,0 +1,95 @@
+_meta:
+  cik: "0001000184"
+  # SAP SE — German foreign private issuer. Files ANNUAL 20-F only; quarterly
+  # results are furnished on 6-K (EX-99.1 = earnings press release with the IFRS
+  # quarterly income statement, balance sheet, cash flow, and revenue guidance).
+  # Reports in EUR. No quarterly XBRL is submitted to the SEC, so every quarterly
+  # figure in FINANCIALS.yml is transcribed by hand from the 6-K press releases.
+  home_exchange: xetra          # stockanalysis.com keys SAP under its US NYSE ADR though
+  home_ticker: SAP
+
+# --- Annual 20-F filings (auto-discovered) ---
+'2026-02-26':
+  quarter: q4-2025
+  period_end: '2025-12-31'
+  report: https://www.sec.gov/Archives/edgar/data/1000184/000110465926020058/
+  report_type: 20-F
+  letter: https://www.sec.gov/Archives/edgar/data/1000184/000110465926009465/tm264433d1_ex99-1.htm
+  letter_type: 6-K
+'2025-02-27':
+  quarter: q4-2024
+  period_end: '2024-12-31'
+  report: https://www.sec.gov/Archives/edgar/data/1000184/000110465925017815/
+  report_type: 20-F
+  letter: https://www.sec.gov/Archives/edgar/data/1000184/000110465925006886/tm254685d1_ex99-1.htm
+  letter_type: 6-K
+'2024-02-29':
+  quarter: q4-2023
+  period_end: '2023-12-31'
+  report: https://www.sec.gov/Archives/edgar/data/1000184/000110465924029038/
+  report_type: 20-F
+  letter: https://www.sec.gov/Archives/edgar/data/1000184/000110465924006500/tm244006d1_ex99-1.htm
+  letter_type: 6-K
+'2023-03-02':
+  quarter: q4-2022
+  period_end: '2022-12-31'
+  report: https://www.sec.gov/Archives/edgar/data/1000184/000110465923027626/
+  report_type: 20-F
+
+# --- Interim quarters (6-K earnings press release, EX-99.1) ---
+'2026-04-28':
+  quarter: q1-2026
+  period_end: '2026-03-31'
+  letter: https://www.sec.gov/Archives/edgar/data/1000184/000110465926049650/tm2612672d1_ex99-1.htm
+  letter_type: 6-K
+# q2-2026 (announced 2026-07-23) is NOT YET on EDGAR — SAP furnishes its 6-K a few
+#   days to weeks after the German press release. Its FINANCIALS.yml figures were
+#   transcribed from SAP's official IR "Quarterly Statement Q2 2026" PDF:
+#     https://www.sap.com/docs/download/investors/2026/sap-2026-q2-statement.pdf
+#   Add the EDGAR 6-K EX-99.1 as a proper letter entry once it appears:
+#   check https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001000184&type=6-K
+'2025-10-27':
+  quarter: q3-2025
+  period_end: '2025-09-30'
+  letter: https://www.sec.gov/Archives/edgar/data/1000184/000110465925102307/tm2529346d1_ex99-1.htm
+  letter_type: 6-K
+'2025-07-25':
+  quarter: q2-2025
+  period_end: '2025-06-30'
+  letter: https://www.sec.gov/Archives/edgar/data/1000184/000110465925070485/tm2521516d1_ex99-1.htm
+  letter_type: 6-K
+'2025-04-25':
+  quarter: q1-2025
+  period_end: '2025-03-31'
+  letter: https://www.sec.gov/Archives/edgar/data/1000184/000110465925038859/tm2512979d1_ex99-1.htm
+  letter_type: 6-K
+'2024-10-23':
+  quarter: q3-2024
+  period_end: '2024-09-30'
+  letter: https://www.sec.gov/Archives/edgar/data/1000184/000110465924110719/tm2426630d1_ex99-1.htm
+  letter_type: 6-K
+'2024-07-24':
+  quarter: q2-2024
+  period_end: '2024-06-30'
+  letter: https://www.sec.gov/Archives/edgar/data/1000184/000110465924082105/tm2419988d1_ex99-1.htm
+  letter_type: 6-K
+'2024-04-24':
+  quarter: q1-2024
+  period_end: '2024-03-31'
+  letter: https://www.sec.gov/Archives/edgar/data/1000184/000110465924050758/tm2412483d1_ex99-1.htm
+  letter_type: 6-K
+'2023-10-20':
+  quarter: q3-2023
+  period_end: '2023-09-30'
+  letter: https://www.sec.gov/Archives/edgar/data/1000184/000110465923110264/tm2328766d1_ex99-1.htm
+  letter_type: 6-K
+'2023-07-25':
+  quarter: q2-2023
+  period_end: '2023-06-30'
+  letter: https://www.sec.gov/Archives/edgar/data/1000184/000110465923083597/tm2321795d1_ex99-1.htm
+  letter_type: 6-K
+'2023-04-24':
+  quarter: q1-2023
+  period_end: '2023-03-31'
+  letter: https://www.sec.gov/Archives/edgar/data/1000184/000110465923048563/tm2313409d1_ex99-1.htm
+  letter_type: 6-K
