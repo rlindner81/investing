@@ -98,7 +98,11 @@ def _same_tail(old_tail: pd.DataFrame, fresh_tail: pd.DataFrame) -> bool:
     return True
 
 
-def download(ticker: str, start: date, *, interval: str, prepost: bool) -> pd.DataFrame:
+def _raw_download(ticker: str, start: date, *, interval: str, prepost: bool) -> pd.DataFrame:
+    """One yfinance call, columns normalized, index localized — but WITHOUT the
+    NaN-close drop. Returns the frame as Yahoo served it (may carry a trailing
+    partial bar with NaN OHLC), so callers can distinguish "dropped a bad bar"
+    from "no such bar"."""
     df = yf.download(
         ticker,
         start=start.isoformat(),
@@ -111,15 +115,6 @@ def download(ticker: str, start: date, *, interval: str, prepost: bool) -> pd.Da
         return df
     df = df[["Open", "High", "Low", "Close", "Volume"]]
     df.columns = df.columns.droplevel("Ticker")
-    # Drop bars with no usable price. For the current/most-recent session Yahoo can
-    # return a placeholder row with NaN OHLC but a non-zero Volume (a partial or
-    # pre-market artifact). Written out with float_format it becomes an empty-close
-    # line (e.g. "2026-07-24,,,,,17942637") that has no valid price and crashes
-    # downstream readers (check-reaction's load_prices). A row without a Close is
-    # not a real bar, so drop any where Close is NaN before it can be persisted.
-    df = df[df["Close"].notna()]
-    if df.empty:
-        return df
     if prepost:
         df.index = df.index.tz_convert("UTC")
         df.index.name = "Datetime"
@@ -127,6 +122,42 @@ def download(ticker: str, start: date, *, interval: str, prepost: bool) -> pd.Da
         df.index = df.index.date
         df.index.name = "Date"
     return df
+
+
+def download(ticker: str, start: date, *, interval: str, prepost: bool) -> pd.DataFrame:
+    df = _raw_download(ticker, start, interval=interval, prepost=prepost)
+    if df.empty:
+        return df
+
+    # Drop bars with no usable price. For the current/most-recent session Yahoo can
+    # return a placeholder row with NaN OHLC but a non-zero Volume (a partial or
+    # pre-market artifact). Written out with float_format it becomes an empty-close
+    # line (e.g. "2026-07-24,,,,,17942637") that has no valid price and crashes
+    # downstream readers (check-reaction's load_prices). A row without a Close is
+    # not a real bar, so drop any where Close is NaN before it can be persisted.
+    kept = df[df["Close"].notna()]
+
+    # Daily quirk: Yahoo serves the last daily bar as NaN-close in a RANGED request
+    # (start before that day) but FINALIZED in a tight request (start == that day).
+    # So a trailing daily bar just dropped above isn't a real gap — it's Yahoo not
+    # finalizing it in this range. Re-probe each dropped trailing date on its own,
+    # and splice back any that come through clean. (Intraday NaN-volume bars are a
+    # genuinely different case, so this heals daily only.)
+    if not prepost:
+        dropped_tail = [d for d in df.index[df["Close"].isna()]
+                        if not kept.empty and d > kept.index[-1]]
+        recovered = []
+        for d in dropped_tail:
+            one = _raw_download(ticker, d, interval=interval, prepost=prepost)
+            if not one.empty:
+                one = one[(one.index == d) & one["Close"].notna()]
+                if not one.empty:
+                    recovered.append(one)
+        if recovered:
+            kept = pd.concat([kept, *recovered])
+            kept = kept[~kept.index.duplicated(keep="last")].sort_index()
+
+    return kept
 
 
 def fetch_live_price(ticker: str) -> float | None:
