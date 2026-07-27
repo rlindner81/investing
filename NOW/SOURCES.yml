@@ -1,0 +1,137 @@
+_meta:
+  cik: "0001373715"
+
+"2023-01-31":
+  quarter: q4-2022
+  period_end: "2022-12-31"
+  report: https://www.sec.gov/Archives/edgar/data/1373715/000137371523000035/
+  report_type: 10-K
+  letter: https://www.sec.gov/Archives/edgar/data/1373715/000137371523000016/erq4fy22.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/now/transcripts/40300-q4-2022/
+
+"2023-04-27":
+  quarter: q1-2023
+  period_end: "2023-03-31"
+  report: https://www.sec.gov/Archives/edgar/data/1373715/000137371523000166/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1373715/000137371523000162/erq1fy23.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/now/transcripts/51058-q1-2023/
+
+"2023-07-27":
+  quarter: q2-2023
+  period_end: "2023-06-30"
+  report: https://www.sec.gov/Archives/edgar/data/1373715/000137371523000325/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1373715/000137371523000323/erq2fy23.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/now/transcripts/65294-q2-2023/
+
+"2023-10-26":
+  quarter: q3-2023
+  period_end: "2023-09-30"
+  report: https://www.sec.gov/Archives/edgar/data/1373715/000137371523000419/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1373715/000137371523000417/erq3fy23.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/now/transcripts/85282-q3-2023/
+
+"2024-01-25":
+  quarter: q4-2023
+  period_end: "2023-12-31"
+  report: https://www.sec.gov/Archives/edgar/data/1373715/000137371524000030/
+  report_type: 10-K
+  letter: https://www.sec.gov/Archives/edgar/data/1373715/000137371524000009/erq4fy23.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/now/transcripts/119931-q4-2023/
+
+"2024-05-06":
+  quarter: q1-2024
+  period_end: "2024-03-31"
+  report: https://www.sec.gov/Archives/edgar/data/1373715/000137371524000169/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1373715/000137371524000163/erq1fy24.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/now/transcripts/161619-q1-2024/
+
+"2024-07-25":
+  quarter: q2-2024
+  period_end: "2024-06-30"
+  report: https://www.sec.gov/Archives/edgar/data/1373715/000137371524000272/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1373715/000137371524000269/erq2fy24.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/now/transcripts/188495-q2-2024/
+
+"2024-10-24":
+  quarter: q3-2024
+  period_end: "2024-09-30"
+  report: https://www.sec.gov/Archives/edgar/data/1373715/000137371524000344/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1373715/000137371524000342/erq3fy24.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/now/transcripts/215489-q3-2024/
+
+"2025-01-30":
+  quarter: q4-2024
+  period_end: "2024-12-31"
+  report: https://www.sec.gov/Archives/edgar/data/1373715/000137371525000010/
+  report_type: 10-K
+  letter: https://www.sec.gov/Archives/edgar/data/1373715/000137371525000007/erq4fy24.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/now/transcripts/237719-q4-2024/
+
+"2025-04-23":
+  quarter: q1-2025
+  period_end: "2025-03-31"
+  report: https://www.sec.gov/Archives/edgar/data/1373715/000137371525000126/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1373715/000137371525000124/erq1fy25.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/now/transcripts/310657-q1-2025/
+
+"2025-07-24":
+  quarter: q2-2025
+  period_end: "2025-06-30"
+  report: https://www.sec.gov/Archives/edgar/data/1373715/000137371525000276/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1373715/000137371525000274/erq2fy25.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/now/transcripts/338372-q2-2025/
+
+"2025-10-30":
+  quarter: q3-2025
+  period_end: "2025-09-30"
+  report: https://www.sec.gov/Archives/edgar/data/1373715/000137371525000309/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1373715/000137371525000305/erq3fy25.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/now/transcripts/366291-q3-2025/
+
+"2026-01-29":
+  quarter: q4-2025
+  period_end: "2025-12-31"
+  report: https://www.sec.gov/Archives/edgar/data/1373715/000137371526000007/
+  report_type: 10-K
+  letter: https://www.sec.gov/Archives/edgar/data/1373715/000137371526000005/erq4fy25.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/now/transcripts/396493-q4-2025/
+
+"2026-04-23":
+  quarter: q1-2026
+  period_end: "2026-03-31"
+  report: https://www.sec.gov/Archives/edgar/data/1373715/000137371526000056/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1373715/000137371526000054/erq1fy26.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/now/transcripts/547931-q1-2026/
+
+"2026-07-23":
+  quarter: q2-2026
+  period_end: "2026-06-30"
+  report: https://www.sec.gov/Archives/edgar/data/1373715/000137371526000076/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1373715/000137371526000072/erq2fy26.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/now/transcripts/653176-q2-2026/

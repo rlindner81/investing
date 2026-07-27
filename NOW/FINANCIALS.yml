@@ -1,0 +1,281 @@
+# NOW (ServiceNow, Inc.) — figures for multiple calculations.
+# Fiscal year = calendar year. All monetary values in USD MILLIONS
+#   (ServiceNow reports its income statement and balance sheet in millions).
+# Source: SEC reports under NOW/quarters/. See CLAUDE.md → "Valuation Multiples".
+#
+# Notes specific to NOW:
+#   - 5-FOR-1 STOCK SPLIT effective December 17, 2025. The daily price CSV is
+#     split-adjusted, so shares_outstanding are on the POST-split basis:
+#     pre-split balance-sheet counts (through q3-2025) are multiplied by 5.
+#     Post-split reports (q4-2025 onward) are already on the new basis.
+#     Shares are entered in MILLIONS (point-in-time total outstanding, net of
+#     treasury) so that price × shares yields a market cap in millions to match
+#     revenue's unit.
+#   - Only capitalized line is PP&E (`Purchases of property and equipment`), so
+#     `company` and `strict` FCF differ only by SBC. Small `Purchases of other
+#     intangibles` amounts exist but are NOT capex for FCF; folded into strict via
+#     ytd_capex_intangibles where the filing breaks it out.
+#   - `revenue` is TOTAL revenue (subscription + professional services), standalone.
+#   - GUIDANCE QUIRK: ServiceNow guides SUBSCRIPTION revenue only (next quarter and
+#     full year), never total revenue. The guidance_* rows below therefore carry the
+#     SUBSCRIPTION guidance, so the forward-P/S rows measure market cap against the
+#     guided subscription base (~97% of total). Guidance issued at each report from
+#     the 8-K earnings press release (erq#fy##.htm).
+#   - Q4 has no standalone income-statement column in the 10-K: revenue computed as
+#     FY total − 9-month YTD. OCF/capex/SBC for Q4 entries are the full-year YTD
+#     values (the tool differences them against Q3 to recover standalone).
+
+unit: millions
+
+quarters:
+  # --- FY2022 reach-back: TTM diff base only (out of display window) ---
+  - id: q4-2022
+    end_date: 2022-12-31
+    report_date: 2023-01-31
+    announce_date: 2023-01-25
+    announce_session: after-close
+    revenue: 1940              # Q4-2022 total revenues (letter)
+    shares_outstanding: 1014   # 202,882K ÷ balance sheet × 5 (pre-split)
+    ytd_operating_cf: 2723     # full-year FY2022 (10-K)
+    ytd_capex_ppe: 550
+    ytd_sbc: 1401
+    guidance_nq_revenue_low: 1990    # Q1-2023 SUBSCRIPTION guidance
+    guidance_nq_revenue_high: 2000
+    guidance_fy_revenue_low: 8440    # FY2023 SUBSCRIPTION guidance
+    guidance_fy_revenue_high: 8500
+
+  # --- FY2023: reach-back for FY2024 TTM base (out of display window) ---
+  - id: q1-2023
+    end_date: 2023-03-31
+    report_date: 2023-04-27
+    announce_date: 2023-04-26
+    announce_session: after-close
+    revenue: 2096
+    shares_outstanding: 1019   # 203,700K (cover) × 5
+    ytd_operating_cf: 902
+    ytd_capex_ppe: 165
+    ytd_sbc: 381
+    guidance_nq_revenue_low: 2040
+    guidance_nq_revenue_high: 2045
+    guidance_fy_revenue_low: 8470
+    guidance_fy_revenue_high: 8520
+
+  - id: q2-2023
+    end_date: 2023-06-30
+    report_date: 2023-07-27
+    announce_date: 2023-07-26
+    announce_session: after-close
+    revenue: 2150
+    shares_outstanding: 1022   # 204,300K (cover) × 5
+    ytd_operating_cf: 1482
+    ytd_capex_ppe: 297
+    ytd_sbc: 778
+    guidance_nq_revenue_low: 2185
+    guidance_nq_revenue_high: 2195
+    guidance_fy_revenue_low: 8580
+    guidance_fy_revenue_high: 8600
+
+  - id: q3-2023
+    end_date: 2023-09-30
+    report_date: 2023-10-26
+    announce_date: 2023-10-25
+    announce_session: after-close
+    revenue: 2288
+    shares_outstanding: 1025   # 205,000K (cover) × 5
+    ytd_operating_cf: 1793
+    ytd_capex_ppe: 433
+    ytd_sbc: 1191
+    guidance_nq_revenue_low: 2320
+    guidance_nq_revenue_high: 2325
+    guidance_fy_revenue_low: 8635
+    guidance_fy_revenue_high: 8640
+
+  - id: q4-2023
+    end_date: 2023-12-31
+    report_date: 2024-01-25
+    announce_date: 2024-01-24
+    announce_session: after-close
+    revenue: 2437             # FY2023 8,971 − 9mo 6,534
+    shares_outstanding: 1024  # 204,724K × 5
+    ytd_operating_cf: 3398    # full-year FY2023
+    ytd_capex_ppe: 694
+    ytd_sbc: 1604
+    cash: 1897
+    total_debt: 1488
+    guidance_nq_revenue_low: 2510    # Q1-2024 SUBSCRIPTION
+    guidance_nq_revenue_high: 2515
+    guidance_fy_revenue_low: 10555   # FY2024 SUBSCRIPTION
+    guidance_fy_revenue_high: 10575
+
+  # --- FY2024: displayed ---
+  - id: q1-2024
+    end_date: 2024-03-31
+    report_date: 2024-05-06
+    announce_date: 2024-04-24
+    announce_session: after-close
+    revenue: 2603
+    shares_outstanding: 1027  # 205,382K × 5
+    ytd_operating_cf: 1341
+    ytd_capex_ppe: 135
+    ytd_sbc: 422
+    cash: 2056
+    total_debt: 1488
+    guidance_nq_revenue_low: 2525
+    guidance_nq_revenue_high: 2530
+    guidance_fy_revenue_low: 10560
+    guidance_fy_revenue_high: 10575
+
+  - id: q2-2024
+    end_date: 2024-06-30
+    report_date: 2024-07-25
+    announce_date: 2024-07-24
+    announce_session: after-close
+    revenue: 2627
+    shares_outstanding: 1029  # 205,857K × 5
+    ytd_operating_cf: 1961
+    ytd_capex_ppe: 397
+    ytd_sbc: 866
+    cash: 2159
+    total_debt: 1488
+    guidance_nq_revenue_low: 2660
+    guidance_nq_revenue_high: 2665
+    guidance_fy_revenue_low: 10575
+    guidance_fy_revenue_high: 10585
+
+  - id: q3-2024
+    end_date: 2024-09-30
+    report_date: 2024-10-24
+    announce_date: 2024-10-23
+    announce_session: after-close
+    revenue: 2797
+    shares_outstanding: 1032  # 206,317K × 5
+    ytd_operating_cf: 2632
+    ytd_capex_ppe: 599
+    ytd_sbc: 1292
+    cash: 1885
+    total_debt: 1489
+    guidance_nq_revenue_low: 2875
+    guidance_nq_revenue_high: 2880
+    guidance_fy_revenue_low: 10655
+    guidance_fy_revenue_high: 10660
+
+  - id: q4-2024
+    end_date: 2024-12-31
+    report_date: 2025-01-30
+    announce_date: 2025-01-29
+    announce_session: after-close
+    revenue: 2957            # FY2024 10,984 − 9mo 8,027
+    shares_outstanding: 1032 # 206,487K × 5
+    ytd_operating_cf: 4267   # full-year FY2024
+    ytd_capex_ppe: 852
+    ytd_sbc: 1746
+    cash: 2304
+    total_debt: 1489
+    guidance_nq_revenue_low: 2995    # Q1-2025 SUBSCRIPTION
+    guidance_nq_revenue_high: 3000
+    guidance_fy_revenue_low: 12635   # FY2025 SUBSCRIPTION
+    guidance_fy_revenue_high: 12675
+
+  # --- FY2025: displayed ---
+  - id: q1-2025
+    end_date: 2025-03-31
+    report_date: 2025-04-23
+    announce_date: 2025-04-23
+    announce_session: after-close
+    revenue: 3088
+    shares_outstanding: 1035  # 206,979K × 5
+    ytd_operating_cf: 1677
+    ytd_capex_ppe: 205
+    ytd_sbc: 470
+    cash: 3369
+    total_debt: 1490
+    guidance_nq_revenue_low: 3030
+    guidance_nq_revenue_high: 3035
+    guidance_fy_revenue_low: 12640
+    guidance_fy_revenue_high: 12680
+
+  - id: q2-2025
+    end_date: 2025-06-30
+    report_date: 2025-07-24
+    announce_date: 2025-07-23
+    announce_session: after-close
+    revenue: 3215
+    shares_outstanding: 1038  # 207,519K × 5
+    ytd_operating_cf: 2393
+    ytd_capex_ppe: 395
+    ytd_sbc: 969
+    cash: 3124
+    total_debt: 1490
+    guidance_nq_revenue_low: 3260
+    guidance_nq_revenue_high: 3265
+    guidance_fy_revenue_low: 12775
+    guidance_fy_revenue_high: 12795
+
+  - id: q3-2025
+    end_date: 2025-09-30
+    report_date: 2025-10-30
+    announce_date: 2025-10-29
+    announce_session: after-close
+    revenue: 3407
+    shares_outstanding: 1038  # 207,564K × 5
+    ytd_operating_cf: 3206
+    ytd_capex_ppe: 630
+    ytd_sbc: 1461
+    cash: 2725
+    total_debt: 1491
+    guidance_nq_revenue_low: 3420
+    guidance_nq_revenue_high: 3430
+    guidance_fy_revenue_low: 12835
+    guidance_fy_revenue_high: 12845
+
+  - id: q4-2025
+    end_date: 2025-12-31
+    report_date: 2026-01-29
+    announce_date: 2026-01-28
+    announce_session: after-close
+    revenue: 3568            # FY2025 13,278 − 9mo 9,710
+    shares_outstanding: 1047 # 1,047,278K (post-split basis)
+    ytd_operating_cf: 5444   # full-year FY2025
+    ytd_capex_ppe: 868
+    ytd_sbc: 1955
+    cash: 3726
+    total_debt: 1491
+    guidance_nq_revenue_low: 3650    # Q1-2026 SUBSCRIPTION
+    guidance_nq_revenue_high: 3655
+    guidance_fy_revenue_low: 15530   # FY2026 SUBSCRIPTION
+    guidance_fy_revenue_high: 15570
+
+  # --- FY2026: current partial year ---
+  - id: q1-2026
+    end_date: 2026-03-31
+    report_date: 2026-04-23
+    announce_date: 2026-04-22
+    announce_session: after-close
+    revenue: 3770
+    shares_outstanding: 1031  # 1,031,308K
+    ytd_operating_cf: 1670
+    ytd_capex_ppe: 141
+    ytd_sbc: 547
+    cash: 2702
+    total_debt: 1491
+    guidance_nq_revenue_low: 3815
+    guidance_nq_revenue_high: 3820
+    guidance_fy_revenue_low: 15735
+    guidance_fy_revenue_high: 15775
+
+  - id: q2-2026
+    end_date: 2026-06-30
+    report_date: 2026-07-23
+    announce_date: 2026-07-22
+    announce_session: after-close
+    revenue: 3987
+    shares_outstanding: 1034  # 1,033,862K
+    ytd_operating_cf: 2257
+    ytd_capex_ppe: 255
+    ytd_sbc: 1199
+    cash: 2503
+    total_debt: 7517         # short-term debt, net 2,082 + long-term debt, net 5,435 (Q2 debt raise for Armis/Veza)
+    guidance_nq_revenue_low: 3975    # Q3-2026 SUBSCRIPTION
+    guidance_nq_revenue_high: 3980
+    guidance_fy_revenue_low: 15760   # FY2026 SUBSCRIPTION (raised)
+    guidance_fy_revenue_high: 15780

@@ -57,8 +57,8 @@ benchmarks:
 
 stocks:
   - symbol: NOW
-    tags: [large_cap, tech, software, ai]
-    benchmarks: [SPY, QQQ]
+    tags: [mega_cap, tech, software, saas, enterprise, ai]
+    benchmarks: [SPY, IGV]
   - symbol: GOOGL
     tags: [mega_cap, tech, advertising, ai]
     benchmarks: [SPY, QQQ, XLC]
