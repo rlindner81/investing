@@ -7,7 +7,7 @@ Where check-reaction and check-shape lead with price, check-flow leads with
   columns are the regular-session hours in ET (09:30 … 15:30). Each cell shows
   the hour's volume, its **day-over-day** change vs. the same hour the day below,
   a **day-to-hour** cumulative share (this hour's volume as a running fraction of
-  the day so far), and **oc** (the close plus its signed move from the open, so
+  the day so far), and **close** (the close plus its signed move from the open, so
   the bar's direction reads at a glance).
 
 - a DAILY grid: rows are weeks, columns are weekdays, with a week-over-week
@@ -336,7 +336,7 @@ def report_hourly(ticker: str, grid: HourGrid, n_days: int) -> None:
         "[dim]per cell: volume + Δ day-over-day, same hour "
         "([green]green[/] more / [red]red[/] less) · "
         f"fill % vs {2 * n_days}-day avg day ({_vol_str(baseline)}) · "
-        "oc close + move from open   "
+        "close + move from open   "
         "[italic][…] = period still running (provisional)[/][/]"
     )
 
@@ -362,7 +362,7 @@ def report_hourly(ticker: str, grid: HourGrid, n_days: int) -> None:
         lbl = f"[bold]{d.strftime('%a')}[/] [dim]{d.isoformat()}[/]"
         table.add_row(lbl, "vol Δ", *vol_cells)
         table.add_row("", "fill%", *fill_cells)
-        table.add_row("", "oc", *oc_cells)
+        table.add_row("", "close", *oc_cells)
         table.add_row("")
 
     console.print(table)
@@ -386,7 +386,7 @@ def report_daily(ticker: str, grid: WeekGrid, n_weeks: int) -> None:
         "[dim]per cell: volume + Δ week-over-week, same weekday "
         "([green]green[/] more / [red]red[/] less) · "
         f"fill % vs {2 * n_weeks}-week avg week ({_vol_str(baseline)}) · "
-        "oc close + move from open   "
+        "close + move from open   "
         "[italic][…] = period still running (provisional)[/][/]"
     )
 
@@ -412,7 +412,7 @@ def report_daily(ticker: str, grid: WeekGrid, n_weeks: int) -> None:
         lbl = f"[bold]{w.isoformat()}[/]"
         table.add_row(lbl, "vol Δ", *vol_cells)
         table.add_row("", "fill%", *fill_cells)
-        table.add_row("", "oc", *oc_cells)
+        table.add_row("", "close", *oc_cells)
         table.add_row("")
 
     console.print(table)
