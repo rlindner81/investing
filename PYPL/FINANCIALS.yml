@@ -15,10 +15,14 @@
 #     balance-sheet cover parenthetical, in millions.
 #   - cash = "Cash and cash equivalents" only (EXCLUDES the ~$38B of customer
 #     "funds receivable and customer accounts", which is restricted customer money,
-#     not corporate liquidity). total_debt = "Long-term debt" (PayPal carries no
-#     separate short-term corporate borrowings line; "funds payable" is customer
-#     money). Net cash is therefore deeply negative — PayPal is net-debt on this
-#     conservative basis; the customer-funds float is not counted as cash.
+#     not corporate liquidity). total_debt = corporate borrowings ("Long-term debt"
+#     plus any "Short-term debt"; "funds payable" is customer money, not counted).
+#     Through q1-2026 PayPal reported only a long-term debt line, so total_debt was
+#     long-term only. Beginning q2-2026 the balance sheet also carries a "Short-term
+#     debt" line ($2,505M at Jun'26; $1,596M was reclassified into Dec'25), so
+#     total_debt = short-term + long-term (13,400 at Jun'26, matching the company's
+#     own "$13.4B debt" headline). Net cash is therefore deeply negative — PayPal is
+#     net-debt on this conservative basis; the customer-funds float is not counted.
 #   - GUIDANCE QUIRK: PayPal only published explicit NEXT-QUARTER revenue-growth
 #     guidance through Q3-2023 (converted to $ ranges below off the prior-year
 #     quarter). Beginning with the Q4-2023 report (Feb 2024, first full CEO Alex
@@ -252,3 +256,19 @@ quarters:
     total_debt: 9409
     guidance_nq_hint: eps-only
     guidance_fy_hint: eps-only          # reiterated FY'26 (EPS-based)
+
+  - id: q2-2026
+    end_date: 2026-06-30
+    report_date: 2026-07-28
+    announce_date: 2026-07-28
+    announce_session: pre-open         # 8-K item 2.02 accepted 2026-07-28 07:02 UTC = 03:02 ET
+    revenue: 8682
+    shares_outstanding: 862
+    ytd_operating_cf: 3117             # 6-month YTD
+    ytd_capex_ppe: 439                 # 6-month YTD
+    ytd_sbc: 534                       # 6-month YTD
+    cash: 8306
+    total_debt: 13400                  # short-term debt 2,505 + long-term 10,895 (matches co's "$13.4B debt")
+    guidance_nq_hint: eps-only          # Q3'26 GAAP & non-GAAP EPS low-single-digit decline
+    guidance_fy_hint: eps-only          # raised FY'26 non-GAAP EPS to ~$5.38 (from low-single-digit decline to
+                                        # slightly positive); GAAP EPS mid-single-digit decline reaffirmed

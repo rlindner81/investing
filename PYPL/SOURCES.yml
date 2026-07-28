@@ -1,6 +1,13 @@
 _meta:
   cik: "0001633917"
-
+'2026-07-28':
+  quarter: q2-2026
+  period_end: '2026-06-30'
+  report: https://www.sec.gov/Archives/edgar/data/1633917/000163391726000080/pypl2q-26earningsrelease.htm
+  report_type: 8-K
+  letter: https://www.sec.gov/Archives/edgar/data/1633917/000163391726000080/pypl2q-26earningsrelease.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/pypl/transcripts/660505-q2-2026/
 '2026-05-05':
   quarter: q1-2026
   period_end: '2026-03-31'
@@ -9,7 +16,6 @@ _meta:
   letter: https://www.sec.gov/Archives/edgar/data/1633917/000163391726000065/pypl1q-26earningsrelease.htm
   letter_type: 8-K
   transcript: https://stockanalysis.com/stocks/pypl/transcripts/550840-q1-2026/
-
 '2026-02-03':
   quarter: q4-2025
   period_end: '2025-12-31'
@@ -18,7 +24,6 @@ _meta:
   letter: https://www.sec.gov/Archives/edgar/data/1633917/000163391726000021/pypl4q-25earningsrelease.htm
   letter_type: 8-K
   transcript: https://stockanalysis.com/stocks/pypl/transcripts/403979-q4-2025/
-
 '2025-10-28':
   quarter: q3-2025
   period_end: '2025-09-30'
@@ -27,7 +32,6 @@ _meta:
   letter: https://www.sec.gov/Archives/edgar/data/1633917/000163391725000194/pypl3q-25earningsrelease.htm
   letter_type: 8-K
   transcript: https://stockanalysis.com/stocks/pypl/transcripts/368038-q3-2025/
-
 '2025-07-29':
   quarter: q2-2025
   period_end: '2025-06-30'
@@ -36,7 +40,6 @@ _meta:
   letter: https://www.sec.gov/Archives/edgar/data/1633917/000163391725000158/pypl2q-25earningsrelease.htm
   letter_type: 8-K
   transcript: https://stockanalysis.com/stocks/pypl/transcripts/340072-q2-2025/
-
 '2025-04-29':
   quarter: q1-2025
   period_end: '2025-03-31'
@@ -45,7 +48,6 @@ _meta:
   letter: https://www.sec.gov/Archives/edgar/data/1633917/000163391725000062/pypl1q-25earningsrelease.htm
   letter_type: 8-K
   transcript: https://stockanalysis.com/stocks/pypl/transcripts/312396-q1-2025/
-
 '2025-02-04':
   quarter: q4-2024
   period_end: '2024-12-31'
@@ -54,7 +56,6 @@ _meta:
   letter: https://www.sec.gov/Archives/edgar/data/1633917/000163391725000017/pypl4q-24earningsrelease.htm
   letter_type: 8-K
   transcript: https://stockanalysis.com/stocks/pypl/transcripts/250544-q4-2024/
-
 '2024-10-29':
   quarter: q3-2024
   period_end: '2024-09-30'
@@ -63,7 +64,6 @@ _meta:
   letter: https://www.sec.gov/Archives/edgar/data/1633917/000163391724000108/pypl3q-24earningsrelease.htm
   letter_type: 8-K
   transcript: https://stockanalysis.com/stocks/pypl/transcripts/216907-q3-2024/
-
 '2024-07-30':
   quarter: q2-2024
   period_end: '2024-06-30'
@@ -72,7 +72,6 @@ _meta:
   letter: https://www.sec.gov/Archives/edgar/data/1633917/000163391724000096/pypl2q-24earningsrelease.htm
   letter_type: 8-K
   transcript: https://stockanalysis.com/stocks/pypl/transcripts/189786-q2-2024/
-
 '2024-04-30':
   quarter: q1-2024
   period_end: '2024-03-31'
@@ -81,7 +80,6 @@ _meta:
   letter: https://www.sec.gov/Archives/edgar/data/1633917/000119312524123690/d831310dex991.htm
   letter_type: 8-K
   transcript: https://stockanalysis.com/stocks/pypl/transcripts/165670-q1-2024/
-
 '2024-02-08':
   quarter: q4-2023
   period_end: '2023-12-31'
@@ -90,7 +88,6 @@ _meta:
   letter: https://www.sec.gov/Archives/edgar/data/1633917/000163391724000022/q423paypalearningsreleas.htm
   letter_type: 8-K
   transcript: https://stockanalysis.com/stocks/pypl/transcripts/120940-q4-2023/
-
 '2023-11-02':
   quarter: q3-2023
   period_end: '2023-09-30'
@@ -99,7 +96,6 @@ _meta:
   letter: https://www.sec.gov/Archives/edgar/data/1633917/000163391723000154/pyplq3-23earningsrelease.htm
   letter_type: 8-K
   transcript: https://stockanalysis.com/stocks/pypl/transcripts/86548-q3-2023/
-
 '2023-08-03':
   quarter: q2-2023
   period_end: '2023-06-30'
@@ -108,7 +104,6 @@ _meta:
   letter: https://www.sec.gov/Archives/edgar/data/1633917/000163391723000115/q223paypalearningsreleas.htm
   letter_type: 8-K
   transcript: https://stockanalysis.com/stocks/pypl/transcripts/67831-q2-2023/
-
 '2023-05-09':
   quarter: q1-2023
   period_end: '2023-03-31'
@@ -117,7 +112,6 @@ _meta:
   letter: https://www.sec.gov/Archives/edgar/data/1633917/000163391723000070/q123paypalearningsreleas.htm
   letter_type: 8-K
   transcript: https://stockanalysis.com/stocks/pypl/transcripts/53087-q1-2023/
-
 '2023-02-10':
   quarter: q4-2022
   period_end: '2022-12-31'
