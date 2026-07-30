@@ -55,6 +55,13 @@ On completion of **detailed engineering in early 2027**, Kinross will issue an
 update is the next hard data point — a materially higher capex would compress returns
 (though the \$4,500/oz price deck provides large cushion at current gold prices).
 
+Great Bear is the **near-term driver** of Kinross' development capex ramp: AEX spend is
+largely behind it (surface 93% complete, decline first-blasted 2026-07-27), and
+main-project construction (~3-year build, 2027–2029) layers in ~\$550–670M/yr *starting*
+2027 — the bulk after the next-4-quarter window. For the combined Great Bear + Lobo-Marte
+spending trajectory (FY2026 ~\$1.5B guided → the FY2027–2028 inflection to \$2.5–3.0B+
+peak) and what it does to FCF, see the dedicated [Capex Ramp](CapexRamp.md) note.
+
 ## Upside optionality
 
 - Great Bear resource: **2.7 Moz M&I + 4.3 Moz Inferred** (Dec 31, 2025), up from the
@@ -68,5 +75,6 @@ update is the next hard data point — a materially higher capex would compress 
 ## Related
 
 - Pipeline/valuation context: see `business-plan.md` (§ Development & Growth Pipeline).
-- Lobo-Marte carries the same "capex to be re-cut for inflation" caveat; slated to follow
-  Great Bear in the early 2030s.
+- Lobo-Marte carried the same "capex to be re-cut for inflation" caveat; that re-cut
+  landed 2026-07-29 (refreshed FS, ~\$1.8B initial capex). See [Lobo-Marte](LoboMarte.md).
+  Slated to follow Great Bear in the early 2030s.

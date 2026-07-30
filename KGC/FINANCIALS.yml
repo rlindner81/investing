@@ -217,3 +217,17 @@ quarters:
     cash: 2185.0
     total_debt: 738.5
     guidance_fy_hint: prod-guided
+
+  - id: q2-2026
+    end_date: 2026-06-30
+    report_date: 2026-07-29
+    announce_date: 2026-07-29
+    announce_session: after-close
+    revenue: 2238.1
+    shares_outstanding: 1186.241
+    ytd_operating_cf: 2285.4    # 6-month
+    ytd_capex_ppe: 694.2
+    ytd_capex_interest: 7.1
+    cash: 2656.4
+    total_debt: 738.8           # 0 current + 738.8 long-term
+    guidance_fy_hint: prod-guided
