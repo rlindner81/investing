@@ -32,11 +32,21 @@
 
 ---
 
-### Claude J.S. Schimper — Executive Vice-President & Chief Operating Officer
+### Bernard Wessels — Executive Vice-President & Chief Operating Officer (incoming)
+
+**Background:**
+- Appointed incoming COO on **2026-07-29**, succeeding **Claude Schimper**; Schimper stays on for a transition period. Mining engineer, 25+ years' operations-management experience
+- Joins from **Newmont**, most recently Group Head, Health, Safety & Security; earlier Senior VP North America and General Manager of the **Peñasquito** (Mexico) and **Ahafo** (Ghana) mines — where he delivered the Ahafo Mill Expansion on budget
+- Before Newmont (joined 2017), senior operational roles at **Sibanye-Stillwater**, **Harmony Gold**, and an Anglo American Platinum JV — complex gold and platinum operations in South Africa
+
+---
+
+### Claude J.S. Schimper — Executive Vice-President & Chief Operating Officer (retiring 2026)
 
 **Role at Kinross:**
-- Leads global mining operations across the Americas and West Africa portfolio (Tasiast, Paracatu, La Coipa, Fort Knox, Round Mountain, Bald Mountain, Manh Choh)
-- Accountable for production delivery, mine-site cost performance and operational execution against annual guidance
+- COO for four years (on the senior leadership team five years; 16+ years at Kinross). To retire later in 2026, handing over to **Bernard Wessels** after a transition period
+- Led global mining operations across the Americas and West Africa portfolio (Tasiast, Paracatu, La Coipa, Fort Knox, Round Mountain, Bald Mountain, Manh Choh)
+- Accountable for production delivery, mine-site cost performance and operational execution against annual guidance — presided over Kinross' sustained guidance-meeting streak and cost-control track record
 
 ---
 
