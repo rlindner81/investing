@@ -75,8 +75,11 @@ plateau pushes its confirm to **2026-10-28**.
 - **Confirmation:** a held ~120+-equivalent plateau gives a half-confirm around
   **Oct 22–28, 2026**; both analogs converge on **Oct 22** / **Oct 28**.
 - This zone is an **exit-watch / trim window, not an add zone** — both games
-  faded into launch, and the release day itself was flat-to-down (see
-  [[GTA6_release_analog.md]] for the release-day and post-release behavior).
+  faded into launch. The release day itself was flat-to-down for both (GTA V
+  −2.0%, RDR2 −0.5% on the T-1→T0 reaction), and the two split afterward —
+  GTA V re-accelerated (+5.6% by +30 td) while RDR2 rolled over hard (−12.2% by
+  +30 td). "Sell the news" is the base case; the pre-release plateau is the
+  cleaner exit than the launch itself.
 - Caveats: n=2; different market regimes (RDR2's post-launch fade overlapped the
   Q4-2018 selloff); GTA VI is only at T-78 now and hasn't entered the run-up ramp
   yet, so the "+23% by T-100+X" magnitude is the pattern to confirm, not a given.
