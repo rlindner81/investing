@@ -4,7 +4,8 @@ fetch_tweets.py — Pull the latest tweets about a ticker via Scweet, dedupe the
 against an append-only ledger, and print either "no new data" or the 5 latest
 new tweets.
 
-Each run searches recent tweets for the ticker's cashtag (e.g. ``$RBLX``),
+Each run searches recent tweets for the ticker's cashtag (e.g. ``$RBLX``) —
+English only, with at least one reply and one retweet to filter out noise —
 appends any tweet_id it hasn't seen before to a per-ticker JSONL ledger, and
 reports only what's genuinely new. The ledger is append-only: it's the memory
 that keeps successive runs from re-reporting the same tweets.
@@ -66,6 +67,15 @@ LEDGER_FIELDS = (
 # ---------------------------------------------------------------------------
 
 def ledger_path(ticker: str) -> Path:
+    """Ledger location for a ticker.
+
+    A tracked ticker (its ``<TICKER>/`` dir exists) keeps the ledger alongside
+    its research as ``<TICKER>/tweets.jsonl``; an ad-hoc ticker falls back to the
+    transient ``tweets/<TICKER>.jsonl``.
+    """
+    ticker_dir = REPO_ROOT / ticker
+    if ticker_dir.is_dir():
+        return ticker_dir / "tweets.jsonl"
     return TWEETS_DIR / f"{ticker}.jsonl"
 
 
@@ -137,7 +147,15 @@ def search_tweets(ticker: str, query: str | None, days: int, limit: int) -> list
     q = query or f"${ticker}"
     since = (date.today() - timedelta(days=days)).isoformat()
     try:
-        raw = client.search(q, since=since, limit=limit, display_type="Latest")
+        raw = client.search(
+            q,
+            since=since,
+            limit=limit,
+            display_type="Latest",
+            lang="en",
+            min_replies=1,
+            min_retweets=1,
+        )
     except (AuthError, AccountPoolExhausted) as exc:
         # Un-seeded db (empty pool) or an expired session both land here.
         sys.exit(
