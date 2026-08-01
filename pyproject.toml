@@ -7,12 +7,14 @@ dependencies = [
     "yfinance>=0.2",
     "rich>=13",
     "numpy>=2.5.1",
+    "scweet>=5.3",
 ]
 
 [project.scripts]
 discover-filings = "investing.discover_filings:main"
 fetch-sources = "investing.fetch_sources:main"
 fetch-transcript = "investing.fetch_transcript:main"
+fetch-tweets = "investing.fetch_tweets:main"
 fetch-prices = "investing.fetch_prices:main"
 check-price = "investing.check_price:main"
 check-valuation = "investing.check_valuation:main"

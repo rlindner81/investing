@@ -37,3 +37,10 @@ For a comparative benchmark analysis check [TICKERS.yml](./TICKERS.yml) and run,
 ```
 uv run check-price ODD
 ```
+
+## re-seed scweet
+
+```
+ uv run python -c "from Scweet import Scweet; \
+      Scweet(db_path='tweets/scweet_state.db', auth_token='<AUTH_TOKEN>')"
+```
