@@ -223,7 +223,7 @@ def main() -> None:
     p.add_argument("ticker", help="ticker symbol, e.g. RBLX (cashtag search $TICKER)")
     p.add_argument("--query", help="override the search query (default: $TICKER)")
     p.add_argument("--days", type=int, default=2, help="look back this many days (default: 2)")
-    p.add_argument("--limit", type=int, default=50, help="max tweets to pull per run (default: 50)")
+    p.add_argument("--limit", type=int, default=20, help="max tweets to pull per run (default: 20)")
     p.add_argument("--show", type=int, default=5, help="how many new tweets to print (default: 5)")
     p.add_argument(
         "--cooldown",
