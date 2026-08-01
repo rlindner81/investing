@@ -25,11 +25,17 @@ Once the db exists, seeding is done and every ``fetch-tweets`` run reuses the
 session. The ``tweets/`` dir (db included) is gitignored. If the session is
 missing or expired, a run exits telling you to re-seed.
 
+A cooldown keeps repeated runs from hammering the API: if the ledger was
+refreshed within the last hour (``--cooldown`` minutes), the search is skipped
+and the latest tweets are served straight from the ledger. Pass ``--cooldown 0``
+to force a fresh fetch.
+
 Usage:
   uv run fetch-tweets RBLX
   uv run fetch-tweets RBLX --limit 100 --days 3   # widen/narrow the search
   uv run fetch-tweets RBLX --show 10              # print more than 5
   uv run fetch-tweets RBLX --query '$RBLX OR "Roblox earnings"'  # custom query
+  uv run fetch-tweets RBLX --cooldown 0           # bypass cooldown, force fetch
 
 Ledger: tweets/<TICKER>.jsonl  (one JSON tweet record per line, append-only)
 """
@@ -39,6 +45,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+import time
 from datetime import date, timedelta
 from pathlib import Path
 
@@ -46,6 +53,10 @@ from investing.lib import REPO_ROOT
 
 TWEETS_DIR = REPO_ROOT / "tweets"
 STATE_DB = TWEETS_DIR / "scweet_state.db"
+
+# Don't re-hit the API if the ledger was refreshed within this window; serve the
+# latest tweets from the ledger instead. Overridable per-run via --cooldown.
+DEFAULT_COOLDOWN_MIN = 60
 
 # The fields we persist per tweet. Scweet returns more (raw, media, ...); we keep
 # a stable, readable subset — tweet_id is the dedup key.
@@ -79,24 +90,33 @@ def ledger_path(ticker: str) -> Path:
     return TWEETS_DIR / f"{ticker}.jsonl"
 
 
-def load_seen_ids(path: Path) -> set[str]:
-    """Read the ledger and return the set of tweet_ids already recorded."""
+def load_records(path: Path) -> list[dict]:
+    """Read the ledger and return all records, in file (append) order."""
     if not path.exists():
-        return set()
-    seen: set[str] = set()
+        return []
+    records: list[dict] = []
     with path.open() as f:
         for line in f:
             line = line.strip()
             if not line:
                 continue
             try:
-                rec = json.loads(line)
+                records.append(json.loads(line))
             except json.JSONDecodeError:
                 continue  # tolerate a partially-written trailing line
-            tid = rec.get("tweet_id")
-            if tid:
-                seen.add(str(tid))
-    return seen
+    return records
+
+
+def load_seen_ids(path: Path) -> set[str]:
+    """Return the set of tweet_ids already recorded in the ledger."""
+    return {str(r["tweet_id"]) for r in load_records(path) if r.get("tweet_id")}
+
+
+def seconds_since_update(path: Path) -> float | None:
+    """Age of the ledger in seconds (by mtime), or None if it doesn't exist."""
+    if not path.exists():
+        return None
+    return time.time() - path.stat().st_mtime
 
 
 def append_records(path: Path, records: list[dict]) -> None:
@@ -177,8 +197,8 @@ def sort_newest_first(records: list[dict]) -> list[dict]:
     return sorted(records, key=lambda r: r.get("timestamp", ""), reverse=True)
 
 
-def print_tweets(ticker: str, records: list[dict], show: int) -> None:
-    print(f"\n{len(records)} new tweet(s) for ${ticker} — showing top {min(show, len(records))}:\n")
+def print_tweets(ticker: str, records: list[dict], show: int, heading: str) -> None:
+    print(f"\n{heading}\n")
     for rec in records[:show]:
         handle = f"@{rec['screen_name']}" if rec["screen_name"] else "?"
         who = f"{rec['name']} ({handle})" if rec["name"] else handle
@@ -205,10 +225,33 @@ def main() -> None:
     p.add_argument("--days", type=int, default=2, help="look back this many days (default: 2)")
     p.add_argument("--limit", type=int, default=20, help="max tweets to pull per run (default: 20)")
     p.add_argument("--show", type=int, default=5, help="how many new tweets to print (default: 5)")
+    p.add_argument(
+        "--cooldown",
+        type=float,
+        default=DEFAULT_COOLDOWN_MIN,
+        help=f"skip the API and serve from the ledger if it was refreshed within "
+        f"this many minutes (default: {DEFAULT_COOLDOWN_MIN}; 0 disables)",
+    )
     args = p.parse_args()
 
     ticker = args.ticker.upper()
     path = ledger_path(ticker)
+
+    # Cooldown: if the ledger was refreshed recently, don't re-hit the API —
+    # print the latest tweets straight from the ledger.
+    age = seconds_since_update(path)
+    if args.cooldown > 0 and age is not None and age < args.cooldown * 60:
+        records = sort_newest_first(load_records(path))
+        mins = age / 60
+        print_tweets(
+            ticker,
+            records,
+            args.show,
+            heading=f"Cooldown ({mins:.0f} min since last fetch, < {args.cooldown:.0f} min) — "
+            f"latest {min(args.show, len(records))} of {len(records)} from ledger for ${ticker}:",
+        )
+        print(f"Ledger: {path.relative_to(REPO_ROOT)} (unchanged; re-run with --cooldown 0 to force).")
+        return
 
     seen = load_seen_ids(path)
     fetched = search_tweets(ticker, args.query, args.days, args.limit)
@@ -220,7 +263,12 @@ def main() -> None:
 
     new = sort_newest_first(new)
     append_records(path, new)
-    print_tweets(ticker, new, args.show)
+    print_tweets(
+        ticker,
+        new,
+        args.show,
+        heading=f"{len(new)} new tweet(s) for ${ticker} — showing top {min(args.show, len(new))}:",
+    )
     print(f"Ledger: {path.relative_to(REPO_ROOT)} (+{len(new)}, {len(seen) + len(new)} total)")
 
 
