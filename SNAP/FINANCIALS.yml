@@ -175,3 +175,18 @@ quarters:
     total_debt: 3535735
     guidance_nq_revenue_low: 1520000    # Q2-2026 guidance
     guidance_nq_revenue_high: 1550000
+
+  - id: q2-2026
+    end_date: 2026-06-30
+    report_date: 2026-08-03
+    announce_date: 2026-08-03
+    announce_session: after-close
+    revenue: 1598993
+    shares_outstanding: 1682281   # supplemental table, common shares out at 6/30/26
+    ytd_operating_cf: 502993
+    ytd_capex_ppe: 96448
+    ytd_sbc: 513229
+    cash: 958848
+    total_debt: 3534607   # short-term 153,159 + long-term 3,381,448
+    guidance_nq_revenue_low: 1700000    # Q3-2026 guidance ($1.70B–$1.74B)
+    guidance_nq_revenue_high: 1740000
