@@ -168,3 +168,17 @@ quarters:
     cash: 344512
     total_debt: 289923
     guidance_nq_hint: "flat to down slightly sequentially"    # Q2-2026 guidance (earnings call transcript)
+
+  - id: q2-2026
+    end_date: 2026-06-30
+    report_date: 2026-08-04
+    announce_date: 2026-08-04
+    announce_session: after-close
+    revenue: 306683
+    shares_outstanding: 218564    # (SVS 195,147,381 + MVS 37,472×100 + Super 196,690×100) ÷ 1000
+    ytd_operating_cf: 104810
+    ytd_capex_ppe: 39077
+    ytd_sbc: 21135
+    cash: 283586
+    total_debt: 283009       # current notes 23,726 + long-term notes 259,283; letter: "Total debt outstanding was $283.0 million"
+    guidance_nq_hint: "flat sequentially"    # Q3-2026 guidance (CFO on earnings call: "we expect third quarter sequential revenue to be flat")
