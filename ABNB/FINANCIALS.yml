@@ -9,8 +9,12 @@
 #   - CAPEX: ABNB is asset-light — no separate PP&E line in recent cash-flow
 #     statements (netted into "Other investing activities, net"). ytd_capex_ppe = 0
 #     → company FCF = OCF, matching how ABNB itself reports Free Cash Flow.
-#   - shares_outstanding: Class A + B outstanding summed from the balance-sheet
-#     parenthetical. Class C and H are 0. Steady decline reflects ongoing buyback.
+#   - shares_outstanding: Class A + Class B OUTSTANDING from the balance-sheet
+#     parenthetical (XBRL detail R-doc, e.g. R3.htm), each rounded to the million at
+#     the PERIOD-END date — not the cover-page count, not weighted-average. ABNB holds
+#     no treasury stock (buybacks are retired), so issued == outstanding in every
+#     parenthetical. Class C is 0 and Class H (~9M) is excluded. Steady decline reflects
+      ongoing buyback.
 #   - Q4 revenue = FY total − 9-month YTD (no standalone 10-K fact).
 #   - GUIDANCE: ABNB guides next quarter only (dollar range). No full-year revenue
 #     guidance is given in dollar terms; the Q4 letters give qualitative FY hints.
@@ -190,7 +194,7 @@ quarters:
     announce_date: 2026-08-06
     announce_session: after-close
     revenue: 3608
-    shares_outstanding: 590          # 419.5 Class A + 170.1 Class B (C/H excluded per convention)
+    shares_outstanding: 590          # 420 Class A + 170 Class B outstanding (balance-sheet parenthetical, C/H excluded)
     ytd_operating_cf: 2978           # 6-month YTD
     ytd_capex_ppe: 0
     ytd_sbc: 897
