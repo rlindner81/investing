@@ -12,8 +12,10 @@
 #     line). The strict FCF flavour nets BOTH plus SBC; company FCF = OCF − PP&E.
 #   - shares_outstanding = common issued − treasury (23.7M held throughout), from
 #     the balance-sheet cover parenthetical, in millions.
-#   - announce_date is the item-2.02 8-K acceptance date; every earnings 8-K was
-#     furnished ~16:15 ET, so announce_session is `after-close` for all quarters.
+#   - announce_date is the item-2.02 8-K acceptance date. Through q4-2026 every
+#     earnings 8-K was furnished ~16:15 ET (after-close). Starting q1-2027 (the
+#     GTA VI year) TTWO moved to a PRE-MARKET release: the q1-2027 8-K was accepted
+#     03:37 ET with an 8:00 a.m. ET call, so announce_session is `pre-open`.
 #   - GUIDANCE: TTWO prints a GAAP total-net-revenue "Outlook" range for both the
 #     full year and the next quarter in every earnings release, alongside its
 #     headline Net Bookings guidance. The revenue ranges are transcribed here.
@@ -315,4 +317,23 @@ quarters:
     guidance_nq_revenue_low: 1450   # Q1 FY2027
     guidance_nq_revenue_high: 1500
     guidance_fy_revenue_low: 7900   # initial FY2027 (GTA VI year)
+    guidance_fy_revenue_high: 8100
+
+  # --- FY2027 (ends Mar 2027), in progress — GTA VI ships Nov 19, 2026 ---
+  - id: q1-2027
+    end_date: 2026-06-30
+    report_date: 2026-08-07
+    announce_date: 2026-08-07
+    announce_session: pre-open      # 8-K accepted 03:37 ET; 8:00 a.m. call (new cadence)
+    revenue: 1533.9
+    shares_outstanding: 187.0       # 210.7 issued − 23.7 treasury
+    ytd_operating_cf: -168.8
+    ytd_capex_ppe: 25.0
+    ytd_capex_software: 173.0       # capitalized software dev (operating section)
+    ytd_sbc: 86.0
+    cash: 1364.9
+    total_debt: 2519.7             # 629.9 short-term + 1,889.8 long-term
+    guidance_nq_revenue_low: 1420   # Q2 FY2027
+    guidance_nq_revenue_high: 1470
+    guidance_fy_revenue_low: 7900   # FY2027 (reiterated; Net Bookings $8.0–8.2B)
     guidance_fy_revenue_high: 8100

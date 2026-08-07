@@ -183,3 +183,19 @@ quarters:
     total_debt: 2475               # new 5-yr Senior Notes issued Mar 2026; old $2B notes repaid
     guidance_nq_revenue_low: 3540    # Q2-2026 guidance
     guidance_nq_revenue_high: 3600
+
+  - id: q2-2026
+    end_date: 2026-06-30
+    report_date: 2026-08-06
+    announce_date: 2026-08-06
+    announce_session: after-close
+    revenue: 3608
+    shares_outstanding: 590          # 419.5 Class A + 170.1 Class B (C/H excluded per convention)
+    ytd_operating_cf: 2978           # 6-month YTD
+    ytd_capex_ppe: 0
+    ytd_sbc: 897
+    cash: 6821
+    total_debt: 2476                 # long-term Senior Notes; $2B old notes repaid in H1
+    guidance_nq_revenue_low: 4690    # Q3-2026 guidance
+    guidance_nq_revenue_high: 4770
+    guidance_fy_hint: qualitative    # FY2026 "at least mid teens" YoY revenue growth; no dollar range

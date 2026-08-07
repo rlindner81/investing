@@ -177,3 +177,21 @@ quarters:
     guidance_nq_revenue_high: 79000
     guidance_fy_revenue_low: 325000     # FY2027
     guidance_fy_revenue_high: 340000
+
+  # --- FY2027 (ends Mar 2027), in progress ---
+  - id: q1-2027
+    end_date: 2026-06-30
+    report_date: 2026-08-06
+    announce_date: 2026-08-06
+    announce_session: after-close    # 8-K accepted 16:18 ET
+    revenue: 78815                   # high end of $77–79M guidance
+    shares_outstanding: 9037         # 9,925,385 issued − 888,074 treasury (already post-split)
+    ytd_operating_cf: -3542
+    ytd_capex_ppe: 111
+    ytd_sbc: 2796
+    cash: 16090
+    total_debt: 0
+    guidance_nq_revenue_low: 83000      # Q2 FY2027
+    guidance_nq_revenue_high: 85000
+    guidance_fy_revenue_low: 325000     # FY2027 (reiterated)
+    guidance_fy_revenue_high: 340000
