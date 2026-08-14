@@ -18,6 +18,9 @@
 #   - Q3-2024 and Q3-2025 standalone OCF/capex are from the quarterly letter
 #     (the formal 6-K exhibit auto-extraction failed); 9M YTD values are computed.
 #   - JD does NOT provide formal quarterly or annual revenue guidance.
+#   - Q2 filings are HKEX-style INTERIM results: the auto-extractor's "Balance Sheet"
+#     section picks up a reconciliation footnote instead of the real statement. Read
+#     cash / debt from the -letter.htm (via markitdown) for those quarters.
 #   - balance sheet: cash = cash and cash equivalents only. total_debt = short-term
 #     debts + unsecured senior notes (current + non-current) + long-term borrowings.
 
@@ -206,3 +209,17 @@ quarters:
     ytd_sbc: 913
     cash: 101829
     total_debt: 74389               # 8,274 ST + 3,459 current + 20,494 senior notes + 42,162 LT
+
+  - id: q2-2026
+    end_date: 2026-06-30
+    report_date: 2026-08-13
+    announce_date: 2026-08-13
+    announce_session: pre-open
+    revenue: 346401
+    shares_outstanding: 1344        # 2,688M ordinary outstanding / 2
+    ytd_operating_cf: 38273
+    ytd_capex_ppe: 6015
+    ytd_capex_other: 4568
+    ytd_sbc: 1979
+    cash: 89068
+    total_debt: 69892               # 3,534 ST + 13,555 current + 16,607 senior notes + 36,196 LT
