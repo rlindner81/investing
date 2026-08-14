@@ -96,12 +96,24 @@ full size screenshot", or "Capture node screenshot" for the **Top Countries** an
 `ODD/proxydata/YYYY-MM-<host>.png`. Read the numbers off the image by eye and
 type them into the tables below.
 
-### Untapped: the Ranking by Traffic chart
+### The Ranking by Traffic chart — the M/M source
 
-Both brand pages carry a **"Ranking by Traffic" line chart** with monthly history
-— the very series assumed lost below. Hovering its points exposes per-month
-values. If that history can be read off, it supersedes the interpolated index
-table and gives a true pre-crash baseline. **Worth doing once.**
+Both brand pages carry a **"Ranking by Traffic" line chart**. Hovering each dot
+pops a tooltip reading `Total visits – <Month> <Year>` with the M/M change (and
+the visit count on the latest dot). **This is where the monthly series comes
+from** — the summary panel's headline only gives the current month.
+
+It holds **three dots (a rolling quarter)**, so there is no deeper history to
+mine and **no pre-crash baseline is obtainable**. Hover all three each month; the
+oldest rolls off.
+
+**Read screenshots at native resolution.** A full-page PNG (~1265×11900) is
+downscaled on open and the small delta figures become illegible. Crop the panel
+first, e.g.:
+
+```bash
+sips -c 620 640 --cropOffset 2500 620 <page>.png --out /tmp/panel.png
+```
 
 ## Readings
 
@@ -109,14 +121,12 @@ table and gives a true pre-crash baseline. **Worth doing once.**
 
 | Month | M/M | Bounce | Top channel | Direct | Pages/visit | Duration | US % | US cat rank | Visits |
 |---|---|---|---|---|---|---|---|---|---|
-| Apr 2026 | −33.3% *(soft)* | 47.6% | — | — | 3.83 | 3:55 | — | — | 3.3M |
 | May 2026 | **−6.97%** | — | — | — | — | — | — | — | — |
 | Jun 2026 | **−12.88%** | — | — | — | — | — | — | — | — |
 | Jul 2026 | **−10.45%** | 48.9% | Direct 29.04% | 29.04% | 3.92 | 3:42 | 77.5% | #44 | 2.4M |
 
-The Apr −33.3% is the one figure in this file **not** read off the page directly
-(it came from a search-result summary) and is the weakest link in the series —
-yet it anchors the whole decline. Verify or drop it.
+The Ranking-by-Traffic chart carries **only three dots (May/Jun/Jul)** — there is
+no April point and no pre-crash history to recover. The series starts here.
 
 Jul 2026 geography (shares **with M/M share deltas**, read off the page image):
 
@@ -225,27 +235,25 @@ reading. If the burn-off hypothesis were the whole story, direct share should be
 *rising* as paid traffic dies. It is not — which argues the paid layer is still
 substantially present, and the decline therefore has further to run.
 
-**Read as of Jul 2026 — the actual monthly path, no longer interpolated.**
-Compounding the tooltip figures off an April base of 100:
+**Read as of Jul 2026 — the observed monthly path.** Compounding the tooltip
+figures off an April base of 100 (April itself unobserved, so this measures
+May→Jul only):
 
 | Month | Index | M/M |
 |---|---|---|
-| Apr 2026 | 100 | −33.3% *(soft)* |
+| Apr 2026 | 100 | *(no data)* |
 | May | 93.0 | −6.97% |
 | Jun | 81.1 | −12.88% |
 | Jul | 72.6 | −10.45% |
 
-**≈27% off April — not the ~60% an earlier interpolation in this file claimed.**
-That estimate assumed a smooth path between −33.3% and −10.5%; the real path was
-not smooth (it fell to −7% immediately in May, then worsened), so the compounded
-damage is **less than half** what interpolation implied. Lesson: do not
-interpolate this series — read the tooltips.
+**≈27% lost over May–Jul.** How much preceded May is unknown and not
+recoverable — the chart holds only three points.
 
 **The shape is neither collapse nor recovery.** −7.0% → −12.9% → −10.5% is a
 brand grinding along a persistent high-single to low-teens monthly decline, with
 **May the best month and no trend since**. Flat-ish deterioration. The first
 derivative has not crossed zero in any month observed, so the base is still
-eroding — just far more slowly than the April print suggested.
+eroding — but at a far more modest rate than a crisis narrative implies.
 
 **Level still matters, but the mechanism is unresolved.** A candidate reading is
 that the *paid* layer burned off leaving a loyal direct/repeat core — matching the
