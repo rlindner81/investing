@@ -1,6 +1,15 @@
 _meta:
   cik: "0001327811"
 
+'2026-08-27':
+  quarter: q2-fy2027
+  period_end: '2026-07-31'
+  report: https://www.sec.gov/Archives/edgar/data/1327811/000132781126000044/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1327811/000132781126000042/wday-07312026x991.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/wday/transcripts/676598-q2-2027/
+
 '2026-05-22':
   quarter: q1-fy2027
   period_end: '2026-04-30'
@@ -8,7 +17,7 @@ _meta:
   report_type: 10-Q
   letter: https://www.sec.gov/Archives/edgar/data/1327811/000132781126000024/wday-04302026x991.htm
   letter_type: 8-K
-  transcript: https://stockanalysis.com/stocks/wday/transcripts/
+  transcript: https://stockanalysis.com/stocks/wday/transcripts/566797-q1-2027/
 
 '2026-03-06':
   quarter: q4-fy2026

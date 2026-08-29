@@ -213,3 +213,20 @@ quarters:
     guidance_nq_revenue_high: 2455
     guidance_fy_revenue_low: 9925     # FY2027 subscription (reaffirmed)
     guidance_fy_revenue_high: 9950
+
+  - id: q2-2027
+    end_date: 2026-07-31
+    report_date: 2026-08-27
+    announce_date: 2026-08-27
+    announce_session: after-close
+    revenue: 2471
+    shares_outstanding: 241.175
+    ytd_operating_cf: 1215
+    ytd_capex_ppe: 139
+    ytd_sbc: 871
+    cash: 3403                 # 661 + 2,742
+    total_debt: 2989          # 999 current + 1,990 noncurrent
+    guidance_nq_revenue_low: 2515     # Q3 FY2027 subscription
+    guidance_nq_revenue_high: 2515
+    guidance_fy_revenue_low: 9940     # FY2027 subscription (raised, low end)
+    guidance_fy_revenue_high: 9950
