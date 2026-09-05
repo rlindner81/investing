@@ -112,3 +112,15 @@ _meta:
   letter: https://www.sec.gov/Archives/edgar/data/1759509/000175950923000018/lyft-2022x12x31pressreleas.htm
   letter_type: 8-K
   transcript: https://stockanalysis.com/stocks/lyft/transcripts/40433-q4-2022/
+'2026-08-06':
+  quarter: q2-2026
+  period_end: '2026-06-30'
+  report: https://www.sec.gov/Archives/edgar/data/1759509/000162828026054499/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1759509/000162828026054305/lyft-20260630xpressrelease.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/lyft/transcripts/662654-q2-2026/
+'2026-05-08':
+  quarter: q1-2026
+  period_end: '2026-03-31'
+  report: https://www.sec.gov/Archives/edgar/data/1759509/000162828026032412/

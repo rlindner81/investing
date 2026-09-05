@@ -180,3 +180,17 @@ quarters:
     cash: 1034869
     total_debt: 986618                # long-term debt, net
     guidance_nq_hint: gross-bookings-only
+
+  - id: q2-2026
+    end_date: 2026-06-30
+    report_date: 2026-08-06
+    announce_date: 2026-08-06
+    announce_session: after-close     # 8-K 2026-08-06 20:10Z = 16:10 ET
+    revenue: 1843544
+    shares_outstanding: 379170        # Class A 379,170 (no Class B)
+    ytd_operating_cf: 657604
+    ytd_capex_ppe: 50718
+    ytd_sbc: 163431
+    cash: 1137942
+    total_debt: 990560                # long-term debt, net
+    guidance_nq_hint: gross-bookings-only
