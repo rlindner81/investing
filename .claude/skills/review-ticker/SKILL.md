@@ -52,6 +52,11 @@ COLUMNS=300 uv run check-flow $ARGUMENTS > /tmp/review-ticker-$ARGUMENTS/flow-ra
 
 Read all three files back in full before writing anything else.
 
+**Currency rule:** `check-valuation` output is always USD, already converted. A
+`(reports in CNY; 1 USD = 6.71 CNY)` header describes `FINANCIALS.yml`, not the
+table — quote its figures as `\$`, never `¥`. To cite a native figure too, give
+both: `\$51.6B (¥346.4B)`.
+
 ---
 
 ### Step 2 — Write section files
@@ -155,7 +160,7 @@ Read [template.md](template.md). Substitute every placeholder with the correspon
 | `{{TOTAL_RATING}}` | average of the three section scores, rounded to 1 decimal place |
 | `{{TOTAL_RATING_WORD}}` | band word for `{{TOTAL_RATING}}` (rating scale, Step 2) |
 
-> **Formatting rule:** In all written sections, escape every `$` that precedes a number or unit (e.g. `\$952M`, `\$16.81`). Bare `$` signs in markdown trigger math rendering. Exception: inline code spans (backtick-wrapped), where no escaping is needed.
+**Formatting rule:** In all written sections, escape every `$` that precedes a number or unit (e.g. `\$952M`, `\$16.81`). Bare `$` signs in markdown trigger math rendering. Exception: inline code spans (backtick-wrapped), where no escaping is needed.
 
 ---
 
