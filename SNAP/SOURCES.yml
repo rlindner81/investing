@@ -61,9 +61,10 @@ _meta:
 '2026-08-03':
   quarter: q2-2026
   period_end: '2026-06-30'
-  # 10-Q not yet filed; financials taken from the earnings 8-K EX-99.1 press release
-  report: https://www.sec.gov/Archives/edgar/data/1564408/000156440826000047/snap-20260803xexx991pressr.htm
-  report_type: 8-K
+  # 10-Q accepted the same evening as the earnings 8-K (2026-08-03 22:46 UTC);
+  # EDGAR stamps it filing-date 2026-08-04. Financials now taken from the 10-Q.
+  report: https://www.sec.gov/Archives/edgar/data/1564408/000156440826000052/
+  report_type: 10-Q
   letter: https://www.sec.gov/Archives/edgar/data/1564408/000156440826000047/q22026preparedremarks.htm
   letter_type: 8-K
   transcript: https://stockanalysis.com/stocks/snap/transcripts/661665-q2-2026/
