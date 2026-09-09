@@ -23,9 +23,11 @@ from dateutil.relativedelta import relativedelta
 from rich.console import Console
 from rich.table import Table
 
-from investing.lib import REPO_ROOT
+from investing.lib import REPO_ROOT, get_logger, setup_logging
 from investing.fetch_prices import fetch_ticker, fetch_iv, fetch_live_price, load_last_date
 from investing.volume_profile import compute_poc
+
+log = get_logger(__name__)
 
 PRICES_DAILY = REPO_ROOT / "prices" / "daily"
 TICKERS_FILE = REPO_ROOT / "TICKERS.yml"
@@ -427,7 +429,10 @@ def main() -> None:
     group = parser.add_mutually_exclusive_group()
     group.add_argument("--weeks", action="store_true", help="Weekly view only")
     group.add_argument("--months", action="store_true", help="Monthly view only")
+    parser.add_argument("-v", "--verbose", action="store_true",
+                         help="Verbose logging (show debug detail and tracebacks)")
     args = parser.parse_args()
+    setup_logging(args.verbose)
 
     as_of = date.fromisoformat(args.as_of) if args.as_of else None
     if args.weeks:

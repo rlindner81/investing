@@ -49,7 +49,9 @@ import time
 from datetime import date, timedelta
 from pathlib import Path
 
-from investing.lib import REPO_ROOT
+from investing.lib import REPO_ROOT, get_logger, setup_logging
+
+log = get_logger(__name__)
 
 TWEETS_DIR = REPO_ROOT / "tweets"
 STATE_DB = TWEETS_DIR / "scweet_state.db"
@@ -232,7 +234,10 @@ def main() -> None:
         help=f"skip the API and serve from the ledger if it was refreshed within "
         f"this many minutes (default: {DEFAULT_COOLDOWN_MIN}; 0 disables)",
     )
+    p.add_argument("-v", "--verbose", action="store_true",
+                   help="Verbose logging (show debug detail and tracebacks)")
     args = p.parse_args()
+    setup_logging(args.verbose)
 
     ticker = args.ticker.upper()
     path = ledger_path(ticker)

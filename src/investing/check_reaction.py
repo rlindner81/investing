@@ -34,6 +34,10 @@ import yaml
 from rich.console import Console
 from rich.table import Table
 
+from investing.lib import get_logger, setup_logging
+
+log = get_logger(__name__)
+
 REPO_ROOT = Path(__file__).resolve().parents[2]
 PRICES_DIR = REPO_ROOT / "prices" / "daily"
 console = Console()
@@ -323,11 +327,14 @@ def parse_args(argv=None) -> argparse.Namespace:
                    help="trading days AFTER the announcement (default 5)")
     p.add_argument("--show", type=int, default=10,
                    help="max earnings rows, newest first (default 10)")
+    p.add_argument("-v", "--verbose", action="store_true",
+                   help="Verbose logging (show debug detail and tracebacks)")
     return p.parse_args(argv)
 
 
 def main(argv=None) -> None:
     args = parse_args(argv)
+    setup_logging(args.verbose)
     ticker = args.ticker.upper()
     if args.before < 0 or args.after < 0:
         raise SystemExit("--before and --after must be non-negative.")

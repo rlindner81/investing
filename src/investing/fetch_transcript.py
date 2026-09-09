@@ -38,11 +38,14 @@ import re
 import sys
 import gzip
 import time
+import urllib.error
 import urllib.request
 import yaml
 from pathlib import Path
 
-from investing.lib import REPO_ROOT, load_sources
+from investing.lib import REPO_ROOT, load_sources, get_logger, setup_logging
+
+log = get_logger(__name__)
 
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
@@ -68,8 +71,16 @@ def fetch(url: str) -> str | None:
             raw = resp.read()
             enc = resp.info().get("Content-Encoding", "")
         return gzip.decompress(raw).decode("utf-8", errors="replace") if enc == "gzip" else raw.decode("utf-8", errors="replace")
+    except urllib.error.HTTPError as e:
+        # Server answered with a status — 403/404 are routine here (bot walls,
+        # a URL pointing at an index page rather than a transcript).
+        log.warning("%s: HTTP %s %s", url, e.code, e.reason)
+    except (urllib.error.URLError, TimeoutError) as e:
+        # DNS/connection/timeout — offline or the host is refusing us.
+        log.warning("%s: request failed (%s)", url, getattr(e, "reason", e))
     except Exception:
-        return None
+        log.error("%s: unexpected error fetching page", url, exc_info=True)
+    return None
 
 
 # ---------------------------------------------------------------------------
@@ -187,6 +198,7 @@ def download(ticker: str, date: str, quarter: str, transcript_path: Path, explic
 # ---------------------------------------------------------------------------
 
 def main():
+    setup_logging()
     args = sys.argv[1:]
     explicit_url = None
 

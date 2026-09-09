@@ -24,8 +24,6 @@ subsequent `check-price <stock>` finds every file it needs already present.
 
 import argparse
 import csv
-import sys
-import traceback
 from datetime import date, timedelta
 from pathlib import Path
 
@@ -34,7 +32,9 @@ import yaml
 import yfinance as yf
 from yfinance.exceptions import YFException, YFRateLimitError
 
-from investing.lib import REPO_ROOT
+from investing.lib import REPO_ROOT, get_logger, setup_logging
+
+log = get_logger(__name__)
 
 START_DATE_DAILY  = date(2000, 1, 1)
 START_DATE_HOURLY = date(2024, 1, 1)
@@ -169,12 +169,11 @@ def fetch_live_price(ticker: str) -> float | None:
         price = yf.Ticker(ticker).fast_info.last_price
         return float(price) if price else None
     except YFRateLimitError:
-        print(f"  {ticker}: live price unavailable (yfinance rate limited)", file=sys.stderr)
+        log.warning("%s: live price unavailable (yfinance rate limited)", ticker)
     except YFException as e:
-        print(f"  {ticker}: live price unavailable ({type(e).__name__}: {e})", file=sys.stderr)
-    except Exception as e:
-        print(f"  {ticker}: unexpected error fetching live price — {type(e).__name__}: {e}", file=sys.stderr)
-        traceback.print_exc(file=sys.stderr)
+        log.warning("%s: live price unavailable (%s: %s)", ticker, type(e).__name__, e)
+    except Exception:
+        log.error("%s: unexpected error fetching live price", ticker, exc_info=True)
     return None
 
 
@@ -183,9 +182,8 @@ def fetch_iv(ticker: str, price: float) -> float | None:
 
     Returns None when the ticker legitimately has no usable ATM quote (no
     options, no expiry far enough out, no strike quoted on both sides). Those
-    are silent. Anything else is reported on stderr rather than swallowed — a
-    silent None here is indistinguishable from a real outage or an upstream
-    schema change.
+    are silent. Anything else is logged rather than swallowed — a silent None
+    here is indistinguishable from a real outage or an upstream schema change.
     """
     try:
         t = yf.Ticker(ticker)
@@ -213,15 +211,14 @@ def fetch_iv(ticker: str, price: float) -> float | None:
             return (c_iv[0] + p_iv[0]) / 2
         return None
     except YFRateLimitError:
-        # Expected when sweeping many tickers; transient, so keep it quiet.
-        print(f"  {ticker}: IV unavailable (yfinance rate limited)", file=sys.stderr)
+        # Expected when sweeping many tickers; transient.
+        log.warning("%s: IV unavailable (yfinance rate limited)", ticker)
     except YFException as e:
         # Ticker/data problems upstream — known and benign, but worth naming.
-        print(f"  {ticker}: IV unavailable ({type(e).__name__}: {e})", file=sys.stderr)
-    except Exception as e:
+        log.warning("%s: IV unavailable (%s: %s)", ticker, type(e).__name__, e)
+    except Exception:
         # Unknown: a bug here or a yfinance schema change. Say so loudly.
-        print(f"  {ticker}: unexpected error computing IV — {type(e).__name__}: {e}", file=sys.stderr)
-        traceback.print_exc(file=sys.stderr)
+        log.error("%s: unexpected error computing IV", ticker, exc_info=True)
     return None
 
 
@@ -312,7 +309,10 @@ def main() -> None:
     parser.add_argument("tickers", nargs="+", help="Tickers to fetch")
     parser.add_argument("--daily", action="store_true", help="Fetch daily candles only")
     parser.add_argument("--hourly", action="store_true", help="Fetch hourly candles only")
+    parser.add_argument("-v", "--verbose", action="store_true",
+                         help="Verbose logging (show debug detail and tracebacks)")
     args = parser.parse_args()
+    setup_logging(args.verbose)
 
     tickers = expand_with_benchmarks([t.upper() for t in args.tickers])
 

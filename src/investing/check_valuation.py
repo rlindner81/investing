@@ -35,9 +35,12 @@ import yaml
 import yfinance as yf
 from rich.console import Console
 from rich.table import Table
+from yfinance.exceptions import YFException, YFRateLimitError
 
-from investing.lib import REPO_ROOT
+from investing.lib import REPO_ROOT, get_logger, setup_logging
 from investing.fetch_prices import fetch_live_price
+
+log = get_logger(__name__)
 
 UNIT_MULT = {"thousands": 1_000, "millions": 1_000_000, "units": 1}
 
@@ -55,9 +58,15 @@ def fetch_fx_rate(currency: str) -> float:
         rate = yf.Ticker(f"USD{currency}=X").fast_info.last_price
         if rate:
             return float(rate)
+        log.warning("USD%s=X returned no rate; using 1.0", currency)
+    except YFRateLimitError:
+        log.warning("could not fetch USD%s=X rate (yfinance rate limited); using 1.0", currency)
+    except YFException as e:
+        log.warning("could not fetch USD%s=X rate (%s: %s); using 1.0",
+                    currency, type(e).__name__, e)
     except Exception:
-        pass
-    console.print(f"[yellow]warning: could not fetch USD{currency}=X rate; using 1.0[/yellow]")
+        log.error("unexpected error fetching USD%s=X rate; using 1.0",
+                  currency, exc_info=True)
     return 1.0
 
 
@@ -715,7 +724,10 @@ def render(results: list[dict]) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser(description="Show P/S and P/FCF multiples from official reports.")
     parser.add_argument("tickers", nargs="+", help="Tickers")
+    parser.add_argument("-v", "--verbose", action="store_true",
+                         help="Verbose logging (show debug detail and tracebacks)")
     args = parser.parse_args()
+    setup_logging(args.verbose)
 
     tickers = [t.upper() for t in args.tickers]
 

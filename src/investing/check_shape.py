@@ -88,7 +88,9 @@ import numpy as np
 from rich.console import Console
 from rich.table import Table
 
-from investing.lib import REPO_ROOT
+from investing.lib import REPO_ROOT, get_logger, setup_logging
+
+log = get_logger(__name__)
 
 PRICES_DIR = REPO_ROOT / "prices" / "daily"
 ARCHIVE_DIR = REPO_ROOT / "prices-historic"
@@ -740,8 +742,13 @@ def load_cached(query: Series, args) -> tuple[list[Match], dict] | None:
     try:
         with path.open("rb") as f:
             results, stats = pickle.load(f)
+    except (pickle.UnpicklingError, EOFError, AttributeError, ImportError, ValueError, OSError) as e:
+        # Corrupt or written by an incompatible version — recompute silently.
+        log.debug("cache miss on %s (%s: %s) — recomputing", path.name, type(e).__name__, e)
+        return None
     except Exception:
-        return None  # corrupt/incompatible cache — recompute
+        log.error("unexpected error reading cache %s — recomputing", path.name, exc_info=True)
+        return None
     stats = {**stats, "cached": True}
     return results, stats
 
@@ -1087,7 +1094,10 @@ def main() -> None:
                         "dead-volume stubs. 0 disables (default 100).")
     p.add_argument("--refresh", action="store_true",
                    help="Ignore the 1h cache and recompute the search from scratch")
+    p.add_argument("-v", "--verbose", action="store_true",
+                    help="Verbose logging (show debug detail and tracebacks)")
     args = p.parse_args()
+    setup_logging(args.verbose)
 
     args.ticker = args.ticker.upper()
     if not (0.0 <= args.price_weight <= 1.0):

@@ -48,7 +48,9 @@ import yaml
 from datetime import datetime, timedelta
 from pathlib import Path
 
-from investing.lib import REPO_ROOT, load_sources
+from investing.lib import REPO_ROOT, load_sources, get_logger, setup_logging
+
+log = get_logger(__name__)
 
 HEADERS = {
     "User-Agent": "investment-research-bot research@example.com",
@@ -681,6 +683,7 @@ def download(ticker: str, date: str, quarter: str, path: Path, kind: str,
 # ---------------------------------------------------------------------------
 
 def main():
+    setup_logging()
     args = sys.argv[1:]
     explicit_url = None
     want_reports, want_letters = True, True

@@ -40,8 +40,12 @@ from zoneinfo import ZoneInfo
 import numpy as np
 from rich.console import Console
 from rich.table import Table
+from yfinance.exceptions import YFException, YFRateLimitError
 
 from investing.fetch_prices import fetch_ticker
+from investing.lib import get_logger, setup_logging
+
+log = get_logger(__name__)
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 HOURLY_DIR = REPO_ROOT / "prices" / "hourly"
@@ -101,8 +105,14 @@ def refresh_prices(ticker: str) -> None:
             with redirect_stdout(io.StringIO()):
                 fetch_ticker(ticker, prices_dir=prices_dir,
                              interval=interval, prepost=prepost, quiet=True)
+        except YFRateLimitError:
+            # Expected and harmless: fall back to the on-disk history.
+            log.debug("%s: %s refresh skipped (yfinance rate limited)", ticker, name)
+        except (YFException, OSError) as e:
+            # Offline / upstream data problem → use what we have.
+            log.debug("%s: %s refresh failed (%s: %s)", ticker, name, type(e).__name__, e)
         except Exception:
-            pass                       # offline / rate-limited → use what we have
+            log.error("%s: unexpected error refreshing %s prices", ticker, name, exc_info=True)
 
 
 # ---------------------------------------------------------------------------
@@ -429,11 +439,14 @@ def parse_args(argv=None) -> argparse.Namespace:
                    help="hourly rows (trading days), newest first (default 4)")
     p.add_argument("--weeks", type=int, default=4,
                    help="daily-table rows (weeks), newest first (default 4)")
+    p.add_argument("-v", "--verbose", action="store_true",
+                   help="Verbose logging (show debug detail and tracebacks)")
     return p.parse_args(argv)
 
 
 def main(argv=None) -> None:
     args = parse_args(argv)
+    setup_logging(args.verbose)
     ticker = args.ticker.upper()
     refresh_prices(ticker)
     report_hourly(ticker, load_hourly(ticker), args.days)

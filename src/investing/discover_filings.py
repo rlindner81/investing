@@ -25,7 +25,9 @@ import sys
 import time
 from datetime import datetime
 
-from investing.lib import REPO_ROOT, load_sources
+from investing.lib import REPO_ROOT, load_sources, get_logger, setup_logging
+
+log = get_logger(__name__)
 from investing.fetch_sources import (
     EDGAR_ARCHIVE,
     EDGAR_DATA,
@@ -124,6 +126,7 @@ def enumerate_filings(cik: str, since: datetime) -> list[dict]:
 # ---------------------------------------------------------------------------
 
 def main():
+    setup_logging()
     args = sys.argv[1:]
     years, since_str, do_download = 3, None, True
 
