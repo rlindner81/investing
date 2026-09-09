@@ -5,7 +5,9 @@ volume_profile.py — Compute the Volume Profile Point of Control (POC).
 Loads hourly candles and, for each requested lookback window, splits that
 window's full price range into 100 equal buckets and finds the bucket with the
 most cumulative volume. Returns the midpoint of the winning bucket per window.
-Results are cached for the calendar month.
+Results are cached for the current day — the short windows turn over completely
+within a month, so anything longer serves values whose window no longer overlaps
+the data they were computed from.
 
 Cache files: prices/volume_profile/<TICKER>.json
 """
@@ -66,10 +68,10 @@ def compute_poc(ticker: str, mode: str = "months") -> list[tuple[int, float | No
     (20/50/200-month windows). Each entry is ``(window_label, poc_midpoint)``
     where the label is the period count (weeks or months). Loads hourly candles
     and, per window, builds a 100-bucket volume profile over that window's price
-    range. Results are cached for the calendar month.
+    range. Results are cached for the current day.
     """
     windows = WEEKS_WINDOWS if mode == "weeks" else MONTHS_WINDOWS
-    anchor_month = date.today().strftime("%Y-%m")
+    anchor_day = date.today().isoformat()
     cache_key = f"{mode}"
 
     CACHE_DIR.mkdir(parents=True, exist_ok=True)
@@ -78,7 +80,8 @@ def compute_poc(ticker: str, mode: str = "months") -> list[tuple[int, float | No
     if cache_path.exists():
         cached = json.loads(cache_path.read_text())
         entry = cached.get(cache_key)
-        if entry is not None and entry.get("anchor_month") == anchor_month:
+        # Legacy month-keyed entries carry no anchor_day and so always miss.
+        if entry is not None and entry.get("anchor_day") == anchor_day:
             return [(w["label"], w["poc"]) for w in entry["windows"]]
 
     hourly_path = PRICES_HOURLY / f"{ticker}.csv"
@@ -89,8 +92,7 @@ def compute_poc(ticker: str, mode: str = "months") -> list[tuple[int, float | No
     df = df[~df.index.duplicated(keep="last")]
     df = df[df["Volume"] > 0]
 
-    today = date.today()
-    anchor_date = date(today.year, today.month, 1)
+    anchor_date = date.today()
 
     results: list[tuple[int, float | None]] = []
     window_payload = []
@@ -109,7 +111,7 @@ def compute_poc(ticker: str, mode: str = "months") -> list[tuple[int, float | No
     if cache_path.exists():
         cached = json.loads(cache_path.read_text())
     cached[cache_key] = {
-        "anchor_month": anchor_month,
+        "anchor_day": anchor_day,
         "bucket_count": BUCKET_COUNT,
         "candle_interval": CANDLE_INTERVAL,
         "windows": window_payload,

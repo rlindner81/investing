@@ -119,6 +119,23 @@ def fmt_tuple(a: float, b: float, c: float) -> str:
     return f"{fmt_price(a)} {s1} {fmt_price(b)} {s2} {fmt_price(c)}"
 
 
+def fmt_poc_tuple(mids: list[float | None]) -> str:
+    """Like fmt_tuple, but renders the windows that resolved.
+
+    A window with no POC prints as "·" and drops the comparator against it —
+    blanking the whole row on one gap hides the values that did compute.
+    """
+    if not any(m is not None for m in mids):
+        return "n/a"
+
+    parts = [fmt_price(m) if m is not None else "·" for m in mids]
+    out = parts[0]
+    for prev, cur, part in zip(mids, mids[1:], parts[1:]):
+        sep = " " if prev is None or cur is None else (" > " if prev >= cur else " < ")
+        out += f"{sep}{part}"
+    return out
+
+
 def sma_alignment(df: pd.DataFrame, as_of: pd.Timestamp, periods: tuple = SMA_MONTHS) -> str:
     p1, p2, p3 = periods
     loc = df.index.get_loc(as_of)
@@ -330,16 +347,20 @@ def analyze_stock(symbol: str, benchmarks: list[str], as_of: date | None = None,
             hourly_dir = REPO_ROOT / "prices" / "hourly"
             hourly_dir.mkdir(parents=True, exist_ok=True)
             for ticker in tickers:
-                if not (hourly_dir / f"{ticker}.csv").exists():
+                hourly_path = hourly_dir / f"{ticker}.csv"
+                # Fetch when missing, and also when the stored bars end before the
+                # ticker's own last daily bar — a thin or stale hourly file
+                # silently yields a POC computed from data that isn't there.
+                last_bar = load_last_date(hourly_path, "Datetime")
+                daily = data[ticker]
+                last_session = daily.index[-1].date() if daily is not None and len(daily) else None
+                if last_bar is None or (last_session is not None and last_bar < last_session):
                     console.print(f"  [dim]fetching {ticker} hourly...[/dim]")
                     fetch_ticker(ticker, prices_dir=hourly_dir, interval="1h", prepost=True, quiet=True)
         for ticker in tickers:
             poc = compute_poc(ticker, mode=mode)
             mids = [m for _, m in poc] if poc is not None else []
-            if len(mids) == 3 and all(m is not None for m in mids):
-                poc_str = fmt_tuple(*mids)
-            else:
-                poc_str = "n/a"
+            poc_str = fmt_poc_tuple(mids) if mids else "n/a"
             cells[ticker]["poc"] = [poc_str] + ["—"] * (len(columns) - 1)
 
     as_of_note = f" [dim](as of {today})[/dim]" if as_of else ""
