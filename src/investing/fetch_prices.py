@@ -24,7 +24,7 @@ subsequent `check-price <stock>` finds every file it needs already present.
 
 import argparse
 import csv
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 import pandas as pd
@@ -219,6 +219,52 @@ def fetch_iv(ticker: str, price: float) -> float | None:
     except Exception:
         # Unknown: a bug here or a yfinance schema change. Say so loudly.
         log.error("%s: unexpected error computing IV", ticker, exc_info=True)
+    return None
+
+
+def fetch_short_interest(ticker: str) -> dict | None:
+    """Return the latest short-interest snapshot for ticker, or None.
+
+    Yahoo carries only the most recent semi-monthly FINRA settlement plus the
+    prior one — there is no history here, so this is a point-in-time reading and
+    `as_of` (the settlement date, NOT today) is what dates it. Published with a
+    lag of roughly a week to ten days after settlement.
+
+    Keys: pct_float, shares_short, prior_shares_short, days_to_cover, as_of.
+    `pct_float` is a fraction (0.32 = 32%) and may be None even when
+    `shares_short` is present — some tickers report no float, so it falls back to
+    shares_short/floatShares and stays None if that isn't available either.
+    ETFs and thinly-covered OTC names carry no short data at all → None.
+    """
+    try:
+        info = yf.Ticker(ticker).info
+        shares_short = info.get("sharesShort")
+        if not shares_short:
+            return None
+
+        pct_float = info.get("shortPercentOfFloat")
+        if pct_float is None:
+            # Yahoo omits the ratio for some names but still serves both legs.
+            float_shares = info.get("floatShares")
+            if float_shares:
+                pct_float = shares_short / float_shares
+
+        as_of = info.get("dateShortInterest")
+        return {
+            "pct_float": pct_float,
+            "shares_short": shares_short,
+            "prior_shares_short": info.get("sharesShortPriorMonth"),
+            "days_to_cover": info.get("shortRatio"),
+            # Yahoo sets this epoch at UTC midnight on the settlement date; parsing
+            # it in local time lands a day early west of UTC.
+            "as_of": datetime.fromtimestamp(as_of, timezone.utc).date() if as_of else None,
+        }
+    except YFRateLimitError:
+        log.warning("%s: short interest unavailable (yfinance rate limited)", ticker)
+    except YFException as e:
+        log.warning("%s: short interest unavailable (%s: %s)", ticker, type(e).__name__, e)
+    except Exception:
+        log.error("%s: unexpected error fetching short interest", ticker, exc_info=True)
     return None
 
 

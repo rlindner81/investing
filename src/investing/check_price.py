@@ -24,7 +24,13 @@ from rich.console import Console
 from rich.table import Table
 
 from investing.lib import REPO_ROOT, get_logger, setup_logging
-from investing.fetch_prices import fetch_ticker, fetch_iv, fetch_live_price, load_last_date
+from investing.fetch_prices import (
+    fetch_ticker,
+    fetch_iv,
+    fetch_live_price,
+    fetch_short_interest,
+    load_last_date,
+)
 from investing.volume_profile import compute_poc
 
 log = get_logger(__name__)
@@ -245,6 +251,41 @@ def implied_move(ticker: str, price: float, mode: str) -> str:
     return f"±{move:.1f}%/{suffix}"
 
 
+def short_interest(ticker: str) -> tuple[str, str]:
+    """Short interest as (percent-of-float line, days-to-cover line).
+
+    Unlike the other rows this is not a price-derived figure: it is a semi-monthly
+    FINRA snapshot published ~8-9 business days after settlement, so the second line
+    carries the settlement age to keep the staleness explicit.
+    """
+    si = fetch_short_interest(ticker)
+    if si is None or si["pct_float"] is None:
+        return "n/a", "—"
+
+    pct = si["pct_float"] * 100
+    # Direction of the position itself; float is fixed between settlements, so
+    # comparing share counts is the same comparison as comparing percentages.
+    arrow, color = "", "white"
+    cur, prior = si["shares_short"], si["prior_shares_short"]
+    if prior:
+        change = (cur / prior - 1) * 100
+        if abs(change) >= 1:
+            # Rising short interest is the bearish reading → red.
+            arrow, color = (f" ↑{change:.0f}%", "red") if change > 0 else (f" ↓{abs(change):.0f}%", "green")
+        else:
+            arrow, color = " →", "yellow"
+
+    first = f"[{color}]{pct:.1f}%{arrow}[/{color}]"
+    if si["days_to_cover"]:
+        first += f" {si['days_to_cover']:.1f} dtc"
+
+    second = "—"
+    if si["as_of"]:
+        age = (date.today() - si["as_of"]).days
+        second = f"[dim]settlement {age}d ago[/dim]"
+    return first, second
+
+
 def analyze_stock(symbol: str, benchmarks: list[str], as_of: date | None = None, tags: list | None = None, mode: str = "weeks", auto_fetch: bool = False) -> None:
     today = as_of or date.today()
     periods = SMA_WEEKS if mode == "weeks" else SMA_MONTHS
@@ -343,6 +384,10 @@ def analyze_stock(symbol: str, benchmarks: list[str], as_of: date | None = None,
             df = data[ticker]
             iv_str = implied_move(ticker, float(df["Close"].iloc[-1]), mode) if df is not None else "n/a"
             cells[ticker]["iv"] = [iv_str] + ["—"] * (len(columns) - 1)
+            if ticker == symbol:
+                si_pct, si_asof = short_interest(ticker)
+                cells[ticker]["short"] = [si_pct] + ["—"] * (len(columns) - 1)
+                cells[ticker]["short_asof"] = [si_asof] + ["—"] * (len(columns) - 1)
 
     if not as_of:
         if auto_fetch:
@@ -409,6 +454,11 @@ def analyze_stock(symbol: str, benchmarks: list[str], as_of: date | None = None,
             style = "bold" if ticker == symbol else ""
             label = "IV" if i == 0 else ""
             table.add_row(label, ticker, *cells[ticker]["iv"], style=style, end_section=is_last)
+
+    # short interest — stock only; benchmarks are indices/ETFs with no meaningful float
+    if not as_of:
+        table.add_row("short", symbol, *cells[symbol]["short"], style="bold")
+        table.add_row("", "", *cells[symbol]["short_asof"], end_section=True)
 
     if not as_of:
         for i, ticker in enumerate(tickers):
