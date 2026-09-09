@@ -24,12 +24,15 @@ subsequent `check-price <stock>` finds every file it needs already present.
 
 import argparse
 import csv
+import sys
+import traceback
 from datetime import date, timedelta
 from pathlib import Path
 
 import pandas as pd
 import yaml
 import yfinance as yf
+from yfinance.exceptions import YFException, YFRateLimitError
 
 from investing.lib import REPO_ROOT
 
@@ -165,12 +168,25 @@ def fetch_live_price(ticker: str) -> float | None:
     try:
         price = yf.Ticker(ticker).fast_info.last_price
         return float(price) if price else None
-    except Exception:
-        return None
+    except YFRateLimitError:
+        print(f"  {ticker}: live price unavailable (yfinance rate limited)", file=sys.stderr)
+    except YFException as e:
+        print(f"  {ticker}: live price unavailable ({type(e).__name__}: {e})", file=sys.stderr)
+    except Exception as e:
+        print(f"  {ticker}: unexpected error fetching live price — {type(e).__name__}: {e}", file=sys.stderr)
+        traceback.print_exc(file=sys.stderr)
+    return None
 
 
 def fetch_iv(ticker: str, price: float) -> float | None:
-    """Return the ATM annualized IV for ticker from the nearest options expiry."""
+    """Return the ATM annualized IV for ticker from the nearest options expiry.
+
+    Returns None when the ticker legitimately has no usable ATM quote (no
+    options, no expiry far enough out, no strike quoted on both sides). Those
+    are silent. Anything else is reported on stderr rather than swallowed — a
+    silent None here is indistinguishable from a real outage or an upstream
+    schema change.
+    """
     try:
         t = yf.Ticker(ticker)
         exps = t.options
@@ -184,13 +200,28 @@ def fetch_iv(ticker: str, price: float) -> float | None:
         exp = min(future, key=lambda e: abs((e - today_d).days - 7))
         chain = t.option_chain(exp.isoformat())
         calls, puts = chain.calls, chain.puts
-        atm = calls.loc[(calls["strike"] - price).abs().idxmin(), "strike"]
+        # Pick the ATM strike among those quoted on BOTH sides. Thinly traded
+        # names have asymmetric chains, and a nearest-call strike missing from
+        # the puts would otherwise yield no IV at all.
+        shared = set(calls["strike"]) & set(puts["strike"])
+        if not shared:
+            return None
+        atm = min(shared, key=lambda s: abs(s - price))
         c_iv = calls.loc[calls["strike"] == atm, "impliedVolatility"].values
         p_iv = puts.loc[puts["strike"] == atm, "impliedVolatility"].values
         if len(c_iv) and len(p_iv):
             return (c_iv[0] + p_iv[0]) / 2
-    except Exception:
-        pass
+        return None
+    except YFRateLimitError:
+        # Expected when sweeping many tickers; transient, so keep it quiet.
+        print(f"  {ticker}: IV unavailable (yfinance rate limited)", file=sys.stderr)
+    except YFException as e:
+        # Ticker/data problems upstream — known and benign, but worth naming.
+        print(f"  {ticker}: IV unavailable ({type(e).__name__}: {e})", file=sys.stderr)
+    except Exception as e:
+        # Unknown: a bug here or a yfinance schema change. Say so loudly.
+        print(f"  {ticker}: unexpected error computing IV — {type(e).__name__}: {e}", file=sys.stderr)
+        traceback.print_exc(file=sys.stderr)
     return None
 
 
