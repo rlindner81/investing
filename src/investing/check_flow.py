@@ -203,6 +203,9 @@ def load_daily(ticker: str) -> WeekGrid:
     with path.open() as f:
         for row in csv.DictReader(f):
             try:
+                vol = float(row["Volume"])
+                if vol <= 0:
+                    continue                       # stale quote, not a traded bar
                 d = date.fromisoformat(row["Date"][:10])
                 wd = d.weekday()
                 if wd > 4:
@@ -210,7 +213,7 @@ def load_daily(ticker: str) -> WeekGrid:
                 key = (_week_monday(d), wd)
                 close_by[key] = float(row["Close"])
                 open_by[key] = float(row["Open"])
-                vol_by[key] = float(row["Volume"])
+                vol_by[key] = vol
             except (ValueError, KeyError):
                 continue
     if not vol_by:
@@ -258,7 +261,12 @@ def flow_metrics(volume: np.ndarray, baseline_n: int = 8):
     Returns (change, fill, baseline).
     """
     change = np.full_like(volume, np.nan)
-    change[1:] = volume[1:] / volume[:-1] - 1.0
+    prior = volume[:-1]
+    # A zero prior bar has no ratio to speak of — leave the cell blank rather
+    # than dividing into inf. Loaders drop such bars, but stale history can
+    # still carry them.
+    np.divide(volume[1:], prior, out=change[1:], where=prior > 0)
+    change[1:] = np.where(prior > 0, change[1:] - 1.0, np.nan)
 
     full_mask = np.isfinite(volume).all(axis=1)      # rows with every column
     totals = np.nansum(volume, axis=1)
