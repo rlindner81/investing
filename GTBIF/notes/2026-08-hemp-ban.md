@@ -53,11 +53,11 @@ years. At 40–50% contribution margin on existing cultivation and stores: \$34�
 EBITDA, or **+17–21% to FCF** against \$198M TTM.
 
 ```
-Intoxicating hemp base           \$22B
-× regulated capture      ~18%  → \$4.0B    (Ohio-implied, see below)
-× GTI-market geography    40%  → \$1.6B
-× GTI share in markets    ~7%  → \$112M
-× wholesale/retail mix   0.75  → \$84M
+Intoxicating hemp base           $22B
+× regulated capture      ~18%  → $4.0B    (Ohio-implied, see below)
+× GTI-market geography    40%  → $1.6B
+× GTI share in markets    ~7%  → $112M
+× wholesale/retail mix   0.75  → $84M
 ```
 
 **Mix factor:** GTI revenue is ~50/50 retail/wholesale. Wholesale is recognized at
