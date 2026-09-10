@@ -17,7 +17,7 @@ Dynamics** (a game developer), and **President & COO of 20th Century Fox**. This
 of music, film, and games gives him an entertainment-portfolio lens on the business.
 On capital allocation he is explicit and consistent: fund organic growth first,
 pursue **only accretive** M&A (Zynga in 2022, Gearbox more recently), and buy back
-stock opportunistically "at deep value" (noting a prior buyback at ~\$158/share). He
+stock opportunistically "at deep value" (noting a prior buyback at \~\$158/share). He
 is also a well-known fitness enthusiast whose personal-discipline ethos is part of
 the company's public persona.
 

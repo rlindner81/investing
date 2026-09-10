@@ -17,7 +17,7 @@ its network.
 - **Headquarters:** San Jose, California
 - **FY End:** December 31 (calendar year)
 - **FY2025 Revenue:** \$33,172M (+4.3% YoY)
-- **Scale:** ~200+ markets, 25 currencies; ~24M merchant accounts and ~400M+ consumer accounts historically; ~24,000 employees
+- **Scale:** \~200+ markets, 25 currencies; \~24M merchant accounts and \~400M+ consumer accounts historically; \~24,000 employees
 
 ---
 
@@ -25,7 +25,7 @@ its network.
 
 PayPal reports a single "Net revenues" line, but the economics come from two buckets:
 
-**Transaction revenues (~90% of revenue):**
+**Transaction revenues (\~90% of revenue):**
 - Fees charged to merchants (and some consumers) as a percentage of, and/or fixed
   fee per, transaction processed across PayPal, Venmo, and Braintree.
 - The primary volume metric is **Total Payment Volume (TPV)** — the dollar value of
@@ -35,7 +35,7 @@ PayPal reports a single "Net revenues" line, but the economics come from two buc
   **transaction margin dollars** (revenue net of transaction expense and credit
   losses) as the key profit metric rather than headline revenue.
 
-**Other value-added services (~10% of revenue):**
+**Other value-added services (\~10% of revenue):**
 - Revenue from partnerships, referral fees, subscription fees, gateway fees,
   consumer credit products, and — importantly — **interest earned on customer
   balances and on the float** of funds held on behalf of customers. Interest on
@@ -139,7 +139,7 @@ PayPal's stablecoin (PYUSD) rails.
    transaction data (a newer, higher-margin optionality).
 6. **Agentic commerce & PYUSD** — position the network for AI-driven purchasing and
    stablecoin settlement.
-7. **Capital return** — large, consistent share buybacks (~\$6B/yr) plus a newly
+7. **Capital return** — large, consistent share buybacks (\~\$6B/yr) plus a newly
    **initiated quarterly dividend (announced Q3 2025)**, steadily shrinking the share
    count.
 
@@ -166,7 +166,7 @@ Stripe and Adyen in processing; Apple, Shopify, and banks (Zelle) in consumer-fa
 payments; Block's Cash App in P2P. PayPal competes on multiple fronts simultaneously.
 
 ### Execution / leadership transition
-Two CEO changes in ~2.5 years (Dan Schulman → Alex Chriss Sept 2023 → Enrique Lores
+Two CEO changes in \~2.5 years (Dan Schulman → Alex Chriss Sept 2023 → Enrique Lores
 March 2026). The Board's Feb 2026 statement that "the pace of change and execution was
 not in line with expectations" underscores execution risk. Q4 2025 revenue missed and
 FY2026 EPS guidance implied a decline, prompting the CEO change.
@@ -187,12 +187,12 @@ regulation across 200+ jurisdictions create ongoing compliance and enforcement r
 | Net income (GAAP) | \$5,233M | \$4,147M | +26.2% |
 | Diluted EPS (GAAP) | \$5.41 | \$3.99 | +35.6% |
 | Operating cash flow | \$6,416M | \$7,450M | −13.9% |
-| Free cash flow (OCF − capex) | ~\$5,564M | ~\$6,767M | −17.8% |
+| Free cash flow (OCF − capex) | \~\$5,564M | \~\$6,767M | −17.8% |
 | Cash & equivalents (excl. customer funds) | \$8,049M | \$6,561M | +22.7% |
 | Long-term debt | \$9,987M | \$9,879M | +1.1% |
 | Shares outstanding (period-end) | 920M | 993M | −7.4% (buybacks) |
 | Stock-based compensation | \$1,002M | \$1,230M | −18.5% |
 
 *Note:* FY2025 GAAP EPS benefited from lower share count (aggressive buybacks) and
-from strategic-investment/crypto gains (~\$0.14). Free cash flow declined as operating
+from strategic-investment/crypto gains (\~\$0.14). Free cash flow declined as operating
 cash flow normalized off an elevated FY2024.

@@ -11,19 +11,19 @@
   from inception as a multi-tenant cloud (SaaS) application suite.
 - **IPO:** October 2012 on the NYSE; later moved its listing to **NASDAQ: WDAY**.
 - **Headquarters:** Pleasanton, California.
-- **Scale:** ~11,000+ customers, including roughly 60% of the Fortune 500 and a
+- **Scale:** \~11,000+ customers, including roughly 60% of the Fortune 500 and a
   large share of the Fortune 50. Serves large and mid-size enterprises across
   industries and government.
 - **Latest fiscal year (FY2026, ended Jan 31, 2026):**
   - Total revenue **$9,552M** (+13% Y/Y), of which **subscription revenue
     $8,833M** (+15%) and professional services $719M.
-  - GAAP operating income $721M (7.5% margin); non-GAAP operating margin ~28%.
+  - GAAP operating income $721M (7.5% margin); non-GAAP operating margin \~28%.
   - Net income $693M; operating cash flow $2,939M; free cash flow ≈ $2,777M
     (OCF − capex).
 
 > **Note on the metric used in `FINANCIALS.yml`:** valuation there is built on
 > **subscription revenue**, because that is the only revenue line Workday
-> guides. Total revenue (above) runs ~8% higher; professional services is a
+> guides. Total revenue (above) runs \~8% higher; professional services is a
 > lower-margin implementation/consulting pass-through that management
 > de-emphasizes.
 
@@ -32,12 +32,12 @@
 Workday sells cloud application subscriptions on **multi-year contracts**
 (typically 3 years), billed annually in advance. This produces:
 
-- **Subscription revenue (~92% of total):** recurring, high-gross-margin SaaS
+- **Subscription revenue (\~92% of total):** recurring, high-gross-margin SaaS
   fees recognized ratably over the contract term. The bulk of committed future
   revenue sits in **unearned (deferred) revenue** ($5.0B current at Jan 2026) and
   the disclosed **12- and 24-month subscription revenue backlog**, which
   management highlights as the leading demand indicator.
-- **Professional services revenue (~8%):** deployment, integration and training,
+- **Professional services revenue (\~8%):** deployment, integration and training,
   increasingly delivered through a partner ecosystem (Accenture, Deloitte,
   Kainos, PwC, etc.) rather than in-house, so this line is intentionally flat/low
   margin.
@@ -92,24 +92,24 @@ versa), international expansion, and price/mix from newer AI and analytics SKUs.
 1. Expand **Financial Management** attach into the large HCM installed base.
 2. Monetize **AI (Illuminate / agentic agents)** as premium capability.
 3. Grow **international and net-new logos** while deepening seat expansion.
-4. Drive **operating-margin expansion** (target ~30%+ non-GAAP) via partner-led
+4. Drive **operating-margin expansion** (target \~30%+ non-GAAP) via partner-led
    services, platform scale, and cost discipline — the theme of the FY2025–FY2026
    restructurings.
 5. Return cash via **share repurchases** (a $1B+ program materially expanded in
-   FY2026, with ~$2.9B repurchased that year).
+   FY2026, with \~$2.9B repurchased that year).
 
 ## Key Risks
 
-- **Growth deceleration:** subscription growth has slowed from ~20% toward ~14%;
-  the market re-rated the multiple down sharply (the stock fell from ~$270 in
-  mid-2025 to ~$120–140 by mid-2026) as durable growth is questioned.
+- **Growth deceleration:** subscription growth has slowed from \~20% toward \~14%;
+  the market re-rated the multiple down sharply (the stock fell from \~$270 in
+  mid-2025 to \~$120–140 by mid-2026) as durable growth is questioned.
 - **AI disruption cuts both ways:** AI could compress seat-based pricing or invite
   new-entrant competition, even as Workday invests to lead it.
 - **Competition:** SAP (SuccessFactors/S4HANA), Oracle (Fusion/HCM Cloud),
   ADP/Ceridian(Dayforce) in HCM/payroll, and ServiceNow/Salesforce encroaching on
   adjacent workflows.
 - **Macro / IT-budget sensitivity** and elongated enterprise sales cycles.
-- **Stock-based compensation** remains very high (~$1.6B/yr, ~17% of revenue),
+- **Stock-based compensation** remains very high (\~$1.6B/yr, \~17% of revenue),
   heavily diluting GAAP economics and free cash flow on a strict basis.
 - **Leadership transition:** co-founder Aneel Bhusri returned as CEO in Feb 2026
   (see management-team.md) — execution/strategy risk during the handoff.
@@ -124,11 +124,11 @@ versa), international expansion, and price/mix from newer AI and analytics SKUs.
 | GAAP operating income | $721M | $415M | $183M |
 | Net income | $693M | $526M | $1,381M¹ |
 | Operating cash flow | $2,939M | $2,461M | $2,149M |
-| Free cash flow (OCF − capex) | ~$2,777M | ~$2,192M | ~$1,917M |
+| Free cash flow (OCF − capex) | \~$2,777M | \~$2,192M | \~$1,917M |
 | Stock-based comp | $1,626M | $1,519M | $1,416M |
-| Cash + marketable securities | ~$5.4B | ~$8.0B | ~$7.8B |
-| Convertible debt | ~$3.0B | ~$3.0B | ~$3.0B |
+| Cash + marketable securities | \~$5.4B | \~$8.0B | \~$7.8B |
+| Convertible debt | \~$3.0B | \~$3.0B | \~$3.0B |
 | Shares outstanding (Class A+B) | 259.1M | 266.4M | 263.9M |
 
-¹ FY2024 net income was inflated by a ~$1.0B deferred-tax-valuation-allowance
+¹ FY2024 net income was inflated by a \~$1.0B deferred-tax-valuation-allowance
 release (one-time tax benefit), not operating profit.

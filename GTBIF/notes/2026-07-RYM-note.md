@@ -18,7 +18,7 @@ is already on Nasdaq — it is federally clean, holds the brand IP, and has Ben
 Kovler at the helm. When legalization comes, GTI converts its notes and open-market
 position to just over 50% control of RYM, executes a board-approved reverse merger
 (Ben chairs both boards), and the combined entity lists as an operator-plus-brand
-business. The expensive work — accumulating ~33% equity and ~$72M in convertible
+business. The expensive work — accumulating \~33% equity and \~$72M in convertible
 notes that get them to just under 50% — is all done at pre-legalization prices.
 
 The vehicle was not designed from scratch. Agrify Corporation was a distressed
@@ -48,7 +48,7 @@ into RYM across two transactions in 2025:
 Ben Kovler chairs both GTI and RYM. GTI provides management and operational
 support to RYM under shared services agreements. As of Q1-2026, GTI held
 approximately **33% of RYM's outstanding shares**, accounted for under the equity
-method (carrying value ~$180M on GTI's balance sheet).
+method (carrying value \~$180M on GTI's balance sheet).
 
 ---
 
@@ -78,12 +78,12 @@ resulting issuance exceeds 20% of outstanding shares.
 ## Path to Majority Control
 
 The 49.99% beneficial ownership cap is not a meaningful ceiling. The gap from
-49.99% to 50.01% is ~0.02% of shares outstanding. At any conceivable market cap
+49.99% to 50.01% is \~0.02% of shares outstanding. At any conceivable market cap
 — even a post-legalization rally — buying that rounding error costs trivially
 little and requires only one willing seller on any given day.
 
 1. Convert notes → reach 49.99% (contractually permitted, already funded)
-2. Buy ~0.02% of shares on the open market → cross 50.01%
+2. Buy \~0.02% of shares on the open market → cross 50.01%
 3. Ben approves a merger from both boards simultaneously
 
 The Nov 2024 note at **$3.158/share** is particularly favorable: if its principal
@@ -99,7 +99,7 @@ significantly diluting other RYM shareholders at GTI's benefit.
 - **RYM shares outstanding** — needed to calculate fully diluted post-conversion
   ownership; check RYM's most recent 10-Q cover page
 - **Fixed annual licensing fees** — not public; track as gross margin compression
-  on GTI's side (~3pp drop in Q1-2026 vs. prior year noted by CFO)
+  on GTI's side (\~3pp drop in Q1-2026 vs. prior year noted by CFO)
 
 ---
 

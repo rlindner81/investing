@@ -3,16 +3,16 @@
 Deliberate counterweight to the bear counterpoints in
 [CORPORATE_STRATEGY.md](CORPORATE_STRATEGY.md). The base rate is *up*: dominant
 franchises tend to grow into and past a fair multiple, and "sounds-smart"
-bearishness has a poor record against boring quality compounders. At ~26x FCF the
+bearishness has a poor record against boring quality compounders. At \~26x FCF the
 stock is no longer priced for perfection — so **the upside cases no longer need
 everything to break right.** Ordered by impact × plausibility.
 
 ## 1. Ads crosses from "small" to needle-mover *(the big one)*
 
-Ads is ~\$3B on ~\$50B revenue — still small, but the ad-tier ARM sits *below* the
+Ads is \~\$3B on \~\$50B revenue — still small, but the ad-tier ARM sits *below* the
 ad-free ARM, which management calls "near-term under-realized revenue growth": a
 lever not yet pulled, not one that's spent. Own ad-tech stack is live, programmatic
-heading past 50%, advertiser base +70%/yr. If it doubles again toward ~\$6B and
+heading past 50%, advertiser base +70%/yr. If it doubles again toward \~\$6B and
 holds trajectory, it's a **second, higher-incremental-margin S-curve** on top of a
 mature sub base. The catalyst isn't missing — it's early and back-loaded, which is
 exactly why the market may under-credit it.
@@ -32,7 +32,7 @@ This is the important one, and it's the direct answer to the commoditization
 worry in the strategy note. **Even granting that AI is a complete game-changer for
 content production, the two effects arrive on very different clocks:**
 
-- **Margin accretion is here *now*** — GenAI in ~300 titles, "half the cost, twice
+- **Margin accretion is here *now*** — GenAI in \~300 titles, "half the cost, twice
   the speed" on shots that would otherwise be cut. It lets Netflix expand slate
   scope and margin *without* proportional cash-content growth — the "grow content
   slower than revenue" flywheel, accelerated.
@@ -50,7 +50,7 @@ seductive — which is the whole reason this note exists.
 
 ## 4. Live/sports is a call option priced near zero
 
-Live is ~5% of content spend but ~1% of view-hours — looks inefficient on hours,
+Live is \~5% of content spend but \~1% of view-hours — looks inefficient on hours,
 but "six of the top-10 new-member sign-up days in five years came from live
 events." It's an *acquisition and pricing-power* engine, not a view-hours engine.
 WBC proved the international-live muscle; NFL talks are live. If Netflix becomes a

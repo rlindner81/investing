@@ -44,7 +44,7 @@
 ### Pedro Arnt — Former Chief Financial Officer (departed)
 
 **Background:**
-- One of MELI's most prominent long-time executives; served ~24 years at the company, including a long run as CFO and public face to investors
+- One of MELI's most prominent long-time executives; served \~24 years at the company, including a long run as CFO and public face to investors
 - Departed MercadoLibre in 2023 to become CEO of Despegar (an online travel company), handing the CFO role to Martín de los Santos
 
 **Legacy:**
@@ -77,7 +77,7 @@
 
 - **Founder-led with aligned incentives:** Marcos Galperín has led the company since inception (1999) and remains both Chairman and CEO. His long tenure and ownership stake align him with long-term shareholders.
 - **Single share class:** Unlike Snap, Meta, Alphabet, and many other founder-led tech companies, MercadoLibre has **one class of common stock with no super-voting shares**. Voting power tracks economic ownership — a relatively shareholder-friendly structure.
-- **Tightly held, high-priced stock:** Only ~50.7M shares outstanding at a nominal price in the ~\$1,600–2,400 range. MELI has historically avoided stock splits, keeping the share count small and the price high.
+- **Tightly held, high-priced stock:** Only \~50.7M shares outstanding at a nominal price in the \~\$1,600–2,400 range. MELI has historically avoided stock splits, keeping the share count small and the price high.
 - **Deliberate no-guidance policy:** Management does not issue quarterly or annual revenue/EPS guidance. Investors rely on disclosed KPIs (GMV, TPV, MAU, credit book, take rate, margins, NIMAL) and qualitative commentary, which can lead to large post-earnings stock moves on expectations resets.
 - **Reinvestment-first philosophy:** The board and management consistently prioritize long-term market share and ecosystem investment (logistics, credit, Mexico, advertising) over near-term margin, accepting margin volatility from credit provisioning and FX.
 - **Emerging-markets exposure:** Governance and results are shaped by operating across Argentina, Brazil, and Mexico, with attendant currency, inflation, and regulatory considerations reflected in USD-reported financials.

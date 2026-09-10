@@ -14,7 +14,7 @@
 
 **Building BARK:**
 - Co-founded BARK in October 2011, launching BarkBox as the initial product — a monthly themed subscription box for dogs
-- Led the company through the June 2021 NYSE listing via SPAC merger with Northern Star Acquisition Corp. at ~$1.6B enterprise value
+- Led the company through the June 2021 NYSE listing via SPAC merger with Northern Star Acquisition Corp. at \~$1.6B enterprise value
 - Has steered the company through a strategic pivot away from pure subscription toward a broader omnichannel dog-lifestyle brand
 
 **Role:**

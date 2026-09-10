@@ -11,7 +11,7 @@ disconnect — read it alongside the price/flow tools (`check-reaction`,
 
 **Netflix signed first, got topped, and walked away paid.** Netflix had a signed
 merger agreement for Warner Bros. Discovery. WBD then *terminated* it to accept a
-superior ~\$111B bid from **Paramount Skydance**, who levered up heavily to win.
+superior \~\$111B bid from **Paramount Skydance**, who levered up heavily to win.
 As the spurned original acquirer, Netflix collected a **\$2.8B breakup fee**.
 
 This is the standard mechanics of a topping bid, and it inverts the naive read
@@ -43,29 +43,29 @@ senior advisor. Contrast with WBD in every dimension:
 
 | | WBD (walked) | InterPositive (bought) |
 |---|---|---|
-| Size | ~\$100B+ mega-deal | \$587M tuck-in |
+| Size | \~\$100B+ mega-deal | \$587M tuck-in |
 | Type | legacy studio, buyer's move | capability/acqui-hire, builder's move |
 | Balance sheet | heavy leverage | cash, immaterial |
 | Fit | out-of-DNA | tech-leverage on content spend |
 
 Why it fits and why it should compound:
 
-- A ~\$37M/head acqui-hire of a filmmaking-AI tool **plus** a working director who
+- A \~\$37M/head acqui-hire of a filmmaking-AI tool **plus** a working director who
   understands production economics from the inside. Affleck's public stance — AI
   compresses cost, doesn't replace the artist — is exactly the wedge needed to get
   creators to *adopt* GenAI rather than resist it. His advisory role de-risks the
   talent-relations problem that would otherwise strangle studio AI adoption.
 - Already load-bearing: by q2-2026, GenAI workflows (InterPositive, plus Eyeline
-  and the animation lab) were in **~300 titles**; "The American Experiment" doc
+  and the animation lab) were in **\~300 titles**; "The American Experiment" doc
   had 17 min of AI-enhanced footage produced **"twice as fast, at half the cost."**
   Ted's key point: those shots would otherwise have been *cut* as unaffordable.
-- A sub-\$600M buy that shaves marginal cost off a **~\$20B** content budget is the
+- A sub-\$600M buy that shaves marginal cost off a **\~\$20B** content budget is the
   purest expression of Netflix's DNA — tech leverage on content — and the polar
   opposite of levering up for a legacy library.
 
 ## Capital return
 
-q2-2026 saw a **record \$4.7B buyback** (largest quarter ever), ~\$27B authorization
+q2-2026 saw a **record \$4.7B buyback** (largest quarter ever), \~\$27B authorization
 remaining. Neumann leaned on this hard in response to recurring M&A speculation
 (Lionsgate — denied; NBCUniversal). Read it as management signaling "excess cash
 goes back to holders, not into a mega-deal" — reassurance aimed at a base that is
@@ -83,7 +83,7 @@ intact. Note it for optics only, not as a strategy signal.
 ## The internal "member quality" metric
 
 Across all three calls, analysts pressed the same soft spot: **disclosed view-hours
-growth is anemic** (~2% 1H-2026) even as subs and revenue grow. Management always
+growth is anemic** (\~2% 1H-2026) even as subs and revenue grow. Management always
 pivots to an **undisclosed** "member quality metric" ("all hours are not created
 equal"). For a shareholder this metric is **useless as a verification tool** — you
 can't audit it, so it can't carry thesis weight. But it doesn't have to: the
@@ -106,18 +106,18 @@ and they survive the bull case rather than being answered by it.
 ### 1. It was priced for perfection — the de-rate is compression, not damage
 
 This is the dominant factor, and `check-valuation NFLX` settles it. **P/FCF
-(company) has more than halved in twelve months** — ~60x (q2-2025, at \$121) →
-~26x (today, at \$69); P/S 12.3x → 5.9x over the same span. Meanwhile the
+(company) has more than halved in twelve months** — \~60x (q2-2025, at \$121) →
+\~26x (today, at \$69); P/S 12.3x → 5.9x over the same span. Meanwhile the
 **fundamentals never broke**: revenue Y/Y held +13–18% every quarter, NQ
-guidance beat by +0.4–1.2% almost every time, FY-2025 FCF grew +37% to ~\$9.5B at
-a ~21% margin. (The lone ugly print — q2-2026 FCF Y/Y ‑33% — is a content-spend
+guidance beat by +0.4–1.2% almost every time, FY-2025 FCF grew +37% to \~\$9.5B at
+a \~21% margin. (The lone ugly print — q2-2026 FCF Y/Y ‑33% — is a content-spend
 *timing* artifact; q1-2026 was +91% for the mirror reason. The full-year trend is
-clean.) So there was **no fundamental deterioration to justify a ~55% price
+clean.) So there was **no fundamental deterioration to justify a \~55% price
 drop** — the stock corrected a bubble multiple to a merely-premium one.
 
 The consequence for the "leader for cheap" thesis is the sober part: **26x FCF /
-5.9x sales is *fair*, not cheap.** For a ~13–14% grower with a ~21% FCF margin and
-pricing power, ~22–28x FCF is roughly what it should trade at. The 60x→26x move
+5.9x sales is *fair*, not cheap.** For a \~13–14% grower with a \~21% FCF margin and
+pricing power, \~22–28x FCF is roughly what it should trade at. The 60x→26x move
 corrected an *overvaluation*; it has not created a screaming *undervaluation*.
 "No longer expensive" ≠ "cheap." The market re-rated a perfection multiple to a
 fair one on real deceleration — it is behaving rationally.
@@ -126,7 +126,7 @@ fair one on real deceleration — it is behaving rationally.
 
 The engines of 2023–2025 are largely exhausted: the **password-sharing** crackdown
 was a one-time sub bolus (now lapped), and **price increases** are finite. **Ads**
-is still small (~\$3B on ~\$50B revenue) — scaling, but not yet a needle-mover.
+is still small (\~\$3B on \~\$50B revenue) — scaling, but not yet a needle-mover.
 Management itself frames 2026 as the first essentially **organic-only** year — which
 cuts both ways: it is offered as strength, but it also concedes the easy money is
 done. Read the three calls with this lens and a striking absence appears:
@@ -142,7 +142,7 @@ is exactly what point 1 shows happened.
 The bull case (see InterPositive above) is that GenAI lowers *Netflix's* marginal
 content cost. The bear inversion: if premium content becomes dramatically cheaper
 to produce, **the moat erodes for everyone.** Netflix's durable edge was that great
-content is *expensive* and only its scale could fund a ~\$20B slate. If a 16-person
+content is *expensive* and only its scale could fund a \~\$20B slate. If a 16-person
 team plus AI yields "half the cost" footage, competitors get the same leverage, and
 the scarcity value of a huge content budget declines. The market could be starting
 to price "content is commoditizing" — bearish for the category leader's *premium*
@@ -154,7 +154,7 @@ important half of the story; see
 [WHAT_COULD_GO_RIGHT.md](WHAT_COULD_GO_RIGHT.md) §3. Unlike
 points 1 and 2 — which the data now largely establishes — the commoditization
 thesis is a *hypothesis about the future* that today's price may not yet reflect at
-all. GenAI is still mostly a post-production efficiency story (~300 titles, cost/
+all. GenAI is still mostly a post-production efficiency story (\~300 titles, cost/
 speed on shots that would otherwise be cut), not yet a demonstrated leveller of the
 *creative* barrier to entry. So treat this as the **watch-item**, not a current
 driver: the question is whether, over coming quarters, cheaper production visibly

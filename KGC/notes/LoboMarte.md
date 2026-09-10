@@ -15,10 +15,10 @@ flagged as pending for Lobo-Marte.
 
 ## Project profile — long-life, low-cost heap leach
 
-- **~15-year initial mine life**, ~4.6 Moz total production — based on the **2021 FS pit
+- **\~15-year initial mine life**, \~4.6 Moz total production — based on the **2021 FS pit
   design, which only includes a portion of the total resource**.
-- **~350 koz Au/yr** average at steady state.
-- **AISC ~\$1,000/oz** — very low. Driven by a strong 1.3 g/t heap-leach grade, a low
+- **\~350 koz Au/yr** average at steady state.
+- **AISC \~\$1,000/oz** — very low. Driven by a strong 1.3 g/t heap-leach grade, a low
   2.0:1 strip ratio, and a \$12.30/t processing cost. Copper recovered as a by-product
   (SART plant) nets against costs.
 - Two sequential open pits (Lobo, then Marte), conventional truck-and-shovel, 50 Mtpa
@@ -29,20 +29,20 @@ flagged as pending for Lobo-Marte.
 
 | Gold price | NPV(5%) | IRR | Payback | Prod. cost of sales | AISC |
 |---|---|---|---|---|---|
-| \$3,500/oz | \$3.2B | 22% | 2.7 yrs | \$700/oz | ~\$1,010/oz |
-| **\$4,100/oz** | **\$4.3B** | **26%** | **2.3 yrs** | \$690/oz | ~\$1,000/oz |
+| \$3,500/oz | \$3.2B | 22% | 2.7 yrs | \$700/oz | \~\$1,010/oz |
+| **\$4,100/oz** | **\$4.3B** | **26%** | **2.3 yrs** | \$690/oz | \~\$1,000/oz |
 
-Both price decks sit **well below spot** (gold ~\$4,100+ context at time of the update),
+Both price decks sit **well below spot** (gold \~\$4,100+ context at time of the update),
 so the headline economics are conservative — but note the FS **pits were designed in a
 much lower gold-price environment (2021)** and do not capture the full mineralized system.
 
 ## Capital & funding
 
-- **~\$1.8B initial capex** over three years — \$1,510M base + \$290M contingency
+- **\~\$1.8B initial capex** over three years — \$1,510M base + \$290M contingency
   (mining & equipment \$145M, site development/infrastructure \$410M, process facilities
   \$490M, heap leach \$70M, indirect/other \$395M).
 - **Self-funded from operating cash flow** — consistent with Kinross' disciplined,
-  debt-averse model (Q2 2026: ~\$1.9B net cash, ~\$727M attributable FCF in the quarter).
+  debt-averse model (Q2 2026: \~\$1.9B net cash, \~\$727M attributable FCF in the quarter).
 - ⚠️ This \$1.8B is the *high-level* refresh. Kinross will issue a **fulsome capital
   update once detailed engineering is substantially complete** — the next hard data point,
   and the figure to watch for further scope/inflation creep (same pattern as Great Bear).
@@ -51,9 +51,9 @@ much lower gold-price environment (2021)** and do not capture the full mineraliz
 quarters: with first gold in the **early 2030s** and permitting (Chilean EIA) the critical
 path, near-term spend is **pre-construction only** (engineering, long-lead procurement,
 early works) — on the order of **\$50–150M** across the next four quarters, *not* the
-heavy ~\$600M/yr build rate implied by \$1.8B over three years. The heavy Lobo-Marte draw
+heavy \~\$600M/yr build rate implied by \$1.8B over three years. The heavy Lobo-Marte draw
 is a **2028+ event**, gated on the EIA. Great Bear is the nearer, bigger capex driver in
-the meantime. For the combined project capex trajectory (FY2026 ~\$1.5B guided → the
+the meantime. For the combined project capex trajectory (FY2026 \~\$1.5B guided → the
 FY2027–2028 inflection), see the dedicated [Capex Ramp](CapexRamp.md) note.
 
 ## Permitting & timeline — the critical path

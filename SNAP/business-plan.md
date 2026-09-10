@@ -5,7 +5,7 @@
 Snap Inc. is a camera and communication company whose primary product is Snapchat, one of the most widely used social media applications globally among Gen Z and Millennial users. Snap's core thesis: the camera is the most human way to communicate, and augmented reality (AR) will become the defining computing interface for the next generation. The company generates nearly all revenue from digital advertising sold inside Snapchat, supplemented by a growing subscription tier (Snapchat+).
 
 - **Founded:** 2011 (as Snapchat Inc.); rebranded Snap Inc. in September 2016
-- **IPO:** March 2, 2017 (NYSE: SNAP), raised ~$3.4B at $17/share (~$24B market cap at open)
+- **IPO:** March 2, 2017 (NYSE: SNAP), raised \~$3.4B at $17/share (\~$24B market cap at open)
 - **Headquarters:** Santa Monica, California
 - **FY End:** December 31 (calendar year)
 - **FY2024 Revenue:** $5,357.8M (+14.3% YoY)
@@ -21,7 +21,7 @@ Snap generates revenue primarily through digital advertising sold to brands and 
 - **Brand / Awareness Ads:** Snap Ads (full-screen video), Sponsored Lenses (AR-powered brand experiences), Sponsored Filters
 - **Dynamic Ads / Catalog Ads:** Product feed-based ads for e-commerce advertisers
 
-**Snapchat+ Subscription (~16% of revenue, growing):**
+**Snapchat+ Subscription (\~16% of revenue, growing):**
 - Launched June 2022 at $3.99/month (later $4.99/month in some markets)
 - Exclusive features: custom app icons, friend solar system, AI-powered tools (Memories, Lens+), early access to experimental features
 - Reached 24M subscribers in Q4 2025 (+71% YoY); "Other Revenue" (primarily Snapchat+) was $232M in Q4 2025 (+62% YoY)
@@ -30,9 +30,9 @@ Snap generates revenue primarily through digital advertising sold to brands and 
 **Geographic revenue segments (Q4 2025):**
 | Region | Revenue (Q4 2025) | ARPU (Q4 2025) | DAU (Q4 2025) |
 |---|---|---|---|
-| North America | ~$1,023M (~60%) | $10.88 | ~94M |
-| Europe | ~$324M (~19%) | ~$3.34 | ~97M |
-| Rest of World | ~$369M (~22%) | ~$1.30 | ~283M |
+| North America | \~$1,023M (\~60%) | $10.88 | \~94M |
+| Europe | \~$324M (\~19%) | \~$3.34 | \~97M |
+| Rest of World | \~$369M (\~22%) | \~$1.30 | \~283M |
 
 ---
 
@@ -110,7 +110,7 @@ Snap has developed significant ML infrastructure for ad targeting, content ranki
 
 1. **DR advertising growth:** Continue improving ad infrastructure (CAPI, ML models, measurement) to compete with Meta for performance advertisers; DR is higher-margin and more scalable than brand advertising
 2. **Snapchat+ subscriber growth:** Expand subscription revenue as a percentage of total; reduce dependence on advertising cycle volatility; target 20M+ subscribers
-3. **Monetizing Rest of World:** 258M+ daily users in markets where average revenue per user is ~$1.10 vs. ~$9.77 in North America; improving ad infrastructure in these markets is a long-term growth lever
+3. **Monetizing Rest of World:** 258M+ daily users in markets where average revenue per user is \~$1.10 vs. \~$9.77 in North America; improving ad infrastructure in these markets is a long-term growth lever
 4. **AR commerce:** Grow Sponsored Lens and AR try-on advertising as a premium-priced ad unit that leverages Snap's unique capability
 5. **Spectacles platform:** Establish Snap OS / Spectacles as the developer-preferred AR platform ahead of mass consumer AR adoption; currently a long-horizon bet
 6. **My AI and creator tools:** Drive engagement through AI-powered features; My AI has shown strong adoption and may become a monetizable surface
@@ -128,8 +128,8 @@ Snap has developed significant ML infrastructure for ad targeting, content ranki
 - TikTok, Instagram Reels, YouTube Shorts, and BeReal all compete for the same young audience's time
 
 ### Financial Losses
-- Despite meaningful EBITDA improvement in 2024, Snap continues to generate large GAAP net losses driven by ~$1.4B annually in stock-based compensation
-- Convertible note debt (~$3.75B face value) creates financial leverage risk; near-term maturities will require refinancing or cash outflows
+- Despite meaningful EBITDA improvement in 2024, Snap continues to generate large GAAP net losses driven by \~$1.4B annually in stock-based compensation
+- Convertible note debt (\~$3.75B face value) creates financial leverage risk; near-term maturities will require refinancing or cash outflows
 
 ### Governance
 - Dual-class shares (Class C) give Evan Spiegel and Bobby Murphy majority voting control regardless of economic ownership — shareholders have limited recourse on strategic decisions
@@ -146,14 +146,14 @@ Snap has developed significant ML infrastructure for ad targeting, content ranki
 | Metric | FY2025 | FY2024 | YoY Change |
 |---|---|---|---|
 | Revenue | $5,931M | $5,358M | +11% |
-| Adjusted Gross Margin (Q4) | 59% | ~53% | significant expansion |
+| Adjusted Gross Margin (Q4) | 59% | \~53% | significant expansion |
 | Adjusted EBITDA | $689M | $509M | +35% |
 | GAAP Net Loss | $(460)M | $(698)M | Improving |
-| Free Cash Flow (trailing 12M) | ~$437M | positive | Growing |
-| Cash & Marketable Securities | $2.9B | ~$3.3B | Declining (buybacks) |
+| Free Cash Flow (trailing 12M) | \~$437M | positive | Growing |
+| Cash & Marketable Securities | $2.9B | \~$3.3B | Declining (buybacks) |
 | Daily Active Users (Q4) | 474M | 453M | +5% |
-| Monthly Active Users (Q4) | 946M | ~895M | +6% |
-| Snapchat+ Subscribers (Q4) | 24M | ~12M | +71% |
-| Global ARPU (Q4) | $3.62 | ~$3.43 | +5% |
-| North America ARPU (Q4) | $10.88 | ~$9.77 | +11% |
+| Monthly Active Users (Q4) | 946M | \~895M | +6% |
+| Snapchat+ Subscribers (Q4) | 24M | \~12M | +71% |
+| Global ARPU (Q4) | $3.62 | \~$3.43 | +5% |
+| North America ARPU (Q4) | $10.88 | \~$9.77 | +11% |
 | Share repurchase authorization | $500M | — | New program |

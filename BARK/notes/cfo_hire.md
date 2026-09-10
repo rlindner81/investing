@@ -10,9 +10,9 @@ unrestricted shares**.
 then CFO of Laird Superfood 2022–2026 — where the company went from roughly
 −\$24M on \$35M of sales to positive cash flow on \$43M. That is food CPG top to
 bottom, and it looks like a mismatch only if you think BARK is a subscription-box
-company. It isn't: **consumables are ~⅓ of revenue and the stated primary growth
+company. It isn't: **consumables are \~⅓ of revenue and the stated primary growth
 priority**, and the toys/accessories line is the one being de-emphasized because
-it is China-sourced and tariff-exposed (~\$4M H1-FY2026 hit) while consumables
+it is China-sourced and tariff-exposed (\~\$4M H1-FY2026 hit) while consumables
 are domestic. The hire is aimed squarely at the segment BARK is betting on.
 
 **Don't confuse consumables with BARK in the Belly.** That sub-brand donates 100%

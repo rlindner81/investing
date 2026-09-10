@@ -13,11 +13,11 @@ autonomous vehicles (AV) reshape the long-term cost structure of the network.
 
 - **Founded:** 2012 (as Zimride's Lyft product; Zimride founded 2007 by Logan
   Green and John Zimmer)
-- **IPO:** March 29, 2019 (NASDAQ: LYFT), priced at $72/share (~$24B valuation);
+- **IPO:** March 29, 2019 (NASDAQ: LYFT), priced at $72/share (\~$24B valuation);
   the first of the major US ridesharing companies to go public, ahead of Uber
 - **Headquarters:** San Francisco, California
 - **FY End:** December 31 (calendar year)
-- **FY2025 Revenue:** $6,316.3M (+9% YoY); FY2025 Gross Bookings ~$17.2B
+- **FY2025 Revenue:** $6,316.3M (+9% YoY); FY2025 Gross Bookings \~$17.2B
 - **FY2025 Free Cash Flow:** $1,115.6M (all-time high)
 
 ---
@@ -44,7 +44,7 @@ streams (media/ads, and insurance-related revenue mechanics).
   partner-integrated placements. Strategically important as an incremental,
   capital-light margin lever.
 - **FreeNow (from mid-2025):** European multi-mobility "super app" (taxi, private
-  hire, car sharing) operating across ~9 countries and 150+ cities. Acquired to
+  hire, car sharing) operating across \~9 countries and 150+ cities. Acquired to
   give Lyft international exposure for the first time and a foothold in European
   taxi dispatch.
 - **Partnerships & subscriptions:** Lyft Pink (rider subscription), and deep
@@ -56,7 +56,7 @@ streams (media/ads, and insurance-related revenue mechanics).
 | Metric | Q1 2026 | Q1 2025 | YoY |
 |---|---|---|---|
 | Active Riders | 28.3M | 24.2M | +17% |
-| Gross Bookings | ~$4.9B | ~$4.1B | +19% |
+| Gross Bookings | \~$4.9B | \~$4.1B | +19% |
 | Revenue | $1,650.5M | $1,450.2M | +14% |
 | Net income % of Gross Bookings | 0.3% | 0.1% | improving |
 | Adj. EBITDA margin (% of GB) | 2.7% | 2.6% | improving |
@@ -135,7 +135,7 @@ faster than Gross Bookings.
 |---|---|
 | United States | Core; the large majority of Gross Bookings and rides |
 | Canada | Established second market |
-| Europe (via FreeNow) | New from 2025 — taxi/PHV/car-share across ~9 countries, 150+ cities |
+| Europe (via FreeNow) | New from 2025 — taxi/PHV/car-share across \~9 countries, 150+ cities |
 | Latin America / Asia | Not a direct Lyft rideshare footprint (unlike Uber's global scale) |
 
 Historically a North-America-only operator — a strategic contrast with Uber's
@@ -185,7 +185,7 @@ materially raise costs. Local rideshare regulation and minimum-pay rules add
 uncertainty.
 
 ### Stock-Based Compensation & Dilution
-SBC remains a large non-cash expense (~$322M in FY2025) and a persistent source
+SBC remains a large non-cash expense (\~$322M in FY2025) and a persistent source
 of dilution, partly offset now by buybacks.
 
 ### Macro / Discretionary Demand
@@ -199,16 +199,16 @@ ride frequency and Gross Bookings.
 | Metric | FY2025 | FY2024 | YoY Change |
 |---|---|---|---|
 | Revenue | $6,316M | $5,786M | +9% |
-| Gross Bookings | ~$17.2B | ~$15.2B | +15% |
+| Gross Bookings | \~$17.2B | \~$15.2B | +15% |
 | Loss from operations | $(188)M | $(119)M | GAAP op. loss |
 | Net income | $2,844M | $23M | Inflated by $2.9B deferred-tax benefit |
-| Adjusted EBITDA | ~$1.0B | ~$0.6B | Growing |
+| Adjusted EBITDA | \~$1.0B | \~$0.6B | Growing |
 | Free Cash Flow | $1,115.6M | $766.3M | +46% |
-| Cash & investments | ~$3.8B | ~$3.5B | Strong liquidity |
-| Active Riders (Q4) | ~27M | ~24M | Double-digit growth |
+| Cash & investments | \~$3.8B | \~$3.5B | Strong liquidity |
+| Active Riders (Q4) | \~27M | \~24M | Double-digit growth |
 | Share repurchase authorization | $500M+ | — | Capital return |
 
-**Note on FY2025 net income:** the $2,844M figure is dominated by a ~$2.9B
+**Note on FY2025 net income:** the $2,844M figure is dominated by a \~$2.9B
 one-time release of the deferred-tax-asset valuation allowance (a non-cash
 benefit), not by operating profitability. Lyft still reported a GAAP loss *from
 operations* of $(188)M in FY2025; the economic story is the free-cash-flow ramp,

@@ -24,13 +24,13 @@ MD&A / press release.
 
 | Period | AISC (\$/oz) | Realized gold (\$/oz) | ≈ Margin (\$/oz) |
 |---|---|---|---|
-| Q2-2024 | 1,387 | 2,342 | ~955 |
-| Q3-2024 | 1,350 | 2,477 | ~1,127 |
+| Q2-2024 | 1,387 | 2,342 | \~955 |
+| Q3-2024 | 1,350 | 2,477 | \~1,127 |
 | Q4-2024 | 1,510 | — | — |
 | **FY-2024** | **1,388** | — | — |
-| Q1-2025 | 1,355 | — | ~1,800 (mgmt) |
-| Q2-2025 | up on Q1 (~1,400s, not stated cleanly) | 3,285 | ~2,200 (mgmt) |
-| Q3-2025 | up on Q2 (not stated cleanly) | 3,458 | ~2,300 (mgmt) |
+| Q1-2025 | 1,355 | — | \~1,800 (mgmt) |
+| Q2-2025 | up on Q1 (\~1,400s, not stated cleanly) | 3,285 | \~2,200 (mgmt) |
+| Q3-2025 | up on Q2 (not stated cleanly) | 3,458 | \~2,300 (mgmt) |
 | Q4-2025 | 1,825 | — | 2,847 (mgmt) |
 | **FY-2025** | **1,571** | — | 2,283 (mgmt) |
 | Q1-2026 | 1,732 | — | 3,476 (mgmt) |
@@ -45,23 +45,23 @@ on the call, not derived here.
 ## What the table tells you about cost management
 
 - **The gross rise is misleading.** Full-year AISC went \$1,388 (2024) → \$1,571
-  (2025) → \$1,730 guided (2026), ~+25% over two years — but that is *not* mostly
+  (2025) → \$1,730 guided (2026), \~+25% over two years — but that is *not* mostly
   operational slippage. Management decomposes the 2026 step (+10% over 2025) as
-  ~4% royalties (a function of the higher gold price — rises because they're
-  winning), ~5% inflation (macro, industry-wide), and ~1% mine sequencing
+  \~4% royalties (a function of the higher gold price — rises because they're
+  winning), \~5% inflation (macro, industry-wide), and \~1% mine sequencing
   (genuinely operational, and small). **The controllable portion of the increase
-  is ~1%** — the tell that they manage cost well.
+  is \~1%** — the tell that they manage cost well.
 
-- **The margin column is the real story.** AISC rose ~25%, but margin/oz went
-  from ~\$955 to ~\$3,476. In a gold bull market, disciplined cost management is
+- **The margin column is the real story.** AISC rose \~25%, but margin/oz went
+  from \~\$955 to \~\$3,476. In a gold bull market, disciplined cost management is
   not about making AISC *fall* (royalties make that nearly impossible) — it is
   about keeping AISC rising *slower* than the price. KGC has done that decisively.
 
-- **Where to stay skeptical.** The ~\$1,730 guide is pinned to a \$4,500 gold
+- **Where to stay skeptical.** The \~\$1,730 guide is pinned to a \$4,500 gold
   assumption; royalties scale with price, so a higher gold price mechanically
   lifts reported AISC (not a red flag). The number to actually watch is the
   **inflation + sequencing** piece — the part within their control, and what
-  would expose slipping discipline. So far it's ~5–6%/yr, in line with peers.
+  would expose slipping discipline. So far it's \~5–6%/yr, in line with peers.
 
 - **The stated offset** is the grade-enhancement strategy (Phase X, Curlew,
   Tasiast returning to higher grade in 2028, Great Bear/Lobo-Marte in the

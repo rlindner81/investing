@@ -104,7 +104,7 @@
   vote — with no controlling shareholder. Governance is board-driven, which is why an
   underperforming CEO can be (and was) replaced.
 - **Capital return discipline:** PayPal returns substantial capital via buybacks
-  (~\$6B/yr, steadily shrinking the share count from ~1.15B in 2022 to under 900M by
+  (\~\$6B/yr, steadily shrinking the share count from \~1.15B in 2022 to under 900M by
   Q1 2026) and, since Q3 2025, a quarterly dividend.
 - **Leadership turnover:** Two CEO transitions in roughly 2.5 years (Schulman →
   Chriss → Lores) is the central governance/execution theme — the Board has shown it

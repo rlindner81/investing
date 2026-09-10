@@ -34,7 +34,7 @@ Take-Two reports two headline top-line measures:
   also provided in each earnings release.
 
 **Recurrent consumer spending (RCS)** — virtual currency, add-on content, in-game
-purchases, and in-game advertising — is the strategic core: it was **~78% of FY2026
+purchases, and in-game advertising — is the strategic core: it was **\~78% of FY2026
 Net Bookings** and grew 17%. RCS smooths the lumpiness of AAA release cycles and is
 the primary lever behind Grand Theft Auto Online, NBA 2K's MyTEAM/MyCAREER, and the
 Zynga mobile portfolio.
@@ -47,7 +47,7 @@ Zynga mobile portfolio.
 - **2K** — NBA 2K (annual, huge RCS engine), WWE 2K, Sid Meier's Civilization,
   Borderlands, BioShock, PGA TOUR 2K. Sports and strategy anchor an annual release
   cadence.
-- **Zynga** (acquired May 2022 for ~\$12.7B) — mobile free-to-play: Toon Blast, Toy
+- **Zynga** (acquired May 2022 for \~\$12.7B) — mobile free-to-play: Toon Blast, Toy
   Blast, Match Factory!, Empires & Puzzles, Words With Friends, Color Block Jam,
   plus the hyper-casual portfolio (Rollic). Made Take-Two a top-tier mobile
   publisher and shifted the revenue mix heavily toward RCS.
@@ -72,7 +72,7 @@ Zynga's CSR 3 and Top Goal, plus 2K's Project ETHOS and a next BioShock.
 
 - **Irreplaceable IP.** GTA and Red Dead are singular franchises with no true
   substitute; each new mainline release resets the earnings baseline for years.
-- **Live-service RCS flywheel.** ~78% of bookings are recurring, engagement-driven
+- **Live-service RCS flywheel.** \~78% of bookings are recurring, engagement-driven
   spend — far stickier than one-time unit sales and higher-margin at scale.
 - **Three-label diversification.** AAA console (Rockstar), annual sports/strategy
   (2K), and free-to-play mobile (Zynga) span platforms and business models, so
@@ -118,7 +118,7 @@ full-game digital downloads dominate over physical.
   balances must convert into hits; a miss impairs both the P&L and cash flow.
 - **Mobile headwinds.** Player-acquisition costs, platform-fee dependence
   (Apple/Google), and ad-market cyclicality affect the Zynga business.
-- **Balance-sheet leverage.** ~\$2.5B of debt (down from ~\$3.7B) taken on largely
+- **Balance-sheet leverage.** \~\$2.5B of debt (down from \~\$3.7B) taken on largely
   for Zynga; refinancing and interest cost matter until GTA VI cash flows arrive.
 - **Valuation vs. expectations.** The stock already discounts a record GTA VI year;
   P/S sits mid-single-digit on trailing revenue, so execution risk is priced in.
@@ -131,7 +131,7 @@ full-game digital downloads dominate over physical.
 |---|---|---|---|
 | GAAP net revenue | \$6,656.4M | \$5,633.6M | +18% |
 | Net Bookings | \$6.72B | \$5.65B | +19% |
-| Recurrent consumer spending (% of bookings) | ~78% | ~79% | — |
+| Recurrent consumer spending (% of bookings) | \~78% | \~79% | — |
 | GAAP net loss | \$(298.2)M | \$(4,478.9)M | Loss narrowed (no impairment in FY2026) |
 | Operating cash flow | \$624.3M | \$(45.2)M | Turned positive |
 | CapEx (PP&E) | \$162.8M | \$169.4M | — |

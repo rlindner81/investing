@@ -21,7 +21,7 @@ rank-and-file fulfillment/marketing workforce:
 
 | Line (standalone quarter) | Q2-2024 | Q2-2025 | Change |
 |---|---|---|---|
-| G&A | \$304M | **\$1,212M** | **~4x** |
+| G&A | \$304M | **\$1,212M** | **\~4x** |
 | R&D | \$164M | \$296M | +80% |
 | Fulfillment | \$108M | \$75M | down |
 | Marketing | \$80M | \$49M | down |

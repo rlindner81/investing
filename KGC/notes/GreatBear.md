@@ -11,7 +11,7 @@ Q1 2026 earnings (reported 2026-04-29); the deck restates it.
 ## Current state
 
 - **First production targeted late 2029**, subject to permitting.
-- **Detailed engineering ~45% complete** (Q1/26). AEX (Advanced Exploration) decline
+- **Detailed engineering \~45% complete** (Q1/26). AEX (Advanced Exploration) decline
   construction to start summer 2026; all remaining AEX permits received.
 - **Permitting is the gating item.** Federal final-phase Impact Statement submitted
   Q1/26. Kinross needs the final federal impact-assessment report plus certain
@@ -31,7 +31,7 @@ All economics quoted **@ \$4,500/oz gold**, after-tax, 5% discount:
 
 | Metric | PEA value |
 |---|---|
-| Avg annual production (first 8 yrs) | ~518 koz/yr (peak profile ~500–600 koz) |
+| Avg annual production (first 8 yrs) | \~518 koz/yr (peak profile \~500–600 koz) |
 | AISC | \$865/oz (LOM cash cost \$645/oz) |
 | Initial capital | **\$1.4B** (incl. contingencies) |
 | Initial mine life | 12 years |
@@ -57,9 +57,9 @@ update is the next hard data point — a materially higher capex would compress 
 
 Great Bear is the **near-term driver** of Kinross' development capex ramp: AEX spend is
 largely behind it (surface 93% complete, decline first-blasted 2026-07-27), and
-main-project construction (~3-year build, 2027–2029) layers in ~\$550–670M/yr *starting*
+main-project construction (\~3-year build, 2027–2029) layers in \~\$550–670M/yr *starting*
 2027 — the bulk after the next-4-quarter window. For the combined Great Bear + Lobo-Marte
-spending trajectory (FY2026 ~\$1.5B guided → the FY2027–2028 inflection to \$2.5–3.0B+
+spending trajectory (FY2026 \~\$1.5B guided → the FY2027–2028 inflection to \$2.5–3.0B+
 peak) and what it does to FCF, see the dedicated [Capex Ramp](CapexRamp.md) note.
 
 ## Upside optionality
@@ -76,5 +76,5 @@ peak) and what it does to FCF, see the dedicated [Capex Ramp](CapexRamp.md) note
 
 - Pipeline/valuation context: see `business-plan.md` (§ Development & Growth Pipeline).
 - Lobo-Marte carried the same "capex to be re-cut for inflation" caveat; that re-cut
-  landed 2026-07-29 (refreshed FS, ~\$1.8B initial capex). See [Lobo-Marte](LoboMarte.md).
+  landed 2026-07-29 (refreshed FS, \~\$1.8B initial capex). See [Lobo-Marte](LoboMarte.md).
   Slated to follow Great Bear in the early 2030s.

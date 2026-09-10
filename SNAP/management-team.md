@@ -14,7 +14,7 @@
 
 **Founding Snapchat:**
 - In 2011, co-created "Picaboo" — the ephemeral photo messaging app — with Reggie Brown and Bobby Murphy at Stanford; renamed Snapchat later that year
-- Reggie Brown was pushed out of the company in 2013 and later reached a settlement (~$157.5M) with Snap
+- Reggie Brown was pushed out of the company in 2013 and later reached a settlement (\~$157.5M) with Snap
 - Famously rejected a $3B acquisition offer from Mark Zuckerberg in November 2013
 - In September 2016, renamed the company Snap Inc. and introduced the Spectacles hardware product — a deliberate signal that Snap is a camera company, not just an app
 - Led Snap's IPO in March 2017 at $17/share; became one of the youngest CEOs to take a major company public (age 26)
@@ -96,6 +96,6 @@
 ## Corporate Governance Notes
 
 - **Dual-class shares:** Evan Spiegel and Bobby Murphy hold Class C shares with 10 votes per share, giving them permanent majority voting control. Class A shares (NYSE: SNAP) carry 1 vote per share; Class B shares (held by early employees and insiders) carry 1 vote per share as well. This structure has drawn consistent criticism from institutional investors and proxy advisors, but is common among founder-led technology companies.
-- **Reggie Brown settlement:** The third original co-founder, Reggie Brown, was pushed out in 2013 and reached a ~$157.5M cash settlement with the company. He is not a shareholder or employee.
+- **Reggie Brown settlement:** The third original co-founder, Reggie Brown, was pushed out in 2013 and reached a \~$157.5M cash settlement with the company. He is not a shareholder or employee.
 - **Headquarters:** Santa Monica, California. Snap previously committed to keeping its HQ in Los Angeles County as part of its identity as a non-Silicon-Valley tech company.
-- **Workforce reductions:** Snap executed significant layoffs in August 2022 (~20% of workforce) and September 2023 (~10% of workforce) to reduce operating costs and improve the path to profitability.
+- **Workforce reductions:** Snap executed significant layoffs in August 2022 (\~20% of workforce) and September 2023 (\~10% of workforce) to reduce operating costs and improve the path to profitability.

@@ -38,10 +38,10 @@ closing in **the second half of 2026**.
 
 | Date | Event |
 |------|-------|
-| **Jul 2025** | JD.com announces voluntary public takeover offer, €4.60/share cash, ~€2.2B |
+| **Jul 2025** | JD.com announces voluntary public takeover offer, €4.60/share cash, \~€2.2B |
 | **Apr 2026** | Deal formally filed with the European Commission for FSR review; preliminary (Phase 1) review opens |
 | **May 28, 2026** | EC opens **in-depth (Phase 2) FSR investigation** — first ever against a Chinese deal under the FSR |
-| **~Late Jun / early Jul 2026** | Germany's Federal Ministry for Economic Affairs and Energy **approves** the deal on public-order/security grounds, with conditions (see below) |
+| **\~Late Jun / early Jul 2026** | Germany's Federal Ministry for Economic Affairs and Energy **approves** the deal on public-order/security grounds, with conditions (see below) |
 | **Oct 2, 2026** | **EC decision deadline** (90 working days) — clear / clear-with-remedies / prohibit |
 | **H2 2026** | JD.com's guided expected closing, subject to EU review + remaining customary conditions |
 

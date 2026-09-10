@@ -5,7 +5,7 @@
 BARK, Inc. is a New York-based, NYSE-listed omnichannel brand whose mission is to "make all dogs happy." The company designs and sells proprietary BARK-branded toys, accessories, and consumables through direct-to-consumer subscriptions and a retail network of 50,000+ doors. BARK does not describe itself primarily as a subscription box company — it describes itself as a dog-first brand platform building multiple product and service verticals around the human-dog relationship.
 
 - **Founded:** 2012
-- **IPO:** June 2, 2021 (NYSE: BARK), via SPAC merger with Northern Star Acquisition Corp. at ~$1.6B enterprise value
+- **IPO:** June 2, 2021 (NYSE: BARK), via SPAC merger with Northern Star Acquisition Corp. at \~$1.6B enterprise value
 - **Headquarters:** New York City, NY
 - **Fiscal Year End:** March 31
 - **FY2025 Revenue:** $484.2M (down 1.2% YoY; FY ended March 31, 2025)
@@ -27,7 +27,7 @@ BARK generates revenue through two reported segments:
 - Commerce grew 27.2% YoY in FY2025 — the company's main growth vector
 
 **Key financial characteristics:**
-- Gross margin: ~62–64%, improving as product mix shifts toward consumables and DTC margin recovers
+- Gross margin: \~62–64%, improving as product mix shifts toward consumables and DTC margin recovers
 - Subscription model generates predictable recurring revenue but is subject to churn
 - Marketing is the primary lever for DTC subscriber acquisition; elevated CAC has pressured unit economics
 - Tariff exposure concentrated in toys & accessories category (largely China-sourced); consumables largely domestic
@@ -39,14 +39,14 @@ BARK generates revenue through two reported segments:
 ### BarkBox (Flagship Subscription)
 The original product: a monthly themed box containing 2 toys and 2–3 bags of treats, built around a rotating monthly theme.
 
-- **Price:** ~$23–$35/month depending on plan length
+- **Price:** \~$23–$35/month depending on plan length
 - **Audience:** Standard chewer dogs
 - **Add-ons:** Customizable for size, allergies, and chew intensity
 
 ### Super Chewer
 A premium subscription for aggressive chewer dogs, featuring heavy-duty rubber and rope toys that resist destruction.
 
-- **Price:** ~$35–$46/month depending on plan length
+- **Price:** \~$35–$46/month depending on plan length
 - **Differentiation:** Targets a customer segment poorly served by standard toys
 
 ### BARK Bright
@@ -61,7 +61,7 @@ Dog food and treat line sold via direct-to-consumer subscription and on bark.co.
 A dog-first charter flight service — the first air travel experience designed specifically around dogs rather than accommodating them as an afterthought.
 
 - **Revenue:** $5.8M in inaugural year (FY2025); $1.8M in Q4 FY2025
-- **Passengers:** ~1,000 passengers over 100+ flights in first year
+- **Passengers:** \~1,000 passengers over 100+ flights in first year
 - **Strategic significance:** Anchors a broader push into premium dog-lifestyle services; differentiates BARK as a lifestyle brand rather than a subscription box company
 
 ### Subscriber Perks (Launched October 2025)
@@ -109,7 +109,7 @@ DTC revenue has declined steadily as the subscriber base has contracted — down
 
 ### Structural Risks
 - **Churn concentration in year-one subscribers:** Retention is weakest in the first year; if a cohort disappoints, it creates downstream revenue drag that compounds over multiple years
-- **Tariff exposure:** A significant portion of toys & accessories are sourced from China; escalating tariffs (~$4M additional H1 FY2026 headwind) compress margins and require pricing or mix adjustments
+- **Tariff exposure:** A significant portion of toys & accessories are sourced from China; escalating tariffs (\~$4M additional H1 FY2026 headwind) compress margins and require pricing or mix adjustments
 - **Platform concentration:** Significant reliance on Meta/Instagram for subscriber acquisition; any algorithmic change (similar to what impacted ODD) would have an outsized effect on new subscriber economics
 - **Retail execution risk:** Commerce growth is encouraging but depends on maintaining shelf space and promotional support at major retail partners; losing a key account would create a step-down in revenue
 - **Macro sensitivity:** Dog toys and subscription boxes are discretionary; pet humanization tailwinds are long-term positive, but near-term consumer confidence headwinds could accelerate subscriber churn
@@ -129,7 +129,7 @@ DTC revenue has declined steadily as the subscriber base has contracted — down
 | Marketing Expense | $83.8M |
 | G&A Expense | $114M |
 | Adjusted EBITDA (Q4) | $5.2M |
-| Net Loss (FY) | ~$(35–40M est.) |
+| Net Loss (FY) | \~$(35–40M est.) |
 | Cash at Year End | $94M |
 | Shares Repurchased (Q4) | 6M shares for $10.5M |
 | DTC Gross Margin (Q4) | 63.6% (record) |

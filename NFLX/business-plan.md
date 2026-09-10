@@ -2,7 +2,7 @@
 
 ## Company Overview
 
-Netflix is the world's largest subscription streaming entertainment service, delivering TV series, films, games, live events, and — more recently — video podcasts to an audience approaching one billion people across 190+ countries. The company's thesis: it is still "incredibly small" relative to its opportunity, accounting for an estimated ~5% of global TV view share and penetrating less than 45% of its total addressable market of broadband households. Netflix generates revenue almost entirely from monthly membership fees, increasingly supplemented by a fast-growing advertising business.
+Netflix is the world's largest subscription streaming entertainment service, delivering TV series, films, games, live events, and — more recently — video podcasts to an audience approaching one billion people across 190+ countries. The company's thesis: it is still "incredibly small" relative to its opportunity, accounting for an estimated \~5% of global TV view share and penetrating less than 45% of its total addressable market of broadband households. Netflix generates revenue almost entirely from monthly membership fees, increasingly supplemented by a fast-growing advertising business.
 
 - **Founded:** 1997 (Los Gatos, California) as a DVD-by-mail rental service; launched streaming in 2007
 - **IPO:** May 2002 (NASDAQ: NFLX)
@@ -25,7 +25,7 @@ Netflix earns revenue in two ways:
 **Advertising (small but rapidly scaling):**
 - Ad-supported plan launched November 2022; the ads plan now represents over 60% of new sign-ups in countries where it is offered
 - Netflix built its own in-house ad-tech platform and works with 4,000+ advertising clients (+70% YoY as of Q1 2026)
-- Ad revenue is projected to roughly double in 2026 to ~\$3B
+- Ad revenue is projected to roughly double in 2026 to \~\$3B
 
 **Regional revenue segments** (UCAN, EMEA, LATAM, APAC): UCAN (US & Canada) is the largest and highest-ARM region; APAC and LATAM are the fastest-growing on an F/X-neutral basis.
 
@@ -62,7 +62,7 @@ Netflix strives to be the "first place people go for entertainment and the last 
 Owning the ad-tech stack (rather than relying on a third party) lets Netflix build incrementality-measurement products verified by first-party data — a differentiator as the ads business scales toward material contribution.
 
 ### Free cash flow generation
-Unlike most streaming peers, Netflix is now a large, growing FCF generator (\$9.5B in FY2025; ~\$12.5B projected for 2026), funding buybacks and selective M&A while maintaining a ~1.1x cash-content-spend-to-amortization ratio.
+Unlike most streaming peers, Netflix is now a large, growing FCF generator (\$9.5B in FY2025; \~\$12.5B projected for 2026), funding buybacks and selective M&A while maintaining a \~1.1x cash-content-spend-to-amortization ratio.
 
 ---
 
@@ -113,12 +113,12 @@ Netflix declined to raise its offer for Warner Bros. in 2026, receiving a \$2.8B
 | Metric | FY2025 | FY2024 | YoY Change |
 |---|---|---|---|
 | Revenue | \$45,183M | \$39,001M | +16% |
-| Operating margin | 29.5% | ~27% | Expanding |
+| Operating margin | 29.5% | \~27% | Expanding |
 | Operating cash flow | \$10,149M | \$7,361M | +38% |
 | Free cash flow | \$9,461M | \$6,922M | +37% |
 | Cash & equivalents | \$9,034M | \$7,805M | +16% |
 | Total debt | \$14,463M | \$15,583M | Declining |
-| Paid memberships (year-end) | 325M | ~302M | Growing |
+| Paid memberships (year-end) | 325M | \~302M | Growing |
 | Shares outstanding (post-split) | 4,222M | 4,278M | Buybacks |
 
-FY2026 guidance (unchanged as of Q1 2026): revenue \$50.7B–\$51.7B (12–14% growth), operating margin 31.5%, FCF ~\$12.5B, ad revenue ~\$3B (2x).
+FY2026 guidance (unchanged as of Q1 2026): revenue \$50.7B–\$51.7B (12–14% growth), operating margin 31.5%, FCF \~\$12.5B, ad revenue \~\$3B (2x).

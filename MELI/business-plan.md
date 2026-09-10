@@ -9,7 +9,7 @@ MercadoLibre is the largest e-commerce and fintech ecosystem in Latin America, o
 - **Headquarters:** Registered in the U.S. / operations HQ Montevideo, Uruguay; founder-led from Argentina
 - **FY End:** December 31 (calendar year)
 - **FY2025 Revenue:** \$28,893M "net revenues and financial income" (+39% YoY)
-- **Shares:** single class, ~50.7M shares outstanding — an unusually small, tightly held float for a company of this scale, and a very high (~\$1,600–2,400) nominal share price
+- **Shares:** single class, \~50.7M shares outstanding — an unusually small, tightly held float for a company of this scale, and a very high (\~\$1,600–2,400) nominal share price
 
 ---
 
@@ -88,7 +88,7 @@ Proprietary transaction, payment, and behavioral data across the ecosystem power
 
 1. **Deepen fintech monetization** — grow Mercado Pago MAU, off-marketplace acquiring TPV, wallet balances, and the credit card, converting payment users into full banking relationships.
 2. **Scale credit responsibly** — expand the credit book while holding NIMAL/loss rates in check; credit is the largest margin swing factor.
-3. **Grow high-margin advertising** — Mercado Ads as a capital-light margin driver toward and beyond ~2% of GMV.
+3. **Grow high-margin advertising** — Mercado Ads as a capital-light margin driver toward and beyond \~2% of GMV.
 4. **Logistics leverage** — extend same/next-day coverage, raise managed-network penetration, and open cross-border corridors (e.g., fulfilled-from-China) to widen assortment and lower cost.
 5. **1P + category expansion** — groceries, essentials, and first-party retail to lift purchase frequency and wallet share (accepting lower gross margin for higher engagement).
 6. **Mexico investment** — press the growth advantage in the region's second-largest economy.
@@ -129,9 +129,9 @@ Proprietary transaction, payment, and behavioral data across the ecosystem power
 | Income from operations | \$3,201M | \$2,631M | +22% |
 | Net income | \$1,997M | \$1,911M | +4% |
 | Operating cash flow | \$12,116M | \$7,918M | +53% |
-| Free cash flow (OCF − capex) | ~\$10,773M | ~\$7,058M | +53% |
+| Free cash flow (OCF − capex) | \~\$10,773M | \~\$7,058M | +53% |
 | Cash & equivalents | \$3,670M | \$2,635M | +39% |
 | Diluted EPS | \$39.40 | \$37.69 | +5% |
-| Shares outstanding | ~50.7M | ~50.7M | flat |
+| Shares outstanding | \~50.7M | \~50.7M | flat |
 
 *Revenue on the recast "net revenues and financial income" basis (interest/financial income included in the top line). Net income growth lagged revenue in FY2025 as provisions for doubtful accounts and continued investment scaled with the credit book. FCF here is company-basis operating cash flow less the single capex line; note MELI's operating cash flow is inflated by fintech working-capital dynamics (funds payable, credit-card float) and is not directly comparable to a pure retailer's.*

@@ -14,10 +14,10 @@ ended the shutdown) rewrote the federal definition of hemp with a one-year fuse:
 - Cannabinoids made by **chemical synthesis or conversion** (delta-8, THC-O, HHC)
   excluded from the definition entirely
 
-Estimated to render ~95% of the hemp-derived cannabinoid market federally
+Estimated to render \~95% of the hemp-derived cannabinoid market federally
 unlawful. The affected industry is commonly quoted at \$30B retail, though that
 figure includes non-intoxicating CBD/wellness; intoxicating hemp specifically is
-~\$18–28B.
+\~\$18–28B.
 
 ## Decision Points
 
@@ -48,7 +48,7 @@ House reportedly told Senate Republicans there would be **no further extensions*
 
 ## Estimated GTBIF Impact
 
-**~\$84M incremental revenue, +7% on the \$1,209M TTM base**, phased over 2–4
+**\~\$84M incremental revenue, +7% on the \$1,209M TTM base**, phased over 2–4
 years. At 40–50% contribution margin on existing cultivation and stores: \$34–42M
 EBITDA, or **+17–21% to FCF** against \$198M TTM.
 
@@ -60,8 +60,8 @@ Intoxicating hemp base           $22B
 × wholesale/retail mix   0.75  → $84M
 ```
 
-**Mix factor:** GTI revenue is ~50/50 retail/wholesale. Wholesale is recognized at
-~50% of the retail ticket, so \$1 of new retail demand converts to ~\$0.75 of GTI
+**Mix factor:** GTI revenue is \~50/50 retail/wholesale. Wholesale is recognized at
+\~50% of the retail ticket, so \$1 of new retail demand converts to \~\$0.75 of GTI
 revenue.
 
 **Geography is the binding constraint.** Hemp's largest markets — TX, TN, FL, the
@@ -75,7 +75,7 @@ Ohio post-ban sales ran +32% / +22.5% / +22% Y/Y (Apr/May/Jun 2026). Attributing
 the excess over an assumed 20% baseline ramp implies **13–22% capture** — below
 the 30% first assumed. But Ohio launched adult-use Aug 2024 and a market at that
 stage grows 15–25% on ramp alone, so there is **no counterfactual**. If the true
-baseline was 25%, capture goes to ~0; if 15%, capture is ~30%. Published data
+baseline was 25%, capture goes to \~0; if 15%, capture is \~30%. Published data
 cannot distinguish these. BDSA, who hold the transaction data, **declined to
 publish a capture estimate** — a meaningful abstention.
 

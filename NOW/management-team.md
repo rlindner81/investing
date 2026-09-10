@@ -46,7 +46,7 @@
 - Primary financial spokesperson on earnings calls; presents results and — critically —
   the **subscription-revenue and cRPO guidance** that the market trades on (ServiceNow
   guides subscription revenue, next-quarter and full-year, not total revenue).
-- Oversaw the company's shift in capital structure in 2026, when ServiceNow raised ~$8B
+- Oversaw the company's shift in capital structure in 2026, when ServiceNow raised \~$8B
   in debt (senior notes, term loan, commercial paper) to fund the Armis and Veza
   acquisitions — a departure from its historically near-debt-free balance sheet.
 - Champions the "Rule of X" framing (constant-currency subscription growth + FCF margin)
@@ -89,7 +89,7 @@
 - **Board.** Bill McDermott serves as Chairman of the Board in addition to CEO; the board
   is otherwise composed of independent directors typical of a large-cap S&P 500 company.
 - **5-for-1 stock split (December 17, 2025).** The first stock split in company history,
-  executed to improve share accessibility after the stock reached ~$1,000 pre-split. All
+  executed to improve share accessibility after the stock reached \~$1,000 pre-split. All
   per-share figures in filings are retroactively adjusted; the market price and share
   counts in this repo are on the post-split basis.
 - **Capital allocation.** ServiceNow runs an active share-repurchase program (buybacks

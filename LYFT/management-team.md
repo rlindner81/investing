@@ -86,7 +86,7 @@
   Uber.
 - **Dual-class structure history:** Lyft went public with a dual-class share
   structure (Class A public shares, one vote; Class B founder shares, super-voting)
-  that concentrated control with Green and Zimmer. The **~8.5M Class B founder
+  that concentrated control with Green and Zimmer. The **\~8.5M Class B founder
   shares fully converted to Class A during 2025** (no Class B outstanding from Q3
   2025 onward), simplifying the capital structure and reducing founder voting
   control.

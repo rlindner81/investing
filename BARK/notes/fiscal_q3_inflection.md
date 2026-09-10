@@ -15,14 +15,14 @@ Walmart/Target/Chewy/Amazon, and the Girl Scouts cookie program. **If revenue
 doesn't flatten in that quarter, there is no better one coming.**
 
 **Judge it on decline rate, not a green number.** FY-2027 guidance of
-\$325–340M implies fiscal-H2 revenue of ~\$163–176M against \$185.0M in the
-prior-year H2 — still a ~6–12% Y/Y decline. The guide says *stabilization*;
+\$325–340M implies fiscal-H2 revenue of \~\$163–176M against \$185.0M in the
+prior-year H2 — still a \~6–12% Y/Y decline. The guide says *stabilization*;
 Y/Y growth is an FY-2028 event. Expecting a positive revenue print by February
 is misreading the guidance.
 
 **Cash gets better, not worse, before the test.** \$16.1M at 2026-06-30, burning
-~\$3.7M/qtr — but ~\$14M of IEEPA tariff refunds are still to be collected
-(\$3.2M of ~\$17M received so far). Net, cash should be **~\$20M+ by the Q3
+\~\$3.7M/qtr — but \~\$14M of IEEPA tariff refunds are still to be collected
+(\$3.2M of \~\$17M received so far). Net, cash should be **\~\$20M+ by the Q3
 print**, so solvency is not the binding constraint through the test; execution
 is. Caveat: the refunds arrive in tranches gated on CBP portal eligibility, so
 each is an event that can slip.

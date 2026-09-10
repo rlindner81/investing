@@ -17,17 +17,17 @@ SAP SE is the world's largest enterprise application software company and the mo
 
 SAP's revenue mix is shifting decisively from license/maintenance toward cloud subscriptions. The four reported revenue lines:
 
-**Cloud (the growth engine, ~57% of FY2025 revenue):**
-- **Cloud ERP Suite** — the strategic SaaS/PaaS core: SAP Cloud ERP (S/4HANA Cloud), Business Technology Platform (BTP), plus spend management, supply chain, HCM, commerce, and AI, packaged in "RISE with SAP" (existing-customer transformation) and "GROW with SAP" (net-new midmarket). €14.2B in FY2024 growing ~30%+.
+**Cloud (the growth engine, \~57% of FY2025 revenue):**
+- **Cloud ERP Suite** — the strategic SaaS/PaaS core: SAP Cloud ERP (S/4HANA Cloud), Business Technology Platform (BTP), plus spend management, supply chain, HCM, commerce, and AI, packaged in "RISE with SAP" (existing-customer transformation) and "GROW with SAP" (net-new midmarket). €14.2B in FY2024 growing \~30%+.
 - **Extension Suite** — remaining SaaS/PaaS solutions that extend the ERP core.
 - **IaaS** — mostly SAP HANA Enterprise Cloud; small and declining.
-- Cloud revenue was ~€21.0B in FY2025 (up 23% reported / 26% constant currency). **Current cloud backlog** (contracted future cloud revenue over next 12 months) is SAP's headline forward KPI: €18.8B at Q3 2025, up ~27% cc.
+- Cloud revenue was \~€21.0B in FY2025 (up 23% reported / 26% constant currency). **Current cloud backlog** (contracted future cloud revenue over next 12 months) is SAP's headline forward KPI: €18.8B at Q3 2025, up \~27% cc.
 
-**Software support (~31% of revenue, slowly declining):** high-margin maintenance on the legacy on-premise installed base — a large, sticky cash cow that shrinks as customers migrate to cloud.
+**Software support (\~31% of revenue, slowly declining):** high-margin maintenance on the legacy on-premise installed base — a large, sticky cash cow that shrinks as customers migrate to cloud.
 
 **Software licenses (small, structurally declining):** one-time perpetual license sales; down double-digits as SAP steers demand to cloud.
 
-**Services (~12%):** consulting and implementation; roughly flat, lower margin.
+**Services (\~12%):** consulting and implementation; roughly flat, lower margin.
 
 SAP guides only at the **full-year** level and only for **cloud revenue** and **cloud-and-software revenue** (both at constant currency), non-IFRS operating profit, and free cash flow. It does **not** guide total revenue or any next-quarter figure.
 
@@ -72,10 +72,10 @@ SAP reports three regions. FY2025 total revenue by region skews to EMEA and the 
 
 ## Growth Strategy
 
-1. **Cloud ERP migration:** move the installed base to RISE/GROW; grow current cloud backlog and cloud revenue ~25%+ cc.
+1. **Cloud ERP migration:** move the installed base to RISE/GROW; grow current cloud backlog and cloud revenue \~25%+ cc.
 2. **Business AI monetization:** embed Joule and AI use cases to drive adoption, premium tiers, and pricing.
-3. **Margin expansion:** the completed 2024 transformation program (restructuring ~€3.2B, ~10,000 roles reallocated toward cloud/AI) drove a step-change in operating margin and free cash flow (FCF nearly doubled to €8.24B in FY2025).
-4. **Free-cash-flow compounding + capital return:** ~€10B FCF guided for FY2026; new two-year share-repurchase program of up to €10B announced with Q4 2025, plus a growing dividend.
+3. **Margin expansion:** the completed 2024 transformation program (restructuring \~€3.2B, \~10,000 roles reallocated toward cloud/AI) drove a step-change in operating margin and free cash flow (FCF nearly doubled to €8.24B in FY2025).
+4. **Free-cash-flow compounding + capital return:** \~€10B FCF guided for FY2026; new two-year share-repurchase program of up to €10B announced with Q4 2025, plus a growing dividend.
 
 ---
 
@@ -86,7 +86,7 @@ SAP reports three regions. FY2025 total revenue by region skews to EMEA and the 
 - **Currency.** Reports in EUR with large USD exposure; a strengthening euro depresses reported (actual-currency) growth even when constant-currency growth is strong. This is why SAP guides at constant currency.
 - **Competition.** Oracle (Fusion/NetSuite), Microsoft Dynamics, Workday, Salesforce, and ServiceNow compete across ERP, HCM, CRM, and platform; hyperscalers are both partners and potential platform competitors.
 - **AI disruption risk (two-sided).** Business AI is an opportunity, but agentic/AI-native application startups could, over a long horizon, erode the value of packaged enterprise software.
-- **Legacy-maintenance runoff.** High-margin software support revenue declines as customers migrate; cloud gross margin (~75%) must scale to more than offset it.
+- **Legacy-maintenance runoff.** High-margin software support revenue declines as customers migrate; cloud gross margin (\~75%) must scale to more than offset it.
 
 ---
 
@@ -95,9 +95,9 @@ SAP reports three regions. FY2025 total revenue by region skews to EMEA and the 
 | Metric | FY2025 | FY2024 | YoY |
 |---|---|---|---|
 | Total revenue | €36,800M | €34,176M | +8% (+11% cc) |
-| Cloud revenue | ~€21,020M | €17,141M | +23% (+26% cc) |
-| Current cloud backlog (Q4) | ~€22B total / growing ~25% cc | — | — |
-| Operating profit (IFRS) | ~€9.8B | €4,665M | +111% |
+| Cloud revenue | \~€21,020M | €17,141M | +23% (+26% cc) |
+| Current cloud backlog (Q4) | \~€22B total / growing \~25% cc | — | — |
+| Operating profit (IFRS) | \~€9.8B | €4,665M | +111% |
 | Operating profit (non-IFRS) | €10,420M | €8,153M | +28% (+31% cc) |
 | Profit after tax (IFRS) | €7,326M | €3,150M | +133% |
 | Operating cash flow | €9,156M | €5,207M | +76% |

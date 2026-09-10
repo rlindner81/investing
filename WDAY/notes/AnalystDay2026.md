@@ -8,7 +8,7 @@ early. Bhusri's first analyst day since returning as CEO in February 2026; his
 incentive to make this the venue where he answers the AI-disruption thesis.
 
 **Why it is pre-planned:** on the Q2 FY2027 call (2026-08-27) Rowe pointed at the
-event three times and gave a deliberately partial FY2028 preview — **~11%
+event three times and gave a deliberately partial FY2028 preview — **\~11%
 subscription growth, at least +200bps margin** — framed as "early context ahead
 of our upcoming Financial Analyst Day." The formal multi-year framework lands
 Oct 13. Deciding the responses in advance is the point: the same price action
@@ -21,7 +21,7 @@ impossible to draw while watching a green candle.
 subscription growth come in above 11%?**
 
 Everything below branches off that. The hold thesis is AI monetization, and today
-only **~200 of 5,500** organic-agent customers are on Flex Credits — the
+only **\~200 of 5,500** organic-agent customers are on Flex Credits — the
 consumption meter. Oct 13 either converts that from a story into a modeled line
 or it does not. Gabriela Borges asked on the Q2 call how many credits an
 onboarding or procurement agent actually consumes and what that means for net
@@ -40,28 +40,28 @@ TTM subscription \$9,429M · FY2027 guide \$9,940–9,950M · FY2027 FCF guide \
 | \$250 | \$60.3B | 6.4x | 6.1x | 5.5x | 19.0x |
 
 **Multiple-recovery is not the thesis.** The old 8–10x P/S was priced on 17–19%
-growth; FY2028 is pre-guided at ~11%. The 2024 range is a ceiling that no longer
+growth; FY2028 is pre-guided at \~11%. The 2024 range is a ceiling that no longer
 applies, not a target. The bull case is earnings power — 31%→33% margins, FCF
 +15%, share count 266.9M → 241.2M in eight quarters (−9.6%) — not re-rating.
 
 ## Scenarios
 
-### A — Growth confirmed (~25%)
+### A — Growth confirmed (\~25%)
 
 FY2028 subscription guided **≥13%**; explicit Flex Credits unit economics (credits
 per agent, attach rate, expansion per customer); AI contribution to FY2028 ARR
 quantified. Likely +6–12% on the day.
 
 **Hold tranches 2 and 3. Cancel any standing sell.** This is the thesis being
-confirmed, not an exit. At 13% growth + 33% margins + ~4%/yr share shrink that is
-~17% per-share compounding, and \$230 is only 4.9x forward FY2028 sales.
+confirmed, not an exit. At 13% growth + 33% margins + \~4%/yr share shrink that is
+\~17% per-share compounding, and \$230 is only 4.9x forward FY2028 sales.
 **Revisit at \$250** (5.4x FY2028, 19x FY2027 FCF) or the late-November Q3 print,
 whichever comes first. If it gaps straight through \$250 on the day, sell tranche
 2 there — that is the multiple pricing in success not yet delivered.
 
-### B — Margin pop, growth still qualitative (~40%, most likely)
+### B — Margin pop, growth still qualitative (\~40%, most likely)
 
-FY2028 held at ~11%; +200bps margin formalized or raised; possibly a larger
+FY2028 held at \~11%; +200bps margin formalized or raised; possibly a larger
 buyback authorization; Flex Credits still described in customer counts and
 enthusiasm rather than dollars. Pop of +3–7% on cost discipline.
 
@@ -74,7 +74,7 @@ chasing the exact number; the signal is the disclosure gap, not the price.
 **Tranche 3 holds** to the November Q3 print, the first quarter with meaningful
 Flex Credits conversion data.
 
-### C — Disappointment (~25%)
+### C — Disappointment (\~25%)
 
 FY2028 at or below 11% with hedging; cRPO framed cautiously; Flex Credits
 conversion slower than the 5,500 → 200 gap implies; or any hint the AI attach is
@@ -84,9 +84,9 @@ conversion slower than the 5,500 → 200 gap implies; or any hint the AI attach 
 market.** If the growth call is failing, the reason to hold is gone and what
 remains is 11%-and-falling at 15.5x FCF. Do not wait for a bounce to a nicer
 print. **Tranche 3:** sell into any relief rally toward \$200; absent one within
-~3 weeks, exit at market before the Q3 print.
+\~3 weeks, exit at market before the Q3 print.
 
-### D — No pop, no damage (~10%)
+### D — No pop, no damage (\~10%)
 
 In-line, tightly scripted, ±2%.
 

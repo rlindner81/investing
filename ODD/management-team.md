@@ -12,12 +12,12 @@
 - Early career as an accountant at EY Israel
 
 **Building Oddity:**
-- At approximately age 29, he and his sister Shiran acquired IL MAKIAGE out of bankruptcy for ~\$3.37M, at a time when the brand carried ~\$22.5M in debt
+- At approximately age 29, he and his sister Shiran acquired IL MAKIAGE out of bankruptcy for \~\$3.37M, at a time when the brand carried \~\$22.5M in debt
 - Reimagined IL MAKIAGE as a technology-first DTC brand; founded Oddity Tech as the parent company in 2018
-- Led the Nasdaq IPO in July 2023, raising \$423M at a ~\$1.97B valuation (market cap later peaked at ~\$4B in early 2025)
+- Led the Nasdaq IPO in July 2023, raising \$423M at a \~\$1.97B valuation (market cap later peaked at \~\$4B in early 2025)
 
 **Notable:**
-- Retains ~23% ownership with majority voting control via dual-class share structure (Class B shares carry outsized votes)
+- Retains \~23% ownership with majority voting control via dual-class share structure (Class B shares carry outsized votes)
 - Known for an intensely hands-on, demanding leadership style
 - Net worth approximately \$1.75B as of recent reporting
 - 11 consecutive quarters of beating guidance since IPO (as of Q4 2025)
@@ -46,8 +46,8 @@
 ### Lindsay Drucker Mann — Global Chief Financial Officer
 
 **Background:**
-- B.A., Brown University (class of ~2004), with Computer Science background
-- 16–18 years at Goldman Sachs Investment Banking (~2003–2021), rising to Managing Director and Head of Consumer & Consumer Tech Equity Capital Markets
+- B.A., Brown University (class of \~2004), with Computer Science background
+- 16–18 years at Goldman Sachs Investment Banking (\~2003–2021), rising to Managing Director and Head of Consumer & Consumer Tech Equity Capital Markets
 - Led or served as senior advisor on high-profile IPOs including Snowflake, Peloton, and Bumble
 
 **Building Oddity:**

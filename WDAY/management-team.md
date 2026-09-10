@@ -70,13 +70,13 @@ finance and governance depth to board oversight during the leadership handoff.
 - **Dual-class share structure:** Class A (one vote) and Class B (super-voting)
   common stock. The founders (Bhusri and Duffield) and insiders control a
   disproportionate share of voting power via Class B, giving founders durable
-  control despite a minority economic stake. As of Jan 31, 2026 there were ~212M
-  Class A and ~47M Class B shares outstanding (Class B converts to Class A on
+  control despite a minority economic stake. As of Jan 31, 2026 there were \~212M
+  Class A and \~47M Class B shares outstanding (Class B converts to Class A on
   transfer and is declining over time).
 - **Board leadership:** Chair (Bhusri) is also CEO after Feb 2026; independent
   oversight is anchored by a **Lead Independent Director / Vice Chair** (Hawkins).
 - **Capital return:** no dividend; capital returned through **share
-  repurchases** (~$2.9B in FY2026), partially offsetting heavy stock-based-comp
-  dilution (~$1.6B/yr).
-- **Convertible notes:** ~$3.0B of convertible senior notes outstanding fund the
-  balance sheet alongside ~$4–8B of cash and marketable securities.
+  repurchases** (\~$2.9B in FY2026), partially offsetting heavy stock-based-comp
+  dilution (\~$1.6B/yr).
+- **Convertible notes:** \~$3.0B of convertible senior notes outstanding fund the
+  balance sheet alongside \~$4–8B of cash and marketable securities.

@@ -107,7 +107,7 @@ It holds **three dots (a rolling quarter)**, so there is no deeper history to
 mine and **no pre-crash baseline is obtainable**. Hover all three each month; the
 oldest rolls off.
 
-**Read screenshots at native resolution.** A full-page PNG (~1265×11900) is
+**Read screenshots at native resolution.** A full-page PNG (\~1265×11900) is
 downscaled on open and the small delta figures become illegible. Crop the panel
 first, e.g.:
 
@@ -132,11 +132,11 @@ Jul 2026 geography (shares **with M/M share deltas**, read off the page image):
 
 | Country | Share | Δ share | ≈ Δ volume |
 |---|---|---|---|
-| United States | 77.48% | ↓ 11.85% | ~−21% |
-| **Philippines** | 6.72% | ↓ 31.34% | ~−39% |
-| **India** | 4.80% | ↓ 29.01% | ~−36% |
-| United Kingdom | 3.54% | **↑ 37.94%** | ~+23% |
-| Canada | 0.90% | ↓ 23.28% | ~−31% |
+| United States | 77.48% | ↓ 11.85% | \~−21% |
+| **Philippines** | 6.72% | ↓ 31.34% | \~−39% |
+| **India** | 4.80% | ↓ 29.01% | \~−36% |
+| United Kingdom | 3.54% | **↑ 37.94%** | \~+23% |
+| Canada | 0.90% | ↓ 23.28% | \~−31% |
 | Others | 6.55% | — | — |
 
 Ranks: global 21,734 (↓1,624), US 4,893 (↓733), category #44 (↓8). Keyword split
@@ -151,7 +151,7 @@ age 45–54. Source image: `ODD/proxydata/2026-07-www.similarweb.com_website_ilm
 | Jun 2026 | **−32.2%** | — | — | — | — | — | — | — | — |
 | Jul 2026 | **−26.6%** | 44.3% | **Display 37.65%** | 3rd | 3.04 | 3:24 | 87.3% | #19 | 5.7M |
 
-**SpoiledChild's break is only ~2 months old.** May was still *growing* at +26.4%;
+**SpoiledChild's break is only \~2 months old.** May was still *growing* at +26.4%;
 the collapse starts in June. Indexed off May = 100: **Jun 67.8, Jul 49.8 — roughly
 −50% in two months**, a steeper per-month rate than IL MAKIAGE is currently
 running. Read off the Ranking-by-Traffic chart tooltips (May/Jun/Jul dots).
@@ -165,11 +165,11 @@ Jul 2026 geography (shares **with M/M share deltas**, cropped from the page imag
 
 | Country | Share | Δ share | ≈ Δ volume |
 |---|---|---|---|
-| **United States** | 87.27% | ↓ 30.54% | **~−49%** |
-| Canada | 3.29% | ↑ 18.12% | ~−13% |
-| **Brazil** | 1.53% | ↓ 68.83% | ~−77% |
-| Germany | 0.70% | ↑ 6.57% | ~−22% |
-| United Kingdom | 0.63% | ↓ 0.34% | ~−27% |
+| **United States** | 87.27% | ↓ 30.54% | **\~−49%** |
+| Canada | 3.29% | ↑ 18.12% | \~−13% |
+| **Brazil** | 1.53% | ↓ 68.83% | \~−77% |
+| Germany | 0.70% | ↑ 6.57% | \~−22% |
+| United Kingdom | 0.63% | ↓ 0.34% | \~−27% |
 | Others | 6.58% | — | — |
 
 Ranks: global 10,735 (↓2,096), US 2,096 (↓561), category #19 (↓8).
@@ -197,11 +197,11 @@ shedding its *core market* fastest:
 
 | | IL MAKIAGE | SpoiledChild |
 |---|---|---|
-| US volume | ~−21% | **~−49%** |
-| Worst geography | Philippines ~−39%, India ~−36% | Brazil ~−77% (only 1.53% of traffic) |
-| Any geography growing? | **UK ~+23%** | none in volume terms |
+| US volume | \~−21% | **\~−49%** |
+| Worst geography | Philippines \~−39%, India \~−36% | Brazil \~−77% (only 1.53% of traffic) |
+| Any geography growing? | **UK \~+23%** | none in volume terms |
 
-For IL MAKIAGE the junk geographies fall ~3x faster than the US — the signature of
+For IL MAKIAGE the junk geographies fall \~3x faster than the US — the signature of
 an algorithm re-targeting toward real markets. **That pattern does not replicate
 for SpoiledChild**, where the US is collapsing faster than the total and the only
 big cleanup (Brazil) is immaterial at 1.53% of traffic. SpoiledChild is losing the
@@ -216,7 +216,7 @@ growing (≈ +23% volume)**. That is the signature of an algorithm re-targeting
 toward real markets rather than buying cheap impressions wherever available, and
 it is the first evidence in this file pointing at *repair* rather than decay.
 
-Two things temper it. The **US itself is still down ~21% in volume** — the mix is
+Two things temper it. The **US itself is still down \~21% in volume** — the mix is
 cleaning up while the core market keeps shrinking, so composition improves as the
 level falls. And the UK is only 3.54% of traffic, so its growth is small in
 absolute terms. One month, not a trend.
@@ -230,7 +230,7 @@ our ads." SpoiledChild, at 87.3% US, is far cleaner on this axis. **Track the
 non-market share monthly — if it falls as the algorithm recalibrates, that is
 real evidence of repair.**
 
-Note also IL MAKIAGE's Direct share of 29.04% is *below* the ~44.3% seen in a 2024
+Note also IL MAKIAGE's Direct share of 29.04% is *below* the \~44.3% seen in a 2024
 reading. If the burn-off hypothesis were the whole story, direct share should be
 *rising* as paid traffic dies. It is not — which argues the paid layer is still
 substantially present, and the decline therefore has further to run.
@@ -258,16 +258,16 @@ eroding — but at a far more modest rate than a crisis narrative implies.
 **Level still matters, but the mechanism is unresolved.** A candidate reading is
 that the *paid* layer burned off leaving a loyal direct/repeat core — matching the
 reported **first orders −50% / repeat orders −15%** split. Against it: IL
-MAKIAGE's direct share is 29.04%, *below* the ~44.3% seen in 2024, which is the
+MAKIAGE's direct share is 29.04%, *below* the \~44.3% seen in 2024, which is the
 opposite of what pure burn-off predicts. Unresolved on current data.
 
 **The test that separates burn-off from recovery:** Similarweb publishes
-traffic-source splits. A 2024 reading had IL MAKIAGE at ~44.3% direct. If **direct
+traffic-source splits. A 2024 reading had IL MAKIAGE at \~44.3% direct. If **direct
 share rises while total visits keep falling**, it is burn-off, not repair. If
 total visits stabilize *and* paid/referral share recovers, that is genuine.
 Record the source split alongside the headline each month.
 
-Bounce rate ticked up ~1.3pts over the same span — mildly negative, not a spike.
+Bounce rate ticked up \~1.3pts over the same span — mildly negative, not a spike.
 
 SpoiledChild's −26.6% has **no prior reading to compare against**, so it is a
 single point, not a trend. Do not conclude SpoiledChild is deteriorating faster
@@ -280,7 +280,7 @@ so a lagged decline there is the predicted pattern, but it is not yet evidenced.
 There is no pre-crash (2025) baseline available and no way to build one
 retroactively:
 
-- Similarweb's **public tier exposes only a rolling ~3-month window** — the
+- Similarweb's **public tier exposes only a rolling \~3-month window** — the
   underlying monthly series is behind the paid product.
 - Similarweb **blocks the Wayback Machine**. CDX shows captures for
   `similarweb.com/website/ilmakiage.com/` at `20250711191851` and
@@ -303,8 +303,8 @@ genuinely is the larger traffic property, and its #19 category rank vs IL
 MAKIAGE's #44 is probably real rather than an artifact.
 
 This contradicts a 2024 Similarweb competitor listing that put spoiledchild.com at
-~1M visits against a much larger IL MAKIAGE base. Two readings: either
-SpoiledChild grew enormously since 2024 (plausible — it went from launch to ~\$250M
+\~1M visits against a much larger IL MAKIAGE base. Two readings: either
+SpoiledChild grew enormously since 2024 (plausible — it went from launch to \~\$250M
 revenue), or the two figures use different bases. **Verify IL MAKIAGE's own
 tooltip basis before trusting any cross-brand ratio**; until then treat levels as
 soft and ranks as within-brand trajectory.
@@ -338,4 +338,4 @@ Traffic rank measures sessions, not dollars.
 - Paid channel check: **KeyBanc** runs a weekly credit-card panel on ODD and
   flagged "significant improvement" in May 2026 after April weakness. Notes are
   client-only and surface publicly only in fragments. Caveat: US-centric card
-  panels under-capture ODD given its ~17.5% international mix.
+  panels under-capture ODD given its \~17.5% international mix.
