@@ -16,11 +16,11 @@ fetch-sources = "investing.fetch_sources:main"
 fetch-transcript = "investing.fetch_transcript:main"
 fetch-tweets = "investing.fetch_tweets:main"
 fetch-prices = "investing.fetch_prices:main"
-check-price = "investing.check_price:main"
 check-valuation = "investing.check_valuation:main"
+check-price = "investing.check_price:main"
+check-flow = "investing.check_flow:main"
 check-reaction = "investing.check_reaction:main"
 check-shape = "investing.check_shape:main"
-check-flow = "investing.check_flow:main"
 
 [build-system]
 requires = ["hatchling"]

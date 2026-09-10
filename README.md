@@ -1,30 +1,18 @@
 # investing
 
-## reviews
+## tools
 
-- [ABNB](ABNB/reviews)
-- [BARK](BARK/reviews)
-- [GTBIF](GTBIF/reviews)
-- [JD](JD/reviews)
-- [ODD](ODD/reviews)
-- [SNAP](SNAP/reviews)
+Each runs as `uv run <tool> <TICKER>`, e.g. `uv run check-price ODD`.
 
-## usage check-price
-
-```
-usage: check-price [-h] [--as-of DATE] [--weeks | --months] tickers [tickers ...]
-
-Analyse prices vs benchmarks.
-
-positional arguments:
-  tickers       Stocks to analyse
-
-options:
-  -h, --help    show this help message and exit
-  --as-of DATE  Simulate analysis as of this date (YYYY-MM-DD)
-  --weeks       Weekly view only
-  --months      Monthly view only
-```
+- **`check-valuation`** — P/S and P/FCF per quarter and fiscal year, plus
+  forward multiples, from the hand-entered `FINANCIALS.yml`.
+- **`check-price`** — weekly and monthly price vs. benchmarks, with SMAs.
+- **`check-flow`** — volume-first grids: hourly day-over-day, daily
+  week-over-week.
+- **`check-reaction`** — price, relative move and volume around each past
+  earnings announcement.
+- **`check-shape`** — historical chart windows matching a ticker's recent
+  price+volume shape, and what happened next.
 
 ## examples
 
