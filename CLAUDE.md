@@ -165,9 +165,18 @@ column on the left holds the current live snapshot. Example column order:
 TTM | q1-2026 | FY-2025 | q4-2025 | q3-2025 | q2-2025 | q1-2025 | FY-2024 | q4-2024 | ...
 ```
 
-Rows are grouped: fundamentals (revenue, operating CF, capex, FCF, shares),
-then the guidance/estimate revenue rows, then per-column valuation
-(ref date, ref price, market cap, P/S, P/FCF), then the forward P/S rows.
+Rows are grouped: fundamentals (period end date, revenue, operating CF, capex, FCF,
+shares, short interest), then the guidance/estimate revenue rows, then per-column
+valuation (ref date, ref price, market cap, P/S, P/FCF), then the forward P/S rows.
+
+Each of the two main sections is headed by its own date row, and both are blank in
+the TTM and FY-aggregate columns: **`Period end date`** (fiscal period end) dates the
+fundamentals, **`Ref date`** (the close used for market cap) dates the valuation.
+They are months apart — the report lands well after the period it covers — so the
+two rows keep it clear which anchor a given number belongs to. Flow lines (revenue,
+OCF, capex) accumulate *over* the period ending on `Period end date`; the previous
+column's is effectively the period start. Point-in-time lines (shares out, short
+interest, cash, debt) are measured *at* it.
 
 ### `FINANCIALS.yml` schema
 
@@ -197,6 +206,9 @@ quarters:
     shares_short: 12600         # short interest at the FINRA settlement date NEAREST end_date;
                                 # optional. Same unit as shares_outstanding. The "% of shares
                                 # out" row is derived — never enter a percentage.
+    short_settlement_date: 2026-03-31   # the FINRA settlement date that reading came from.
+                                # Required whenever shares_short is set: it drives the
+                                # "(-3d)" staleness suffix on the row.
     ytd_operating_cf: -20234    # net cash from operations, AS REPORTED (year-to-date)
     ytd_capex_ppe: 858          # PP&E purchases, YTD — the ONLY capex line in `company` FCF
     ytd_capex_software: 4197    # any other capitalized spend, YTD; add more ytd_capex_* as needed
@@ -267,12 +279,22 @@ Conventions and derivations the tool relies on:
   `FW P/S estimate` divide each column's market cap by its own guidance/estimate
   revenue (and the TTM column by the latest, at today's price).
 - **Short interest.** `shares_short` sits directly under `Shares out (M)` in the
-  fundamentals section, with a derived `% of shares out` row beneath it
-  (green <5%, yellow 5–15%, red ≥15%). Take the FINRA semi-monthly settlement
+  fundamentals section, with a derived `% of shares out` row beneath it.
+  Take the FINRA semi-monthly settlement
   reading nearest each quarter's `end_date`, so the ratio pairs with the
   quarter-end `shares_outstanding` it divides. Both share rows are **point-in-time**
   and therefore blank in the FY-aggregate columns — the Q4 column beside them
   already carries the value.
+
+  Settlements land on the 15th and month end, so they usually — but not always —
+  coincide with quarter end. `short_settlement_date` records the actual settlement, and the
+  row suffixes the gap when it is non-zero (`3.8 (-3d)` = settled 3 days *before*
+  quarter end); an unsuffixed value is an exact quarter-end reading. This keeps
+  the staleness visible instead of buried in the YAML. Source: FINRA's
+  `consolidatedShortInterest` API — "consolidated" = summed across all venues, and
+  it carries the full history since listing (Nasdaq's own page retains only \~12
+  months). Note the figures publish \~8 days after the settlement date, so the most
+  recent quarter may have no reading yet.
 - **Net cash** = `cash − total_debt` (negative = net debt, shown in red). Both
   fields are optional point-in-time balance sheet values. The row appears between
   Market cap and P/S in the valuation section; it is blank for FY-aggregate columns.

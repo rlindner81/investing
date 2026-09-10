@@ -5,6 +5,12 @@
 #   revenue            standalone quarter, from the income statement
 #   shares_outstanding point-in-time total (all classes) at quarter end, from the
 #                      balance sheet / 10-Q cover page — NOT the weighted average
+#   shares_short       short interest at the FINRA semi-monthly settlement NEAREST end_date,
+#                      so it pairs with the quarter-end shares_outstanding it divides.
+#                      Source: FINRA consolidatedShortInterest API (cross-checked against
+#                      Nasdaq). The "% of shares out" row is derived — never enter a percent.
+#   short_settlement_date  the FINRA settlement date that reading came from; drives the
+#                      "(-3d)" staleness suffix when it isn't exactly quarter end.
 #   ytd_operating_cf   net cash from operating activities, AS REPORTED (year-to-date)
 #   ytd_capex_*        capitalized investment lines, year-to-date. Naming convention:
 #                        ytd_capex_ppe   → purchase of PP&E; the ONLY line in `company` FCF
@@ -66,6 +72,8 @@ quarters:
     announce_session: after-close
     revenue: 211628
     shares_outstanding: 57393
+    shares_short: 3781
+    short_settlement_date: 2024-03-28
     ytd_operating_cf: 79647
     ytd_capex_ppe: 655
     ytd_capex_software: 1106
@@ -84,6 +92,8 @@ quarters:
     announce_session: after-close
     revenue: 192774
     shares_outstanding: 57881
+    shares_short: 7678
+    short_settlement_date: 2024-06-28
     ytd_operating_cf: 105440
     ytd_capex_ppe: 1502
     ytd_capex_software: 2284
@@ -102,6 +112,8 @@ quarters:
     announce_session: after-close
     revenue: 118998
     shares_outstanding: 57683
+    shares_short: 6439
+    short_settlement_date: 2024-09-30
     ytd_operating_cf: 121599
     ytd_capex_ppe: 2398
     ytd_capex_software: 3417
@@ -120,6 +132,8 @@ quarters:
     announce_session: after-close
     revenue: 123640
     shares_outstanding: 55828
+    shares_short: 4985
+    short_settlement_date: 2024-12-31
     ytd_operating_cf: 137764
     ytd_capex_ppe: 3270
     ytd_capex_software: 4733
@@ -138,6 +152,8 @@ quarters:
     announce_session: after-close
     revenue: 268076
     shares_outstanding: 55828
+    shares_short: 4705
+    short_settlement_date: 2025-03-31
     ytd_operating_cf: 88336
     ytd_capex_ppe: 1002
     ytd_capex_software: 1460
@@ -156,6 +172,8 @@ quarters:
     announce_session: after-close
     revenue: 241140
     shares_outstanding: 57439
+    shares_short: 5330
+    short_settlement_date: 2025-06-30
     ytd_operating_cf: 101384
     ytd_capex_ppe: 1951
     ytd_capex_software: 2861
@@ -174,6 +192,8 @@ quarters:
     announce_session: after-close
     revenue: 147902
     shares_outstanding: 57439
+    shares_short: 4430
+    short_settlement_date: 2025-09-30
     ytd_operating_cf: 92534
     ytd_capex_ppe: 2957
     ytd_capex_software: 7258
@@ -192,6 +212,8 @@ quarters:
     announce_session: pre-open
     revenue: 152726
     shares_outstanding: 57575
+    shares_short: 5613
+    short_settlement_date: 2025-12-31
     ytd_operating_cf: 87581        # full-year FY2025 (Q4 report shows annual only)
     ytd_capex_ppe: 3936
     ytd_capex_software: 11459
@@ -213,6 +235,8 @@ quarters:
     # no cover-page count; the previously stored 56,657 was the 20-F's March 4 2026
     # figure, which predates most of the Q1 buyback.
     shares_outstanding: 51475
+    shares_short: 4781
+    short_settlement_date: 2026-03-31
     ytd_operating_cf: -20234
     ytd_capex_ppe: 858
     ytd_capex_software: 4197
@@ -239,6 +263,8 @@ quarters:
     # by approximately 20%"; 11.7/57.575 = 20.3%). Implied Q2 price
     # $82,723k / 5.6M = $14.77, inside the quarter's $9.81–$16.06 range.
     shares_outstanding: 45875
+    shares_short: 7976
+    short_settlement_date: 2026-06-30
     ytd_operating_cf: -5945
     ytd_capex_ppe: 1559
     ytd_capex_software: 8053

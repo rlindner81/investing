@@ -171,6 +171,13 @@ def midpoint(q: dict, prefix: str) -> tuple[float, float] | None:
     return (min(vals), max(vals)) if vals else None
 
 
+def short_lag(q: dict) -> int | None:
+    """Days between the short-interest settlement and fiscal quarter end.
+    Negative = settled before quarter end. None when either date is missing."""
+    sd, ed = as_date(q.get("short_settlement_date")), as_date(q.get("end_date"))
+    return (sd - ed).days if sd and ed else None
+
+
 def capex_keys(quarters: list[dict]) -> list[str]:
     """Every `ytd_capex_*` key present in the data, PP&E first (it drives company FCF).
     `strict` FCF subtracts them all; `company` FCF subtracts only PP&E."""
@@ -242,7 +249,11 @@ def quarter_col(quarters: list[dict], i: int, keys: list[str]) -> dict:
         "sbc": sbc, "fcf_co_sbc": fcf_co_sbc, "fcf_strict_sbc": fcf_strict_sbc,
         "shares": q.get("shares_outstanding"),
         "shares_short": q.get("shares_short"),
+        # settlement lag: FINRA settles semi-monthly, so the reading rarely lands
+        # exactly on end_date. Negative = settled before quarter end.
+        "short_lag": short_lag(q),
         "cash": q.get("cash"), "total_debt": q.get("total_debt"),
+        "end_date": as_date(q.get("end_date")),
         "report_date": as_date(q.get("report_date")),
         "ttm": ttm_metrics(quarters, i, keys),  # trailing basis for this column's multiples
         "rev3": rev3,  # last three quarters' revenue, for the next-quarter forward TTM
@@ -285,8 +296,10 @@ def fy_col(quarters: list[dict], fy: str, keys: list[str]) -> dict:
         "sbc": sbc, "fcf_co_sbc": fcf_co_sbc, "fcf_strict_sbc": fcf_strict_sbc,
         "shares": q4.get("shares_outstanding") if q4 else None,
         "shares_short": q4.get("shares_short") if q4 else None,
+        "short_lag": short_lag(q4) if q4 else None,
         "cash": q4.get("cash") if q4 else None,
         "total_debt": q4.get("total_debt") if q4 else None,
+        "end_date": as_date(q4.get("end_date")) if q4 else None,  # the fiscal year end
         "report_date": as_date(q4.get("report_date")) if q4 else None,
         # at year-end the trailing window IS the full year
         "ttm": {"rev": revenue, "ocf": ocf, "ppe": ppe, "capex_total": total, "sbc": sbc},
@@ -542,13 +555,22 @@ def fmt_margin(fcf: float | None, revenue: float | None) -> str:
     return f"[green]{s}[/green]" if fcf >= 0 else f"[red]{s}[/red]"
 
 
+def fmt_short(v: float | None, mult: int, lag: int | None) -> str:
+    """Shares short in millions, suffixed with the settlement lag when it isn't
+    exactly quarter end — so a stale reading can't be mistaken for a clean one."""
+    if v is None:
+        return "[dim]—[/dim]"
+    s = f"{v * mult / 1e6:,.1f}"
+    if lag:
+        s += f" [dim]({lag:+d}d)[/dim]"
+    return s
+
+
 def fmt_short_pct(short: float | None, shares: float | None) -> str:
-    """Shares short ÷ shares outstanding. Warmer colour the more crowded the short."""
+    """Shares short ÷ shares outstanding."""
     if short is None or not shares:
         return "[dim]—[/dim]"
-    pct = short / shares * 100
-    colour = "red" if pct >= 15 else "yellow" if pct >= 5 else "green"
-    return f"[{colour}]{pct:.1f}%[/{colour}]"
+    return f"{short / shares * 100:.1f}%"
 
 
 def fmt_mult_rng(r: tuple | None) -> str:
@@ -632,6 +654,10 @@ def render_ticker(r: dict) -> None:
 
     # --- fundamentals: continuous waterfall ---
     # OCF → (−PP&E) → FCF company → (−other capex) → (−SBC) → FCF strict ex SBC
+    # period end dates the fundamentals below; `Ref date` in the valuation block is a
+    # different anchor (the report-date close, months later) — keep the two distinct
+    table.add_row("Period end date", "",
+                  *["" if c.get("is_fy") else fmt_date(c.get("end_date")) for c in cols])
     fund_row("Revenue ($M)", num(ttm.get("revenue"), 1), "revenue")
     table.add_row("  Rev Y/Y", "", *[fmt_yoy(c.get("rev_yoy")) for c in cols])
     fund_row("Operating CF ($M)", num(ttm.get("ocf"), 1), "ocf")
@@ -659,7 +685,10 @@ def render_ticker(r: dict) -> None:
     fund_row("Shares out (M)", num(ttm.get("shares"), mult), "shares",
              end_section=not has_short, m=mult, skip_fy=True)
     if has_short:
-        fund_row("Shares short (M)", "", "shares_short", m=mult, skip_fy=True)
+        table.add_row("Shares short (M)", "",
+                      *["" if c.get("is_fy")
+                        else fmt_short(c.get("shares_short"), mult, c.get("short_lag"))
+                        for c in cols])
         table.add_row("  % of shares out", "",
                       *["" if c.get("is_fy")
                         else fmt_short_pct(c.get("shares_short"), c.get("shares"))
