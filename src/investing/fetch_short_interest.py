@@ -49,6 +49,7 @@ import urllib.request
 from datetime import date
 
 import yaml
+import yfinance as yf
 from rich.console import Console
 from rich.table import Table
 
@@ -71,6 +72,10 @@ HEADERS = {
 MAX_LAG_DAYS = 6
 
 UNIT_DIV = {"thousands": 1_000, "millions": 1_000_000, "units": 1}
+
+# A reading worth more than this share of the float is almost certainly unadjusted
+# for a stock split rather than a genuinely crowded short (see `split_ratio`).
+IMPLAUSIBLE_PCT = 50.0
 
 
 def fetch_settlements(ticker: str) -> list[tuple[date, int]]:
@@ -115,6 +120,37 @@ def nearest(settlements: list[tuple[date, int]], target: date) -> tuple[date, in
         return None
     best = min(settlements, key=lambda s: (abs((s[0] - target).days), s[0]))
     return best if abs((best[0] - target).days) <= MAX_LAG_DAYS else None
+
+
+def fetch_splits(ticker: str) -> list[tuple[date, float]]:
+    """(effective_date, ratio) for every stock split, from yfinance.
+
+    Needed because FINRA reports each settlement AS FILED AT THE TIME, while
+    `shares_outstanding` in FINANCIALS.yml is on today's split-adjusted basis.
+    Across a split the two disagree: BARK's 1-for-20 reverse split (ratio 0.05)
+    leaves pre-split counts 20x too large against post-split shares, and NFLX's
+    10-for-1 forward split leaves them 10x too small.
+
+    FINRA's own `stockSplitFlag` column is empty in practice, and the split can't
+    be inferred from `shares_outstanding` either — those values are entered
+    already-adjusted, so no jump appears in the series.
+    """
+    try:
+        s = yf.Ticker(ticker).splits
+    except Exception:
+        log.warning("could not fetch splits for %s; assuming none", ticker, exc_info=True)
+        return []
+    return [(d.date(), float(r)) for d, r in s.items()] if len(s) else []
+
+
+def split_ratio(splits: list[tuple[date, float]], settled: date) -> float:
+    """Product of every split effective AFTER `settled` — the factor that converts
+    an as-filed count on that date onto today's split-adjusted basis."""
+    ratio = 1.0
+    for eff, r in splits:
+        if eff > settled:
+            ratio *= r
+    return ratio
 
 
 def as_date(v) -> date | None:
@@ -184,6 +220,7 @@ def process(ticker: str, dry_run: bool) -> None:
         console.print(f"  [yellow]{ticker}:[/yellow] FINRA returned no short interest")
         return
     newest = settlements[-1][0]
+    splits = fetch_splits(ticker)
 
     table = Table(title=f"[bold cyan]{ticker}[/bold cyan]  "
                         f"[dim]{len(settlements)} settlements through {newest}[/dim]",
@@ -217,10 +254,26 @@ def process(ticker: str, dry_run: bool) -> None:
 
         sd, shares = hit
         lag = (sd - end).days
-        updates[qid] = (round(shares / div), sd)
+
+        # FINRA counts are as-filed; shares_outstanding is split-adjusted. Rebase.
+        ratio = split_ratio(splits, sd)
+        adj = shares * ratio
+        # keep enough precision that `unit: millions` tickers don't round to 0 or 1
+        val = round(adj / div, 3) if div > 1 else round(adj)
+        if isinstance(val, float) and val.is_integer():
+            val = int(val)
+        updates[qid] = (val, sd)
+
+        note = ""
+        so = q.get("shares_outstanding")
+        if ratio != 1.0:
+            note = f" [yellow]×{ratio:g}[/yellow]"
+        elif so and adj / div / so * 100 > IMPLAUSIBLE_PCT:
+            # no split detected but the ratio is absurd — flag rather than write silently
+            note = f" [red]{adj / div / so * 100:.0f}%![/red]"
         table.add_row(qid, str(end), str(sd),
                       f"{lag:+d}d" if lag else "0d",
-                      f"{shares:,}",
+                      f"{shares:,}{note}",
                       "[green]will add[/green]" if not dry_run else "[dim]dry-run[/dim]")
 
     if not updates:
