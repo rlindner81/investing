@@ -241,6 +241,7 @@ def quarter_col(quarters: list[dict], i: int, keys: list[str]) -> dict:
         "ocf": ocf, "capex": capex, "fcf_co": fcf_co, "fcf_strict": fcf_strict,
         "sbc": sbc, "fcf_co_sbc": fcf_co_sbc, "fcf_strict_sbc": fcf_strict_sbc,
         "shares": q.get("shares_outstanding"),
+        "shares_short": q.get("shares_short"),
         "cash": q.get("cash"), "total_debt": q.get("total_debt"),
         "report_date": as_date(q.get("report_date")),
         "ttm": ttm_metrics(quarters, i, keys),  # trailing basis for this column's multiples
@@ -283,6 +284,7 @@ def fy_col(quarters: list[dict], fy: str, keys: list[str]) -> dict:
         "ocf": ocf, "capex": capex, "fcf_co": fcf_co, "fcf_strict": fcf_strict,
         "sbc": sbc, "fcf_co_sbc": fcf_co_sbc, "fcf_strict_sbc": fcf_strict_sbc,
         "shares": q4.get("shares_outstanding") if q4 else None,
+        "shares_short": q4.get("shares_short") if q4 else None,
         "cash": q4.get("cash") if q4 else None,
         "total_debt": q4.get("total_debt") if q4 else None,
         "report_date": as_date(q4.get("report_date")) if q4 else None,
@@ -540,6 +542,15 @@ def fmt_margin(fcf: float | None, revenue: float | None) -> str:
     return f"[green]{s}[/green]" if fcf >= 0 else f"[red]{s}[/red]"
 
 
+def fmt_short_pct(short: float | None, shares: float | None) -> str:
+    """Shares short ÷ shares outstanding. Warmer colour the more crowded the short."""
+    if short is None or not shares:
+        return "[dim]—[/dim]"
+    pct = short / shares * 100
+    colour = "red" if pct >= 15 else "yellow" if pct >= 5 else "green"
+    return f"[{colour}]{pct:.1f}%[/{colour}]"
+
+
 def fmt_mult_rng(r: tuple | None) -> str:
     """A (low, high) P/S range → '5.3x' when it rounds to one value, else '1.4–1.5x'."""
     if not r or r[0] is None or r[1] is None:
@@ -608,9 +619,12 @@ def render_ticker(r: dict) -> None:
     has_nq_guid = any(c.get("guid_nq") for c in cols)
     # the FY actual/guide row is useless without at least one numeric FY guidance
     has_fy_guid = any(c.get("guid_fy") for c in cols)
+    # short-interest rows appear only for tickers that carry hand-entered readings
+    has_short = any(c.get("shares_short") is not None for c in cols)
 
-    def fund_row(label, ttm_cell, key, end_section=False, m=None):
-        cells = [num(c.get(key), fmult if m is None else m) for c in cols]
+    def fund_row(label, ttm_cell, key, end_section=False, m=None, skip_fy=False):
+        cells = ["" if skip_fy and c.get("is_fy") else num(c.get(key), fmult if m is None else m)
+                 for c in cols]
         table.add_row(label, ttm_cell, *cells, end_section=end_section)
 
     # two FCF rows whenever there are multiple capex lines OR SBC is present
@@ -641,7 +655,16 @@ def render_ticker(r: dict) -> None:
     else:
         fund_row("FCF ($M)", num(ttm.get("fcf_co"), 1), "fcf_co")
         table.add_row("  FCF Y/Y", "", *[fmt_yoy(c.get("fcf_yoy")) for c in cols])
-    fund_row("Shares out (M)", num(ttm.get("shares"), mult), "shares", end_section=True, m=mult)
+    # point-in-time rows: blank in the FY aggregates, where they'd duplicate Q4
+    fund_row("Shares out (M)", num(ttm.get("shares"), mult), "shares",
+             end_section=not has_short, m=mult, skip_fy=True)
+    if has_short:
+        fund_row("Shares short (M)", "", "shares_short", m=mult, skip_fy=True)
+        table.add_row("  % of shares out", "",
+                      *["" if c.get("is_fy")
+                        else fmt_short_pct(c.get("shares_short"), c.get("shares"))
+                        for c in cols],
+                      end_section=True)
 
     # --- FCF margins (FCF ÷ revenue) ---
     def margin_row(label, fcf_key, end_section=False):

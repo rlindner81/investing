@@ -194,6 +194,9 @@ quarters:
     revenue: 197940             # standalone quarter, from the income statement
     shares_outstanding: 56657   # point-in-time total (all classes) at quarter end, from the
                                 # balance sheet / cover page — NOT the weighted average
+    shares_short: 12600         # short interest at the FINRA settlement date NEAREST end_date;
+                                # optional. Same unit as shares_outstanding. The "% of shares
+                                # out" row is derived — never enter a percentage.
     ytd_operating_cf: -20234    # net cash from operations, AS REPORTED (year-to-date)
     ytd_capex_ppe: 858          # PP&E purchases, YTD — the ONLY capex line in `company` FCF
     ytd_capex_software: 4197    # any other capitalized spend, YTD; add more ytd_capex_* as needed
@@ -263,6 +266,13 @@ Conventions and derivations the tool relies on:
   the FY-aggregate column takes the last interim guide. `FW P/S guidance` /
   `FW P/S estimate` divide each column's market cap by its own guidance/estimate
   revenue (and the TTM column by the latest, at today's price).
+- **Short interest.** `shares_short` sits directly under `Shares out (M)` in the
+  fundamentals section, with a derived `% of shares out` row beneath it
+  (green <5%, yellow 5–15%, red ≥15%). Take the FINRA semi-monthly settlement
+  reading nearest each quarter's `end_date`, so the ratio pairs with the
+  quarter-end `shares_outstanding` it divides. Both share rows are **point-in-time**
+  and therefore blank in the FY-aggregate columns — the Q4 column beside them
+  already carries the value.
 - **Net cash** = `cash − total_debt` (negative = net debt, shown in red). Both
   fields are optional point-in-time balance sheet values. The row appears between
   Market cap and P/S in the valuation section; it is blank for FY-aggregate columns.
