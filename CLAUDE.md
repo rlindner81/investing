@@ -342,6 +342,18 @@ Notes on the source, which explain the statuses in the output:
 - A quarter with no settlement within **±6 days** is refused rather than paired
   with a wrong-fortnight reading. Quarters before the symbol's first settlement
   show `pre-listing` (e.g. pre-IPO periods kept only as a diff base).
+- **Stock splits are rebased automatically.** FINRA reports each settlement *as
+  filed at the time*, but `shares_outstanding` is entered on today's
+  split-adjusted basis, so across a split the two disagree — a pre-split count
+  would be 20x too large for BARK (1-for-20 reverse) or 10x too small for NFLX
+  (10-for-1). The script multiplies each reading by every split effective after
+  its settlement date, taking the split history from yfinance, and prints the
+  factor (`×0.05`, `×10`) in the table. FINRA's own `stockSplitFlag` is empty in
+  practice and the split can't be inferred from `shares_outstanding` (those are
+  already adjusted, so no jump appears) — hence yfinance.
+- Counts keep 3 decimals so `unit: millions` tickers don't round away precision,
+  and any reading exceeding 50% of shares outstanding with no split to explain it
+  is flagged in red rather than written silently.
 
 ## Earnings Reactions
 

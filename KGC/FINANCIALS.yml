@@ -43,6 +43,8 @@ quarters:
     announce_session: pre-open
     revenue: 929.3
     shares_outstanding: 1227.563
+    shares_short: 18.033
+    short_settlement_date: 2023-03-31
     ytd_operating_cf: 259.0
     ytd_capex_ppe: 221.2
     ytd_capex_interest: 38.3
@@ -56,6 +58,8 @@ quarters:
     announce_session: after-close
     revenue: 1092.3
     shares_outstanding: 1227.579
+    shares_short: 14.43
+    short_settlement_date: 2023-06-30
     ytd_operating_cf: 787.6
     ytd_capex_ppe: 503.1
     ytd_capex_interest: 46.8
@@ -69,6 +73,8 @@ quarters:
     announce_session: after-close
     revenue: 1102.4
     shares_outstanding: 1227.699
+    shares_short: 15.508
+    short_settlement_date: 2023-09-29
     ytd_operating_cf: 1194.4
     ytd_capex_ppe: 787.0
     ytd_capex_interest: 89.8
@@ -82,6 +88,8 @@ quarters:
     announce_session: pre-open
     revenue: 1115.7             # FY2023 4,239.7 − 9mo 3,124.0
     shares_outstanding: 1227.838
+    shares_short: 11.426
+    short_settlement_date: 2023-12-29
     ytd_operating_cf: 1605.3    # full-year FY2023 (annual release, YTD only)
     ytd_capex_ppe: 1098.3
     ytd_capex_interest: 114.1
@@ -97,6 +105,8 @@ quarters:
     announce_session: after-close
     revenue: 1081.5
     shares_outstanding: 1228.983
+    shares_short: 13.691
+    short_settlement_date: 2024-03-28
     ytd_operating_cf: 374.4
     ytd_capex_ppe: 241.9
     ytd_capex_interest: 34.9
@@ -111,6 +121,8 @@ quarters:
     announce_session: after-close
     revenue: 1219.5
     shares_outstanding: 1229.026
+    shares_short: 15.059
+    short_settlement_date: 2024-06-28
     ytd_operating_cf: 978.4
     ytd_capex_ppe: 516.1
     ytd_capex_interest: 51.9
@@ -125,6 +137,8 @@ quarters:
     announce_session: after-close
     revenue: 1432.0
     shares_outstanding: 1229.048
+    shares_short: 8.638
+    short_settlement_date: 2024-09-30
     ytd_operating_cf: 1711.9
     ytd_capex_ppe: 794.8
     ytd_capex_interest: 84.9
@@ -139,6 +153,8 @@ quarters:
     announce_session: after-close
     revenue: 1415.8             # FY2024 5,148.8 − 9mo 3,733.0
     shares_outstanding: 1229.126
+    shares_short: 7.981
+    short_settlement_date: 2024-12-31
     ytd_operating_cf: 2446.4    # full-year FY2024
     ytd_capex_ppe: 1075.5
     ytd_capex_interest: 92.6
@@ -154,6 +170,8 @@ quarters:
     announce_session: after-close
     revenue: 1497.5
     shares_outstanding: 1230.444
+    shares_short: 12.616
+    short_settlement_date: 2025-03-31
     ytd_operating_cf: 597.1
     ytd_capex_ppe: 207.7
     ytd_capex_interest: 13.5
@@ -168,6 +186,8 @@ quarters:
     announce_session: after-close
     revenue: 1728.5
     shares_outstanding: 1218.782
+    shares_short: 15.995
+    short_settlement_date: 2025-06-30
     ytd_operating_cf: 1589.5
     ytd_capex_ppe: 513.8
     ytd_capex_interest: 13.5
@@ -182,6 +202,8 @@ quarters:
     announce_session: intraday
     revenue: 1802.1
     shares_outstanding: 1209.994
+    shares_short: 28.074
+    short_settlement_date: 2025-09-30
     ytd_operating_cf: 2613.6
     ytd_capex_ppe: 826.0
     ytd_capex_interest: 18.0
@@ -196,6 +218,8 @@ quarters:
     announce_session: after-close
     revenue: 2023.0             # FY2025 7,051.1 − 9mo 5,028.1
     shares_outstanding: 1199.843
+    shares_short: 19.133
+    short_settlement_date: 2025-12-31
     ytd_operating_cf: 3760.5    # full-year FY2025
     ytd_capex_ppe: 1194.2
     ytd_capex_interest: 19.8
@@ -211,6 +235,8 @@ quarters:
     announce_session: after-close
     revenue: 2407.7
     shares_outstanding: 1194.109
+    shares_short: 17.548
+    short_settlement_date: 2026-03-31
     ytd_operating_cf: 1139.5
     ytd_capex_ppe: 283.2
     ytd_capex_interest: 7.1
@@ -225,6 +251,8 @@ quarters:
     announce_session: after-close
     revenue: 2238.1
     shares_outstanding: 1186.241
+    shares_short: 18.327
+    short_settlement_date: 2026-06-30
     ytd_operating_cf: 2285.4    # 6-month
     ytd_capex_ppe: 694.2
     ytd_capex_interest: 7.1

@@ -46,6 +46,8 @@ quarters:
     announce_session: after-close      # 8-K item 2.02 accepted 2023-02-09 21:18 UTC = 16:18 ET
     revenue: 7383                       # FY2022 27,518 − 9mo(Sep'22) 20,135
     shares_outstanding: 1136
+    shares_short: 20.415
+    short_settlement_date: 2022-12-30
     ytd_operating_cf: 5813              # full-year FY2022
     ytd_capex_ppe: 706
     ytd_sbc: 1261
@@ -63,6 +65,8 @@ quarters:
     announce_session: after-close      # 2023-05-08 20:18 UTC = 16:18 ET
     revenue: 7040
     shares_outstanding: 1122
+    shares_short: 16.658
+    short_settlement_date: 2023-03-31
     ytd_operating_cf: 1170
     ytd_capex_ppe: 170
     ytd_sbc: 345
@@ -79,6 +83,8 @@ quarters:
     announce_session: after-close      # 2023-08-02 20:20 UTC = 16:20 ET
     revenue: 7287
     shares_outstanding: 1102
+    shares_short: 18.829
+    short_settlement_date: 2023-06-30
     ytd_operating_cf: 970
     ytd_capex_ppe: 320
     ytd_sbc: 708
@@ -95,6 +101,8 @@ quarters:
     announce_session: after-close      # 2023-11-01 20:20 UTC = 16:20 ET
     revenue: 7418
     shares_outstanding: 1080
+    shares_short: 18.904
+    short_settlement_date: 2023-09-29
     ytd_operating_cf: 2229
     ytd_capex_ppe: 478
     ytd_sbc: 1087
@@ -111,6 +119,8 @@ quarters:
     announce_session: after-close      # 2024-02-07 21:14 UTC = 16:14 ET
     revenue: 8026                       # FY2023 29,771 − 9mo(Sep'23) 21,745
     shares_outstanding: 1072
+    shares_short: 23.113
+    short_settlement_date: 2023-12-29
     ytd_operating_cf: 4843              # full-year FY2023
     ytd_capex_ppe: 623
     ytd_sbc: 1475
@@ -127,6 +137,8 @@ quarters:
     announce_session: pre-open         # 2024-04-30 11:30 UTC = 07:30 ET
     revenue: 7699
     shares_outstanding: 1053
+    shares_short: 21.905
+    short_settlement_date: 2024-03-28
     ytd_operating_cf: 1917
     ytd_capex_ppe: 154
     ytd_sbc: 365
@@ -142,6 +154,8 @@ quarters:
     announce_session: pre-open         # 2024-07-30 11:01 UTC = 07:01 ET
     revenue: 7885
     shares_outstanding: 1032
+    shares_short: 21.59
+    short_settlement_date: 2024-06-28
     ytd_operating_cf: 3442
     ytd_capex_ppe: 311
     ytd_sbc: 663
@@ -157,6 +171,8 @@ quarters:
     announce_session: pre-open         # 2024-10-29 11:00 UTC = 07:00 ET
     revenue: 7847
     shares_outstanding: 1006
+    shares_short: 23.153
+    short_settlement_date: 2024-09-30
     ytd_operating_cf: 5056
     ytd_capex_ppe: 480
     ytd_sbc: 947
@@ -172,6 +188,8 @@ quarters:
     announce_session: pre-open         # 2025-02-04 12:01 UTC = 07:01 ET
     revenue: 8366                       # FY2024 31,797 − 9mo(Sep'24) 23,431
     shares_outstanding: 993
+    shares_short: 26.802
+    short_settlement_date: 2024-12-31
     ytd_operating_cf: 7450              # full-year FY2024
     ytd_capex_ppe: 683
     ytd_sbc: 1230
@@ -188,6 +206,8 @@ quarters:
     announce_session: pre-open         # 2025-04-29 11:01 UTC = 07:01 ET
     revenue: 7791
     shares_outstanding: 979
+    shares_short: 28.325
+    short_settlement_date: 2025-03-31
     ytd_operating_cf: 1160
     ytd_capex_ppe: 196
     ytd_sbc: 249
@@ -203,6 +223,8 @@ quarters:
     announce_session: pre-open         # 2025-07-29 11:00 UTC = 07:00 ET
     revenue: 8288
     shares_outstanding: 960
+    shares_short: 26.977
+    short_settlement_date: 2025-06-30
     ytd_operating_cf: 2058
     ytd_capex_ppe: 402
     ytd_sbc: 535
@@ -218,6 +240,8 @@ quarters:
     announce_session: pre-open         # 2025-10-28 11:01 UTC = 07:01 ET
     revenue: 8417
     shares_outstanding: 941
+    shares_short: 34.624
+    short_settlement_date: 2025-09-30
     ytd_operating_cf: 4032
     ytd_capex_ppe: 658
     ytd_sbc: 792
@@ -233,6 +257,8 @@ quarters:
     announce_session: pre-open         # 2026-02-03 12:08 UTC = 07:08 ET
     revenue: 8676                       # FY2025 33,172 − 9mo(Sep'25) 24,496
     shares_outstanding: 920
+    shares_short: 44.953
+    short_settlement_date: 2025-12-31
     ytd_operating_cf: 6416              # full-year FY2025
     ytd_capex_ppe: 852
     ytd_sbc: 1002
@@ -249,6 +275,8 @@ quarters:
     announce_session: pre-open         # 2026-05-05 11:03 UTC = 07:03 ET
     revenue: 8353
     shares_outstanding: 892
+    shares_short: 45.984
+    short_settlement_date: 2026-03-31
     ytd_operating_cf: 1134
     ytd_capex_ppe: 231
     ytd_sbc: 259
@@ -264,6 +292,8 @@ quarters:
     announce_session: pre-open         # 8-K item 2.02 accepted 2026-07-28 07:02 UTC = 03:02 ET
     revenue: 8682
     shares_outstanding: 862
+    shares_short: 54.916
+    short_settlement_date: 2026-06-30
     ytd_operating_cf: 3117             # 6-month YTD
     ytd_capex_ppe: 439                 # 6-month YTD
     ytd_sbc: 534                       # 6-month YTD

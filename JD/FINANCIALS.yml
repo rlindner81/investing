@@ -35,6 +35,8 @@ quarters:
     announce_session: pre-open
     revenue: 242956
     shares_outstanding: 1567        # 3,133M ordinary / 2
+    shares_short: 13.586
+    short_settlement_date: 2023-03-31
     ytd_operating_cf: -21607
     ytd_capex_ppe: 2145
     ytd_capex_other: 1068
@@ -49,6 +51,8 @@ quarters:
     announce_session: pre-open
     revenue: 287931
     shares_outstanding: 1573        # 3,146M ordinary / 2
+    shares_short: 30.704
+    short_settlement_date: 2023-06-30
     ytd_operating_cf: 24904
     ytd_capex_ppe: 4508
     ytd_capex_other: 2312
@@ -63,6 +67,8 @@ quarters:
     announce_session: pre-open
     revenue: 247698
     shares_outstanding: 1574        # 3,147M ordinary / 2
+    shares_short: 27.298
+    short_settlement_date: 2023-09-29
     ytd_operating_cf: 39908
     ytd_capex_ppe: 7521
     ytd_capex_other: 4292
@@ -77,6 +83,8 @@ quarters:
     announce_session: pre-open
     revenue: 306077
     shares_outstanding: 1569        # 3,138M ordinary / 2
+    shares_short: 22.57
+    short_settlement_date: 2023-12-29
     ytd_operating_cf: 59521
     ytd_capex_ppe: 12117
     ytd_capex_other: 6261
@@ -91,6 +99,8 @@ quarters:
     announce_session: pre-open
     revenue: 260049
     shares_outstanding: 1527        # 3,054M ordinary / 2
+    shares_short: 26.023
+    short_settlement_date: 2024-03-28
     ytd_operating_cf: -11315
     ytd_capex_ppe: 1360
     ytd_capex_other: 1520
@@ -105,6 +115,8 @@ quarters:
     announce_session: pre-open
     revenue: 291397
     shares_outstanding: 1464        # 2,928M ordinary / 2
+    shares_short: 38.201
+    short_settlement_date: 2024-06-28
     ytd_operating_cf: 39423
     ytd_capex_ppe: 2950
     ytd_capex_other: 3251
@@ -119,6 +131,8 @@ quarters:
     announce_session: pre-open
     revenue: 260387
     shares_outstanding: 1450        # 2,899M ordinary / 2
+    shares_short: 43.2
+    short_settlement_date: 2024-09-30
     ytd_operating_cf: 33204         # H1 39,423 + Q3 standalone (−6,219)
     ytd_capex_ppe: 6411             # H1 2,950 + Q3 3,461
     ytd_capex_other: 5148           # H1 3,251 + Q3 1,897
@@ -133,6 +147,8 @@ quarters:
     announce_session: pre-open
     revenue: 346986
     shares_outstanding: 1452        # 2,903M ordinary / 2
+    shares_short: 34.314
+    short_settlement_date: 2024-12-31
     ytd_operating_cf: 58095
     ytd_capex_ppe: 7286
     ytd_capex_other: 6937
@@ -147,6 +163,8 @@ quarters:
     announce_session: pre-open
     revenue: 301082
     shares_outstanding: 1442        # 2,883M ordinary / 2
+    shares_short: 22.643
+    short_settlement_date: 2025-03-31
     ytd_operating_cf: -18262
     ytd_capex_ppe: 915
     ytd_capex_other: 1408
@@ -161,6 +179,8 @@ quarters:
     announce_session: pre-open
     revenue: 356660
     shares_outstanding: 1418        # 2,836M ordinary / 2
+    shares_short: 18.799
+    short_settlement_date: 2025-06-30
     ytd_operating_cf: 6147
     ytd_capex_ppe: 1991
     ytd_capex_other: 3364
@@ -175,6 +195,8 @@ quarters:
     announce_session: pre-open
     revenue: 299100
     shares_outstanding: 1419        # 2,838M ordinary / 2
+    shares_short: 24.17
+    short_settlement_date: 2025-09-30
     ytd_operating_cf: -1888         # H1 6,147 + Q3 standalone (−8,035)
     ytd_capex_ppe: 2069             # H1 1,991 + Q3 78
     ytd_capex_other: 5882           # H1 3,364 + Q3 2,518
@@ -189,6 +211,8 @@ quarters:
     announce_session: pre-open
     revenue: 352284
     shares_outstanding: 1371        # 2,742M ordinary / 2
+    shares_short: 32.805
+    short_settlement_date: 2025-12-31
     ytd_operating_cf: 18991
     ytd_capex_ppe: 4098
     ytd_capex_other: 8637
@@ -203,6 +227,8 @@ quarters:
     announce_session: pre-open
     revenue: 315694
     shares_outstanding: 1351        # 2,701M ordinary / 2
+    shares_short: 25.581
+    short_settlement_date: 2026-03-31
     ytd_operating_cf: 555
     ytd_capex_ppe: 3498
     ytd_capex_other: 1565
@@ -217,6 +243,8 @@ quarters:
     announce_session: pre-open
     revenue: 346401
     shares_outstanding: 1344        # 2,688M ordinary outstanding / 2
+    shares_short: 30.582
+    short_settlement_date: 2026-06-30
     ytd_operating_cf: 38273
     ytd_capex_ppe: 6015
     ytd_capex_other: 4568

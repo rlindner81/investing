@@ -47,6 +47,8 @@ quarters:
     announce_session: pre-open
     revenue: 525
     shares_outstanding: 3887      # Class A 3,784 + Class B 103
+    shares_short: 99.372
+    short_settlement_date: 2023-03-31
     ytd_operating_cf: -157
     ytd_capex_ppe: 5
     ytd_capex_software: 7
@@ -63,6 +65,8 @@ quarters:
     announce_session: pre-open
     revenue: 567
     shares_outstanding: 3904      # 3,791 + 113
+    shares_short: 93.166
+    short_settlement_date: 2023-06-30
     ytd_operating_cf: -207
     ytd_capex_ppe: 20
     ytd_capex_software: 18
@@ -79,6 +83,8 @@ quarters:
     announce_session: pre-open
     revenue: 615
     shares_outstanding: 3912      # 3,800 + 112
+    shares_short: 87.86
+    short_settlement_date: 2023-09-29
     ytd_operating_cf: 112
     ytd_capex_ppe: 43
     ytd_capex_software: 26
@@ -95,6 +101,8 @@ quarters:
     announce_session: pre-open
     revenue: 653
     shares_outstanding: 3923      # 3,813 + 110
+    shares_short: 76.701
+    short_settlement_date: 2023-12-29
     ytd_operating_cf: 86          # full-year FY2023
     ytd_capex_ppe: 71
     ytd_capex_software: 21
@@ -112,6 +120,8 @@ quarters:
     announce_session: after-close   # accepted 2024-05-15 19:00 ET
     revenue: 653
     shares_outstanding: 3953      # 3,840 + 113
+    shares_short: 60.318
+    short_settlement_date: 2024-03-28
     ytd_operating_cf: -11
     ytd_capex_ppe: 11
     ytd_capex_software: 3
@@ -128,6 +138,8 @@ quarters:
     announce_session: pre-open
     revenue: 664
     shares_outstanding: 3961      # 3,842 + 119
+    shares_short: 59.421
+    short_settlement_date: 2024-06-28
     ytd_operating_cf: 261
     ytd_capex_ppe: 25
     ytd_capex_software: 8
@@ -144,6 +156,8 @@ quarters:
     announce_session: pre-open
     revenue: 716
     shares_outstanding: 4027      # 3,909 + 118
+    shares_short: 69.791
+    short_settlement_date: 2024-09-30
     ytd_operating_cf: 599
     ytd_capex_ppe: 48
     ytd_capex_software: 21
@@ -160,6 +174,8 @@ quarters:
     announce_session: pre-open
     revenue: 764
     shares_outstanding: 4065      # 3,950 + 115
+    shares_short: 110.252
+    short_settlement_date: 2024-12-31
     ytd_operating_cf: 852         # full-year FY2024
     ytd_capex_ppe: 77
     ytd_capex_software: 36
@@ -177,6 +193,8 @@ quarters:
     announce_session: pre-open
     revenue: 773
     shares_outstanding: 4124      # 4,004 + 120
+    shares_short: 129.886
+    short_settlement_date: 2025-03-31
     ytd_operating_cf: 73
     ytd_capex_ppe: 16
     ytd_capex_software: 10
@@ -193,6 +211,8 @@ quarters:
     announce_session: pre-open
     revenue: 819
     shares_outstanding: 4076      # 3,953 + 123
+    shares_short: 170.373
+    short_settlement_date: 2025-06-30
     ytd_operating_cf: 136
     ytd_capex_ppe: 24
     ytd_capex_software: 14
@@ -209,6 +229,8 @@ quarters:
     announce_session: pre-open
     revenue: 873
     shares_outstanding: 4087      # 3,965 + 122
+    shares_short: 196.321
+    short_settlement_date: 2025-09-30
     ytd_operating_cf: 10          # 9-month YTD (the 263 in the release is TTM)
     ytd_capex_ppe: 52
     ytd_capex_software: 19
@@ -225,6 +247,8 @@ quarters:
     announce_session: after-close   # accepted 2026-02-11 17:05 ET
     revenue: 906
     shares_outstanding: 4089      # 3,969 + 120
+    shares_short: 191.955
+    short_settlement_date: 2025-12-31
     ytd_operating_cf: 79          # full-year FY2025
     ytd_capex_ppe: 97
     ytd_capex_software: 26
@@ -242,6 +266,8 @@ quarters:
     announce_session: pre-open
     revenue: 955
     shares_outstanding: 4090      # 3,964 + 126
+    shares_short: 235.245
+    short_settlement_date: 2026-03-31
     ytd_operating_cf: -59
     ytd_capex_ppe: 10
     ytd_capex_software: 3
@@ -258,6 +284,8 @@ quarters:
     announce_session: pre-open
     revenue: 997
     shares_outstanding: 4079      # 3,974 + 105
+    shares_short: 253.119
+    short_settlement_date: 2026-06-30
     ytd_operating_cf: -3
     ytd_capex_ppe: 27
     ytd_capex_software: 14

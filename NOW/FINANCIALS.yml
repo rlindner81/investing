@@ -36,6 +36,8 @@ quarters:
     announce_session: after-close
     revenue: 1940              # Q4-2022 total revenues (letter)
     shares_outstanding: 1014   # 202,882K ÷ balance sheet × 5 (pre-split)
+    shares_short: 17.126
+    short_settlement_date: 2022-12-30
     ytd_operating_cf: 2723     # full-year FY2022 (10-K)
     ytd_capex_ppe: 550
     ytd_sbc: 1401
@@ -52,6 +54,8 @@ quarters:
     announce_session: after-close
     revenue: 2096
     shares_outstanding: 1019   # 203,700K (cover) × 5
+    shares_short: 19.932
+    short_settlement_date: 2023-03-31
     ytd_operating_cf: 902
     ytd_capex_ppe: 165
     ytd_sbc: 381
@@ -67,6 +71,8 @@ quarters:
     announce_session: after-close
     revenue: 2150
     shares_outstanding: 1022   # 204,300K (cover) × 5
+    shares_short: 18.837
+    short_settlement_date: 2023-06-30
     ytd_operating_cf: 1482
     ytd_capex_ppe: 297
     ytd_sbc: 778
@@ -82,6 +88,8 @@ quarters:
     announce_session: after-close
     revenue: 2288
     shares_outstanding: 1025   # 205,000K (cover) × 5
+    shares_short: 11.86
+    short_settlement_date: 2023-09-29
     ytd_operating_cf: 1793
     ytd_capex_ppe: 433
     ytd_sbc: 1191
@@ -97,6 +105,8 @@ quarters:
     announce_session: after-close
     revenue: 2437             # FY2023 8,971 − 9mo 6,534
     shares_outstanding: 1024  # 204,724K × 5
+    shares_short: 14.564
+    short_settlement_date: 2023-12-29
     ytd_operating_cf: 3398    # full-year FY2023
     ytd_capex_ppe: 694
     ytd_sbc: 1604
@@ -115,6 +125,8 @@ quarters:
     announce_session: after-close
     revenue: 2603
     shares_outstanding: 1027  # 205,382K × 5
+    shares_short: 14.775
+    short_settlement_date: 2024-03-28
     ytd_operating_cf: 1341
     ytd_capex_ppe: 135
     ytd_sbc: 422
@@ -132,6 +144,8 @@ quarters:
     announce_session: after-close
     revenue: 2627
     shares_outstanding: 1029  # 205,857K × 5
+    shares_short: 16.467
+    short_settlement_date: 2024-06-28
     ytd_operating_cf: 1961
     ytd_capex_ppe: 397
     ytd_sbc: 866
@@ -149,6 +163,8 @@ quarters:
     announce_session: after-close
     revenue: 2797
     shares_outstanding: 1032  # 206,317K × 5
+    shares_short: 19.387
+    short_settlement_date: 2024-09-30
     ytd_operating_cf: 2632
     ytd_capex_ppe: 599
     ytd_sbc: 1292
@@ -166,6 +182,8 @@ quarters:
     announce_session: after-close
     revenue: 2957            # FY2024 10,984 − 9mo 8,027
     shares_outstanding: 1032 # 206,487K × 5
+    shares_short: 18.04
+    short_settlement_date: 2024-12-31
     ytd_operating_cf: 4267   # full-year FY2024
     ytd_capex_ppe: 852
     ytd_sbc: 1746
@@ -184,6 +202,8 @@ quarters:
     announce_session: after-close
     revenue: 3088
     shares_outstanding: 1035  # 206,979K × 5
+    shares_short: 21.104
+    short_settlement_date: 2025-03-31
     ytd_operating_cf: 1677
     ytd_capex_ppe: 205
     ytd_sbc: 470
@@ -201,6 +221,8 @@ quarters:
     announce_session: after-close
     revenue: 3215
     shares_outstanding: 1038  # 207,519K × 5
+    shares_short: 16.805
+    short_settlement_date: 2025-06-30
     ytd_operating_cf: 2393
     ytd_capex_ppe: 395
     ytd_sbc: 969
@@ -218,6 +240,8 @@ quarters:
     announce_session: after-close
     revenue: 3407
     shares_outstanding: 1038  # 207,564K × 5
+    shares_short: 14.388
+    short_settlement_date: 2025-09-30
     ytd_operating_cf: 3206
     ytd_capex_ppe: 630
     ytd_sbc: 1461
@@ -235,6 +259,8 @@ quarters:
     announce_session: after-close
     revenue: 3568            # FY2025 13,278 − 9mo 9,710
     shares_outstanding: 1047 # 1,047,278K (post-split basis)
+    shares_short: 17.039
+    short_settlement_date: 2025-12-31
     ytd_operating_cf: 5444   # full-year FY2025
     ytd_capex_ppe: 868
     ytd_sbc: 1955
@@ -253,6 +279,8 @@ quarters:
     announce_session: after-close
     revenue: 3770
     shares_outstanding: 1031  # 1,031,308K
+    shares_short: 29.879
+    short_settlement_date: 2026-03-31
     ytd_operating_cf: 1670
     ytd_capex_ppe: 141
     ytd_sbc: 547
@@ -270,6 +298,8 @@ quarters:
     announce_session: after-close
     revenue: 3987
     shares_outstanding: 1034  # 1,033,862K
+    shares_short: 62.127
+    short_settlement_date: 2026-06-30
     ytd_operating_cf: 2257
     ytd_capex_ppe: 255
     ytd_sbc: 1199

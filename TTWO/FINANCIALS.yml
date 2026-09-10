@@ -35,6 +35,8 @@ quarters:
     announce_session: after-close
     revenue: 1102.4
     shares_outstanding: 166.2       # 189.9 issued − 23.7 treasury
+    shares_short: 5.373
+    short_settlement_date: 2022-06-30
     ytd_operating_cf: 100.8
     ytd_capex_ppe: 42.5
     ytd_capex_software: 103.5       # capitalized software dev (operating section)
@@ -53,6 +55,8 @@ quarters:
     announce_session: after-close
     revenue: 1393.5
     shares_outstanding: 167.5       # 191.2 − 23.7
+    shares_short: 4.889
+    short_settlement_date: 2022-09-30
     ytd_operating_cf: 155.4
     ytd_capex_ppe: 99.4
     ytd_capex_software: 252.2
@@ -71,6 +75,8 @@ quarters:
     announce_session: after-close
     revenue: 1407.8
     shares_outstanding: 168.5       # 192.2 − 23.7
+    shares_short: 6.643
+    short_settlement_date: 2022-12-30
     ytd_operating_cf: 35.8
     ytd_capex_ppe: 137.7
     ytd_capex_software: 362.9
@@ -89,6 +95,8 @@ quarters:
     announce_session: after-close
     revenue: 1446.2                # FY2023 5,349.9 − 9mo 3,903.7
     shares_outstanding: 168.9       # 192.6 − 23.7
+    shares_short: 5.436
+    short_settlement_date: 2023-03-31
     ytd_operating_cf: 1.1           # full-year FY2023
     ytd_capex_ppe: 204.2
     ytd_capex_software: 492.8
@@ -108,6 +116,8 @@ quarters:
     announce_session: after-close
     revenue: 1284.7
     shares_outstanding: 169.8       # 193.5 − 23.7
+    shares_short: 5.566
+    short_settlement_date: 2023-06-30
     ytd_operating_cf: 5.0
     ytd_capex_ppe: 31.5
     ytd_capex_software: 125.2
@@ -126,6 +136,8 @@ quarters:
     announce_session: after-close
     revenue: 1299.2
     shares_outstanding: 170.0       # 193.7 − 23.7
+    shares_short: 4.599
+    short_settlement_date: 2023-09-29
     ytd_operating_cf: 69.8
     ytd_capex_ppe: 59.9
     ytd_capex_software: 300.7
@@ -144,6 +156,8 @@ quarters:
     announce_session: after-close
     revenue: 1366.3
     shares_outstanding: 170.5       # 194.2 − 23.7
+    shares_short: 7.616
+    short_settlement_date: 2023-12-29
     ytd_operating_cf: -7.2
     ytd_capex_ppe: 95.5
     ytd_capex_software: 457.3
@@ -162,6 +176,8 @@ quarters:
     announce_session: after-close
     revenue: 1399.4                # FY2024 5,349.6 − 9mo 3,950.2
     shares_outstanding: 170.8       # 194.5 − 23.7
+    shares_short: 8.494
+    short_settlement_date: 2024-03-28
     ytd_operating_cf: -16.1         # full-year FY2024
     ytd_capex_ppe: 141.7
     ytd_capex_software: 603.4
@@ -181,6 +197,8 @@ quarters:
     announce_session: after-close
     revenue: 1338.2
     shares_outstanding: 175.2       # 198.8 − 23.7 (rounds; 198.9 issued table)
+    shares_short: 7.675
+    short_settlement_date: 2024-06-28
     ytd_operating_cf: -191.0
     ytd_capex_ppe: 35.1
     ytd_capex_software: 197.9
@@ -199,6 +217,8 @@ quarters:
     announce_session: after-close
     revenue: 1353.1
     shares_outstanding: 175.5       # 199.2 − 23.7
+    shares_short: 7.443
+    short_settlement_date: 2024-09-30
     ytd_operating_cf: -319.4
     ytd_capex_ppe: 71.9
     ytd_capex_software: 362.8
@@ -217,6 +237,8 @@ quarters:
     announce_session: after-close
     revenue: 1359.8
     shares_outstanding: 176.4       # 200.1 − 23.7
+    shares_short: 8.141
+    short_settlement_date: 2024-12-31
     ytd_operating_cf: -324.2
     ytd_capex_ppe: 115.3
     ytd_capex_software: 568.9
@@ -235,6 +257,8 @@ quarters:
     announce_session: after-close
     revenue: 1582.5                # FY2025 5,633.6 − 9mo 4,051.1
     shares_outstanding: 177.1       # 200.8 − 23.7
+    shares_short: 8.064
+    short_settlement_date: 2025-03-31
     ytd_operating_cf: -45.2         # full-year FY2025
     ytd_capex_ppe: 169.4
     ytd_capex_software: 691.6
@@ -254,6 +278,8 @@ quarters:
     announce_session: after-close
     revenue: 1503.8
     shares_outstanding: 184.4       # 208.1 − 23.7
+    shares_short: 9.152
+    short_settlement_date: 2025-06-30
     ytd_operating_cf: -44.7
     ytd_capex_ppe: 25.1
     ytd_capex_software: 164.6
@@ -272,6 +298,8 @@ quarters:
     announce_session: after-close
     revenue: 1773.8
     shares_outstanding: 184.7       # 208.4 − 23.7
+    shares_short: 8.556
+    short_settlement_date: 2025-09-30
     ytd_operating_cf: 83.7
     ytd_capex_ppe: 57.0
     ytd_capex_software: 345.0
@@ -290,6 +318,8 @@ quarters:
     announce_session: after-close
     revenue: 1699.0
     shares_outstanding: 185.1       # 208.8 − 23.7
+    shares_short: 8.553
+    short_settlement_date: 2025-12-31
     ytd_operating_cf: 388.9
     ytd_capex_ppe: 126.0
     ytd_capex_software: 518.5
@@ -308,6 +338,8 @@ quarters:
     announce_session: after-close
     revenue: 1679.8                # FY2026 6,656.4 − 9mo 4,976.6
     shares_outstanding: 185.4       # 209.1 − 23.7
+    shares_short: 5.531
+    short_settlement_date: 2026-03-31
     ytd_operating_cf: 624.3         # full-year FY2026
     ytd_capex_ppe: 162.8
     ytd_capex_software: 688.9
@@ -327,6 +359,8 @@ quarters:
     announce_session: pre-open      # 8-K accepted 03:37 ET; 8:00 a.m. call (new cadence)
     revenue: 1533.9
     shares_outstanding: 187.0       # 210.7 issued − 23.7 treasury
+    shares_short: 8.661
+    short_settlement_date: 2026-06-30
     ytd_operating_cf: -168.8
     ytd_capex_ppe: 25.0
     ytd_capex_software: 173.0       # capitalized software dev (operating section)

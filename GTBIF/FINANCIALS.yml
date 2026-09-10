@@ -16,6 +16,8 @@ unit: thousands
 quarters:
   - id: q1-2023
     end_date: 2023-03-31
+    shares_short: 255.801
+    short_settlement_date: 2023-03-31
     revenue: 248536
     ytd_operating_cf: 74711
     ytd_capex_ppe: 65009
@@ -23,6 +25,8 @@ quarters:
 
   - id: q2-2023
     end_date: 2023-06-30
+    shares_short: 495.37
+    short_settlement_date: 2023-06-30
     revenue: 252388
     ytd_operating_cf: 93028
     ytd_capex_ppe: 129392
@@ -30,6 +34,8 @@ quarters:
 
   - id: q3-2023
     end_date: 2023-09-30
+    shares_short: 110.057
+    short_settlement_date: 2023-09-29
     revenue: 275398
     ytd_operating_cf: 153872
     ytd_capex_ppe: 183594
@@ -37,6 +43,8 @@ quarters:
 
   - id: q4-2023
     end_date: 2023-12-31
+    shares_short: 147.705
+    short_settlement_date: 2023-12-29
     revenue: 278231          # FY2023 1,054,553 − 9mo 776,322
     ytd_operating_cf: 224968  # full-year FY2023
     ytd_capex_ppe: 220035
@@ -51,6 +59,8 @@ quarters:
     announce_session: after-close
     revenue: 275806
     shares_outstanding: 236109    # (SVS 211,671,221 + MVS 37,683×100 + Super 206,690×100) ÷ 1000
+    shares_short: 1017.314
+    short_settlement_date: 2024-03-28
     ytd_operating_cf: 84023
     ytd_capex_ppe: 14711
     ytd_sbc: 6490
@@ -64,6 +74,8 @@ quarters:
     announce_session: after-close
     revenue: 280147
     shares_outstanding: 235567    # (SVS 211,129,419 + MVS 37,683×100 + Super 206,690×100) ÷ 1000
+    shares_short: 472.63
+    short_settlement_date: 2024-06-28
     ytd_operating_cf: 104174
     ytd_capex_ppe: 34963
     ytd_sbc: 15356
@@ -77,6 +89,8 @@ quarters:
     announce_session: after-close
     revenue: 286865
     shares_outstanding: 236156    # (SVS 211,718,705 + MVS 37,683×100 + Super 206,690×100) ÷ 1000
+    shares_short: 17.723
+    short_settlement_date: 2024-09-30
     ytd_operating_cf: 151845
     ytd_capex_ppe: 52992
     ytd_sbc: 23705
@@ -91,6 +105,8 @@ quarters:
     announce_session: after-close
     revenue: 294323          # FY2024 1,137,141 − 9mo 842,818
     shares_outstanding: 235559    # (SVS 211,128,045 + MVS 37,623×100 + Super 206,690×100) ÷ 1000
+    shares_short: 30.933
+    short_settlement_date: 2024-12-31
     ytd_operating_cf: 195183  # full-year FY2024
     ytd_capex_ppe: 80188
     ytd_sbc: 33312
@@ -106,6 +122,8 @@ quarters:
     announce_session: after-close
     revenue: 279540
     shares_outstanding: 236475    # (SVS 212,043,849 + MVS 37,623×100 + Super 206,690×100) ÷ 1000
+    shares_short: 367.853
+    short_settlement_date: 2025-03-31
     ytd_operating_cf: 74219
     ytd_capex_ppe: 29839
     ytd_sbc: 10309
@@ -120,6 +138,8 @@ quarters:
     announce_session: after-close
     revenue: 293257
     shares_outstanding: 231576    # (SVS 207,145,195 + MVS 37,623×100 + Super 206,690×100) ÷ 1000
+    shares_short: 402.361
+    short_settlement_date: 2025-06-30
     ytd_operating_cf: 130666
     ytd_capex_ppe: 48842
     ytd_sbc: 22275
@@ -134,6 +154,8 @@ quarters:
     announce_session: after-close
     revenue: 291369
     shares_outstanding: 231725    # (SVS 207,294,093 + MVS 37,623×100 + Super 206,690×100) ÷ 1000
+    shares_short: 193.533
+    short_settlement_date: 2025-09-30
     ytd_operating_cf: 204785
     ytd_capex_ppe: 66388
     ytd_sbc: 33929
@@ -148,6 +170,8 @@ quarters:
     announce_session: after-close
     revenue: 311129          # FY2025 1,175,295 − 9mo 864,166
     shares_outstanding: 230546    # (SVS 206,629,845 + MVS 37,472×100 + Super 201,690×100) ÷ 1000
+    shares_short: 99.476
+    short_settlement_date: 2025-12-31
     ytd_operating_cf: 294926  # full-year FY2025
     ytd_capex_ppe: 81068
     ytd_sbc: 44933
@@ -162,6 +186,8 @@ quarters:
     announce_session: after-close
     revenue: 300190
     shares_outstanding: 225929    # (SVS 202,013,135 + MVS 37,472×100 + Super 201,690×100) ÷ 1000
+    shares_short: 206.599
+    short_settlement_date: 2026-03-31
     ytd_operating_cf: 75799
     ytd_capex_ppe: 18856
     ytd_sbc: 10517
@@ -176,6 +202,8 @@ quarters:
     announce_session: after-close
     revenue: 306683
     shares_outstanding: 218564    # (SVS 195,147,381 + MVS 37,472×100 + Super 196,690×100) ÷ 1000
+    shares_short: 157.417
+    short_settlement_date: 2026-06-30
     ytd_operating_cf: 104810
     ytd_capex_ppe: 39077
     ytd_sbc: 21135

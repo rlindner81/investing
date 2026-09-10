@@ -49,6 +49,8 @@ quarters:
     announce_session: pre-open
     revenue: 7441
     shares_outstanding: 1168
+    shares_short: 1.297
+    short_settlement_date: 2023-03-31
     ytd_operating_cf: 2311
     ytd_capex_ppe: 356        # 2311 OCF − 1955 FCF
     ytd_sbc: 553
@@ -64,6 +66,8 @@ quarters:
     announce_session: pre-open
     revenue: 7554
     shares_outstanding: 1168
+    shares_short: 2.397
+    short_settlement_date: 2023-06-30
     ytd_operating_cf: 3159    # 2311 + 848
     ytd_capex_ppe: 600        # 3159 OCF − 2559 FCF (YTD)
     ytd_sbc: 1167
@@ -79,6 +83,8 @@ quarters:
     announce_session: pre-open
     revenue: 7744
     shares_outstanding: 1168
+    shares_short: 2.242
+    short_settlement_date: 2023-09-29
     ytd_operating_cf: 4283    # + 1124
     ytd_capex_ppe: 860        # 4283 OCF − 3423 FCF (YTD)
     ytd_sbc: 1677
@@ -94,6 +100,8 @@ quarters:
     announce_session: pre-open
     revenue: 8468            # FY2023 31,207 − 9mo 22,739
     shares_outstanding: 1168
+    shares_short: 2.789
+    short_settlement_date: 2023-12-29
     ytd_operating_cf: 6193    # full-year FY2023 (2311+848+1124+1909)
     ytd_capex_ppe: 1110       # 6193 OCF − 5083 FCF (FY)
     ytd_sbc: 2221
@@ -110,6 +118,8 @@ quarters:
     announce_session: pre-open
     revenue: 8041
     shares_outstanding: 1167
+    shares_short: 2.946
+    short_settlement_date: 2024-03-28
     ytd_operating_cf: 2878
     ytd_capex_ppe: 236        # 2878 OCF − 2642 FCF
     ytd_sbc: 688
@@ -125,6 +135,8 @@ quarters:
     announce_session: pre-open
     revenue: 8288
     shares_outstanding: 1167
+    shares_short: 1.691
+    short_settlement_date: 2024-06-28
     ytd_operating_cf: 4387    # 2878 + 1509
     ytd_capex_ppe: 457        # 4387 OCF − 3930 FCF (YTD: 2642+1288)
     ytd_sbc: 1280
@@ -140,6 +152,8 @@ quarters:
     announce_session: pre-open
     revenue: 8470
     shares_outstanding: 1167
+    shares_short: 1.689
+    short_settlement_date: 2024-09-30
     ytd_operating_cf: 5790    # + 1403
     ytd_capex_ppe: 660        # 5790 OCF − 5130 FCF (YTD: 2642+1288+1200)
     ytd_sbc: 1815
@@ -155,6 +169,8 @@ quarters:
     announce_session: pre-open
     revenue: 9377           # FY2024 34,176 − 9mo 24,799
     shares_outstanding: 1167
+    shares_short: 2.442
+    short_settlement_date: 2024-12-31
     ytd_operating_cf: 5207    # full-year FY2024 (2878+1509+1403−584)
     ytd_capex_ppe: 985        # 5207 OCF − 4222 FCF (FY)
     ytd_sbc: 2385
@@ -171,6 +187,8 @@ quarters:
     announce_session: pre-open
     revenue: 9013
     shares_outstanding: 1166
+    shares_short: 3.685
+    short_settlement_date: 2025-03-31
     ytd_operating_cf: 3780
     ytd_capex_ppe: 197        # 3780 OCF − 3583 FCF
     ytd_sbc: 420
@@ -186,6 +204,8 @@ quarters:
     announce_session: pre-open
     revenue: 9027
     shares_outstanding: 1166
+    shares_short: 1.39
+    short_settlement_date: 2025-06-30
     ytd_operating_cf: 6357    # 3780 + 2577
     ytd_capex_ppe: 417        # 6357 OCF − 5940 FCF (YTD: 3583+2357)
     ytd_sbc: 949
@@ -201,6 +221,8 @@ quarters:
     announce_session: pre-open
     revenue: 9076
     shares_outstanding: 1166
+    shares_short: 3.078
+    short_settlement_date: 2025-09-30
     ytd_operating_cf: 7859    # + 1502
     ytd_capex_ppe: 654        # 7859 OCF − 7205 FCF (YTD: 3583+2357+1266)
     ytd_sbc: 1379
@@ -216,6 +238,8 @@ quarters:
     announce_session: pre-open
     revenue: 9684           # FY2025 36,800 − 9mo 27,116
     shares_outstanding: 1166
+    shares_short: 1.841
+    short_settlement_date: 2025-12-31
     ytd_operating_cf: 9156    # full-year FY2025 (3780+2577+1502+1297)
     ytd_capex_ppe: 917        # 9156 OCF − 8239 FCF (FY)
     ytd_sbc: 1695
@@ -232,6 +256,8 @@ quarters:
     announce_session: pre-open
     revenue: 9555
     shares_outstanding: 1166
+    shares_short: 5.743
+    short_settlement_date: 2026-03-31
     ytd_operating_cf: 3513
     ytd_capex_ppe: 265        # 3513 OCF − 3248 FCF
     ytd_sbc: 285
@@ -251,6 +277,8 @@ quarters:
     announce_session: after-close   # results/analyst call 5 PM EDT (11 PM CEST) on the 23rd
     revenue: 9878
     shares_outstanding: 1156        # ~1,229 issued − ~73 treasury (buybacks; wtd-avg basic 1,153)
+    shares_short: 11.229
+    short_settlement_date: 2026-06-30
     ytd_operating_cf: 6666          # H1 2026 (3,513 + 3,153)
     ytd_capex_ppe: 416             # 6666 OCF − 6250 FCF (H1)
     ytd_sbc: 753                    # H1 2026 SBC expense (cash-flow add-back)

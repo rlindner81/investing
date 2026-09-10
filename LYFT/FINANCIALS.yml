@@ -25,6 +25,8 @@ quarters:
     end_date: 2023-03-31
     revenue: 1000548
     shares_outstanding: 378119        # Class A 369,516 + Class B 8,603
+    shares_short: 53209.092
+    short_settlement_date: 2023-03-31
     ytd_operating_cf: -74040
     ytd_capex_ppe: 46799
     ytd_sbc: 180383
@@ -33,6 +35,8 @@ quarters:
     end_date: 2023-06-30
     revenue: 1020906
     shares_outstanding: 386237        # Class A 377,634 + Class B 8,603
+    shares_short: 45018.433
+    short_settlement_date: 2023-06-30
     ytd_operating_cf: -144013
     ytd_capex_ppe: 88975
     ytd_sbc: 294309
@@ -41,6 +45,8 @@ quarters:
     end_date: 2023-09-30
     revenue: 1157550
     shares_outstanding: 392986        # Class A 384,383 + Class B 8,603
+    shares_short: 59485.245
+    short_settlement_date: 2023-09-29
     ytd_operating_cf: -141752
     ytd_capex_ppe: 121250
     ytd_sbc: 392852
@@ -49,6 +55,8 @@ quarters:
     end_date: 2023-12-31
     revenue: 1224585                  # FY2023 4,403,589 − 9mo 3,179,004
     shares_outstanding: 399806        # Class A 391,239 + Class B 8,567
+    shares_short: 52002.381
+    short_settlement_date: 2023-12-29
     ytd_operating_cf: -98244          # full-year FY2023 (10-K annual)
     ytd_capex_ppe: 149819
     ytd_sbc: 484533
@@ -62,6 +70,8 @@ quarters:
     announce_session: after-close     # 8-K 2024-05-07 20:07Z = 16:07 ET
     revenue: 1277201
     shares_outstanding: 403119        # Class A 394,588 + Class B 8,531
+    shares_short: 48937.93
+    short_settlement_date: 2024-03-28
     ytd_operating_cf: 156177
     ytd_capex_ppe: 29106
     ytd_sbc: 80098
@@ -76,6 +86,8 @@ quarters:
     announce_session: pre-open        # 8-K 2024-08-07 10:02Z = 06:02 ET
     revenue: 1435846
     shares_outstanding: 410151        # Class A 401,620 + Class B 8,531
+    shares_short: 48304.167
+    short_settlement_date: 2024-06-28
     ytd_operating_cf: 432379
     ytd_capex_ppe: 48905
     ytd_sbc: 165837
@@ -90,6 +102,8 @@ quarters:
     announce_session: after-close     # 8-K 2024-11-06 21:05Z = 16:05 ET
     revenue: 1522692
     shares_outstanding: 414812        # Class A 406,281 + Class B 8,531
+    shares_short: 50369.633
+    short_settlement_date: 2024-09-30
     ytd_operating_cf: 696371
     ytd_capex_ppe: 70055
     ytd_sbc: 254793
@@ -104,6 +118,8 @@ quarters:
     announce_session: after-close     # 8-K 2025-02-11 21:04Z = 16:04 ET
     revenue: 1550277                  # FY2024 5,786,016 − 9mo 4,235,739
     shares_outstanding: 418005        # Class A 409,474 + Class B 8,531
+    shares_short: 48755.434
+    short_settlement_date: 2024-12-31
     ytd_operating_cf: 849737          # full-year FY2024 (10-K annual)
     ytd_capex_ppe: 83470
     ytd_sbc: 330921
@@ -118,6 +134,8 @@ quarters:
     announce_session: after-close     # 8-K 2025-05-08 20:11Z = 16:11 ET
     revenue: 1450172
     shares_outstanding: 420348        # Class A 411,817 + Class B 8,531
+    shares_short: 41559.25
+    short_settlement_date: 2025-03-31
     ytd_operating_cf: 287234
     ytd_capex_ppe: 6500
     ytd_sbc: 93158
@@ -132,6 +150,8 @@ quarters:
     announce_session: after-close     # 8-K 2025-08-06 20:09Z = 16:09 ET
     revenue: 1588183
     shares_outstanding: 411106        # Class A 402,575 + Class B 8,531
+    shares_short: 61430.894
+    short_settlement_date: 2025-06-30
     ytd_operating_cf: 630962
     ytd_capex_ppe: 20786
     ytd_sbc: 175260
@@ -146,6 +166,8 @@ quarters:
     announce_session: after-close     # 8-K 2025-11-05 21:11Z = 16:11 ET
     revenue: 1685195
     shares_outstanding: 401465        # Class A 401,465 (Class B fully converted)
+    shares_short: 64885.674
+    short_settlement_date: 2025-09-30
     ytd_operating_cf: 922213
     ytd_capex_ppe: 34220
     ytd_sbc: 241845
@@ -160,6 +182,8 @@ quarters:
     announce_session: after-close     # 8-K 2026-02-10 21:05Z = 16:05 ET
     revenue: 1592711                  # FY2025 6,316,261 − 9mo 4,723,550
     shares_outstanding: 400856        # Class A 400,856 (no Class B)
+    shares_short: 65399.235
+    short_settlement_date: 2025-12-31
     ytd_operating_cf: 1168438         # full-year FY2025 (10-K annual)
     ytd_capex_ppe: 52822
     ytd_sbc: 322268
@@ -174,6 +198,8 @@ quarters:
     announce_session: after-close     # 8-K 2026-05-07 20:10Z = 16:10 ET
     revenue: 1650489
     shares_outstanding: 382531        # Class A 382,531 (no Class B)
+    shares_short: 76534.421
+    short_settlement_date: 2026-03-31
     ytd_operating_cf: 307679
     ytd_capex_ppe: 20423
     ytd_sbc: 86878
@@ -188,6 +214,8 @@ quarters:
     announce_session: after-close     # 8-K 2026-08-06 20:10Z = 16:10 ET
     revenue: 1843544
     shares_outstanding: 379170        # Class A 379,170 (no Class B)
+    shares_short: 91519.638
+    short_settlement_date: 2026-06-30
     ytd_operating_cf: 657604
     ytd_capex_ppe: 50718
     ytd_sbc: 163431
