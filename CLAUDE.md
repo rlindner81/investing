@@ -39,8 +39,22 @@ gained over time and the *why* behind non-obvious choices (e.g. KGC has
 `notes/` directory** — a relevant note often already holds the framing or the
 caveat. When a genuinely new insight emerges (not just this-conversation
 scratch), consider adding or updating a note there. Match the house style: an H1
-title, bold lead-ins, `\$` escaped in all prose, and relative markdown links
-between notes.
+title, bold lead-ins, `\$` and `\~` escaped in all prose (see "Markdown
+Escaping"), and relative markdown links between notes.
+
+## Markdown Escaping
+
+Two characters must be escaped in **every** markdown file in this repo — prose,
+tables, and headings alike. Exception in both cases: inline code spans
+(backtick-wrapped) and fenced code blocks, where a backslash would render
+literally and must not be added.
+
+- **`\$`** before any number or unit (`\$952M`, `\$16.81`). Bare `$` triggers
+  math/LaTeX rendering and mangles dollar-heavy financial content.
+- **`\~`** when used to mean "approximately" (`\~13%`, `\~\$3B`).
+
+Before saving a `.md` file, scan for bare `$` and `~` and convert consistently
+throughout.
 
 ## Quarterly File Naming
 

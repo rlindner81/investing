@@ -77,7 +77,7 @@ Each section ends with a sentiment score that reflects what its summary actually
 
 #### `valuation-summary.md`
 
-~300-word qualitative summary covering:
+\~300-word qualitative summary covering:
 
 - Revenue trend (Y/Y growth or decline, acceleration/deceleration)
 - FCF profile: FCF-positive? Trend? Material gap between company FCF and strict ex-SBC?
@@ -92,7 +92,7 @@ RATING: <score>
 
 #### `prices-summary.md`
 
-~300-word qualitative summary drawing on **both** `prices-raw.txt` (`check-price`) and `flow-raw.txt` (`check-flow`), covering:
+\~300-word qualitative summary drawing on **both** `prices-raw.txt` (`check-price`) and `flow-raw.txt` (`check-flow`), covering:
 
 - Recent price performance: WTD and MTD returns vs. benchmarks in the table
 - SMA signal: above/below 20/50/200-day SMAs? Uptrend, downtrend, or mixed? Compare to benchmark SMAs
@@ -116,7 +116,7 @@ Investigate recent developments for **$ARGUMENTS** in two layers. First the **su
 2. **Depth pass** — for each material item, run a second search to find whatever hard data exists behind it: the company's own release or filing, disclosed figures, a regulator's decision, third-party data. The question is whether the headline is standing on something real or just repeating itself. (This repo's own records are usually more stale than what's online, so don't rely on them to confirm current news.)
 3. For each development, say whether it's **substantiated** (there's real data underneath) or **mostly attention** (opinion, rumor, narrative, uncommitted forward claims), and note when a big price move is running ahead of anything concrete.
 
-~400-word section covering:
+\~400-word section covering:
 
 - The surface narrative: what's moving the story and grabbing attention now (last 2–4 weeks)
 - The deeper read on each material item: substantiated by data vs. mostly attention, with the supporting evidence named where it exists
@@ -160,7 +160,10 @@ Read [template.md](template.md). Substitute every placeholder with the correspon
 | `{{TOTAL_RATING}}` | average of the three section scores, rounded to 1 decimal place |
 | `{{TOTAL_RATING_WORD}}` | band word for `{{TOTAL_RATING}}` (rating scale, Step 2) |
 
-**Formatting rule:** In all written sections, escape every `$` that precedes a number or unit (e.g. `\$952M`, `\$16.81`). Bare `$` signs in markdown trigger math rendering. Exception: inline code spans (backtick-wrapped), where no escaping is needed.
+**Formatting rules:** In all written sections, with the exception for inline code spans (backtick-wrapped), where no escaping is needed.
+
+- Escape every `$` that precedes a number or unit (e.g. `\$952M`, `\$16.81`). Bare `$` signs in markdown trigger math rendering.
+- Escape every `~` used to mean "approximately" (e.g. `\~13%`, `\~\$3B`).
 
 ---
 
