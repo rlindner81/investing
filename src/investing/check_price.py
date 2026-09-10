@@ -257,25 +257,19 @@ def short_interest(ticker: str) -> tuple[str, str]:
     Unlike the other rows this is not a price-derived figure: it is a semi-monthly
     FINRA snapshot published ~8-9 business days after settlement, so the second line
     carries the settlement age to keep the staleness explicit.
+
+    The percentage is float-based (yfinance) and marked "fl" to distinguish it from
+    check-valuation's "% of shares out", which divides the same FINRA count by the
+    larger shares-outstanding denominator and so prints a lower number.
     """
     si = fetch_short_interest(ticker)
     if si is None or si["pct_float"] is None:
         return "n/a", "—"
 
     pct = si["pct_float"] * 100
-    # Direction of the position itself; float is fixed between settlements, so
-    # comparing share counts is the same comparison as comparing percentages.
-    arrow, color = "", "white"
-    cur, prior = si["shares_short"], si["prior_shares_short"]
-    if prior:
-        change = (cur / prior - 1) * 100
-        if abs(change) >= 1:
-            # Rising short interest is the bearish reading → red.
-            arrow, color = (f" ↑{change:.0f}%", "red") if change > 0 else (f" ↓{abs(change):.0f}%", "green")
-        else:
-            arrow, color = " →", "yellow"
-
-    first = f"[{color}]{pct:.1f}%{arrow}[/{color}]"
+    # "fl" = percent of FLOAT, unlike check-valuation's "% of shares out" — the
+    # float is the smaller denominator, so this reads higher for the same position.
+    first = f"{pct:.1f}% fl"
     if si["days_to_cover"]:
         first += f" {si['days_to_cover']:.1f} dtc"
 
