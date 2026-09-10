@@ -290,11 +290,9 @@ Conventions and derivations the tool relies on:
   coincide with quarter end. `short_settlement_date` records the actual settlement, and the
   row suffixes the gap when it is non-zero (`3.8 (-3d)` = settled 3 days *before*
   quarter end); an unsuffixed value is an exact quarter-end reading. This keeps
-  the staleness visible instead of buried in the YAML. Source: FINRA's
-  `consolidatedShortInterest` API — "consolidated" = summed across all venues, and
-  it carries the full history since listing (Nasdaq's own page retains only \~12
-  months). Note the figures publish \~8 days after the settlement date, so the most
-  recent quarter may have no reading yet.
+  the staleness visible instead of buried in the YAML.
+
+  **Don't enter these by hand — run `fetch-short-interest` (see below).**
 - **Net cash** = `cash − total_debt` (negative = net debt, shown in red). Both
   fields are optional point-in-time balance sheet values. The row appears between
   Market cap and P/S in the valuation section; it is blank for FY-aggregate columns.
@@ -308,6 +306,42 @@ Conventions and derivations the tool relies on:
 
 After entering a new quarter, sanity-check that `ytd_operating_cf − ytd_capex_ppe`
 for the full year reproduces the company's own reported FCF figure.
+
+### Short Interest
+
+`fetch-short-interest` fills each quarter's `shares_short` and
+`short_settlement_date` in `FINANCIALS.yml` from FINRA's official
+`consolidatedShortInterest` dataset. A ticker is required (one or more).
+
+```bash
+uv run fetch-short-interest ODD          # fill every quarter missing a reading
+uv run fetch-short-interest ODD BARK     # several tickers
+uv run fetch-short-interest ODD -n       # --dry-run: show, don't write
+```
+
+It prints a table of every quarter with the settlement it matched, the lag, and
+the raw share count, then writes the pair into the YAML — anchored after
+`shares_outstanding` where present, else after `end_date` — preserving comments
+and key order. **Existing readings are never overwritten**, so re-running each
+quarter is safe and idempotent; delete a value by hand if you want it refetched.
+Counts are converted to the file's own `unit`.
+
+Notes on the source, which explain the statuses in the output:
+
+- **"Consolidated"** = summed across all venues: every short position reported by
+  every FINRA member firm for that symbol, not split per listing exchange. It's a
+  gross point-in-time count — longs don't net against it, and it is *not*
+  float-adjusted, so it can exceed the float in heavily shorted names.
+- FINRA keys by **US trading symbol** for every ticker in this repo, including
+  foreign filers that need home-exchange overrides for transcripts (KGC, GTBIF).
+  No `_meta` mapping is needed.
+- It carries the **full history since listing**; Nasdaq's own page retains only
+  \~12 months, so use this for backfill.
+- Figures publish **\~8 days after** the settlement date, so a just-closed quarter
+  shows `pending (not published)` and is left alone — re-run it later.
+- A quarter with no settlement within **±6 days** is refused rather than paired
+  with a wrong-fortnight reading. Quarters before the symbol's first settlement
+  show `pre-listing` (e.g. pre-IPO periods kept only as a diff base).
 
 ## Earnings Reactions
 

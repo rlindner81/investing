@@ -7,10 +7,10 @@
 #                      balance sheet / 10-Q cover page — NOT the weighted average
 #   shares_short       short interest at the FINRA semi-monthly settlement NEAREST end_date,
 #                      so it pairs with the quarter-end shares_outstanding it divides.
-#                      Source: FINRA consolidatedShortInterest API (cross-checked against
-#                      Nasdaq). The "% of shares out" row is derived — never enter a percent.
 #   short_settlement_date  the FINRA settlement date that reading came from; drives the
 #                      "(-3d)" staleness suffix when it isn't exactly quarter end.
+#                      Both are written by `uv run fetch-short-interest ODD` — don't
+#                      enter them by hand. The "% of shares out" row is derived.
 #   ytd_operating_cf   net cash from operating activities, AS REPORTED (year-to-date)
 #   ytd_capex_*        capitalized investment lines, year-to-date. Naming convention:
 #                        ytd_capex_ppe   → purchase of PP&E; the ONLY line in `company` FCF
@@ -45,6 +45,8 @@ quarters:
 
   - id: q3-2023
     end_date: 2023-09-30
+    shares_short: 4747
+    short_settlement_date: 2023-09-29
     revenue: 94474
     ytd_operating_cf: 79550
     ytd_capex_ppe: 1582
@@ -53,6 +55,8 @@ quarters:
 
   - id: q4-2023
     end_date: 2023-12-31
+    shares_short: 4060
+    short_settlement_date: 2023-12-29
     revenue: 97246
     ytd_operating_cf: 87455
     ytd_capex_ppe: 2101
