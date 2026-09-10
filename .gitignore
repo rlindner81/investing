@@ -5,3 +5,5 @@ prices/
 prices-historic/
 temp/
 tweets/
+
+.claude/memory/

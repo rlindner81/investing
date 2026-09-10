@@ -1,0 +1,5 @@
+{
+  "env": {
+    "CLAUDE_CODE_MEMORY_DIR": ".claude/memory"
+  }
+}
