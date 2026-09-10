@@ -71,16 +71,28 @@ hand. For each quarter entry in `SOURCES.yml`:
    (investor letter) exhibit is the guidance source.
 2. Add `letter:` (the exhibit `.htm` URL) and `letter_type: 8-K` to that entry.
    Foreign filers: the exhibit hangs off a **6-K**, so use `letter_type: 6-K`.
-3. Optionally add a `transcript:` URL from
-   `stockanalysis.com/stocks/<ticker>/transcripts/` for the most recent quarters —
-   useful for qualitative guidance hints when a number isn't printed.
+3. **Add a `transcript:` URL for every quarter** 
+   Transcripts are read directly, so a missing one is a hole in the deliverable.
+   Take each URL from `stockanalysis.com/stocks/<ticker>/transcripts/`, using the
+   **specific per-quarter** link (`.../transcripts/<id>-<quarter>/`), never 
+   the bare index page. Two traps to check for:
+   - **Non-earnings events are mixed into the index** (investor days, product
+     launches, M&A calls). Match on the `q<n>-<year>` slug and ignore the rest.
+   - **Foreign filers may list under their home exchange** — if
+     `stocks/<us-ticker>/` 404s, look under
+     `stockanalysis.com/quote/<exchange>/<home-ticker>/transcripts/` and record
+     `home_exchange` / `home_ticker` in `_meta`.
 
 Then download everything that's now referenced:
 
 ```bash
 uv run fetch-sources $ARGUMENTS
-uv run fetch-transcript $ARGUMENTS    # only if you added transcript keys
+uv run fetch-transcript $ARGUMENTS
 ```
+
+`fetch-transcript` must report **N/N downloaded** with no failures. If a quarter has
+genuinely no transcript published, say so explicitly in your final report rather than
+letting it pass silently.
 
 Match the `SOURCES.yml` layout of SNAP/BARK: `_meta.cik` at top, then one dated block
 per quarter, oldest or newest first as the reference files do.
@@ -207,6 +219,8 @@ Check that:
 - Currency, split, and share-count assumptions look right versus the live price.
 - `check-reaction` runs without error — this proves every quarter's `announce_date` +
   `announce_session` (Step 3) is valid; it hard-errors on any that are missing.
+- **One `-transcript.md` exists per reported quarter** — `ls <TICKER>/quarters/*-transcript.md`
+  should match the quarter count.
 
 Fix any transcription errors and re-run until the table is coherent. Then report to the
 user: the directory created, the quarters covered, the TICKERS.yml entry (tags +

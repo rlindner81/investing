@@ -75,16 +75,25 @@ yet in `FINANCIALS.yml`. Everything below operates only on those.
 1. On EDGAR, open the company's filings and find the **8-K** (foreign filers: **6-K**)
    for that quarter's announcement, and add its EX-99.1 / EX-99.2 exhibit `.htm` URL as
    `letter:` with the right `letter_type`.
-2. Optionally add a `transcript:` URL from the ticker's stockanalysis.com transcripts
-   page for the new quarter(s). For foreign filers listed under a home exchange, use the
-   `_meta.home_exchange` / `home_ticker` path already recorded in `SOURCES.yml`.
+2. **Add a `transcript:` URL for every quarter**
+   Transcripts are read directly, so a missing one is a hole in the deliverable. Use the
+   **specific per-quarter** link (`.../transcripts/<id>-<quarter>/`) from the ticker's
+   stockanalysis.com transcripts page, never the bare index. Non-earnings events
+   (investor days, product launches, M&A calls) are mixed into that index — match on the
+   `q<n>-<year>` slug and ignore the rest. For foreign filers listed under a home
+   exchange, use the `_meta.home_exchange` / `home_ticker` path already recorded in
+   `SOURCES.yml`.
 
 Then download only what's missing (these commands skip files already present):
 
 ```bash
 uv run fetch-sources $ARGUMENTS
-uv run fetch-transcript $ARGUMENTS    # only if you added transcript keys
+uv run fetch-transcript $ARGUMENTS
 ```
+
+`fetch-transcript` must report no failures. If a new quarter has genuinely no transcript
+published yet, say so explicitly in your final report rather than letting it pass
+silently — a transcript that appears late is worth picking up on the next update.
 
 ---
 
@@ -159,6 +168,8 @@ Check that:
   ytd_capex_ppe` reproduces the company's reported free cash flow.
 - `check-reaction` runs without error (proves the announce fields are valid) and the
   new quarter's reaction reads sensibly.
+- **Each new quarter has a `-transcript.md`** in `<TICKER>/quarters/`, holding real
+  dialogue rather than an error page.
 
 Fix transcription errors and re-run until coherent.
 
