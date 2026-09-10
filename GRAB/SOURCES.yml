@@ -1,0 +1,99 @@
+_meta:
+  cik: '0001855612'
+  # FOREIGN PRIVATE ISSUER: Grab files an annual 20-F and furnishes quarterly
+  # results on 6-K (no 10-Q/10-K). The quarterly EX-99.1 earnings press release
+  # is the primary source — it carries the full IFRS income statement, balance
+  # sheet, cash flow statement, share counts AND the FY revenue guidance.
+  # `report` points at that 6-K EX-99.1 exhibit for every quarter; there is no
+  # separate `letter` because the press release IS the letter (guidance included).
+  # `annual_report` additionally records the 20-F index for each fiscal year.
+'2023-05-18':
+  quarter: q1-2023
+  period_end: '2023-03-31'
+  report: https://www.sec.gov/Archives/edgar/data/1855612/000095017023022871/ck0001855612-ex99_1.htm
+  report_type: 6-K
+  transcript: https://stockanalysis.com/stocks/grab/transcripts/55786-q1-2023/
+'2023-08-23':
+  quarter: q2-2023
+  period_end: '2023-06-30'
+  report: https://www.sec.gov/Archives/edgar/data/1855612/000095017023044020/ck0001855612-ex99_1.htm
+  report_type: 6-K
+  transcript: https://stockanalysis.com/stocks/grab/transcripts/69870-q2-2023/
+'2023-11-09':
+  quarter: q3-2023
+  period_end: '2023-09-30'
+  report: https://www.sec.gov/Archives/edgar/data/1855612/000095017023061487/ck0001855612-ex99_1.htm
+  report_type: 6-K
+  transcript: https://stockanalysis.com/stocks/grab/transcripts/90711-q3-2023/
+'2024-02-22':
+  quarter: q4-2023
+  period_end: '2023-12-31'
+  report: https://www.sec.gov/Archives/edgar/data/1855612/000095017024018400/ck0001855612-ex99_1.htm
+  report_type: 6-K
+  transcript: https://stockanalysis.com/stocks/grab/transcripts/123517-q4-2023/
+  annual_report: https://www.sec.gov/Archives/edgar/data/1855612/000095017024037611/
+  annual_report_type: 20-F
+'2024-05-16':
+  quarter: q1-2024
+  period_end: '2024-03-31'
+  report: https://www.sec.gov/Archives/edgar/data/1855612/000095017024060711/ck0001855612-ex99_1.htm
+  report_type: 6-K
+  transcript: https://stockanalysis.com/stocks/grab/transcripts/169464-q1-2024/
+'2024-08-15':
+  quarter: q2-2024
+  period_end: '2024-06-30'
+  report: https://www.sec.gov/Archives/edgar/data/1855612/000095017024097364/ck0001855612-ex99_1.htm
+  report_type: 6-K
+  transcript: https://stockanalysis.com/stocks/grab/transcripts/187610-q2-2024/
+'2024-11-12':
+  quarter: q3-2024
+  period_end: '2024-09-30'
+  report: https://www.sec.gov/Archives/edgar/data/1855612/000185561224000003/grab-20240930xex991.htm
+  report_type: 6-K
+  transcript: https://stockanalysis.com/stocks/grab/transcripts/222169-q3-2024/
+'2025-02-20':
+  quarter: q4-2024
+  period_end: '2024-12-31'
+  report: https://www.sec.gov/Archives/edgar/data/1855612/000185561225000004/exhibit991-earningsrelease.htm
+  report_type: 6-K
+  transcript: https://stockanalysis.com/stocks/grab/transcripts/247940-q4-2024/
+  annual_report: https://www.sec.gov/Archives/edgar/data/1855612/000185561225000013/
+  annual_report_type: 20-F
+'2025-04-30':
+  quarter: q1-2025
+  period_end: '2025-03-31'
+  report: https://www.sec.gov/Archives/edgar/data/1855612/000185561225000024/exhibit991-earningsrelease1.htm
+  report_type: 6-K
+  transcript: https://stockanalysis.com/stocks/grab/transcripts/317566-q1-2025/
+'2025-07-31':
+  quarter: q2-2025
+  period_end: '2025-06-30'
+  report: https://www.sec.gov/Archives/edgar/data/1855612/000185561225000045/a2025q2-earningspressrelea.htm
+  report_type: 6-K
+  transcript: https://stockanalysis.com/stocks/grab/transcripts/337534-q2-2025/
+'2025-11-04':
+  quarter: q3-2025
+  period_end: '2025-09-30'
+  report: https://www.sec.gov/Archives/edgar/data/1855612/000185561225000058/a2025q3-earningspressrelea.htm
+  report_type: 6-K
+  transcript: https://stockanalysis.com/stocks/grab/transcripts/368402-q3-2025/
+'2026-02-11':
+  quarter: q4-2025
+  period_end: '2025-12-31'
+  report: https://www.sec.gov/Archives/edgar/data/1855612/000185561226000011/a2025q4-earningspressrelea.htm
+  report_type: 6-K
+  transcript: https://stockanalysis.com/stocks/grab/transcripts/398358-q4-2025/
+  annual_report: https://www.sec.gov/Archives/edgar/data/1855612/000185561226000020/
+  annual_report_type: 20-F
+'2026-05-05':
+  quarter: q1-2026
+  period_end: '2026-03-31'
+  report: https://www.sec.gov/Archives/edgar/data/1855612/000185561226000077/a42026q1-earningspressrele.htm
+  report_type: 6-K
+  transcript: https://stockanalysis.com/stocks/grab/transcripts/555495-q1-2026/
+'2026-08-04':
+  quarter: q2-2026
+  period_end: '2026-06-30'
+  report: https://www.sec.gov/Archives/edgar/data/1855612/000185561226000123/a2026q2-earningspressrelea.htm
+  report_type: 6-K
+  transcript: https://stockanalysis.com/stocks/grab/transcripts/660332-q2-2026/

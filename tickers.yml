@@ -48,6 +48,9 @@ benchmarks:
     - symbol: IPAY
       issuer: Amplify (formerly ETFMG)
       description: Tracks the Prime Mobile Payments Index — global digital-payments and card-network companies including Visa, Mastercard, PayPal, Block, Fiserv, Global Payments
+    - symbol: ASEA
+      issuer: Global X (Mirae Asset)
+      description: Tracks the FTSE ASEAN 40 — large-cap Southeast Asian equities across Singapore, Indonesia, Malaysia, Thailand and the Philippines. Thin volume, but the closest listed proxy for Grab's regional footprint.
 
   peers:
     - symbol: BKNG
@@ -104,3 +107,6 @@ stocks:
   - symbol: SAP
     tags: [mega_cap, tech, software, saas, enterprise, ai]
     benchmarks: [SPY, IGV]
+  - symbol: GRAB
+    tags: [large_cap, rideshare, marketplace, gig_economy, fintech, delivery, southeast_asia]
+    benchmarks: [SPY, ASEA]
