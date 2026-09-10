@@ -681,8 +681,9 @@ def render_ticker(r: dict) -> None:
     else:
         fund_row("FCF ($M)", num(ttm.get("fcf_co"), 1), "fcf_co")
         table.add_row("  FCF Y/Y", "", *[fmt_yoy(c.get("fcf_yoy")) for c in cols])
-    # point-in-time rows: blank in the FY aggregates, where they'd duplicate Q4
-    fund_row("Shares out (M)", num(ttm.get("shares"), mult), "shares",
+    # point-in-time rows: blank in the aggregate columns (TTM and FY), where they'd
+    # just duplicate the latest quarter / Q4 sitting right beside them
+    fund_row("Shares out (M)", "", "shares",
              end_section=not has_short, m=mult, skip_fy=True)
     if has_short:
         table.add_row("Shares short (M)", "",

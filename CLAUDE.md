@@ -283,8 +283,8 @@ Conventions and derivations the tool relies on:
   Take the FINRA semi-monthly settlement
   reading nearest each quarter's `end_date`, so the ratio pairs with the
   quarter-end `shares_outstanding` it divides. Both share rows are **point-in-time**
-  and therefore blank in the FY-aggregate columns — the Q4 column beside them
-  already carries the value.
+  and therefore blank in the aggregate columns (TTM and FY) — the latest quarter /
+  Q4 column beside them already carries the value.
 
   Settlements land on the 15th and month end, so they usually — but not always —
   coincide with quarter end. `short_settlement_date` records the actual settlement, and the
