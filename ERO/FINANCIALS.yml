@@ -1,0 +1,296 @@
+# ERO (Ero Copper Corp.) — figures for multiple calculations.
+# Fiscal year = calendar year. All monetary values in USD THOUSANDS. Ero's
+# presentation currency IS the US dollar ("Amounts in thousands of US Dollars"),
+# even though it is a Canadian (BC) company whose Brazilian subsidiaries have the
+# BRL as functional currency — so NO FX conversion is needed and no `currency:`
+# key is set. Source: SEC 6-K financial statements under ERO/quarters/.
+# See CLAUDE.md → "Valuation Multiples".
+#
+# Notes specific to ERO:
+#   - MJDS FILER: Ero files a 40-F annually and furnishes quarterly results on
+#     FORM 6-K (no 10-Q/10-K). Each 6-K carries three exhibits: the financial
+#     statements (`erocopper-fsx<year>q<n>.htm` → our `report`), the MD&A, and the
+#     earnings press release (`erocopper-pressreleasex202.htm` → our `letter`).
+#     `fetch-sources` cannot auto-discover these (it looks for `ex99`-named
+#     exhibits, which Ero does not use), so SOURCES.yml pins the full exhibit URL.
+#   - Interim statements carry FOUR columns: 3-month current, 3-month prior-year,
+#     YTD current, YTD prior-year. `revenue` is the standalone 3-month figure,
+#     taken directly for Q1-Q3. Q4 has no standalone column in the annual
+#     statements, so it is computed as FY total − 9-month YTD (comment shows it).
+#   - TWO capex lines, so company and strict FCF differ:
+#       ytd_capex_ppe         = "Additions to mineral properties, plant and
+#                               equipment" (called "mineral property" singular in
+#                               the 2023 filings) — the line Ero nets for its own
+#                               free cash flow.
+#       ytd_capex_exploration = "Additions to exploration and evaluation assets",
+#                               a separate investing outflow → strict FCF only.
+#   - FCF was deeply NEGATIVE through FY2023-FY2024 while the Tucumã Project was
+#     built (FY2023 company FCF −$284.1M, FY2024 −$183.5M); it turned positive in
+#     FY2025 (+$132.4M) as Tucumã ramped. P/FCF is therefore n/m for the earlier
+#     trailing windows.
+#   - SBC CAN GO NEGATIVE in a standalone quarter. A large part of Ero's awards
+#     are CASH-SETTLED (PSUs/RSUs/DSUs remeasured to the share price each period),
+#     so a falling share price reverses previously booked expense. Q4-2024 is the
+#     clearest case: FY2024 SBC 9,983 < 9-month YTD 17,479 → standalone −7,496.
+#     This is as-reported, not a transcription error.
+#   - NO REVENUE GUIDANCE. Like other miners, Ero guides annual PRODUCTION
+#     (copper tonnes, gold ounces), C1 cash cost, AISC and capital expenditures —
+#     never revenue (revenue = production × metal price, which it does not
+#     forecast). So the FY guidance row carries a "prod-guided" hint rather than
+#     invented numbers, the NQ guidance row stays blank, and the forward-P/S rows
+#     stay blank.
+#   - shares_outstanding is the point-in-time common share count from the
+#     "Balance, <period end>" row of the statement of changes in shareholders'
+#     equity (the statements themselves print only weighted averages), expressed
+#     in the file's unit (thousands), like shares_short.
+#     Share count stepped up ~9M in Q4-2023 (Sept 2023 equity raise): 93.4M → 102.7M.
+#   - total_debt = current portion of loans and borrowings + long-term loans and
+#     borrowings. Lease liabilities are EXCLUDED (IFRS 16 operating leases, not
+#     financial debt) — noted per quarter where relevant.
+#   - Operations are three Brazilian mines: Caraíba and Tucumã (copper) and
+#     Xavantina (gold).
+
+unit: thousands
+
+quarters:
+  # --- FY2023 (base year: feeds TTM, out of the display window) ---
+  - id: q1-2023
+    end_date: 2023-03-31
+    report_date: 2023-05-08
+    announce_date: 2023-05-08
+    announce_session: after-close
+    revenue: 100956
+    shares_outstanding: 92520.412
+    shares_short: 1170.349
+    short_settlement_date: 2023-03-31
+    ytd_operating_cf: 16393
+    ytd_capex_ppe: 83317
+    ytd_capex_exploration: 3045
+    ytd_sbc: 5017
+    cash: 209908
+    total_debt: 410816        # 9,221 current + 401,595 long-term
+    guidance_fy_hint: prod-guided
+
+  - id: q2-2023
+    end_date: 2023-06-30
+    report_date: 2023-08-03
+    announce_date: 2023-08-03
+    announce_session: after-close
+    revenue: 104929
+    shares_outstanding: 93211.871
+    shares_short: 1271.317
+    short_settlement_date: 2023-06-30
+    ytd_operating_cf: 71844
+    ytd_capex_ppe: 204213
+    ytd_capex_exploration: 9009
+    ytd_sbc: 9926
+    cash: 124382
+    total_debt: 426923        # 17,105 current + 409,818 long-term
+    guidance_fy_hint: prod-guided
+
+  - id: q3-2023
+    end_date: 2023-09-30
+    report_date: 2023-11-02
+    announce_date: 2023-11-02
+    announce_session: after-close
+    revenue: 105181
+    shares_outstanding: 93437.575
+    shares_short: 2263.694
+    short_settlement_date: 2023-09-29
+    ytd_operating_cf: 113702
+    ytd_capex_ppe: 323347
+    ytd_capex_exploration: 11263
+    ytd_sbc: 8741
+    cash: 44757
+    total_debt: 419420        # 11,764 current + 407,656 long-term
+    guidance_fy_hint: prod-guided
+
+  - id: q4-2023
+    end_date: 2023-12-31
+    report_date: 2024-03-07
+    announce_date: 2024-03-07
+    announce_session: after-close
+    revenue: 116414           # FY2023 427,480 − 9mo 311,066
+    shares_outstanding: 102747.558
+    shares_short: 1814.032
+    short_settlement_date: 2023-12-29
+    ytd_operating_cf: 163099  # full-year FY2023
+    ytd_capex_ppe: 447174
+    ytd_capex_exploration: 13475
+    ytd_sbc: 9218
+    cash: 111738
+    total_debt: 426233        # 20,381 current + 405,852 long-term
+    guidance_fy_hint: prod-guided
+
+  # --- FY2024: Tucumã Project completed, first production H2 2024 ---
+  - id: q1-2024
+    end_date: 2024-03-31
+    report_date: 2024-05-07
+    announce_date: 2024-05-07
+    announce_session: after-close
+    revenue: 105793
+    shares_outstanding: 102769.444
+    shares_short: 1725.828
+    short_settlement_date: 2024-03-28
+    ytd_operating_cf: 17232
+    ytd_capex_ppe: 106589
+    ytd_capex_exploration: 1201
+    ytd_sbc: 6545
+    cash: 51692
+    total_debt: 466802        # 16,059 current + 450,743 long-term
+    guidance_fy_hint: prod-guided
+
+  - id: q2-2024
+    end_date: 2024-06-30
+    report_date: 2024-08-01
+    announce_date: 2024-08-01
+    announce_session: after-close
+    revenue: 117090
+    shares_outstanding: 103216.104
+    shares_short: 1978.851
+    short_settlement_date: 2024-06-28
+    ytd_operating_cf: 31947
+    ytd_capex_ppe: 181533
+    ytd_capex_exploration: 1494
+    ytd_sbc: 12620
+    cash: 44773
+    total_debt: 526808        # 39,889 current + 486,919 long-term
+    guidance_fy_hint: prod-guided
+
+  - id: q3-2024
+    end_date: 2024-09-30
+    report_date: 2024-11-05
+    announce_date: 2024-11-05
+    announce_session: after-close
+    revenue: 124837
+    shares_outstanding: 103297.049
+    shares_short: 2707.395
+    short_settlement_date: 2024-09-30
+    ytd_operating_cf: 84622
+    ytd_capex_ppe: 256013
+    ytd_capex_exploration: 4845
+    ytd_sbc: 17479
+    cash: 20229
+    total_debt: 538910        # 39,383 current + 499,527 long-term
+    guidance_fy_hint: prod-guided
+
+  - id: q4-2024
+    end_date: 2024-12-31
+    report_date: 2025-03-06
+    announce_date: 2025-03-06
+    announce_session: after-close
+    revenue: 122539           # FY2024 470,259 − 9mo 347,720
+    shares_outstanding: 103555.211
+    shares_short: 3112.581
+    short_settlement_date: 2024-12-31
+    ytd_operating_cf: 145419  # full-year FY2024
+    ytd_capex_ppe: 328957
+    ytd_capex_exploration: 8629
+    ytd_sbc: 9983
+    cash: 50402
+    total_debt: 602189        # 45,893 current + 556,296 long-term
+    guidance_fy_hint: prod-guided
+
+  # --- FY2025: Tucumã ramp-up drives revenue from $470M to $786M ---
+  - id: q1-2025
+    end_date: 2025-03-31
+    report_date: 2025-05-05
+    announce_date: 2025-05-05
+    announce_session: after-close
+    revenue: 125088
+    shares_outstanding: 103572.066
+    shares_short: 4405.134
+    short_settlement_date: 2025-03-31
+    ytd_operating_cf: 65440
+    ytd_capex_ppe: 56430
+    ytd_capex_exploration: 3109
+    ytd_sbc: 1173
+    cash: 80573
+    total_debt: 642339        # 52,479 current + 589,860 long-term
+    guidance_fy_hint: prod-guided
+
+  - id: q2-2025
+    end_date: 2025-06-30
+    report_date: 2025-07-31
+    announce_date: 2025-07-31
+    announce_session: after-close
+    revenue: 163510
+    shares_outstanding: 103597.83
+    shares_short: 4097.018
+    short_settlement_date: 2025-06-30
+    ytd_operating_cf: 155696
+    ytd_capex_ppe: 122520
+    ytd_capex_exploration: 8298
+    ytd_sbc: 8929
+    cash: 68303
+    total_debt: 627376        # 58,076 current + 569,300 long-term
+    guidance_fy_hint: prod-guided
+
+  - id: q3-2025
+    end_date: 2025-09-30
+    report_date: 2025-11-04
+    announce_date: 2025-11-04
+    announce_session: after-close
+    revenue: 177092
+    shares_outstanding: 103793.644
+    shares_short: 5312.052
+    short_settlement_date: 2025-09-30
+    ytd_operating_cf: 266009
+    ytd_capex_ppe: 192400
+    ytd_capex_exploration: 15046
+    ytd_sbc: 15671
+    cash: 66257
+    total_debt: 611736        # 50,590 current + 561,146 long-term
+    guidance_fy_hint: prod-guided
+
+  - id: q4-2025
+    end_date: 2025-12-31
+    report_date: 2026-03-05
+    announce_date: 2026-03-05
+    announce_session: after-close
+    revenue: 320154           # FY2025 785,844 − 9mo 465,690
+    shares_outstanding: 104192.288
+    shares_short: 3412.728
+    short_settlement_date: 2025-12-31
+    ytd_operating_cf: 395136  # full-year FY2025
+    ytd_capex_ppe: 262753
+    ytd_capex_exploration: 19686
+    ytd_sbc: 24580
+    cash: 105442
+    total_debt: 607114        # 55,711 current + 551,403 long-term
+    guidance_fy_hint: prod-guided
+
+  # --- FY2026 (current partial year) ---
+  - id: q1-2026
+    end_date: 2026-03-31
+    report_date: 2026-05-04
+    announce_date: 2026-05-04
+    announce_session: after-close
+    revenue: 263170
+    shares_outstanding: 104277.968
+    shares_short: 3047.069
+    short_settlement_date: 2026-03-31
+    ytd_operating_cf: 92757
+    ytd_capex_ppe: 55777
+    ytd_capex_exploration: 5036
+    ytd_sbc: 2640
+    cash: 91207
+    total_debt: 581893        # 39,202 current + 542,691 long-term
+    guidance_fy_hint: prod-guided
+
+  - id: q2-2026
+    end_date: 2026-06-30
+    report_date: 2026-08-05
+    announce_date: 2026-08-05
+    announce_session: after-close
+    revenue: 284313
+    shares_outstanding: 104302.633
+    shares_short: 3584.658
+    short_settlement_date: 2026-06-30
+    ytd_operating_cf: 230619
+    ytd_capex_ppe: 136305
+    ytd_capex_exploration: 10541
+    ytd_sbc: 3703
+    cash: 101742
+    total_debt: 554434        # 34,578 current + 519,856 long-term
+    guidance_fy_hint: prod-guided

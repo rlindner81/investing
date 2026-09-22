@@ -42,6 +42,12 @@ benchmarks:
     - symbol: GLD
       issuer: State Street Global Advisors (World Gold Council sponsor)
       description: Tracks the spot price of physical gold bullion — the metal itself, not miners. The purest gold-price benchmark for isolating commodity beta from mining-equity risk.
+    - symbol: COPX
+      issuer: Global X (Mirae Asset)
+      description: Tracks the Solactive Global Copper Miners Index — global copper-mining companies including Freeport-McMoRan, Southern Copper, First Quantum, Ero Copper
+    - symbol: CPER
+      issuer: United States Commodity Funds
+      description: Tracks the SummerHaven Copper Index via COMEX copper futures — the metal itself, not miners. The purest copper-price benchmark for isolating commodity beta from mining-equity risk.
     - symbol: ILF
       issuer: iShares (BlackRock)
       description: Tracks the S&P Latin America 40 — large-cap Latin American equities across Brazil, Mexico, Chile; holds MercadoLibre, Vale, Petrobras, banks
@@ -110,3 +116,6 @@ stocks:
   - symbol: GRAB
     tags: [large_cap, rideshare, marketplace, gig_economy, fintech, delivery, southeast_asia]
     benchmarks: [SPY, ASEA]
+  - symbol: ERO
+    tags: [mid_cap, copper, gold, mining, materials, brazil]
+    benchmarks: [SPY, COPX, CPER]

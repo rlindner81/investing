@@ -1,0 +1,116 @@
+_meta:
+  cik: 0001853860
+  home_exchange: tsx
+  home_ticker: ERO
+'2023-05-08':
+  quarter: q1-2023
+  period_end: '2023-03-31'
+  report: https://www.sec.gov/Archives/edgar/data/1853860/000162828023016524/erocopper-fsx2023q1.htm
+  report_type: 6-K
+  letter: https://www.sec.gov/Archives/edgar/data/1853860/000162828023016524/erocopper-pressreleasex202.htm
+  letter_type: 6-K
+  transcript: https://stockanalysis.com/quote/tsx/ERO/transcripts/62500-q1-2023/
+'2023-08-03':
+  quarter: q2-2023
+  period_end: '2023-06-30'
+  report: https://www.sec.gov/Archives/edgar/data/1853860/000162828023027324/erocopper-fsx2023q2.htm
+  report_type: 6-K
+  letter: https://www.sec.gov/Archives/edgar/data/1853860/000162828023027324/erocopper-pressreleasex202.htm
+  letter_type: 6-K
+  transcript: https://stockanalysis.com/quote/tsx/ERO/transcripts/67650-q2-2023/
+'2023-11-02':
+  quarter: q3-2023
+  period_end: '2023-09-30'
+  report: https://www.sec.gov/Archives/edgar/data/1853860/000162828023036473/erocopper-fsx2023q3.htm
+  report_type: 6-K
+  letter: https://www.sec.gov/Archives/edgar/data/1853860/000162828023036473/erocopper-pressreleasex202.htm
+  letter_type: 6-K
+  transcript: https://stockanalysis.com/quote/tsx/ERO/transcripts/87286-q3-2023/
+'2024-03-07':
+  quarter: q4-2023
+  period_end: '2023-12-31'
+  report: https://www.sec.gov/Archives/edgar/data/1853860/000162828024009689/erocopper-fsx2023q4.htm
+  report_type: 6-K
+  letter: https://www.sec.gov/Archives/edgar/data/1853860/000162828024009689/erocopper-pressreleasex202.htm
+  letter_type: 6-K
+  transcript: https://stockanalysis.com/quote/tsx/ERO/transcripts/121199-q4-2023/
+'2024-05-07':
+  quarter: q1-2024
+  period_end: '2024-03-31'
+  report: https://www.sec.gov/Archives/edgar/data/1853860/000162828024021175/erocopper-fsx2024q1.htm
+  report_type: 6-K
+  letter: https://www.sec.gov/Archives/edgar/data/1853860/000162828024021175/erocopper-pressreleasex202.htm
+  letter_type: 6-K
+  transcript: https://stockanalysis.com/quote/tsx/ERO/transcripts/174897-q1-2024/
+'2024-08-01':
+  quarter: q2-2024
+  period_end: '2024-06-30'
+  report: https://www.sec.gov/Archives/edgar/data/1853860/000162828024034219/erocopper-fsx2024q2.htm
+  report_type: 6-K
+  letter: https://www.sec.gov/Archives/edgar/data/1853860/000162828024034219/erocopper-pressreleasex202.htm
+  letter_type: 6-K
+  transcript: https://stockanalysis.com/quote/tsx/ERO/transcripts/192048-q2-2024/
+'2024-11-05':
+  quarter: q3-2024
+  period_end: '2024-09-30'
+  report: https://www.sec.gov/Archives/edgar/data/1853860/000162828024045355/erocopper-fsx2024q3.htm
+  report_type: 6-K
+  letter: https://www.sec.gov/Archives/edgar/data/1853860/000162828024045355/erocopper-pressreleasex202.htm
+  letter_type: 6-K
+  transcript: https://stockanalysis.com/quote/tsx/ERO/transcripts/218431-q3-2024/
+'2025-03-06':
+  quarter: q4-2024
+  period_end: '2024-12-31'
+  report: https://www.sec.gov/Archives/edgar/data/1853860/000162828025010989/erocopper-fsx2024q4.htm
+  report_type: 6-K
+  letter: https://www.sec.gov/Archives/edgar/data/1853860/000162828025010989/erocopper-pressreleasex202.htm
+  letter_type: 6-K
+  transcript: https://stockanalysis.com/quote/tsx/ERO/transcripts/238734-q4-2024/
+'2025-05-05':
+  quarter: q1-2025
+  period_end: '2025-03-31'
+  report: https://www.sec.gov/Archives/edgar/data/1853860/000162828025022257/erocopper-fsx2025q1.htm
+  report_type: 6-K
+  letter: https://www.sec.gov/Archives/edgar/data/1853860/000162828025022257/erocopper-pressreleasex202.htm
+  letter_type: 6-K
+  transcript: https://stockanalysis.com/quote/tsx/ERO/transcripts/325580-q1-2025/
+'2025-07-31':
+  quarter: q2-2025
+  period_end: '2025-06-30'
+  report: https://www.sec.gov/Archives/edgar/data/1853860/000185386025000007/erocopper-fsx2025q2.htm
+  report_type: 6-K
+  letter: https://www.sec.gov/Archives/edgar/data/1853860/000185386025000007/erocopper-pressreleasex202.htm
+  letter_type: 6-K
+  transcript: https://stockanalysis.com/quote/tsx/ERO/transcripts/342715-q2-2025/
+'2025-11-04':
+  quarter: q3-2025
+  period_end: '2025-09-30'
+  report: https://www.sec.gov/Archives/edgar/data/1853860/000185386025000010/erocopper-fsx2025q3.htm
+  report_type: 6-K
+  letter: https://www.sec.gov/Archives/edgar/data/1853860/000185386025000010/erocopper-pressreleasex202.htm
+  letter_type: 6-K
+  transcript: https://stockanalysis.com/quote/tsx/ERO/transcripts/369729-q3-2025/
+'2026-03-05':
+  quarter: q4-2025
+  period_end: '2025-12-31'
+  report: https://www.sec.gov/Archives/edgar/data/1853860/000162828026015324/erocopper-fsx2025q4.htm
+  report_type: 6-K
+  letter: https://www.sec.gov/Archives/edgar/data/1853860/000162828026015324/erocopper-pressreleasex202.htm
+  letter_type: 6-K
+  transcript: https://stockanalysis.com/quote/tsx/ERO/transcripts/395915-q4-2025/
+'2026-05-04':
+  quarter: q1-2026
+  period_end: '2026-03-31'
+  report: https://www.sec.gov/Archives/edgar/data/1853860/000162828026029923/erocopper-fsx2026q1.htm
+  report_type: 6-K
+  letter: https://www.sec.gov/Archives/edgar/data/1853860/000162828026029923/erocopper-pressreleasex202.htm
+  letter_type: 6-K
+  transcript: https://stockanalysis.com/quote/tsx/ERO/transcripts/586422-q1-2026/
+'2026-08-05':
+  quarter: q2-2026
+  period_end: '2026-06-30'
+  report: https://www.sec.gov/Archives/edgar/data/1853860/000162828026053508/erocopper-fsx2026q2.htm
+  report_type: 6-K
+  letter: https://www.sec.gov/Archives/edgar/data/1853860/000162828026053508/erocopper-pressreleasex202.htm
+  letter_type: 6-K
+  transcript: https://stockanalysis.com/quote/tsx/ERO/transcripts/660778-q2-2026/
