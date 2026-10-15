@@ -26,8 +26,8 @@ price (4.8x / 14.3x). **Hold tranches 2 and 3, place no new orders; the late-Nov
 Q3 print carries the information.** This is the "If Oct 13 is qualitative" branch
 in "Sequencing" below.
 
-Sources: [transcript](../quarters/2026-10-13_analyst-day-2026-transcript.md) ·
-[9 press releases](../quarters/2026-10-13_analyst-day-2026-press-releases.md).
+Sources: [transcript](../press/2026-10-13_analyst-day-2026-transcript.md) ·
+[9 press releases](../press/2026-10-13_analyst-day-2026-press-releases.md).
 
 **Price.** The event ran after the close (2pm PT). Oct 13: \$186.02 (−1.2%, IGV
 −0.3%), mostly the intraday C1.ai release (8-K accepted 12:46 ET). Reaction bar

@@ -17,6 +17,8 @@ This is an investment research repository. Each ticker gets its own top-level di
   quarters/
     YYYY-MM-DD_<label>-summary.md   — one file per reported earnings, date = announcement date
   notes/                 — freeform deep-dive notes on ticker-specific topics (optional; see "Ticker Notes")
+  press/                 — non-earnings source material (analyst/investor day transcripts, press releases),
+                           named YYYY-MM-DD_<event>-<kind>.md (optional)
 ```
 
 ## File Conventions
