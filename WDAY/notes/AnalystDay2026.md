@@ -1,4 +1,4 @@
-# WDAY — Financial Analyst Day, 2026-10-13 (Event Plan)
+# WDAY — Financial Analyst Day, 2026-10-13 (Plan and Outcome)
 
 **The event:** Workday's Financial Analyst Day, held inside Rising (Las Vegas,
 Oct 12–15). The prior one was September 2025 — that is where the \$5B repurchase
@@ -14,6 +14,101 @@ of our upcoming Financial Analyst Day." The formal multi-year framework lands
 Oct 13. Deciding the responses in advance is the point: the same price action
 means opposite things depending on *what* is disclosed, and that distinction is
 impossible to draw while watching a green candle.
+
+## Outcome (written 2026-10-14)
+
+**Verdict: scenario B content, scenario D price action → act on D.** What was
+disclosed matches B: FY2028 held at \~11%, margin formalized, Flex Credits still
+customer counts. But B's "+3–7% pop on cost discipline" never happened, so there
+is nothing to sell tranche 2 *into*. B's sell case was about not paying 5.8x TTM /
+17.1x FCF for margin on decelerating growth. At \$189 the market isn't asking that
+price (4.8x / 14.3x). **Hold tranches 2 and 3, place no new orders; the late-November
+Q3 print carries the information.** This is the "If Oct 13 is qualitative" branch
+in "Sequencing" below.
+
+Sources: [transcript](../quarters/2026-10-13_analyst-day-2026-transcript.md) ·
+[9 press releases](../quarters/2026-10-13_analyst-day-2026-press-releases.md).
+
+**Price.** The event ran after the close (2pm PT). Oct 13: \$186.02 (−1.2%, IGV
+−0.3%), mostly the intraday C1.ai release (8-K accepted 12:46 ET). Reaction bar
+Oct 14: \$188.77 (+1.5%) against IGV −3.0%, so \~4.5 points of relative strength on
+a weak software tape. Net, the absolute move stayed inside D's ±2% band.
+
+**Tranche 1 filled at \$210** before the event (intraday high \$211.83 on
+2026-09-03). That locked in the non-fundamental part of the move as intended.
+
+### Scorecard against the plan
+
+| Plan item | What happened |
+|---|---|
+| **The one question:** Flex Credits in dollars? | **No.** Customer counts only: \~300 on Flex Credits (\~200 closed in Q2), 5,500+ using organic agents. Pricing is outcome-based (e.g. per applicant in recruiting), not per token. No credits-per-agent figure, no attach rate, no expansion per customer. |
+| FY2028 subscription vs. 11% pre-guide | **Held at 11%**, "still believe there's some upside" (Rowe). Not ≥13% (A fails), not cut or hedged down (C fails). |
+| Formal multi-year framework | **Not given.** Zukin: "I know we're not doing midterm or long-term targets." Rowe would not go "beyond FY 2028". The "framework" slide just restated the Q2 call ("may be a little anticlimactic"). |
+| +200bps margin formalized | **Yes.** Non-GAAP op margin **>33%** FY2028. New disclosures: SBC **\~15% of revenue** FY2028 and still declining; op margin *including* SBC **>17%**; **FCF/share \$13 FY2027 → \$15 FY2028** (+15%). |
+| Larger buyback | **No new authorization.** The \$5B program finished early; a \$4B open-ended authorization was already in place. |
+| AI attach substitutive vs. incremental (Materne) | Asked as a monetization question. Enslin answered qualitatively: "seat-based pricing is the baseline, … everything in the future is going to be value-driven". No numbers. |
+| The Borges question (AI upside offset by core renewal pricing) | **Not asked, not addressed.** |
+| Total subscription backlog vs. revenue gap | **Not discussed.** |
+| Named sovereign anchor (override) | Not triggered. Silver Lake went unmentioned all day. |
+
+**The real tell was Bhusri on timing.** On revenue from agents he said "You'll see
+that maybe not this year, or I don't know when"; on the consumption flywheel,
+"When exactly it happens, I can't give you a date". That is a candid
+admission that the AI line stays unmodelable through FY2028. Tal Liani asked
+directly why subscription growth keeps decelerating despite AI. Rowe cited renewal
+cycles, M&A laps and international, and said customers "have to adopt" before the
+model shifts. No stabilization call.
+
+### New information the plan didn't anticipate
+
+- **C1.ai acquisition** (ConductorOne, agentic identity governance). Terms
+  undisclosed, closes Q4 FY2027 (by Jan 31, 2027). The pitch: HR is the upstream
+  source of identity, so Workday governs access for both people and agents. This
+  pushes Workday into security and toward the CIO as a third buyer. Bhusri: "It is
+  going to take us a little bit of time to ramp up the sales." He calls identity and
+  ITSM "upsides in the model", meaning they are **not** in the 11%.
+- **AI ARR \~\$600M**, more than 3x y/y. 25% of core customers have bought at least
+  one AI SKU, up from \~10% a year ago. HiredScore, Paradox and Extend AI are each
+  over \$100M, and Sana is approaching it. **\~900 customers bought at least one agent
+  in the TTM, with \~12% uplift** on that cohort. Two case studies showed +40% and
+  +50% ARR uplift.
+- **Installed-base mix.** AI was just over 50% of incremental customer-base ARR in
+  Q2. The expectation is \~70% of the base selling motion is AI-driven in FY2028.
+  The installed base is 60% of TTM subscription revenue.
+- **Sana Enterprise Lighthouse:** 18 large brands get **one year of licensing
+  waived** in exchange for co-innovation and references. A small near-term revenue
+  giveaway that runs straight through FY2028.
+- **TAM** raised to \$276B (from \$188B), including \$100B for AI/platform (more than
+  2x). ITSM and identity come on top of that.
+- **Headless/API economics.** Bhusri expects API usage to be "margin neutral" (lower
+  selling cost). Anthropic integrates via Sana rather than raw APIs, and MCP access
+  requires an Extend AI license. Extend → Extend AI conversions carry a \~20%
+  uplift. Workday Data Cloud has closed 20 deals.
+- **Medium enterprise.** Net-new deal sizes up \~20% y/y. Workday GO volume rose 5x
+  q/q in Q2. Bhusri expects UKG share gains as the deployment agent cuts
+  implementation cost.
+- **Pre-event 8-Ks.** On 2026-09-29: a **2.5% workforce reduction**, mostly in
+  Product & Technology, with \$65–80M charges (\$40–55M cash), all excluded from
+  non-GAAP; the FY2027 guide was reiterated. Bhusri framed it as removing layers,
+  "not for cost cutting". On 2026-10-01: a new **\$1.5B revolver** to 2031,
+  replacing \$1B, undrawn.
+- **Customer token-cost worry.** Bhusri said four customers told him that day they
+  worry about the token cost of agents. He spun it as demand, but it is also a
+  ceiling on consumption pricing.
+
+### Valuation at the reaction close
+
+At \$188.77 × 241.2M shares → **\$45.5B**. P/S TTM 4.8x · FW P/S FY2027 4.6x ·
+FW P/S FY2028 @11% 4.1x · P/FCF FY2027 14.3x · **12.6x FY2028 FCF/share (\$15)**.
+That is cheaper than every row of the pre-event reference table.
+
+### What carries forward to the Q3 print (late Nov)
+
+- Flex Credits count and, ideally, the first dollar figure. The jump from \~100 to
+  \~300 customers in one quarter is the trend to test.
+- Whether "some upside" to 11% firms into a number or quietly disappears.
+- Total subscription backlog growth vs. revenue growth (+8.0% vs. +13.9% in Q2).
+- The C1.ai purchase price, which should show up in the Q3 10-Q or at close.
 
 ## The one question that decides everything
 
@@ -97,7 +192,7 @@ carries the information.
 
 | Tranche | Size | Price | Status |
 |---|---|---|---|
-| 1 | 1/3 | **\$210** limit | live, GTC — may fill pre-event |
+| 1 | 1/3 | **\$210** limit | **filled** pre-event (2026-09-03) |
 | 2 | 1/3 | scenario-dependent: hold (A/D) · \$225 (B) · market (C) | set **after** the event |
 | 3 | 1/3 | Q3 print, late Nov | undecided by design |
 
@@ -132,5 +227,6 @@ new data" means waiting until November, not until October.
 
 ## Related
 
+- [Q3FY2027Print.md](Q3FY2027Print.md) — the follow-up plan for the November print.
 - [SilverLakeTakeover.md](SilverLakeTakeover.md) — the deal case and the sovereign-anchor question.
 - `../FINANCIALS.yml`, `uv run check-valuation WDAY` — multiples and guidance history.
