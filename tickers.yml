@@ -57,6 +57,9 @@ benchmarks:
     - symbol: ASEA
       issuer: Global X (Mirae Asset)
       description: Tracks the FTSE ASEAN 40 — large-cap Southeast Asian equities across Singapore, Indonesia, Malaysia, Thailand and the Philippines. Thin volume, but the closest listed proxy for Grab's regional footprint.
+    - symbol: XBI
+      issuer: State Street Global Advisors
+      description: Tracks the S&P Biotechnology Select Industry Index — equal-weighted US biotech, so mid-caps drive it rather than the mega-cap pharma names. The standard beta benchmark for a commercial-stage biotech with a clinical pipeline.
 
   peers:
     - symbol: BKNG
@@ -119,3 +122,6 @@ stocks:
   - symbol: ERO
     tags: [mid_cap, copper, gold, mining, materials, brazil]
     benchmarks: [SPY, COPX, CPER]
+  - symbol: NBIX
+    tags: [large_cap, healthcare, biotech, pharma, neuroscience]
+    benchmarks: [SPY, XBI]

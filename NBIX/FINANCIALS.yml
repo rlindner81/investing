@@ -1,0 +1,279 @@
+# NBIX (Neurocrine Biosciences, Inc.) — figures for multiple calculations.
+# Fiscal year = calendar year. All monetary values in USD MILLIONS (the filings
+# themselves are tabled in millions, so no rescaling is applied).
+# Source: SEC reports under NBIX/quarters/. See CLAUDE.md → "Valuation Multiples".
+#
+# Notes specific to NBIX:
+#   - Only capitalized line is "Capital expenditures", so `company` and `strict`
+#     FCF differ only by the SBC add-back.
+#   - GUIDANCE IS FOR INGREZZA NET PRODUCT SALES ONLY, NOT TOTAL REVENUE.
+#     NBIX has never guided consolidated revenue: each February it issues a
+#     full-year INGREZZA (valbenazine) net-product-sales range and updates it
+#     through the year. Total revenue runs ABOVE that guide because it also
+#     carries CRENESSITY (launched Dec 2024), VYKAT XR (from the May 2026 Soleno
+#     acquisition) and collaboration revenue. The `guidance_fy_revenue_*` rows
+#     below therefore UNDERSTATE the revenue base, and `FW P/S FY guidance` is
+#     correspondingly overstated — read it as an INGREZZA-only multiple, not a
+#     forward total-revenue multiple. No next-quarter guidance is ever given, so
+#     the NQ rows stay empty.
+#   - No guidance update was issued at the q1-2023 or q2-2023 reports; the
+#     February FY2023 guide simply stood. Those rows carry the standing range
+#     with a comment.
+#   - Convertible senior notes were the only debt; fully settled during 2024
+#     (a \$138.4M charge runs through FY2024). total_debt is 0 from q2-2024 on.
+#     The May 2026 Soleno acquisition was funded by a \$600M revolver draw that
+#     was drawn AND repaid within q2-2026, so total_debt is still 0 at 6/30/26.
+#   - Cash understates liquidity throughout: NBIX parks most of its balance in
+#     available-for-sale debt securities (current + noncurrent), which `cash`
+#     deliberately excludes per the schema (cash and cash equivalents only).
+#   - Announcement sessions flipped mid-history: through q3-2024 NBIX released
+#     pre-market (~07:00 ET) with an 8:00 AM ET call; from q4-2024 on it releases
+#     after the close (~16:02 ET) with a 4:30 PM ET call.
+#   - q4-2022 is a reach-back quarter kept only as the standalone-OCF/capex diff
+#     base and TTM feed for FY2023; it is outside check-valuation's display window.
+
+unit: millions
+
+quarters:
+  # --- FY2022: reach-back diff base only (out of display window) ---
+  - id: q4-2022
+    end_date: 2022-12-31
+    revenue: 412.0            # FY2022 1,488.7 − 9mo 1,076.7 (FY total from XBRL 10-K)
+    shares_outstanding: 96.5
+    shares_short: 2.252
+    short_settlement_date: 2022-12-30
+    ytd_operating_cf: 339.4   # full-year FY2022
+    ytd_capex_ppe: 16.5
+    ytd_sbc: 173.1
+    cash: 262.9
+    total_debt: 169.4         # convertible senior notes (current)
+
+  # --- FY2023: displayed only as TTM feed for the FY2024 columns ---
+  - id: q1-2023
+    end_date: 2023-03-31
+    revenue: 420.4
+    shares_outstanding: 97.5
+    shares_short: 2.758
+    short_settlement_date: 2023-03-31
+    ytd_operating_cf: -125.2
+    ytd_capex_ppe: 8.5
+    ytd_sbc: 39.9
+    cash: 103.8
+    total_debt: 169.5         # convertible senior notes (reclassified noncurrent)
+    guidance_fy_revenue_low: 1670    # FY2023 INGREZZA (TD only) — Feb guide, no update issued
+    guidance_fy_revenue_high: 1770
+
+  - id: q2-2023
+    end_date: 2023-06-30
+    revenue: 452.7
+    shares_outstanding: 97.6
+    shares_short: 2.417
+    short_settlement_date: 2023-06-30
+    ytd_operating_cf: 54.4
+    ytd_capex_ppe: 15.3
+    ytd_sbc: 108.4
+    cash: 160.2
+    total_debt: 169.7
+    guidance_fy_revenue_low: 1670    # FY2023 INGREZZA — still the Feb guide, no update issued
+    guidance_fy_revenue_high: 1770
+
+  - id: q3-2023
+    end_date: 2023-09-30
+    revenue: 498.8
+    shares_outstanding: 98.2
+    shares_short: 1.85
+    short_settlement_date: 2023-09-29
+    ytd_operating_cf: 266.4
+    ytd_capex_ppe: 22.9
+    ytd_sbc: 156.2
+    cash: 293.7
+    total_debt: 169.9
+    guidance_fy_revenue_low: 1820    # FY2023 INGREZZA raised to \$1.82–1.84B
+    guidance_fy_revenue_high: 1840
+
+  - id: q4-2023
+    end_date: 2023-12-31
+    revenue: 515.2            # FY2023 1,887.1 − 9mo 1,371.9
+    shares_outstanding: 98.7
+    shares_short: 2.268
+    short_settlement_date: 2023-12-29
+    ytd_operating_cf: 389.9   # full-year FY2023
+    ytd_capex_ppe: 28.3
+    ytd_sbc: 194.3
+    cash: 251.1
+    total_debt: 170.1
+    guidance_fy_revenue_low: 2100    # FY2024 INGREZZA \$2.1–2.2B
+    guidance_fy_revenue_high: 2200
+
+  # --- FY2024: complete, displayed ---
+  - id: q1-2024
+    end_date: 2024-03-31
+    report_date: 2024-05-01
+    announce_date: 2024-05-01
+    announce_session: pre-open      # 8-K accepted 07:01 ET
+    revenue: 515.3
+    shares_outstanding: 100.6
+    shares_short: 2.426
+    short_settlement_date: 2024-03-28
+    ytd_operating_cf: 130.3
+    ytd_capex_ppe: 11.2
+    ytd_sbc: 44.5
+    cash: 396.3
+    total_debt: 122.8               # convertible notes at carrying value
+    guidance_fy_revenue_low: 2100   # FY2024 INGREZZA reaffirmed
+    guidance_fy_revenue_high: 2200
+
+  - id: q2-2024
+    end_date: 2024-06-30
+    report_date: 2024-08-01
+    announce_date: 2024-08-01
+    announce_session: pre-open      # 8-K accepted 07:03 ET
+    revenue: 590.2
+    shares_outstanding: 100.9
+    shares_short: 2.818
+    short_settlement_date: 2024-06-28
+    ytd_operating_cf: 194.9
+    ytd_capex_ppe: 22.8
+    ytd_sbc: 87.6
+    cash: 139.7
+    total_debt: 0                   # convertible notes settled during the quarter
+    guidance_fy_revenue_low: 2250   # FY2024 INGREZZA raised to \$2.25–2.3B
+    guidance_fy_revenue_high: 2300
+
+  - id: q3-2024
+    end_date: 2024-09-30
+    report_date: 2024-10-30
+    announce_date: 2024-10-30
+    announce_session: pre-open      # 8-K accepted 07:02 ET
+    revenue: 622.1
+    shares_outstanding: 101.2
+    shares_short: 2.454
+    short_settlement_date: 2024-09-30
+    ytd_operating_cf: 352.9
+    ytd_capex_ppe: 30.9
+    ytd_sbc: 129.1
+    cash: 349.1
+    total_debt: 0
+    guidance_fy_revenue_low: 2300   # FY2024 INGREZZA raised to \$2.30–2.32B
+    guidance_fy_revenue_high: 2320
+
+  - id: q4-2024
+    end_date: 2024-12-31
+    report_date: 2025-02-10
+    announce_date: 2025-02-06       # earnings 8-K, four days before the 10-K
+    announce_session: after-close   # 8-K accepted 16:04 ET — the session flip
+    revenue: 627.7            # FY2024 2,355.3 − 9mo 1,727.6
+    shares_outstanding: 99.4
+    shares_short: 3.35
+    short_settlement_date: 2024-12-31
+    ytd_operating_cf: 595.4   # full-year FY2024
+    ytd_capex_ppe: 38.2
+    ytd_sbc: 195.5
+    cash: 233.0
+    total_debt: 0
+    guidance_fy_revenue_low: 2500   # FY2025 INGREZZA \$2.5–2.6B
+    guidance_fy_revenue_high: 2600
+
+  # --- FY2025: complete, displayed ---
+  - id: q1-2025
+    end_date: 2025-03-31
+    report_date: 2025-05-05
+    announce_date: 2025-05-05
+    announce_session: after-close   # 8-K accepted 16:02 ET
+    revenue: 572.6
+    shares_outstanding: 99.0
+    shares_short: 3.786
+    short_settlement_date: 2025-03-31
+    ytd_operating_cf: 64.8
+    ytd_capex_ppe: 10.7
+    ytd_sbc: 52.8
+    cash: 194.1
+    total_debt: 0
+    guidance_fy_revenue_low: 2500   # FY2025 INGREZZA reaffirmed
+    guidance_fy_revenue_high: 2600
+
+  - id: q2-2025
+    end_date: 2025-06-30
+    report_date: 2025-07-30
+    announce_date: 2025-07-30
+    announce_session: after-close   # 8-K accepted 16:02 ET
+    revenue: 687.5
+    shares_outstanding: 99.0
+    shares_short: 3.534
+    short_settlement_date: 2025-06-30
+    ytd_operating_cf: 166.8
+    ytd_capex_ppe: 23.2
+    ytd_sbc: 105.6
+    cash: 264.0
+    total_debt: 0
+    guidance_fy_revenue_low: 2500   # FY2025 INGREZZA narrowed to \$2.5–2.55B
+    guidance_fy_revenue_high: 2550
+
+  - id: q3-2025
+    end_date: 2025-09-30
+    report_date: 2025-10-28
+    announce_date: 2025-10-28
+    announce_session: after-close   # 8-K accepted 16:02 ET
+    revenue: 794.9
+    shares_outstanding: 99.7
+    shares_short: 4.263
+    short_settlement_date: 2025-09-30
+    ytd_operating_cf: 394.3
+    ytd_capex_ppe: 36.4
+    ytd_sbc: 159.3
+    cash: 340.2
+    total_debt: 0
+    guidance_fy_revenue_low: 2500   # FY2025 INGREZZA reaffirmed at \$2.5–2.55B
+    guidance_fy_revenue_high: 2550
+
+  - id: q4-2025
+    end_date: 2025-12-31
+    report_date: 2026-02-11
+    announce_date: 2026-02-11
+    announce_session: after-close   # 8-K accepted 16:02 ET
+    revenue: 805.5            # FY2025 2,860.5 − 9mo 2,055.0
+    shares_outstanding: 100.1
+    shares_short: 4.067
+    short_settlement_date: 2025-12-31
+    ytd_operating_cf: 782.7   # full-year FY2025
+    ytd_capex_ppe: 34.0
+    ytd_sbc: 217.9
+    cash: 713.0
+    total_debt: 0
+    guidance_fy_revenue_low: 2700   # FY2026 INGREZZA \$2.7–2.8B
+    guidance_fy_revenue_high: 2800
+
+  # --- FY2026: in progress ---
+  - id: q1-2026
+    end_date: 2026-03-31
+    report_date: 2026-05-05
+    announce_date: 2026-05-05
+    announce_session: after-close   # 8-K accepted 16:02 ET
+    revenue: 814.5
+    shares_outstanding: 100.6
+    shares_short: 4.557
+    short_settlement_date: 2026-03-31
+    ytd_operating_cf: 145.8
+    ytd_capex_ppe: 9.1
+    ytd_sbc: 57.2
+    cash: 266.5
+    total_debt: 0
+    guidance_fy_revenue_low: 2700   # FY2026 INGREZZA reaffirmed
+    guidance_fy_revenue_high: 2800
+
+  - id: q2-2026
+    end_date: 2026-06-30
+    report_date: 2026-07-31
+    announce_date: 2026-07-30       # earnings 8-K, evening before the 10-Q
+    announce_session: after-close   # 8-K accepted 16:02 ET
+    revenue: 959.0
+    shares_outstanding: 101.6
+    shares_short: 5.531
+    short_settlement_date: 2026-06-30
+    ytd_operating_cf: 282.2
+    ytd_capex_ppe: 16.9
+    ytd_sbc: 122.2
+    cash: 332.4
+    total_debt: 0                   # \$600M revolver drawn AND repaid within the quarter
+    guidance_fy_revenue_low: 2825   # FY2026 INGREZZA raised to \$2.825–2.875B
+    guidance_fy_revenue_high: 2875
