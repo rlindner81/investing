@@ -35,6 +35,7 @@ MD&A / press release.
 | **FY-2025** | **1,571** | — | 2,283 (mgmt) |
 | Q1-2026 | 1,732 | — | 3,476 (mgmt) |
 | **FY-2026 guide** | **1,730** (at \$4,500 gold) | — | — |
+| **FY-2026 guide, revised 2026-09-23** | **1,850–1,900** | — | — |
 
 Soft cells: Q2/Q3-2025 the CFO said AISC rose sequentially "on higher royalties
 and sustaining capital timing" but did not state a clean single number in the
@@ -72,3 +73,14 @@ on the call, not derived here.
 **Bottom line:** the AISC trend confirms KGC is a well-run, disciplined operator
 — controllable cost creep is minimal — but it also makes plain that the *margin*
 explosion is a gold-price phenomenon, not a cost-reduction one.
+
+- **The 2026-09-23 revision is the first real test — and it failed the
+  "controllable" screen.** AISC guide went \$1,730 → \$1,850–1,900 (\~+8%) while
+  spot gold had *fallen* to \~\$4,150, below the \$4,500 deck — so royalties can't
+  explain it. The driver is the denominator: production cut to 1.84–1.86 Moz
+  (La Coipa winter weather, Round Mountain mining rate/grade/recovery misses)
+  with total operating + capital dollars held "on track". Same spend over fewer
+  ounces is exactly the sequencing/operational piece this note says to watch.
+  Paracatu + Tasiast held their \~1.1 Moz, so the slippage is confined to the
+  smaller, higher-cost mines — watch whether Q3/Q4 actuals land inside the new
+  range or drift higher.
