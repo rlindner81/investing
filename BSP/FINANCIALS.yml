@@ -1,0 +1,109 @@
+# BSP (Bending Spoons S.p.A.) — figures for multiple calculations.
+# Fiscal year = calendar year. All monetary values in USD thousands (US GAAP,
+# USD reporting currency despite the Italian domicile — no `currency` needed).
+# Sources: Q2-2026 6-K EX-99.1 under BSP/quarters/; pre-IPO history from the
+# 424B4 prospectus saved at BSP/press/2026-06-30_ipo-prospectus.md.
+#
+# Notes specific to BSP:
+#   - IPO'd 2026-07-01 (Nasdaq: BSP, $29). q2-2026 is the FIRST reported quarter;
+#     every earlier quarter is pre-listing (no report_date, no price) and exists
+#     only as a TTM / YTD diff base.
+#   - The prospectus gives FY2023/24/25 annual + Q1-2025/Q1-2026 interim only; the
+#     Q2-2026 6-K adds Q2-2025 / H1-2025 comparatives. FY2023 and FY2024 have no
+#     quarterly split at all and are omitted.
+#   - Q3-2025 was NEVER published standalone. q3-2025 below is a PLACEHOLDER split
+#     of H2-2025 (= FY2025 − H1-2025):
+#       revenue 347,000 ≈ Q3-2026 guidance midpoint 739,000 ÷ 2.13 ("113% growth
+#         at the midpoint", press release) — approximate (±~1.5M from rounding);
+#       YTD cash-flow lines = H1-2025 + half of H2-2025.
+#     The split does NOT affect any TTM ending q4-2025 or later (those depend only
+#     on the H2 sum, which is exact) — only the q3-2025 column itself. Replace
+#     with the comparatives once the Q3-2026 6-K is out (~Nov 2026).
+#   - Q1-2026 OCF is the RESTATED figure (75,654; originally 123,654 — $48M of
+#     Eventbrite restricted cash was misclassified into operating cash flow).
+#   - Capex: PP&E purchases plus a tiny "Purchase of intangible assets" line
+#     (ytd_capex_intangibles). Acquisitions (the real capital deployment —
+#     $1.85B in 2025, $2.29B in H1-2026) are NOT capex in either FCF flavour.
+#   - BSP does not print a FCF figure; it cites "net cash from operating
+#     activities" and capex separately (H1-2026: $254M OCF vs ~$4M capex).
+#   - Share counts are split-adjusted (stock split 2026-04-28 + reverse split
+#     2026-05-29) and net of treasury: issued − treasury from the equity statement.
+#     Ordinary + class A (5 votes, founders) combined.
+#   - Guidance: next-quarter AND full-year revenue (plus adj. operating income),
+#     based only on businesses owned at the report date — no pending deals.
+
+unit: thousands
+
+quarters:
+  # --- 2025: pre-IPO diff base (no prices). ---
+  - id: q1-2025
+    end_date: 2025-03-31
+    revenue: 258946
+    shares_outstanding: 577664    # 654,174,045 issued − 76,509,875 treasury
+    ytd_operating_cf: 21350
+    ytd_capex_ppe: 0
+    ytd_capex_intangibles: 22
+    ytd_sbc: 16489
+    cash: 564325                  # no Q1-2025 balance sheet published; cash from CF statement
+
+  - id: q2-2025
+    end_date: 2025-06-30
+    revenue: 311100
+    shares_outstanding: 577667    # 654,174,045 issued − 76,506,794 treasury
+    ytd_operating_cf: 87733
+    ytd_capex_ppe: 282
+    ytd_capex_intangibles: 53
+    ytd_sbc: 27885
+    cash: 449654                  # from CF statement (no Q2-2025 balance sheet published)
+
+  - id: q3-2025                   # PLACEHOLDER split of H2-2025 — see header
+    end_date: 2025-09-30
+    revenue: 347000               # ≈ 739,000 ÷ 2.13 (Q3-2026 guide "113% growth at midpoint")
+    ytd_operating_cf: 189167      # 87,733 + (290,600 − 87,733) / 2
+    ytd_capex_ppe: 392            # 282 + (501 − 282) / 2
+    ytd_capex_intangibles: 60     # 53 + (67 − 53) / 2
+    ytd_sbc: 41704                # 27,885 + (55,523 − 27,885) / 2
+
+  - id: q4-2025
+    end_date: 2025-12-31
+    revenue: 389358               # FY2025 1,306,404 − H1 570,046 − Q3 placeholder 347,000
+    shares_outstanding: 596742    # 669,541,360 issued − 72,798,960 treasury (audited BS)
+    ytd_operating_cf: 290600
+    ytd_capex_ppe: 501
+    ytd_capex_intangibles: 67
+    ytd_sbc: 55523
+    cash: 629944
+    total_debt: 2670882           # 415,260 current + 2,255,622 non-current
+
+  # --- 2026 ---
+  - id: q1-2026                   # reported only in the F-1/424B4 (pre-listing)
+    end_date: 2026-03-31
+    revenue: 601321
+    shares_outstanding: 600821    # 673,541,360 issued − 72,720,690 treasury
+    ytd_operating_cf: 75654       # as restated (note 16)
+    ytd_capex_ppe: 3225
+    ytd_capex_intangibles: 0
+    ytd_sbc: 28678
+    cash: 740823
+    total_debt: 4356067           # 425,582 current + 3,930,485 non-current
+
+  - id: q2-2026
+    end_date: 2026-06-30
+    report_date: 2026-08-13
+    announce_date: 2026-08-13
+    announce_session: pre-open    # 6-K accepted 11:07 ET, but the release went out before
+                                  #   the 08:00 ET call — public before the open
+    revenue: 704155
+    shares_outstanding: 600821    # 673,541,360 − 72,720,690 at 6/30 — PRE-IPO count. The IPO
+                                  #   added 39,642,666 primary shares in July (incl. greenshoe)
+                                  #   → 640,463 post-IPO; first reflected at q3-2026.
+    ytd_operating_cf: 254240
+    ytd_capex_ppe: 3969
+    ytd_capex_intangibles: 0
+    ytd_sbc: 42984
+    cash: 792950
+    total_debt: 4881080           # 794,141 current + 4,086,939 non-current
+    guidance_nq_revenue_low: 733000     # Q3-2026 guidance (6-K EX-99.1 "Outlook")
+    guidance_nq_revenue_high: 745000
+    guidance_fy_revenue_low: 2780000    # FY2026 guidance
+    guidance_fy_revenue_high: 2820000

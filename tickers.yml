@@ -125,3 +125,6 @@ stocks:
   - symbol: NBIX
     tags: [large_cap, healthcare, biotech, pharma, neuroscience]
     benchmarks: [SPY, XBI]
+  - symbol: BSP
+    tags: [large_cap, tech, software, subscription, serial_acquirer, ai, europe]
+    benchmarks: [SPY, IGV]
