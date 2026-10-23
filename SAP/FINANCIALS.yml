@@ -266,10 +266,9 @@ quarters:
     guidance_fy_revenue_low: 36300    # FY2026 cloud+software revenue (const. curr.), reaffirmed
     guidance_fy_revenue_high: 36800
 
-  # q2-2026: announced 2026-07-23. NOT yet on EDGAR at time of entry (SAP files its
-  #   6-K on a lag); figures transcribed from SAP's official IR "Quarterly Statement
-  #   Q2 2026" PDF (https://www.sap.com/investors/sap-2026-q2-statement). Replace the
-  #   letter source in SOURCES.yml with the 6-K EX-99.1 once it appears on EDGAR.
+  # q2-2026: announced 2026-07-23. First transcribed from SAP's IR "Quarterly
+  #   Statement Q2 2026" PDF; cross-checked against the 6-K EX-99.1 filed on EDGAR
+  #   2026-07-28 (SAP/quarters/2026-07-23_q2-2026-letter.md) — all figures match.
   - id: q2-2026
     end_date: 2026-06-30
     report_date: 2026-07-23
@@ -285,4 +284,25 @@ quarters:
     cash: 10511
     total_debt: 10507               # current 1,966 + non-current 8,541
     guidance_fy_revenue_low: 36300  # FY2026 cloud+software revenue (const. curr.), reaffirmed
+    guidance_fy_revenue_high: 36800
+
+  # q3-2026: announced 2026-10-21 (press release ~16:05 EDT; call 5 PM EDT). 6-K NOT
+  #   yet on EDGAR at time of entry; figures transcribed from SAP's IR "Quarterly
+  #   Statement Q3 2026" PDF (sap.com/docs/download/investors/2026/sap-2026-q3-statement.pdf).
+  #   Cross-check against the 6-K EX-99.1 once filed.
+  - id: q3-2026
+    end_date: 2026-09-30
+    report_date: 2026-10-21
+    announce_date: 2026-10-21
+    announce_session: after-close   # results/analyst call 5 PM EDT (11 PM CEST) on the 21st
+    revenue: 10270                  # 9mo 29,703 − H1 19,432
+    shares_outstanding: 1147        # Q2 1,156 − ~8.9M bought in Q3 (cum. buyback 16.28M → 25.21M); wtd-avg basic 1,150
+    shares_short: 4.079
+    short_settlement_date: 2026-09-30
+    ytd_operating_cf: 8586          # 9mo 2026 (6,666 + 1,920)
+    ytd_capex_ppe: 618              # 8586 OCF − 7968 FCF (9mo)
+    ytd_sbc: 1227                   # 9mo 2026 SBC expense (cash-flow add-back)
+    cash: 9364
+    total_debt: 10588               # current 2,053 + non-current 8,535
+    guidance_fy_revenue_low: 36300  # FY2026 cloud+software revenue (const. curr.), now "toward the upper end"
     guidance_fy_revenue_high: 36800

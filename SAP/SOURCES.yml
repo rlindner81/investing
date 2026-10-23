@@ -5,7 +5,7 @@ _meta:
   # quarterly income statement, balance sheet, cash flow, and revenue guidance).
   # Reports in EUR. No quarterly XBRL is submitted to the SEC, so every quarterly
   # figure in FINANCIALS.yml is transcribed by hand from the 6-K press releases.
-  home_exchange: xetra          # stockanalysis.com keys SAP under its US NYSE ADR though
+  home_exchange: etr            # stockanalysis.com keys SAP transcripts under Xetra (quote/etr/SAP)
   home_ticker: SAP
 
 # --- Annual 20-F filings (auto-discovered) ---
@@ -37,17 +37,25 @@ _meta:
   report_type: 20-F
 
 # --- Interim quarters (6-K earnings press release, EX-99.1) ---
+# The 6-K lands ~5 days after the German release, so the newest quarter often
+# has no `letter:` yet — transcribe from the IR PDF meanwhile
+# (sap.com/docs/download/investors/<year>/sap-<year>-q<n>-statement.pdf)
+# and add the 6-K EX-99.1 once filed.
+'2026-10-21':
+  quarter: q3-2026
+  period_end: '2026-09-30'
+  transcript: https://stockanalysis.com/quote/etr/SAP/transcripts/655346-q3-2026/
+'2026-07-23':
+  quarter: q2-2026
+  period_end: '2026-06-30'
+  letter: https://www.sec.gov/Archives/edgar/data/1000184/000110465926087251/tm2621275d1_ex99-1.htm
+  letter_type: 6-K
+  transcript: https://stockanalysis.com/quote/etr/SAP/transcripts/546397-q2-2026/
 '2026-04-28':
   quarter: q1-2026
   period_end: '2026-03-31'
   letter: https://www.sec.gov/Archives/edgar/data/1000184/000110465926049650/tm2612672d1_ex99-1.htm
   letter_type: 6-K
-# q2-2026 (announced 2026-07-23) is NOT YET on EDGAR — SAP furnishes its 6-K a few
-#   days to weeks after the German press release. Its FINANCIALS.yml figures were
-#   transcribed from SAP's official IR "Quarterly Statement Q2 2026" PDF:
-#     https://www.sap.com/docs/download/investors/2026/sap-2026-q2-statement.pdf
-#   Add the EDGAR 6-K EX-99.1 as a proper letter entry once it appears:
-#   check https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001000184&type=6-K
 '2025-10-27':
   quarter: q3-2025
   period_end: '2025-09-30'
