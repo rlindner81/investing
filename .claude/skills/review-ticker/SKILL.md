@@ -23,7 +23,7 @@ Before doing any work, check whether a review already exists for the current wee
 week_start=$(date -v-mon +%F)
 ls $ARGUMENTS/reviews/*-review.md 2>/dev/null \
   | sed 's#.*/##; s/-review\.md$//' \
-  | awk -v w="$week_start" '$0 >= w { print }'
+  | awk -v w="$week_start" '$NF >= w { print }'
 ```
 
 If that prints any date, a review already exists for this week. **Stop immediately** — do not run any scripts, create temp directories, or search the web. Report back to the user that a review already exists for `$ARGUMENTS` this week and give its path (`$ARGUMENTS/reviews/<date>-review.md`), then end the run. Only continue to Setup if nothing was printed.
