@@ -128,3 +128,9 @@ stocks:
   - symbol: BSP
     tags: [large_cap, tech, software, subscription, serial_acquirer, ai, europe]
     benchmarks: [SPY, IGV]
+  - symbol: EBAY
+    tags: [large_cap, ecommerce, marketplace, advertising]
+    benchmarks: [SPY, ONLN]
+  - symbol: TMUS
+    tags: [large_cap, telecom, wireless, broadband, subscription]
+    benchmarks: [SPY, XLC]

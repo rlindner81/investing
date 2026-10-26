@@ -1,0 +1,280 @@
+# EBAY (eBay Inc.) — figures for multiple calculations.
+# Fiscal year = calendar year. All monetary values in USD millions (eBay reports in
+# millions, so precision is limited to the filing's rounding).
+# Source: SEC reports/letters under EBAY/quarters/, cross-checked against EDGAR XBRL
+# companyfacts. See CLAUDE.md → "Valuation Multiples".
+#
+# Notes specific to EBAY:
+#   - Only capitalized line is PP&E ("Purchases of property and equipment"), so
+#     `company` and `strict` FCF are identical apart from SBC.
+#   - OCF = "Net cash provided by CONTINUING operating activities" — eBay's own FCF
+#     (continuing OCF − PP&E purchases) is built on that line. Discontinued-ops cash
+#     (small, legacy divestiture tails) is excluded.
+#   - ASU 2025-06 (internal-use software) adopted 2026-01-01, full retrospective. The
+#     2026 10-Qs restate 2025 comparatives: OCF and capex BOTH drop by the same amount
+#     (Q1-25 787/143 → 755/111; H1-25 480/277 → 415/212), so FCF is unchanged. Values
+#     here are as ORIGINALLY reported for each quarter (2025 on the old basis, 2026 on
+#     the new) — TTM OCF/capex across the 2025/26 boundary mix bases, TTM FCF does not.
+#   - Q1-2025 10-Q was amended (10-Q/A, 2025-05-09); figures unchanged.
+#   - Guidance: next-quarter revenue range every quarter (8-K EX-99.1 "Business
+#     Outlook"). Full-year revenue ranges are only printed at the Q3 report (i.e.
+#     FY = implied Q4). Q2-2026 is the exception: the CFO guided FY2026 revenue growth
+#     of 11–12% FX-neutral on the call, converted here on the FY2025 base.
+#   - shares_outstanding = balance-sheet common shares outstanding (millions, rounded),
+#     net of treasury. Single share class.
+#   - total_debt = short-term debt (current notes + commercial paper) + long-term debt.
+#   - report_date = announce_date = the earnings 8-K (item 2.02) date. eBay always
+#     releases at ~4:05pm ET (after-close). The 10-Q/10-K usually files 1–7 days later,
+#     which is the date prefix on the quarters/ files and SOURCES.yml keys.
+
+unit: millions
+
+quarters:
+
+  - id: q1-2023
+    end_date: 2023-03-31
+    report_date: 2023-04-26
+    announce_date: 2023-04-26
+    announce_session: after-close
+    revenue: 2510
+    shares_outstanding: 536
+    shares_short: 14.284
+    short_settlement_date: 2023-03-31
+    ytd_operating_cf: 841
+    ytd_capex_ppe: 132
+    ytd_sbc: 128
+    cash: 2082
+    total_debt: 7721            # short-term 0 + long-term 7,721
+    guidance_nq_revenue_low: 2470       # Q2-2023 guidance ($2.47B–$2.54B)
+    guidance_nq_revenue_high: 2540
+
+  - id: q2-2023
+    end_date: 2023-06-30
+    report_date: 2023-07-26
+    announce_date: 2023-07-26
+    announce_session: after-close
+    revenue: 2540
+    shares_outstanding: 533
+    shares_short: 16.391
+    short_settlement_date: 2023-06-30
+    ytd_operating_cf: 1446
+    ytd_capex_ppe: 245
+    ytd_sbc: 282
+    cash: 2268
+    total_debt: 7721            # short-term 0 + long-term 7,721
+    guidance_nq_revenue_low: 2460       # Q3-2023 guidance ($2.46B–$2.52B)
+    guidance_nq_revenue_high: 2520
+
+  - id: q3-2023
+    end_date: 2023-09-30
+    report_date: 2023-11-07
+    announce_date: 2023-11-07
+    announce_session: after-close
+    revenue: 2500
+    shares_outstanding: 520
+    shares_short: 16.986
+    short_settlement_date: 2023-09-29
+    ytd_operating_cf: 2308
+    ytd_capex_ppe: 330
+    ytd_sbc: 426
+    cash: 2550
+    total_debt: 7723            # short-term 750 + long-term 6,973
+    guidance_nq_revenue_low: 2470       # Q4-2023 guidance ($2.47B–$2.53B)
+    guidance_nq_revenue_high: 2530
+    guidance_fy_revenue_low: 10020      # FY2023 guidance ($10.02B–$10.08B)
+    guidance_fy_revenue_high: 10080
+
+  - id: q4-2023
+    end_date: 2023-12-31
+    report_date: 2024-02-27
+    announce_date: 2024-02-27
+    announce_session: after-close
+    revenue: 2562              # FY2023 10,112 − 9mo 7,550
+    shares_outstanding: 517
+    shares_short: 20.227
+    short_settlement_date: 2023-12-29
+    ytd_operating_cf: 2431
+    ytd_capex_ppe: 456
+    ytd_sbc: 575
+    cash: 1985
+    total_debt: 7723            # short-term 750 + long-term 6,973
+    guidance_nq_revenue_low: 2500       # Q1-2024 guidance ($2.50B–$2.54B)
+    guidance_nq_revenue_high: 2540
+
+  - id: q1-2024
+    end_date: 2024-03-31
+    report_date: 2024-05-01
+    announce_date: 2024-05-01
+    announce_session: after-close
+    revenue: 2556
+    shares_outstanding: 509
+    shares_short: 18.087
+    short_settlement_date: 2024-03-28
+    ytd_operating_cf: 615
+    ytd_capex_ppe: 143
+    ytd_sbc: 146
+    cash: 2130
+    total_debt: 7725            # short-term 1,551 + long-term 6,174
+    guidance_nq_revenue_low: 2490       # Q2-2024 guidance ($2.49B–$2.54B)
+    guidance_nq_revenue_high: 2540
+
+  - id: q2-2024
+    end_date: 2024-06-30
+    report_date: 2024-07-31
+    announce_date: 2024-07-31
+    announce_session: after-close
+    revenue: 2572
+    shares_outstanding: 494
+    shares_short: 24.953
+    short_settlement_date: 2024-06-28
+    ytd_operating_cf: 982
+    ytd_capex_ppe: 232
+    ytd_sbc: 300
+    cash: 1963
+    total_debt: 7725            # short-term 1,551 + long-term 6,174
+    guidance_nq_revenue_low: 2500       # Q3-2024 guidance ($2.50B–$2.56B)
+    guidance_nq_revenue_high: 2560
+
+  - id: q3-2024
+    end_date: 2024-09-30
+    report_date: 2024-10-30
+    announce_date: 2024-10-30
+    announce_session: after-close
+    revenue: 2576
+    shares_outstanding: 482
+    shares_short: 22.086
+    short_settlement_date: 2024-09-30
+    ytd_operating_cf: 1737
+    ytd_capex_ppe: 341
+    ytd_sbc: 446
+    cash: 1589
+    total_debt: 7418            # short-term 1,243 + long-term 6,175
+    guidance_nq_revenue_low: 2530       # Q4-2024 guidance ($2.53B–$2.59B)
+    guidance_nq_revenue_high: 2590
+    guidance_fy_revenue_low: 10230      # FY2024 guidance ($10.23B–$10.29B)
+    guidance_fy_revenue_high: 10290
+
+  - id: q4-2024
+    end_date: 2024-12-31
+    report_date: 2025-02-26
+    announce_date: 2025-02-26
+    announce_session: after-close
+    revenue: 2579              # FY2024 10,283 − 9mo 7,704
+    shares_outstanding: 471
+    shares_short: 18.873
+    short_settlement_date: 2024-12-31
+    ytd_operating_cf: 2414
+    ytd_capex_ppe: 458
+    ytd_sbc: 588
+    cash: 2433
+    total_debt: 7425            # short-term 1,673 + long-term 5,752
+    guidance_nq_revenue_low: 2520       # Q1-2025 guidance ($2.52B–$2.56B)
+    guidance_nq_revenue_high: 2560
+
+  - id: q1-2025
+    end_date: 2025-03-31
+    report_date: 2025-04-30
+    announce_date: 2025-04-30
+    announce_session: after-close
+    revenue: 2585
+    shares_outstanding: 463
+    shares_short: 22.398
+    short_settlement_date: 2025-03-31
+    ytd_operating_cf: 787
+    ytd_capex_ppe: 143
+    ytd_sbc: 136
+    cash: 3031
+    total_debt: 6745            # short-term 994 + long-term 5,751
+    guidance_nq_revenue_low: 2590       # Q2-2025 guidance ($2.59B–$2.66B)
+    guidance_nq_revenue_high: 2660
+
+  - id: q2-2025
+    end_date: 2025-06-30
+    report_date: 2025-07-30
+    announce_date: 2025-07-30
+    announce_session: after-close
+    revenue: 2730
+    shares_outstanding: 459
+    shares_short: 20.689
+    short_settlement_date: 2025-06-30
+    ytd_operating_cf: 480
+    ytd_capex_ppe: 277
+    ytd_sbc: 301
+    cash: 2070
+    total_debt: 6748            # short-term 1,746 + long-term 5,002
+    guidance_nq_revenue_low: 2690       # Q3-2025 guidance ($2.69B–$2.74B)
+    guidance_nq_revenue_high: 2740
+
+  - id: q3-2025
+    end_date: 2025-09-30
+    report_date: 2025-10-29
+    announce_date: 2025-10-29
+    announce_session: after-close
+    revenue: 2820
+    shares_outstanding: 454
+    shares_short: 15.489
+    short_settlement_date: 2025-09-30
+    ytd_operating_cf: 1414
+    ytd_capex_ppe: 408
+    ytd_sbc: 448
+    cash: 2423
+    total_debt: 6751            # short-term 1,748 + long-term 5,003
+    guidance_nq_revenue_low: 2830       # Q4-2025 guidance ($2.83B–$2.89B)
+    guidance_nq_revenue_high: 2890
+    guidance_fy_revenue_low: 10970      # FY2025 guidance ($10.97B–$11.03B)
+    guidance_fy_revenue_high: 11030
+
+  - id: q4-2025
+    end_date: 2025-12-31
+    report_date: 2026-02-18
+    announce_date: 2026-02-18
+    announce_session: after-close
+    revenue: 2965              # FY2025 11,100 − 9mo 8,135
+    shares_outstanding: 449
+    shares_short: 12.12
+    short_settlement_date: 2025-12-31
+    ytd_operating_cf: 2009
+    ytd_capex_ppe: 525
+    ytd_sbc: 607
+    cash: 1867
+    total_debt: 6746            # short-term 750 + long-term 5,996
+    guidance_nq_revenue_low: 3000       # Q1-2026 guidance ($3.00B–$3.05B)
+    guidance_nq_revenue_high: 3050
+    guidance_fy_hint: qualitative         # FY rev 'in line to slightly ahead of GMV' — no range
+
+  - id: q1-2026
+    end_date: 2026-03-31
+    report_date: 2026-04-29
+    announce_date: 2026-04-29
+    announce_session: after-close
+    revenue: 3089
+    shares_outstanding: 446
+    shares_short: 13.12
+    short_settlement_date: 2026-03-31
+    ytd_operating_cf: 970
+    ytd_capex_ppe: 72
+    ytd_sbc: 156
+    cash: 2894
+    total_debt: 6744            # short-term 750 + long-term 5,994
+    guidance_nq_revenue_low: 2970       # Q2-2026 guidance ($2.97B–$3.03B)
+    guidance_nq_revenue_high: 3030
+    guidance_fy_hint: qualitative         # FY rev 'in line to slightly ahead of GMV' — no range
+
+  - id: q2-2026
+    end_date: 2026-06-30
+    report_date: 2026-08-05
+    announce_date: 2026-08-05
+    announce_session: after-close
+    revenue: 3134
+    shares_outstanding: 445
+    shares_short: 14.812
+    short_settlement_date: 2026-06-30
+    ytd_operating_cf: 1519
+    ytd_capex_ppe: 295
+    ytd_sbc: 338
+    cash: 2310
+    total_debt: 6735            # short-term 1,593 + long-term 5,142
+    guidance_nq_revenue_low: 3070       # Q3-2026 guidance ($3.07B–$3.12B)
+    guidance_nq_revenue_high: 3120
+    guidance_fy_revenue_low: 12321      # FY2026: 11–12% FX-neutral growth on FY2025 11,100 (CFO, call)
+    guidance_fy_revenue_high: 12432

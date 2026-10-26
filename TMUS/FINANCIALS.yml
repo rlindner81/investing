@@ -1,0 +1,318 @@
+# TMUS (T-Mobile US, Inc.) — figures for multiple calculations.
+# Fiscal year = calendar year. All monetary values in USD MILLIONS (T-Mobile
+# reports in millions); share counts also in millions. Source: SEC reports and
+# 8-K EX-99.1 press releases under TMUS/quarters/, cross-checked against EDGAR
+# XBRL companyfacts. See CLAUDE.md → "Valuation Multiples".
+#
+# Notes specific to TMUS:
+#   - Cash-flow statement is YEAR-TO-DATE (also prints a 3-month column); entered
+#     as YTD. Q4 revenue = FY total − 9-month YTD (comment shows the subtraction).
+#   - ytd_capex_ppe = "Purchases of property and equipment, including capitalized
+#     interest". ytd_capex_spectrum = "Purchases of spectrum licenses and other
+#     intangible assets, including deposits" — lumpy (auction 108 in Q3-2024,
+#     UScellular/other spectrum in 2025), so it only feeds the `strict` FCF row.
+#   - FCF RECONCILIATION QUIRK: T-Mobile's "Adjusted Free Cash Flow" = OCF − cash
+#     PP&E capex + proceeds from tower-site sales + "proceeds related to beneficial
+#     interests in securitization transactions" (an investing-section inflow from
+#     the EIP/service-receivable securitizations). Those proceeds were large through
+#     2024 (FY2023 4,816; FY2024 3,579) and ZERO from 2025 on, so:
+#       FY2023: 18,559 − 9,801 = 8,758  vs company 13,586 (+12 tower +4,816 BI)
+#       FY2024: 22,293 − 8,840 = 13,453 vs company 17,032 (+3,579 BI)
+#       FY2025: 27,950 − 9,955 = 17,995 vs company ~18.0B  (reconciles)
+#     The `company` FCF row here therefore UNDERSTATES TMUS's own 2023–2024 FCF.
+#     Kept as OCF − PP&E for schema consistency (the BI proceeds are not a capex
+#     line and the tool has no add-back key).
+#   - total_debt = Short-term debt + Long-term debt + Long-term debt to affiliates
+#     (DT-held notes; 1,498 repaid by Q1-2026). EXCLUDES financing-lease liabilities
+#     (~1.2B short + ~1.2B long) and tower obligations; T-Mobile's own "net debt"
+#     includes financing leases, so its headline is slightly higher.
+#   - shares_outstanding = common shares outstanding net of treasury, from the
+#     balance-sheet parenthetical (single class). Dec-2023 jump (+33.8M) = 48.8M
+#     SoftBank contingent shares issued, net of buybacks.
+#   - GUIDANCE QUIRK: T-Mobile NEVER guides revenue (not even service revenue) —
+#     FY guidance is postpaid net customer (2026: net ACCOUNT) adds, Core Adjusted
+#     EBITDA, OCF, cash capex and Adjusted FCF; no quarterly guidance at all. So
+#     guidance_fy_hint: ebitda-only / guidance_nq_hint: not-guided throughout; the
+#     Core Adj. EBITDA and Adj. FCF ranges as issued at each report are recorded in
+#     comments (USD millions). FY2026 guide includes UScellular (closed Aug 1 2025).
+#   - Announcement timing alternates: Q2/Q3/Q4 releases are often PRE-OPEN, Q1 and
+#     some others AFTER-CLOSE; each entry's session is from the 8-K item 2.02
+#     acceptance timestamp.
+
+unit: millions
+
+quarters:
+  # --- FY2022 Q4: reach-back diff base ---
+  - id: q4-2022
+    end_date: 2022-12-31
+    report_date: 2023-02-01
+    announce_date: 2023-02-01
+    announce_session: pre-open        # 8-K item 2.02 accepted 2023-02-01 12:03 UTC = 07:03 ET
+    revenue: 20273           # FY2022 79,571 − 9mo 59,298
+    shares_outstanding: 1233.96
+    shares_short: 17.577
+    short_settlement_date: 2022-12-30
+    ytd_operating_cf: 16781
+    ytd_capex_ppe: 13970
+    ytd_capex_spectrum: 3331
+    ytd_sbc: 595
+    cash: 4507
+    total_debt: 71960
+    guidance_nq_hint: not-guided
+    guidance_fy_hint: ebitda-only     # FY2023 Core Adj. EBITDA 28,700–29,200; Adj. FCF 13,100–13,600
+
+  # --- FY2023 ---
+  - id: q1-2023
+    end_date: 2023-03-31
+    report_date: 2023-04-27
+    announce_date: 2023-04-27
+    announce_session: after-close     # 8-K item 2.02 accepted 2023-04-27 20:03 UTC = 16:03 ET
+    revenue: 19632
+    shares_outstanding: 1204.696
+    shares_short: 32.188
+    short_settlement_date: 2023-03-31
+    ytd_operating_cf: 4051
+    ytd_capex_ppe: 3001
+    ytd_capex_spectrum: 73
+    ytd_sbc: 177
+    cash: 4540
+    total_debt: 74745
+    guidance_nq_hint: not-guided
+    guidance_fy_hint: ebitda-only     # FY2023 Core Adj. EBITDA 28,800–29,200; Adj. FCF 13,200–13,600
+
+  - id: q2-2023
+    end_date: 2023-06-30
+    report_date: 2023-07-27
+    announce_date: 2023-07-27
+    announce_session: after-close     # 8-K item 2.02 accepted 2023-07-27 20:07 UTC = 16:07 ET
+    revenue: 19196
+    shares_outstanding: 1180.399
+    shares_short: 24.31
+    short_settlement_date: 2023-06-30
+    ytd_operating_cf: 8406
+    ytd_capex_ppe: 5790
+    ytd_capex_spectrum: 106
+    ytd_sbc: 344
+    cash: 6647
+    total_debt: 77872
+    guidance_nq_hint: not-guided
+    guidance_fy_hint: ebitda-only     # FY2023 Core Adj. EBITDA 28,900–29,200; Adj. FCF 13,200–13,600
+
+  - id: q3-2023
+    end_date: 2023-09-30
+    report_date: 2023-10-25
+    announce_date: 2023-10-25
+    announce_session: pre-open        # 8-K item 2.02 accepted 2023-10-25 10:53 UTC = 06:53 ET
+    revenue: 19252
+    shares_outstanding: 1161.98
+    shares_short: 25.407
+    short_settlement_date: 2023-09-29
+    ytd_operating_cf: 13700
+    ytd_capex_ppe: 8214
+    ytd_capex_spectrum: 225
+    ytd_sbc: 500
+    cash: 5030
+    total_debt: 75298
+    guidance_nq_hint: not-guided
+    guidance_fy_hint: ebitda-only     # FY2023 Core Adj. EBITDA 29,000–29,200; Adj. FCF 13,400–13,600
+
+  - id: q4-2023
+    end_date: 2023-12-31
+    report_date: 2024-01-25
+    announce_date: 2024-01-25
+    announce_session: after-close     # 8-K item 2.02 accepted 2024-01-25 21:04 UTC = 16:04 ET
+    revenue: 20478           # FY2023 78,558 − 9mo 58,080
+    shares_outstanding: 1195.807
+    shares_short: 24.477
+    short_settlement_date: 2023-12-29
+    ytd_operating_cf: 18559
+    ytd_capex_ppe: 9801
+    ytd_capex_spectrum: 1010
+    ytd_sbc: 667
+    cash: 5135
+    total_debt: 75018
+    guidance_nq_hint: not-guided
+    guidance_fy_hint: ebitda-only     # FY2024 Core Adj. EBITDA 31,300–31,900; Adj. FCF 16,300–16,900
+
+  # --- FY2024 ---
+  - id: q1-2024
+    end_date: 2024-03-31
+    report_date: 2024-04-25
+    announce_date: 2024-04-25
+    announce_session: after-close     # 8-K item 2.02 accepted 2024-04-25 20:06 UTC = 16:06 ET
+    revenue: 19594
+    shares_outstanding: 1177.24
+    shares_short: 24.123
+    short_settlement_date: 2024-03-28
+    ytd_operating_cf: 5084
+    ytd_capex_ppe: 2627
+    ytd_capex_spectrum: 61
+    ytd_sbc: 140
+    cash: 6708
+    total_debt: 78213
+    guidance_nq_hint: not-guided
+    guidance_fy_hint: ebitda-only     # FY2024 Core Adj. EBITDA 31,400–31,900; Adj. FCF 16,400–16,900
+
+  - id: q2-2024
+    end_date: 2024-06-30
+    report_date: 2024-07-31
+    announce_date: 2024-07-31
+    announce_session: pre-open        # 8-K item 2.02 accepted 2024-07-31 11:00 UTC = 07:00 ET
+    revenue: 19772
+    shares_outstanding: 1166.773
+    shares_short: 19.519
+    short_settlement_date: 2024-06-28
+    ytd_operating_cf: 10605
+    ytd_capex_ppe: 4667
+    ytd_capex_spectrum: 217
+    ytd_sbc: 304
+    cash: 6417
+    total_debt: 77566
+    guidance_nq_hint: not-guided
+    guidance_fy_hint: ebitda-only     # FY2024 Core Adj. EBITDA 31,500–31,800; Adj. FCF 16,600–17,000
+
+  - id: q3-2024
+    end_date: 2024-09-30
+    report_date: 2024-10-23
+    announce_date: 2024-10-23
+    announce_session: after-close     # 8-K item 2.02 accepted 2024-10-23 20:05 UTC = 16:05 ET
+    revenue: 20162
+    shares_outstanding: 1164.614
+    shares_short: 13.914
+    short_settlement_date: 2024-09-30
+    ytd_operating_cf: 16744
+    ytd_capex_ppe: 6628
+    ytd_capex_spectrum: 2636
+    ytd_sbc: 474
+    cash: 9754
+    total_debt: 79870
+    guidance_nq_hint: not-guided
+    guidance_fy_hint: ebitda-only     # FY2024 Core Adj. EBITDA 31,600–31,800; Adj. FCF 16,700–17,000
+
+  - id: q4-2024
+    end_date: 2024-12-31
+    report_date: 2025-01-29
+    announce_date: 2025-01-29
+    announce_session: pre-open        # 8-K item 2.02 accepted 2025-01-29 12:07 UTC = 07:07 ET
+    revenue: 21872           # FY2024 81,400 − 9mo 59,528
+    shares_outstanding: 1144.58
+    shares_short: 14.47
+    short_settlement_date: 2024-12-31
+    ytd_operating_cf: 22293
+    ytd_capex_ppe: 8840
+    ytd_capex_spectrum: 3471
+    ytd_sbc: 649
+    cash: 5409
+    total_debt: 78265
+    guidance_nq_hint: not-guided
+    guidance_fy_hint: ebitda-only     # FY2025 Core Adj. EBITDA 33,100–33,600; Adj. FCF 17,300–18,000
+
+  # --- FY2025 ---
+  - id: q1-2025
+    end_date: 2025-03-31
+    report_date: 2025-04-24
+    announce_date: 2025-04-24
+    announce_session: after-close     # 8-K item 2.02 accepted 2025-04-24 20:04 UTC = 16:04 ET
+    revenue: 20886
+    shares_outstanding: 1137.34
+    shares_short: 13.203
+    short_settlement_date: 2025-03-31
+    ytd_operating_cf: 6847
+    ytd_capex_ppe: 2451
+    ytd_capex_spectrum: 73
+    ytd_sbc: 186
+    cash: 12003
+    total_debt: 85744
+    guidance_nq_hint: not-guided
+    guidance_fy_hint: ebitda-only     # FY2025 Core Adj. EBITDA 33,200–33,700; Adj. FCF 17,500–18,000
+
+  - id: q2-2025
+    end_date: 2025-06-30
+    report_date: 2025-07-23
+    announce_date: 2025-07-23
+    announce_session: after-close     # 8-K item 2.02 accepted 2025-07-23 20:03 UTC = 16:03 ET
+    revenue: 21132
+    shares_outstanding: 1127.451
+    shares_short: 16.255
+    short_settlement_date: 2025-06-30
+    ytd_operating_cf: 13839
+    ytd_capex_ppe: 4847
+    ytd_capex_spectrum: 915
+    ytd_sbc: 386
+    cash: 10259
+    total_debt: 82923
+    guidance_nq_hint: not-guided
+    guidance_fy_hint: ebitda-only     # FY2025 Core Adj. EBITDA 33,300–33,700; Adj. FCF 17,600–18,000
+
+  - id: q3-2025
+    end_date: 2025-09-30
+    report_date: 2025-10-23
+    announce_date: 2025-10-23
+    announce_session: pre-open        # 8-K item 2.02 accepted 2025-10-23 11:00 UTC = 07:00 ET
+    revenue: 21957
+    shares_outstanding: 1118.506
+    shares_short: 13.289
+    short_settlement_date: 2025-09-30
+    ytd_operating_cf: 21296
+    ytd_capex_ppe: 7486
+    ytd_capex_spectrum: 2505
+    ytd_sbc: 613
+    cash: 3310
+    total_debt: 84196
+    guidance_nq_hint: not-guided
+    guidance_fy_hint: ebitda-only     # FY2025 Core Adj. EBITDA 33,700–33,900; Adj. FCF 17,800–18,000
+
+  - id: q4-2025
+    end_date: 2025-12-31
+    report_date: 2026-02-11
+    announce_date: 2026-02-11
+    announce_session: pre-open        # 8-K item 2.02 accepted 2026-02-11 12:37 UTC = 07:37 ET
+    revenue: 24334           # FY2025 88,309 − 9mo 63,975
+    shares_outstanding: 1106.931
+    shares_short: 15.521
+    short_settlement_date: 2025-12-31
+    ytd_operating_cf: 27950
+    ytd_capex_ppe: 9955
+    ytd_capex_spectrum: 2568
+    ytd_sbc: 829
+    cash: 5598
+    total_debt: 86282
+    guidance_nq_hint: not-guided
+    guidance_fy_hint: ebitda-only     # FY2026 Core Adj. EBITDA 37,000–37,500; Adj. FCF 18,000–18,700
+
+  # --- FY2026 ---
+  - id: q1-2026
+    end_date: 2026-03-31
+    report_date: 2026-04-28
+    announce_date: 2026-04-28
+    announce_session: after-close     # 8-K item 2.02 accepted 2026-04-28 20:03 UTC = 16:03 ET
+    revenue: 23107
+    shares_outstanding: 1085.872
+    shares_short: 21.359
+    short_settlement_date: 2026-03-31
+    ytd_operating_cf: 7222
+    ytd_capex_ppe: 2623
+    ytd_capex_spectrum: 26
+    ytd_sbc: 209
+    cash: 3520
+    total_debt: 86047
+    guidance_nq_hint: not-guided
+    guidance_fy_hint: ebitda-only     # FY2026 Core Adj. EBITDA 37,100–37,500; Adj. FCF 18,100–18,700
+
+  - id: q2-2026
+    end_date: 2026-06-30
+    report_date: 2026-07-23
+    announce_date: 2026-07-23
+    announce_session: pre-open        # 8-K item 2.02 accepted 2026-07-23 10:29 UTC = 06:29 ET
+    revenue: 22791
+    shares_outstanding: 1074.818
+    shares_short: 20.011
+    short_settlement_date: 2026-06-30
+    ytd_operating_cf: 14722
+    ytd_capex_ppe: 5326
+    ytd_capex_spectrum: 510
+    ytd_sbc: 423
+    cash: 2825
+    total_debt: 84621
+    guidance_nq_hint: not-guided
+    guidance_fy_hint: ebitda-only     # FY2026 Core Adj. EBITDA 37,100–37,500; Adj. FCF 18,400–18,800

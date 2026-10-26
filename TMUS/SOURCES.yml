@@ -1,0 +1,122 @@
+_meta:
+  cik: 0001283699
+'2023-02-01':
+  quarter: q4-2022
+  period_end: '2022-12-31'
+  report: https://www.sec.gov/Archives/edgar/data/1283699/000128369923000016/
+  report_type: 10-K
+  letter: https://www.sec.gov/Archives/edgar/data/1283699/000128369923000007/tmus12312022ex991.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/tmus/transcripts/40421-q4-2022/
+'2023-04-27':
+  quarter: q1-2023
+  period_end: '2023-03-31'
+  report: https://www.sec.gov/Archives/edgar/data/1283699/000128369923000087/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1283699/000128369923000086/tmus03312023ex991.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/tmus/transcripts/51633-q1-2023/
+'2023-07-27':
+  quarter: q2-2023
+  period_end: '2023-06-30'
+  report: https://www.sec.gov/Archives/edgar/data/1283699/000128369923000134/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1283699/000128369923000133/tmus06302023ex991.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/tmus/transcripts/65254-q2-2023/
+'2023-10-25':
+  quarter: q3-2023
+  period_end: '2023-09-30'
+  report: https://www.sec.gov/Archives/edgar/data/1283699/000128369923000151/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1283699/000128369923000149/tmus09302023ex991.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/tmus/transcripts/85683-q3-2023/
+'2024-01-25':
+  quarter: q4-2023
+  period_end: '2023-12-31'
+  report: https://www.sec.gov/Archives/edgar/data/1283699/000128369924000008/
+  report_type: 10-K
+  letter: https://www.sec.gov/Archives/edgar/data/1283699/000128369924000004/tmus12312023ex991.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/tmus/transcripts/126019-q4-2023/
+'2024-04-25':
+  quarter: q1-2024
+  period_end: '2024-03-31'
+  report: https://www.sec.gov/Archives/edgar/data/1283699/000128369924000065/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1283699/000128369924000062/tmus03312024ex991.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/tmus/transcripts/162054-q1-2024/
+'2024-07-31':
+  quarter: q2-2024
+  period_end: '2024-06-30'
+  report: https://www.sec.gov/Archives/edgar/data/1283699/000128369924000111/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1283699/000128369924000109/tmus06302024ex991.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/tmus/transcripts/188475-q2-2024/
+'2024-10-23':
+  quarter: q3-2024
+  period_end: '2024-09-30'
+  report: https://www.sec.gov/Archives/edgar/data/1283699/000128369924000142/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1283699/000128369924000141/tmus09302024ex991.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/tmus/transcripts/217338-q3-2024/
+'2025-01-29':
+  quarter: q4-2024
+  period_end: '2024-12-31'
+  report: https://www.sec.gov/Archives/edgar/data/1283699/000128369925000012/
+  report_type: 10-K
+  letter: https://www.sec.gov/Archives/edgar/data/1283699/000128369925000008/tmus12312024ex991.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/tmus/transcripts/242177-q4-2024/
+'2025-04-24':
+  quarter: q1-2025
+  period_end: '2025-03-31'
+  report: https://www.sec.gov/Archives/edgar/data/1283699/000128369925000079/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1283699/000128369925000078/tmus03312025ex991.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/tmus/transcripts/310496-q1-2025/
+'2025-07-23':
+  quarter: q2-2025
+  period_end: '2025-06-30'
+  report: https://www.sec.gov/Archives/edgar/data/1283699/000128369925000117/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1283699/000128369925000116/tmus06302025ex991.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/tmus/transcripts/338605-q2-2025/
+'2025-10-23':
+  quarter: q3-2025
+  period_end: '2025-09-30'
+  report: https://www.sec.gov/Archives/edgar/data/1283699/000128369925000154/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1283699/000128369925000153/tmus09302025ex991.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/tmus/transcripts/366283-q3-2025/
+'2026-02-11':
+  quarter: q4-2025
+  period_end: '2025-12-31'
+  report: https://www.sec.gov/Archives/edgar/data/1283699/000128369926000010/
+  report_type: 10-K
+  letter: https://www.sec.gov/Archives/edgar/data/1283699/000128369926000007/tmus12312025ex991.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/tmus/transcripts/402237-q4-2025/
+'2026-04-28':
+  quarter: q1-2026
+  period_end: '2026-03-31'
+  report: https://www.sec.gov/Archives/edgar/data/1283699/000128369926000063/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1283699/000128369926000062/tmus03312026ex991.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/tmus/transcripts/551990-q1-2026/
+'2026-07-23':
+  quarter: q2-2026
+  period_end: '2026-06-30'
+  report: https://www.sec.gov/Archives/edgar/data/1283699/000128369926000101/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1283699/000128369926000100/tmus06302026ex991.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/tmus/transcripts/656421-q2-2026/

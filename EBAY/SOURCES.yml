@@ -1,0 +1,114 @@
+_meta:
+  cik: 0001065088
+'2026-08-06':
+  quarter: q2-2026
+  period_end: '2026-06-30'
+  report: https://www.sec.gov/Archives/edgar/data/1065088/000106508826000177/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1065088/000106508826000174/exhibit991erebayq22026.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/ebay/transcripts/657361-q2-2026/
+'2026-04-29':
+  quarter: q1-2026
+  period_end: '2026-03-31'
+  report: https://www.sec.gov/Archives/edgar/data/1065088/000106508826000093/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1065088/000106508826000092/exhibit991erebayq12026.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/ebay/transcripts/559417-q1-2026/
+'2026-02-19':
+  quarter: q4-2025
+  period_end: '2025-12-31'
+  report: https://www.sec.gov/Archives/edgar/data/1065088/000106508826000027/
+  report_type: 10-K
+  letter: https://www.sec.gov/Archives/edgar/data/1065088/000106508826000017/exhibit991erebayq42025.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/ebay/transcripts/404303-q4-2025/
+'2025-10-30':
+  quarter: q3-2025
+  period_end: '2025-09-30'
+  report: https://www.sec.gov/Archives/edgar/data/1065088/000106508825000127/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1065088/000106508825000124/exhibit991erebayq32025.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/ebay/transcripts/368953-q3-2025/
+'2025-07-31':
+  quarter: q2-2025
+  period_end: '2025-06-30'
+  report: https://www.sec.gov/Archives/edgar/data/1065088/000106508825000077/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1065088/000106508825000075/exhibit991erebayq22025.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/ebay/transcripts/340572-q2-2025/
+'2025-05-01':
+  quarter: q1-2025
+  period_end: '2025-03-31'
+  report: https://www.sec.gov/Archives/edgar/data/1065088/000106508825000061/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1065088/000106508825000058/exhibit991erebayq12025.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/ebay/transcripts/319937-q1-2025/
+'2025-02-27':
+  quarter: q4-2024
+  period_end: '2024-12-31'
+  report: https://www.sec.gov/Archives/edgar/data/1065088/000106508825000037/
+  report_type: 10-K
+  letter: https://www.sec.gov/Archives/edgar/data/1065088/000106508825000034/exhibit991erebayq42024.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/ebay/transcripts/251200-q4-2024/
+'2024-10-31':
+  quarter: q3-2024
+  period_end: '2024-09-30'
+  report: https://www.sec.gov/Archives/edgar/data/1065088/000106508824000199/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1065088/000106508824000196/exhibit991erebayq32024.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/ebay/transcripts/217579-q3-2024/
+'2024-08-01':
+  quarter: q2-2024
+  period_end: '2024-06-30'
+  report: https://www.sec.gov/Archives/edgar/data/1065088/000106508824000145/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1065088/000106508824000143/exhibit991erebayq22024.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/ebay/transcripts/191156-q2-2024/
+'2024-05-02':
+  quarter: q1-2024
+  period_end: '2024-03-31'
+  report: https://www.sec.gov/Archives/edgar/data/1065088/000106508824000076/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1065088/000106508824000073/exhibit991erebayq12024.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/ebay/transcripts/171483-q1-2024/
+'2024-02-28':
+  quarter: q4-2023
+  period_end: '2023-12-31'
+  report: https://www.sec.gov/Archives/edgar/data/1065088/000106508824000036/
+  report_type: 10-K
+  letter: https://www.sec.gov/Archives/edgar/data/1065088/000106508824000033/exhibit991erebayq42023.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/ebay/transcripts/121139-q4-2023/
+'2023-11-08':
+  quarter: q3-2023
+  period_end: '2023-09-30'
+  report: https://www.sec.gov/Archives/edgar/data/1065088/000106508823000038/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1065088/000106508823000036/exhibit991erebayq32023.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/ebay/transcripts/85301-q3-2023/
+'2023-07-27':
+  quarter: q2-2023
+  period_end: '2023-06-30'
+  report: https://www.sec.gov/Archives/edgar/data/1065088/000106508823000026/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1065088/000106508823000018/exhibit991erebayq22023.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/ebay/transcripts/65047-q2-2023/
+'2023-04-27':
+  quarter: q1-2023
+  period_end: '2023-03-31'
+  report: https://www.sec.gov/Archives/edgar/data/1065088/000162828023013570/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1065088/000162828023013226/exhibit991erebayq12023.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/ebay/transcripts/53912-q1-2023/
