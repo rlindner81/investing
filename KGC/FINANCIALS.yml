@@ -259,3 +259,19 @@ quarters:
     cash: 2656.4
     total_debt: 738.8           # 0 current + 738.8 long-term
     guidance_fy_hint: prod-guided
+
+  - id: q3-2026
+    end_date: 2026-09-30
+    report_date: 2026-10-28
+    announce_date: 2026-10-28
+    announce_session: after-close
+    revenue: 1774.7
+    shares_outstanding: 1178.038
+    shares_short: 16.375
+    short_settlement_date: 2026-09-30
+    ytd_operating_cf: 2999.8    # 9-month
+    ytd_capex_ppe: 1133.8
+    ytd_capex_interest: 21.8
+    cash: 2638.4
+    total_debt: 739.2           # 0 current + 739.2 long-term
+    guidance_fy_hint: prod-guided
