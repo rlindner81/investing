@@ -5,6 +5,15 @@ _meta:
   # so the guidance rows in FINANCIALS.yml are left empty for every quarter.
   # letter: = the EX-99.1 earnings press release exhibit (documentary, no numbers).
 
+"2026-08-06":
+  quarter: q2-2026
+  period_end: "2026-06-30"
+  report: https://www.sec.gov/Archives/edgar/data/1099590/000109959026000023/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1099590/000109959026000021/meli-20260805xex991.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/stocks/meli/transcripts/662711-q2-2026/
+
 "2026-05-08":
   quarter: q1-2026
   period_end: "2026-03-31"
@@ -12,7 +21,7 @@ _meta:
   report_type: 10-Q
   letter: https://www.sec.gov/Archives/edgar/data/1099590/000109959026000014/meli-20260507xex991.htm
   letter_type: 8-K
-  transcript: https://stockanalysis.com/stocks/meli/transcripts/
+  transcript: https://stockanalysis.com/stocks/meli/transcripts/566793-q1-2026/
 
 "2026-02-25":
   quarter: q4-2025

@@ -212,3 +212,18 @@ quarters:
     ytd_sbc: 96
     cash: 3677
     total_debt: 9927
+
+  - id: q2-2026
+    end_date: 2026-06-30
+    report_date: 2026-08-06
+    announce_date: 2026-08-05
+    announce_session: after-close
+    revenue: 10169
+    shares_outstanding: 50.696802
+    shares_short: 1.002
+    short_settlement_date: 2026-06-30
+    ytd_operating_cf: 5737
+    ytd_capex_ppe: 712
+    ytd_sbc: 165
+    cash: 3649
+    total_debt: 10626        # current 6,482 + non-current 4,144

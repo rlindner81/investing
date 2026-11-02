@@ -124,3 +124,7 @@ _meta:
   quarter: q1-2026
   period_end: '2026-03-31'
   report: https://www.sec.gov/Archives/edgar/data/1759509/000162828026032412/
+'2026-08-07':
+  quarter: q2-2026
+  period_end: '2026-06-30'
+  report: https://www.sec.gov/Archives/edgar/data/1759509/000162828026054499/
