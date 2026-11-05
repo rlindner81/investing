@@ -70,3 +70,10 @@ _meta:
   letter: https://www.sec.gov/Archives/edgar/data/1819574/000162828026054350/q1fy27earningsrelease.htm
   letter_type: 8-K
   transcript: https://stockanalysis.com/stocks/bark/transcripts/688549-q1-2027/
+'2026-11-05':
+  quarter: q2-2027
+  period_end: '2026-09-30'
+  report: https://www.sec.gov/Archives/edgar/data/1819574/000162828026071128/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1819574/000162828026071107/q2fy27pressrelease.htm
+  letter_type: 8-K
