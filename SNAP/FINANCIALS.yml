@@ -218,3 +218,20 @@ quarters:
     total_debt: 3534607   # short-term 153,159 + long-term 3,381,448
     guidance_nq_revenue_low: 1700000    # Q3-2026 guidance ($1.70B–$1.74B)
     guidance_nq_revenue_high: 1740000
+
+  - id: q3-2026
+    end_date: 2026-09-30
+    report_date: 2026-11-04
+    announce_date: 2026-11-04
+    announce_session: after-close   # 8-K accepted 21:11 UTC = 16:11 ET (EST)
+    revenue: 1722471
+    shares_outstanding: 1717511   # supplemental table, common shares out at 9/30/26 (8-K press release; 10-Q not yet filed)
+    shares_short: 100744.15
+    short_settlement_date: 2026-09-30
+    ytd_operating_cf: 713477
+    ytd_capex_ppe: 142479
+    ytd_sbc: 768018
+    cash: 1019215
+    total_debt: 3486418   # short-term 106,202 + long-term 3,380,216
+    guidance_nq_revenue_low: 1950000    # Q4-2026 guidance ($1.950B–$1.985B)
+    guidance_nq_revenue_high: 1985000
