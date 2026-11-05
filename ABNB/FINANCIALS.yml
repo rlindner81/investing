@@ -6,9 +6,12 @@
 #   - unit is MILLIONS (not thousands): ABNB rounds every figure — revenue, cash
 #     flow, and share counts — to the million in its filings, so millions is the
 #     native, loss-free granularity.
-#   - CAPEX: ABNB is asset-light — no separate PP&E line in recent cash-flow
-#     statements (netted into "Other investing activities, net"). ytd_capex_ppe = 0
-#     → company FCF = OCF, matching how ABNB itself reports Free Cash Flow.
+#   - CAPEX: ABNB is asset-light — no separate PP&E line in the cash-flow statement
+#     (netted into "Other investing activities, net"), but the shareholder letter's
+#     FCF reconciliation deducts "Purchases of property and equipment". From 2025 on
+#     ytd_capex_ppe carries those letter figures (YTD-summed) so company FCF matches
+#     ABNB's printed FCF; pre-2025 left at 0 (single-digit $M, immaterial). Q3-2026
+#     jumped to $82M on a New York property purchase.
 #   - shares_outstanding: Class A + Class B OUTSTANDING from the balance-sheet
 #     parenthetical (XBRL detail R-doc, e.g. R3.htm), each rounded to the million at
 #     the PERIOD-END date — not the cover-page count, not weighted-average. ABNB holds
@@ -138,7 +141,7 @@ quarters:
     shares_short: 16.03
     short_settlement_date: 2025-03-31
     ytd_operating_cf: 1789
-    ytd_capex_ppe: 0
+    ytd_capex_ppe: 8                 # PP&E per letter FCF reconciliation
     ytd_sbc: 358
     cash: 7600
     total_debt: 1996               # 2% Senior Notes due Mar 2026, reclassified to current
@@ -155,7 +158,7 @@ quarters:
     shares_short: 20.101
     short_settlement_date: 2025-06-30
     ytd_operating_cf: 2764
-    ytd_capex_ppe: 0
+    ytd_capex_ppe: 21                # 8 + 13
     ytd_sbc: 782
     cash: 7402
     total_debt: 1997
@@ -172,7 +175,7 @@ quarters:
     shares_short: 21.167
     short_settlement_date: 2025-09-30
     ytd_operating_cf: 4120
-    ytd_capex_ppe: 0
+    ytd_capex_ppe: 28                # 8 + 13 + 7
     ytd_sbc: 1181
     cash: 7528
     total_debt: 1998
@@ -189,7 +192,7 @@ quarters:
     shares_short: 17.915
     short_settlement_date: 2025-12-31
     ytd_operating_cf: 4646
-    ytd_capex_ppe: 0
+    ytd_capex_ppe: 33                # 8 + 13 + 7 + 5
     ytd_sbc: 1592
     cash: 6560
     total_debt: 1999
@@ -207,7 +210,7 @@ quarters:
     shares_short: 14.402
     short_settlement_date: 2026-03-31
     ytd_operating_cf: 1708
-    ytd_capex_ppe: 0
+    ytd_capex_ppe: 4
     ytd_sbc: 410
     cash: 7037
     total_debt: 2475               # new 5-yr Senior Notes issued Mar 2026; old $2B notes repaid
@@ -224,10 +227,28 @@ quarters:
     shares_short: 14.89
     short_settlement_date: 2026-06-30
     ytd_operating_cf: 2978           # 6-month YTD
-    ytd_capex_ppe: 0
+    ytd_capex_ppe: 21                # 4 + 17
     ytd_sbc: 897
     cash: 6821
     total_debt: 2476                 # long-term Senior Notes; $2B old notes repaid in H1
     guidance_nq_revenue_low: 4690    # Q3-2026 guidance
     guidance_nq_revenue_high: 4770
     guidance_fy_hint: qualitative    # FY2026 "at least mid teens" YoY revenue growth; no dollar range
+
+  - id: q3-2026
+    end_date: 2026-09-30
+    report_date: 2026-11-05
+    announce_date: 2026-11-05
+    announce_session: after-close    # 8-K accepted 21:02 UTC = 16:02 ET
+    revenue: 4869
+    shares_outstanding: 589          # 426 Class A + 163 Class B outstanding (balance-sheet parenthetical, C/H excluded)
+    shares_short: 15.163
+    short_settlement_date: 2026-09-30
+    ytd_operating_cf: 4486           # 9-month YTD
+    ytd_capex_ppe: 103               # 4 + 17 + 82 (Q3 incl. New York property purchase)
+    ytd_sbc: 1359
+    cash: 7272
+    total_debt: 2371                 # Long-term debt, net (carrying value; no Q3 repayment in cash flow)
+    guidance_nq_revenue_low: 3220    # Q4-2026 guidance
+    guidance_nq_revenue_high: 3280
+    guidance_fy_hint: qualitative    # FY2026 raised to "high teens" YoY revenue growth; no dollar range

@@ -87,3 +87,10 @@ _meta:
   letter: https://www.sec.gov/Archives/edgar/data/1559720/000119312526337928/d70413dex991.htm
   letter_type: 8-K
   transcript: https://stockanalysis.com/stocks/abnb/transcripts/662687-q2-2026/
+'2026-11-05':
+  quarter: q3-2026
+  period_end: '2026-09-30'
+  report: https://www.sec.gov/Archives/edgar/data/1559720/000155972026000032/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1559720/000119312526449727/d437988dex991.htm
+  letter_type: 8-K
