@@ -97,6 +97,10 @@ Source: SEC EDGAR. Add the filing index URL as the `report` key (with its `repor
 
 Transcripts are saved as `YYYY-MM-DD_<quarter>-transcript.md` alongside each summary file.
 
+If stockanalysis.com hasn't attributed speakers yet, the file is saved as
+`YYYY-MM-DD_<quarter>-preliminary-transcript.md` instead; the next
+`fetch-transcript` run replaces it with the final version.
+
 Use `fetch-transcript` to download them:
 
 ```bash
