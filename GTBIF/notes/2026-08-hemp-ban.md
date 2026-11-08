@@ -1,6 +1,6 @@
 # Intoxicating Hemp Ban — Federal & State
 
-**Date:** August 2026
+**Date:** August 2026 (updated 2026-11-08)
 
 ---
 
@@ -25,13 +25,81 @@ figure includes non-intoxicating CBD/wellness; intoxicating hemp specifically is
 |---|---|
 | 2026-02-10 | FDA statutory deadline to publish permitted-cannabinoid lists — **missed**; compliance definitions still unpublished |
 | 2026-04-30 | House passed 2026 Farm Bill 224–200 with the ban **untouched** |
+| 2026-07-22 | Barr (R-KY) / Craig (D-MN) file **H.R. 9830, Lawful Hemp Protection Act** — regulate instead of ban (see below) |
 | 2026-08-03 | Senate advanced stopgap 89–4 with a **partial delay** to Dec 11 |
-| **2026-09** | **House vote on the Senate CR — the live variable** |
-| **2026-11-12** | Ban effective. Synthetics banned this date **regardless** of any delay |
-| 2026-12-11 | Natural-hemp total-THC piece + 0.4 mg cap, *if* the House delay passes |
+| 2026-09-02 | Delay **enacted**: H.R. 6500 (P.L. 119-103) signed after House 370–48 / Senate 90–6; Budd's bid to strip the hemp delay failed |
+| 2026-11-03 | Midterms: Democrats projected to take both chambers — but only from Jan 3 |
+| 2026-11-09 | Lame-duck session opens (outgoing, **Republican-controlled** 119th Congress) |
+| 2026-11-12 | Synthetics (delta-8 from CBD, THC-O, HHC) lost hemp status — never part of the delay |
+| 2026-11-17/18 | Hemp Beverage Alliance fly-in, lobbying for a lame-duck framework or bridge |
+| **2026-12-11** | **Total-THC definition + 0.4 mg cap take effect unless Congress acts — same day federal funding expires** |
+| 2027-01-03 | 120th Congress seated; any unpassed hemp bill dies and must be reintroduced |
 
-The delay is partial: only the new definition and the 0.4 mg cap slide. The White
-House reportedly told Senate Republicans there would be **no further extensions**.
+The delay was partial: only the new definition and the 0.4 mg cap slid; synthetics
+went on Nov 12. The White House reportedly told Senate Republicans there would be
+**no further extensions** — but it also backs Barr/Craig, so it wants a loosening,
+not the status quo.
+
+## The December 11 Pivot
+
+**Why it's the pivot.** Hemp now shares its deadline with government funding, so
+whatever the lame duck does on hemp almost certainly rides on the December funding
+bill. The Congress deciding is the **outgoing Republican one** — the same Rules
+Committee that blocked every earlier Barr amendment from the floor — not the
+incoming Democratic majorities. Lame-duck powers are full: whatever passes binds
+until a later Congress actively changes it.
+
+**Bills in play:**
+
+- **H.R. 9830 (Barr/Craig)** — the framework, White House-backed, US Hemp Roundtable
+  endorsed.
+- **H.R. 7024** — a longer delay.
+- **Comer draft** — delay plus packaging, testing and age limits.
+- **Griffith (Oct 26)** — floated a reconciliation path before Dec 11, possibly
+  paired with a hemp tax.
+
+**Barr/Craig mechanics.** Hemp legal up to **1% total THC by dry weight** (incl.
+THCA, measured on the finished product and through the supply chain). FDA regulates
+it as food; TTB permits makers and beverage wholesalers. 21+ only, US-grown only,
+states may go stricter. FDA default serving limits if it hasn't acted within a year:
+**5 mg THC per ingestible serving**, 50 mg inhalable. Reported beverage tax of
+\~5¢/mg THC. Non-plant-derived cannabinoids stay excluded, though one trade group
+says the language still leaves a synthetics loophole.
+
+**The dry-weight cap sorts by product density, not by intoxication:**
+
+- **Survive:** low-dose, high-mass products. A 5 g gummy at 5 mg is 0.1%; a 355 ml
+  can at 5 mg is far below 1%. Edibles and THC beverages remain a national
+  non-dispensary market.
+- **Die anyway:** THCA flower (20%+), vapes, concentrates — the products that
+  substitute most directly for dispensary flower and vape, GTI's core categories.
+
+**Scenarios for GTI:**
+
+| Outcome | What survives outside dispensaries | GTI read |
+|---|---|---|
+| **Ban bites (nothing passes)** | Essentially nothing intoxicating | Cleanest tailwind: full impact estimate below, plus price-compression relief |
+| **Clean delay again** | Status quo to the next deadline | Neutral; tailwind deferred, hemp competition persists. Punting to the new Congress is tempting for a departing majority |
+| **Barr/Craig** | Regulated low-dose edibles + beverages | Core tailwind **mostly kept** (flower/vape/concentrates still go); gummy/beverage share of the capture estimate lost; untaxed price edge narrowed by taxes, testing, 21+ |
+
+**The RYM hedge.** In Oct 2026 RYM took exclusive **non-dispensary** rights to
+Señorita, explicitly "in light of upcoming changes to federal law governing
+hemp-derived THC products" (see [2026-07-RYM-note.md](2026-07-RYM-note.md)). Under a
+full ban that channel is worthless; under Barr/Craig it becomes a nationally
+distributable, federally clean beverage business — and the main reason to keep RYM
+as a separate listed entity. GTI is long both sides: the ban favors the core, the
+framework salvages the beverage option. **The worst case is a clean delay** — hemp
+competition persists with no framework.
+
+**Management stance (Q3-2026 call, Nov 4).** Kovler: unregulated, untaxed, untested
+products "do not belong on store shelves," but THC beverages are "a distinct
+category" that "should exist in a regulated market" — a viable fourth adult-beverage
+category. That is a framework position, consistent with the RYM/Señorita setup.
+
+**What to watch:** the text of the December funding bill (any hemp rider, delay
+length); whether the Rules Committee lets Barr/Craig to the floor; the Nov 17–18
+fly-in. If the ban bites Dec 11, a Democratic 120th Congress could still revisit it
+in 2027 — the tailwind is not necessarily permanent.
 
 ## State Bans Already in Force
 
@@ -41,16 +109,16 @@ House reportedly told Senate Republicans there would be **no further extensions*
   2026-07-31 with felony exposure. No adult-use channel to catch spill.
 - **Tennessee** — HB 1376, effective 2026-01-01, but phased: "Legacy Licensees"
   run under the old framework until licenses expire. No adult-use channel.
-- **Virginia** — HB 30, 2 mg cap effective 2026-08-15; see
-  [2026-08-virginia-hemp.md](2026-08-virginia-hemp.md).
+- **Virginia** — HB 30, 2 mg cap effective 2026-08-15.
 - **Categorical bans:** ID, HI, AR, KS, RI, SD. **Dispensary-channel only:** CT,
   NY, CO, OR, MN, NJ, CA.
 
 ## Estimated GTBIF Impact
 
-**\~\$84M incremental revenue, +7% on the \$1,209M TTM base**, phased over 2–4
-years. At 40–50% contribution margin on existing cultivation and stores: \$34–42M
-EBITDA, or **+17–21% to FCF** against \$198M TTM.
+**\~\$84M incremental revenue, +7% on the \$1,242M TTM base** (Q3-2026), phased
+over 2–4 years. At 40–50% contribution margin on existing cultivation and stores:
+\$34–42M EBITDA, or **+19–23% to FCF** against \$179M TTM. This is the
+**ban-bites** case; under Barr/Craig, knock out the edible/beverage share of capture.
 
 ```
 Intoxicating hemp base           $22B
@@ -105,3 +173,7 @@ input, not a competitive edge.
 | Marijuana Herald — Ohio monthly sales | https://themarijuanaherald.com/2026/07/ohio-marijuana-sales-grow-an-average-of-25-5-in-first-three-months-following-intoxicating-hemp-ban/ |
 | BDSA — Ohio SB 56 analysis | https://bdsa.com/ohio-sb-56/ |
 | FDA Law Blog — hemp definition change | https://www.thefdalawblog.com/2026/01/changes-to-hemp-definition-set-to-close-the-farm-bill-loophole/ |
+| Akerman — one-month delay enacted | https://www.akerman.com/en/perspectives/congress-approves-one-month-delay-of-federal-hemp-thc-restrictions.html |
+| Marijuana Moment — Barr/Craig bill | https://www.marijuanamoment.net/new-bipartisan-bill-in-congress-would-keep-hemp-thc-products-legal-with-new-taxes-and-regulations/ |
+| Cannabis Business Times — Trump-backed loosening bill | https://www.cannabisbusinesstimes.com/hemp/news/15830678/house-lawmakers-file-trumpbacked-bill-to-loosen-hemp-thc-product-ban |
+| Section 781 deadline tracker | https://www.nextlevelleaf.com/blog/section-781-hemp-deadline-tracker/ |
