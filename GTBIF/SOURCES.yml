@@ -112,3 +112,11 @@ _meta:
   letter: https://www.sec.gov/Archives/edgar/data/1795139/000119312526332761/gtbif-ex99_1.htm
   letter_type: 8-K
   transcript: https://stockanalysis.com/quote/cse/GTII/transcripts/661650-q2-2026/
+'2026-11-04':
+  quarter: q3-2026
+  period_end: '2026-09-30'
+  report: https://www.sec.gov/Archives/edgar/data/1795139/000119312526447252/
+  report_type: 10-Q
+  letter: https://www.sec.gov/Archives/edgar/data/1795139/000119312526447207/gtbif-ex99_1.htm
+  letter_type: 8-K
+  transcript: https://stockanalysis.com/quote/cse/GTII/transcripts/724021-q3-2026/

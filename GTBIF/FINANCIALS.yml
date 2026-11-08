@@ -210,3 +210,19 @@ quarters:
     cash: 283586
     total_debt: 283009       # current notes 23,726 + long-term notes 259,283; letter: "Total debt outstanding was $283.0 million"
     guidance_nq_hint: "flat sequentially"    # Q3-2026 guidance (CFO on earnings call: "we expect third quarter sequential revenue to be flat")
+
+  - id: q3-2026
+    end_date: 2026-09-30
+    report_date: 2026-11-04
+    announce_date: 2026-11-04
+    announce_session: after-close
+    revenue: 324412
+    shares_outstanding: 218679    # (SVS 197,454,287 + MVS 25,561×100 + Super 186,690×100) ÷ 1000
+    shares_short: 99.211
+    short_settlement_date: 2026-09-30
+    ytd_operating_cf: 163075
+    ytd_capex_ppe: 59317
+    ytd_sbc: 31550
+    cash: 316000
+    total_debt: 277321       # current notes 23,753 + long-term notes 253,568; letter: "Total debt outstanding was $277.3 million" ($177.0M senior)
+    guidance_nq_hint: "flat to down slightly sequentially"    # Q4-2026 guidance (CFO on call: "flat to down slightly due to the pricing environment"); RYM consolidated from Oct 10, 2026 — Q4 not directly comparable
