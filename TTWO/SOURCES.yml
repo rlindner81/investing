@@ -1,5 +1,10 @@
 _meta:
   cik: 0000946581
+'2026-11-09':
+  quarter: q2-2027
+  period_end: '2026-09-30'
+  letter: https://www.sec.gov/Archives/edgar/data/946581/000162828026072175/ttwo2q27earningsrelease.htm
+  letter_type: 8-K
 '2026-08-07':
   quarter: q1-2027
   period_end: '2026-06-30'
