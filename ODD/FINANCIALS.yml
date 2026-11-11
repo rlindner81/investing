@@ -283,3 +283,37 @@ quarters:
     # FY 2026: revenue ~-19% YoY vs FY2025 ($809.844M) → ~656.0M — FY guidance REINSTATED
     guidance_fy_revenue_low: 655974
     guidance_fy_revenue_high: 655974
+
+  - id: q3-2026
+    end_date: 2026-09-30
+    report_date: 2026-11-11
+    announce_date: 2026-11-11
+    announce_session: pre-open      # PROVISIONAL: GlobeNewswire release 07:00 ET, call 08:30 ET.
+                                    # 6-K not yet on EDGAR at transcription; confirm vs its
+                                    # acceptance timestamp once filed.
+    revenue: 144981
+    # Period-end (Sep 30 2026) count not disclosed. No open-market buybacks in Q3
+    # (11.7M YTD unchanged per call; only ~$0.5M tax-withholding), so Q3 weighted
+    # basic (46,522) is the best available proxy. It sits ~650k above the Q2-end
+    # reconstruction (45,875): option exercises / RSU vests, or Q2 slightly low.
+    shares_outstanding: 46522
+    shares_short: 4956.708
+    short_settlement_date: 2026-09-30
+    ytd_operating_cf: 4886
+    ytd_capex_ppe: 2361
+    ytd_capex_software: 11410       # "capitalization of software development costs and
+                                    # investment in other intangible assets"
+    ytd_sbc: 25908
+    cash: 168341                    # cash and equivalents only; +30,146 ST and 362,182 LT
+                                    # marketable securities = the $561M headline
+    total_debt: 538049              # exchangeable note (carrying value; ~$550M face)
+    # FCF check: 9M company FCF 4,886 − 2,361 = 2,525 (release: 2,525 ✓);
+    # Q3 standalone (4,886 + 5,945) − (2,361 − 1,559) = 10,029 (~$10M per call ✓)
+    # --- Company guidance issued 2026-11-11 (percentages, converted vs FY2025 actuals) ---
+    # Q4 2026: revenue −10% to −11% YoY vs Q4-2025 (809,844 − 657,118 = 152,726)
+    #   → 135,926 / 137,453
+    guidance_nq_revenue_low: 135926
+    guidance_nq_revenue_high: 137453
+    # FY 2026: revenue ~−18.5% YoY vs FY2025 (809,844) → ~660,023 (raised from −19%)
+    guidance_fy_revenue_low: 660023
+    guidance_fy_revenue_high: 660023

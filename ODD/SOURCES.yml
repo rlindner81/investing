@@ -58,3 +58,10 @@ _meta:
   letter: https://www.sec.gov/Archives/edgar/data/1907085/000110465926106126/tm2624995d1_ex99-1.htm
   letter_type: 6-K
   transcript: https://stockanalysis.com/stocks/odd/transcripts/671581-q2-2026/
+'2026-11-11':
+  quarter: q3-2026
+  period_end: '2026-09-30'
+  # 6-K not yet on EDGAR as of 2026-11-11 evening; add report/letter (6-K) once filed,
+  # then re-run fetch-sources. Figures transcribed from the GlobeNewswire release
+  # (07:00 ET), normally identical to the 6-K EX-99.1.
+  transcript: https://stockanalysis.com/stocks/odd/transcripts/748021-q3-2026/
